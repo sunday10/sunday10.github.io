@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Keepavlied 编译及配置文件详解 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/keepalived/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#高可用" title="高可用">高可用</a>
+                        
+                          <a class="tag" href="/tags/#keepalived" title="keepalived">keepalived</a>
+                        
+                    </div>
+                    <h1>Keepavlied 编译及配置文件详解</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-08-09
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Keepalived简介"><a href="#Keepalived简介" class="headerlink" title="Keepalived简介"></a>Keepalived简介</h1><p>Keepalived是一个基于vrrp来实现的服务器高可用解决方案，可以利用其实现避免IP单点故障，类似的工具还有heartbeat、corosync。不过其不会单独出现，而是搭配着 LVS、Nginx、HAproxy，一起协同工作达到高可用的目的。</p>
+<p>具体来说，其作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，KeepAlived将会检测到，并将有故障的服务器从系统中剔除，同时使用其他服务器代替该服务器的工作，当服务器工作正常后KeepAlived自动将服务器加入到服务器群中，这些工作全部自动完成，不需要人工干涉，需要人工做的只是修复故障的服务器。</p>
+<h1 id="VRRP协议"><a href="#VRRP协议" class="headerlink" title="VRRP协议"></a>VRRP协议</h1><p>VRRP全称Vritual Router Redundancy Protocol，虚拟路由冗余协议。通过把几台提供路由功能的设备组成一个虚拟路由设备，使用一定的机制保证虚拟路由的高可用，从而达到保持业务的连续性与可靠性。</p>
+<p>在配置组成的一个虚拟路由器中，有MASTER和BACKUP之分。MASTER是主节点，在一个虚拟路由器中，只能有一个MASTER，但可以有多个BACKUP，BACKUP是备用节点，也就是当master挂掉之后，BACKUP接管MASTER节点的所有资源，当有多个BACKUP节点时，根据其priority(优先级)的值的大小，来选举谁作为MASTER的替代者。当BACKUP节点的优先级值相同时，根据其IP地址的大小，来决定。</p>
+<h1 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h1><ul>
+<li>节点之间的时间必须同步。</li>
+<li>确保Firewalld及SELinux不会成为阻碍。</li>
+<li>各节点用于集群服务的网络接口必须支持MULTICAST（多播）通信。采用D类地址(224-239)。多播地址建议手动定义，因为若有多个集群服务都使用默认的，虽有认证机制，但仍会互发信息，可能会影响性能，更会产生无用日志信息。</li>
+</ul>
+<h2 id="时间同步"><a href="#时间同步" class="headerlink" title="时间同步"></a>时间同步</h2><h2 id="Firewalld配置"><a href="#Firewalld配置" class="headerlink" title="Firewalld配置"></a>Firewalld配置</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --direct --permanent --add-rule ipv4<span class="built_in"> filter </span>INPUT 0 --in-interface eth0 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br><span class="line">firewall-cmd --direct --permanent --add-rule ipv4<span class="built_in"> filter </span>OUTPUT 0 --out-interface eth0 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<h1 id="安装keepalived"><a href="#安装keepalived" class="headerlink" title="安装keepalived"></a>安装keepalived</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc openssl-devel libnl-devel libnfnetlink-devel ipvsadm -y</span><br><span class="line">.<span class="regexp">/configure --prefix=/</span>usr<span class="regexp">/local/</span>keepalived</span><br><span class="line">make -j4 &amp;&amp; make install</span><br><span class="line">ln -s <span class="regexp">/sbin/</span>keepalived <span class="regexp">/usr/</span>sbin/</span><br><span class="line">ln -s <span class="regexp">/etc/</span>keepalived <span class="regexp">/etc/</span>keepalived</span><br></pre></td></tr></table></figure>
+<h1 id="修改keepalived日志路径"><a href="#修改keepalived日志路径" class="headerlink" title="修改keepalived日志路径"></a>修改keepalived日志路径</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ln -sv <span class="regexp">/etc/</span>sysconfig<span class="regexp">/keepalived /</span>etc<span class="regexp">/sysconfig/</span></span><br><span class="line">sed -i <span class="string">'s!KEEPALIVED_OPTIONS.*!KEEPALIVED_OPTIONS="-D -d -S 0"!'</span> <span class="regexp">/etc/</span>sysconfig/keepalived</span><br><span class="line">echo <span class="string">"local0.*                                                /var/log/keepalived.log"</span> &gt;&gt; <span class="regexp">/etc/</span>rsyslog.conf</span><br><span class="line">systemctl restart rsyslog keepalived</span><br><span class="line">netstat -anp|grep syslog</span><br></pre></td></tr></table></figure>
+<h1 id="启动脚本"><a href="#启动脚本" class="headerlink" title="启动脚本"></a>启动脚本</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF &gt; /etc/systemd/keepalived.service</span><br><span class="line">[Unit]</span><br><span class="line"><span class="attribute">Description</span>=LVS <span class="keyword">and</span><span class="built_in"> VRRP </span>High Availability Monitor</span><br><span class="line"><span class="attribute">After</span>=syslog.target network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line"><span class="attribute">Type</span>=forking</span><br><span class="line"><span class="attribute">PIDFile</span>=/var/run/keepalived.pid</span><br><span class="line"><span class="attribute">KillMode</span>=process</span><br><span class="line"><span class="attribute">EnvironmentFile</span>=-/etc/sysconfig/keepalived</span><br><span class="line"><span class="attribute">ExecStart</span>=/usr/sbin/keepalived \<span class="variable">$KEEPALIVED_OPTIONS</span></span><br><span class="line"><span class="attribute">ExecReload</span>=/bin/kill -HUP \<span class="variable">$MAINPID</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line"><span class="attribute">WantedBy</span>=multi-user.targe</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h1 id="keepalived配置文件讲解"><a href="#keepalived配置文件讲解" class="headerlink" title="keepalived配置文件讲解"></a>keepalived配置文件讲解</h1><figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局配置</span></span><br><span class="line"><span class="keyword">global_defs</span> &#123;               <span class="comment"># 全局定义</span></span><br><span class="line">   notification_email &#123;     <span class="comment"># 通知邮件相关设置</span></span><br><span class="line">    acassen@firewall.loc    <span class="comment"># 通知邮件收件人</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">notification_email_from</span> <span class="keyword">keepalived</span>@sundayle.com  <span class="comment"># 发件人</span></span><br><span class="line">   smtp_server 127.0.0.1    <span class="comment"># 使用本机邮件服务</span></span><br><span class="line">   smtp_connect_timeout 30  <span class="comment"># 设置连接smtp server的超时时间</span></span><br><span class="line">   router_id LVS_DEVEL      <span class="comment"># 标识当前节点唯一,节点间不能相同,默认hostname</span></span><br><span class="line">   vrrp_mcast_group4 224.0.0.111 <span class="comment"># vrrp的多播地址(ipv4)</span></span><br><span class="line">   <span class="comment">#vrrp_skip_check_adv_addr # 检查vrrp报文中的所有地址比较耗时 #设置此标志的意思是如果接收的到报文和上一个报文来至同一个路由器，则不执行检查。默认是跳过检查</span></span><br><span class="line">   <span class="comment">#vrrp_strict              # 严格执行VRRP协议规范，此模式不支持节点单播</span></span><br><span class="line">   <span class="comment">#vrrp_garp_interval 0     # 在一个网卡上每组gratuitous arp消息之间的延迟时间,默认为0</span></span><br><span class="line">   <span class="comment">#vrrp_gna_interval 0      # 在一个网卡上每组na消息之间的延迟时间,默认为0,单位秒</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#检测脚本,定义keepalived在什么情况切换主备</span></span><br><span class="line">vrrp_script <span class="keyword">chk_nginx</span> &#123;</span><br><span class="line">    script <span class="string">"killall -0 nginx"</span> <span class="comment"># nginx进程存在返回0,否则返回非0 #也可以调用脚本 如script "/etc/keepalived/ngx_status.sh"</span></span><br><span class="line">    interval <span class="number">2</span>                <span class="comment"># 每2秒检测一次</span></span><br><span class="line">    weight -<span class="number">10</span>            <span class="comment"># 检测失败(脚本返回值为非0数字)时，优先级减10</span></span><br><span class="line">    fall <span class="number">2</span>                <span class="comment"># 连续检测2次失败才算真正的失败。才会执行上面的weight -10,减去优先级</span></span><br><span class="line">    rise <span class="number">2</span>                <span class="comment"># 检测2次成功才算成功，不修改优先级</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">vrrp_sync_group</span> <span class="keyword">VG_1</span> &#123; <span class="comment"># 同步切换</span></span><br><span class="line">    <span class="literal">group</span> &#123;</span><br><span class="line">        VI_1</span><br><span class="line">        VI_2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># vrrp_sync_group/vrrp_instance 主要对外提供服务VIP区域及其相关属性</span></span><br><span class="line">vrrp_instance <span class="keyword">VI_1</span> &#123;     <span class="comment"># VRRP实例</span></span><br><span class="line">    state MASTER         <span class="comment"># 只能有一个是MASTER,余下的都应该为BACKUP；</span></span><br><span class="line">    interface eth1       <span class="comment"># 对外提供网络的接口</span></span><br><span class="line">    virtual_router_id <span class="number">65</span> <span class="comment"># 虚拟路由id标识,数字,必须和backup里相同(范围0-255)</span></span><br><span class="line">    <span class="literal">priority</span> <span class="number">100</span>         <span class="comment"># 优先级,数字必须比backup大</span></span><br><span class="line">    advert_int <span class="number">1</span>         <span class="comment"># 组播信息发送间隔,两个节点设置必须一样,秒</span></span><br><span class="line">    authentication &#123;     <span class="comment"># 设置验证信息,两个节点必须一致(明文)</span></span><br><span class="line">        <span class="literal">auth_type</span> PASS</span><br><span class="line">        auth_pass <span class="number">1111</span></span><br><span class="line">    &#125;</span><br><span class="line">    # 虚拟地址，即VIP</span><br><span class="line">    <span class="keyword">virtual_ipaddress</span> &#123;  <span class="comment"># 可简写为单个地址，系统会默认计算掩码和设备</span></span><br><span class="line">        <span class="number">192.168</span>.<span class="number">10.10</span></span><br><span class="line">      <span class="comment"># 192.168.10.10/24</span></span><br><span class="line">      <span class="comment"># 192.168.10.10/24 dev eth1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">track_script</span> &#123;</span><br><span class="line">    chk_nginx</span><br><span class="line">    &#125;</span><br><span class="line">    # 定义通知脚本（另添加）</span><br><span class="line">        notify_master <span class="string">"/etc/keepalived/notify.sh master"</span></span><br><span class="line">        notify_backup <span class="string">"/etc/keepalived/notify.sh backup"</span></span><br><span class="line">        notify_fault <span class="string">"/etc/keepalived/notify.sh fault"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此区域是LVS配置。若用Keepalived+LVS，需要这段配置，若用其他，例如：Keepalived+Nginx，则无需配置。</span></span><br><span class="line"><span class="comment"># LVS包含两个子配置块：virtual_server_group/virtual_server</span></span><br><span class="line"><span class="comment"># virtual_server：虚拟服务器。每个虚拟服务器里面包含多个真实服务器real_server。</span></span><br><span class="line"></span><br><span class="line">virtual_server 192.168.10.10 80 &#123; <span class="comment"># 虚拟IP 监听80端口</span></span><br><span class="line">    delay_loop 6                  <span class="comment"># 健康检查时间间隔,秒</span></span><br><span class="line">    lb_algo rr                    <span class="comment"># 负载调度算法,常见使用wlc或rr</span></span><br><span class="line">    lb_kind NAT                   <span class="comment"># LVS负载转发规则,DR,NAT,TUN等</span></span><br><span class="line">    persistence_timeout 50        <span class="comment"># 会话保持时间,秒</span></span><br><span class="line">    protocol TCP                  <span class="comment"># 转发协议一般有tcp和udp两种</span></span><br><span class="line"></span><br><span class="line">    real_server 192.168.10.101 80 &#123; <span class="comment"># 配置真实服务器的地址与端口</span></span><br><span class="line">        weight 1                  <span class="comment"># 权重</span></span><br><span class="line">        <span class="keyword">SSL_GET</span> &#123;</span><br><span class="line">            url &#123;</span><br><span class="line">              <span class="built_in">path</span> /health              <span class="comment"># 健康检查的页面</span></span><br><span class="line">              digest ff20ad2481f97b1754ef3e12ecd3a9cc <span class="comment"># 计算出的MD5值</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">url</span> &#123;</span><br><span class="line">              <span class="built_in">path</span> /mrtg/</span><br><span class="line">              digest <span class="number">9</span>b3a0c85a887a256d6939da88aabd8cd</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">connect_timeout</span> 3     <span class="comment"># 连接超时时间,秒</span></span><br><span class="line">            nb_get_retry 3        <span class="comment"># 失败重试次数,超过后移除</span></span><br><span class="line">            delay_before_retry 3  <span class="comment"># 失败重试间隔,秒</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    real_server 192.168.10.102 80 &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">vrrp_instance <span class="keyword">VI_2</span> &#123; </span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>检测脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/keepalived/ngx_status.sh </span><br><span class="line"><span class="comment">#只有当script的返回状态结果为任意非0数字时，才会执行降权操作。</span></span><br><span class="line"><span class="comment">#当script正常执行时，也就是返回值为0时，不做任何操作。</span></span><br><span class="line"><span class="comment">#脚本示例：可以在script中调用，直接引用脚本路径即可</span></span><br><span class="line"><span class="comment">#该脚本检测ngnix的运行状态，并在nginx进程不存在时尝试重新启动ngnix，如果启动失败则停止keepalived，准备让其它机器接管</span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">counter=$(ps -C nginx --no-heading|wc -l)</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;counter&#125;</span>"</span> = <span class="string">"0"</span> ]; <span class="keyword">then</span></span><br><span class="line">    /usr/<span class="built_in">local</span>/bin/nginx</span><br><span class="line">    sleep 2</span><br><span class="line">    counter=$(ps -C nginx --no-heading|wc -l)</span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;counter&#125;</span>"</span> = <span class="string">"0"</span> ]; <span class="keyword">then</span></span><br><span class="line">        /etc/init.d/keepalived stop</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<p>notify邮件通知脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/keepalived/notify.sh</span><br><span class="line"></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">contact=<span class="string">'root@localhost'</span></span><br><span class="line">                </span><br><span class="line"><span class="function"><span class="title">notify</span></span>() &#123;</span><br><span class="line">    <span class="built_in">local</span> mailsubject=<span class="string">"<span class="variable">$(hostname)</span> to be <span class="variable">$1</span>, vip floating"</span></span><br><span class="line">    <span class="built_in">local</span> mailbody=<span class="string">"<span class="variable">$(date +'%F %T')</span>: vrrp transition, <span class="variable">$(hostname)</span> changed to be <span class="variable">$1</span>"</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"<span class="variable">$mailbody</span>"</span> | mail -s <span class="string">"<span class="variable">$mailsubject</span>"</span> <span class="variable">$contact</span></span><br><span class="line">&#125;</span><br><span class="line">                </span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">master)</span><br><span class="line">    notify master   </span><br><span class="line">    ;;</span><br><span class="line">backup)</span><br><span class="line">    notify backup   </span><br><span class="line">    ;;</span><br><span class="line">fault)</span><br><span class="line">    notify fault    </span><br><span class="line">    ;;</span><br><span class="line">*)</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Usage: <span class="variable">$(basename $0)</span> &#123;master|backup|fault&#125;"</span></span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line">    ;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="builtin-name">enable</span> keepalived </span><br><span class="line">systemctl start keepalived</span><br></pre></td></tr></table></figure>
+<h1 id="单主备实例"><a href="#单主备实例" class="headerlink" title="单主备实例"></a>单主备实例</h1><p>架构图<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">    +------+              +--------+</span><br><span class="line">    |<span class="string">Client</span>|<span class="string">     &gt;&gt;&gt;      </span>|<span class="string">Internet</span>|</span><br><span class="line">    +------+              +--------+</span><br><span class="line">                              /\</span><br><span class="line">                  +-----------------------+</span><br><span class="line">                  |<span class="string"> 公网VIP1:192.168.10.91</span>|</span><br><span class="line">                  +-----------------------+</span><br><span class="line">                      /                \</span><br><span class="line">+--------------------------+      +--------------------------+</span><br><span class="line">|<span class="string"> KA+Lvs/Nginx/HAProxy     </span>|<span class="string">      </span>|<span class="string"> KA+Lvs/Nginx/HAProxy     </span>|</span><br><span class="line">|<span class="string"> VIP1:Master (eth1)       </span>|<span class="string">多播IP </span>|<span class="string"> VIP1:BACKUP (eth1)       </span>|</span><br><span class="line">|<span class="string"> IP1:192.168.10.101(eth1) </span>|<span class="string">      </span>|<span class="string"> IP1:192.168.10.102(eth1) </span>|</span><br><span class="line">+--------------------------+      +--------------------------+</span><br><span class="line">                     \                /</span><br><span class="line">                +-----------------------+</span><br><span class="line">                |<span class="string"> 公网VIP1:192.168.10.91 </span>|</span><br><span class="line">                +-----------------------+</span><br><span class="line">                           \/</span><br><span class="line">                        +------+</span><br><span class="line">                        |<span class="string"> Web  </span>|</span><br><span class="line">                        +------+</span><br></pre></td></tr></table></figure></p>
+<p>环境</p>
+<blockquote>
+<p>MASTER: 192.168.10.101<br>BACKUP: 192.168.10.102<br>VIP: 192.168.10.91<br>OS: CentOS 7.4</p>
+</blockquote>
+<p>Master配置文件<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span> /etc/keepalived/keepalived.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">     root@localhost</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from ka@localhost</span><br><span class="line">   smtp_server <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">   smtp_connect_timeout <span class="number">30</span></span><br><span class="line">   router_id ka101</span><br><span class="line">   vrrp_mcast_group4 <span class="number">224.0</span><span class="number">.0</span><span class="number">.111</span></span><br><span class="line">&#125;</span><br><span class="line">vrrp_instance VG_1 &#123;</span><br><span class="line">    <span class="section">state</span> MASTER</span><br><span class="line">    interface eth1</span><br><span class="line">    virtual_router_id <span class="number">100</span></span><br><span class="line">    priority <span class="number">100</span></span><br><span class="line">    advert_int <span class="number">1</span></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass sunday</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        <span class="number">192.168</span><span class="number">.10</span><span class="number">.91</span></span><br><span class="line">    &#125;</span><br><span class="line">    notify_master <span class="string">"/etc/keepalived/notify.sh master"</span></span><br><span class="line">    notify_backup <span class="string">"/etc/keepalived/notify.sh backup"</span></span><br><span class="line">    notify_fault <span class="string">"/etc/keepalived/notify.sh fault"</span>          </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Backup配置文件<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">     root@localhost</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from ka@localhost</span><br><span class="line">   smtp_server <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">   smtp_connect_timeout <span class="number">30</span></span><br><span class="line">   router_id ka102</span><br><span class="line">   vrrp_mcast_group4 <span class="number">224.0</span><span class="number">.0</span><span class="number">.111</span></span><br><span class="line">&#125;</span><br><span class="line">vrrp_instance VG_1 &#123;</span><br><span class="line">    <span class="section">state</span> BACKUP</span><br><span class="line">    interface eth1</span><br><span class="line">    virtual_router_id <span class="number">100</span></span><br><span class="line">    priority <span class="number">90</span></span><br><span class="line">    advert_int <span class="number">1</span></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass sunday</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        <span class="number">192.168</span><span class="number">.10</span><span class="number">.91</span></span><br><span class="line">    &#125;</span><br><span class="line">    notify_master <span class="string">"/etc/keepalived/notify.sh master"</span></span><br><span class="line">    notify_backup <span class="string">"/etc/keepalived/notify.sh backup"</span></span><br><span class="line">    notify_fault <span class="string">"/etc/keepalived/notify.sh fault"</span>          </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>notify.sh 邮件通知脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">contact=<span class="string">'root@localhost'</span></span><br><span class="line">                </span><br><span class="line"><span class="function"><span class="title">notify</span></span>() &#123;</span><br><span class="line">    <span class="built_in">local</span> mailsubject=<span class="string">"<span class="variable">$(hostname)</span> to be <span class="variable">$1</span>, vip floating"</span></span><br><span class="line">    <span class="built_in">local</span> mailbody=<span class="string">"<span class="variable">$(date +'%F %T')</span>: vrrp transition, <span class="variable">$(hostname)</span> changed to be <span class="variable">$1</span>"</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"<span class="variable">$mailbody</span>"</span> | mail -s <span class="string">"<span class="variable">$mailsubject</span>"</span> <span class="variable">$contact</span></span><br><span class="line">&#125;</span><br><span class="line">                </span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">master)</span><br><span class="line">    notify master   </span><br><span class="line">    ;;</span><br><span class="line">backup)</span><br><span class="line">    notify backup   </span><br><span class="line">    ;;</span><br><span class="line">fault)</span><br><span class="line">    notify fault    </span><br><span class="line">    ;;</span><br><span class="line">*)</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Usage: <span class="variable">$(basename $0)</span> &#123;master|backup|fault&#125;"</span></span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line">    ;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="主备测试"><a href="#主备测试" class="headerlink" title="主备测试"></a>主备测试</h1><p>未启动keepalived 网卡信息<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@ka101 ~]<span class="comment"># ip a | grep eth1</span></span><br><span class="line"><span class="number">2</span>: eth1: <span class="variable">&lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span> mtu <span class="number">1500</span> qdisc pfifo_fast <span class="keyword">state</span> UP qlen <span class="number">1000</span></span><br><span class="line">    <span class="keyword">inet</span> <span class="number">192.168</span>.<span class="number">10.101</span>/<span class="number">24</span> brd <span class="number">192.168</span>.<span class="number">10.255</span> scope <span class="keyword">global</span> eth1</span><br></pre></td></tr></table></figure></p>
+<p>启动keepalived<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@ka101</span> ~]<span class="meta"># systemctl start keepalived</span></span><br><span class="line">[root<span class="symbol">@ka102</span> ~]<span class="meta"># systemctl start keepalived</span></span><br></pre></td></tr></table></figure></p>
+<p>启动keepalived后 网卡信息<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ka101 ~]<span class="comment"># ip a | grep eth1</span></span><br><span class="line"><span class="number">2</span>: eth1: <span class="variable">&lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span> mtu <span class="number">1500</span> qdisc pfifo_fast <span class="keyword">state</span> UP qlen <span class="number">1000</span></span><br><span class="line">    <span class="keyword">inet</span> <span class="number">192.168</span>.<span class="number">10.101</span>/<span class="number">24</span> brd <span class="number">192.168</span>.<span class="number">10.255</span> scope <span class="keyword">global</span> eth1</span><br><span class="line">    <span class="keyword">inet</span> <span class="number">192.168</span>.<span class="number">10.91</span>/<span class="number">32</span> scope <span class="keyword">global</span> eth1</span><br></pre></td></tr></table></figure></p>
+<p>已成功添加VIP 192.168.10.91</p>
+<p>停止Master keepalived<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@ka101</span> ~]<span class="meta"># systemctl stop keepalived</span></span><br></pre></td></tr></table></figure></p>
+<p>此时VIP已漂移到Backup主机<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ka102 ~]<span class="comment"># ip a | grep eth1</span></span><br><span class="line"><span class="number">2</span>: eth1: <span class="variable">&lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span> mtu <span class="number">1500</span> qdisc pfifo_fast <span class="keyword">state</span> UP qlen <span class="number">1000</span></span><br><span class="line">    <span class="keyword">inet</span> <span class="number">192.168</span>.<span class="number">10.102</span>/<span class="number">24</span> brd <span class="number">192.168</span>.<span class="number">10.255</span> scope <span class="keyword">global</span> eth1</span><br><span class="line">    <span class="keyword">inet</span> <span class="number">192.168</span>.<span class="number">10.91</span>/<span class="number">32</span> scope <span class="keyword">global</span> eth1</span><br></pre></td></tr></table></figure></p>
+<p>查看日志<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[root@ka102 ~]</span># <span class="selector-tag">cat</span> /<span class="selector-tag">var</span>/<span class="selector-tag">log</span>/<span class="selector-tag">messages</span></span><br><span class="line"><span class="selector-tag">ug</span>  <span class="selector-tag">9</span> <span class="selector-tag">18</span><span class="selector-pseudo">:18</span><span class="selector-pseudo">:27</span> <span class="selector-tag">ka102</span> <span class="selector-tag">Keepalived_vrrp</span><span class="selector-attr">[3535]</span>: <span class="selector-tag">VRRP_Instance</span>(VG_1) <span class="selector-tag">Sending</span>/<span class="selector-tag">queueing</span> <span class="selector-tag">gratuitous</span> <span class="selector-tag">ARPs</span> <span class="selector-tag">on</span> <span class="selector-tag">eth1</span> <span class="selector-tag">for</span> <span class="selector-tag">192</span><span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.91</span></span><br><span class="line"><span class="selector-tag">Aug</span>  <span class="selector-tag">9</span> <span class="selector-tag">18</span><span class="selector-pseudo">:18</span><span class="selector-pseudo">:27</span> <span class="selector-tag">ka102</span> <span class="selector-tag">Keepalived_vrrp</span><span class="selector-attr">[3535]</span>: <span class="selector-tag">Sending</span> <span class="selector-tag">gratuitous</span> <span class="selector-tag">ARP</span> <span class="selector-tag">on</span> <span class="selector-tag">eth1</span> <span class="selector-tag">for</span> <span class="selector-tag">192</span><span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.91</span></span><br><span class="line"><span class="selector-tag">Aug</span>  <span class="selector-tag">9</span> <span class="selector-tag">18</span><span class="selector-pseudo">:18</span><span class="selector-pseudo">:27</span> <span class="selector-tag">ka102</span> <span class="selector-tag">Keepalived_vrrp</span><span class="selector-attr">[3535]</span>: <span class="selector-tag">Sending</span> <span class="selector-tag">gratuitous</span> <span class="selector-tag">ARP</span> <span class="selector-tag">on</span> <span class="selector-tag">eth1</span> <span class="selector-tag">for</span> <span class="selector-tag">192</span><span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.91</span></span><br><span class="line"><span class="selector-tag">Aug</span>  <span class="selector-tag">9</span> <span class="selector-tag">18</span><span class="selector-pseudo">:18</span><span class="selector-pseudo">:27</span> <span class="selector-tag">ka102</span> <span class="selector-tag">Keepalived_vrrp</span><span class="selector-attr">[3535]</span>: <span class="selector-tag">Sending</span> <span class="selector-tag">gratuitous</span> <span class="selector-tag">ARP</span> <span class="selector-tag">on</span> <span class="selector-tag">eth1</span> <span class="selector-tag">for</span> <span class="selector-tag">192</span><span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.91</span></span><br><span class="line"><span class="selector-tag">Aug</span>  <span class="selector-tag">9</span> <span class="selector-tag">18</span><span class="selector-pseudo">:18</span><span class="selector-pseudo">:27</span> <span class="selector-tag">ka102</span> <span class="selector-tag">Keepalived_vrrp</span><span class="selector-attr">[3535]</span>: <span class="selector-tag">Sending</span> <span class="selector-tag">gratuitous</span> <span class="selector-tag">ARP</span> <span class="selector-tag">on</span> <span class="selector-tag">eth1</span> <span class="selector-tag">for</span> <span class="selector-tag">192</span><span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.91</span></span><br></pre></td></tr></table></figure></p>
+<p>恢复Master<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@ka102 ~]<span class="comment"># systemctl start keepalived</span></span><br><span class="line">[root@ka101 ~]<span class="comment"># ip a | grep eth1</span></span><br><span class="line"><span class="number">2</span>: eth1: <span class="variable">&lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span> mtu <span class="number">1500</span> qdisc pfifo_fast <span class="keyword">state</span> UP qlen <span class="number">1000</span></span><br><span class="line">    <span class="keyword">inet</span> <span class="number">192.168</span>.<span class="number">10.101</span>/<span class="number">24</span> brd <span class="number">192.168</span>.<span class="number">10.255</span> scope <span class="keyword">global</span> eth1</span><br><span class="line">    <span class="keyword">inet</span> <span class="number">192.168</span>.<span class="number">10.91</span>/<span class="number">32</span> scope <span class="keyword">global</span> eth1</span><br></pre></td></tr></table></figure></p>
+<p>以上状态表明，当MASTER恢复服务后，BACKUP的Keepalived会自动漂移到MASTER上。因为MASTER的权重值比BACKUP高。以上是BACKUP的漂移到MASTER的状态。</p>
+<p><a href="https://renwole.com/archives/1107" target="_blank" rel="noopener">https://renwole.com/archives/1107</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/keepalived-lvs-dr-nginx/" data-toggle="tooltip" data-placement="top" title="Keepalived + LVS-DR Nginx 双主高可用">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/high-availability/" data-toggle="tooltip" data-placement="top" title="高可用集群基本概念">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#高可用" title="高可用">高可用</a>
+                        
+                          <a class="tag" href="/tags/#keepalived" title="keepalived">keepalived</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://kaijun.github.io/hexo-theme-huxblog/" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e5a8fe97a11d3eaa24842213e1d7d092';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

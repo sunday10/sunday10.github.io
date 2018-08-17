@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Lsyncd实时同步搭建指南--取代rsync+inotify - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/lsyncd/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#lsyncd" title="lsyncd">lsyncd</a>
+                        
+                    </div>
+                    <h1>Lsyncd实时同步搭建指南--取代rsync+inotify</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-07-06
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="几大实时同步工具比较"><a href="#几大实时同步工具比较" class="headerlink" title="几大实时同步工具比较"></a>几大实时同步工具比较</h1><h2 id="inotify-rsync"><a href="#inotify-rsync" class="headerlink" title="inotify + rsync"></a>inotify + rsync</h2><p>最近一直在寻求生产服务服务器上的同步替代方案，原先使用的是inotify + rsync，但随着文件数量的增大到100W+，目录下的文件列表就达20M，在网络状况不佳或者限速的情况下，变更的文件可能10来个才几M，却因此要发送的文件列表就达20M，严重减低的带宽的使用效率以及同步效率；更为要紧的是，加入inotifywait在5s内监控到10个小文件发生变化，便会触发10个rsync同步操作，结果就是真正需要传输的才2-3M的文件，比对的文件列表就达200M。使用这两个组合的好处在于，它们都是最基本的软件，可以通过不同选项做到很精确的控制，比如排除同步的目录，同步多个模块或同步到多个主机。</p>
+<p>搭建过程参考 Linux下同步工具inotify+rsync使用详解 。</p>
+<h2 id="sersync"><a href="#sersync" class="headerlink" title="sersync"></a>sersync</h2><p>后来听同事说 sersync 这么个工具可以提高同步的性能，也解决了同步大文件时出现异常的问题，所以就尝试了一下。sersync是国内的一个开发者开源出来的，使用c++编写，采用多线程的方式进行同步，失败后还有重传机制，对临时文件过滤，自带crontab定时同步功能。网上看到有人说性能还不错，说一下我的观点：</p>
+<ul>
+<li>国产开源，文档不是很全，在2011年之后就没更新了（googlecode都要快关闭了，其实可以转交其他人维护），网上关于它的使用和讨论都止于10年了</li>
+<li>采用xml配置文件的方式，可读性比较好，但是有些原生的有些功能没有实现就没法使用了</li>
+<li>无法实现多目录同步，只能通过多个配置文件启动多个进程</li>
+<li>文件排除功能太弱。这个要看需求，不是每个人都需要排除子目录。而对于我的环境中，这个功能很重要，而且排除的规则较多</li>
+<li>虽然提供插件的功能，但很鸡肋，因为软件本身没有持续更新，也没有看到贡献有其它插件出现（可能是我知识面不够，还用不到里面的refreshCDN plugin）。</li>
+</ul>
+<p>虽然不懂c++，但大致看了下源码 FileSynchronize，拼接rsync命令大概在273行左右，最后一个函数就是排除选项，简单一点可以将–exclude=改成–eclude-from来灵活控制。有机会再改吧。</p>
+<p>另外，在作者的文章 Sersync服务器同步程序 项目简介与设计框架 评论中，说能解决上面 rsync + inotify中所描述的问题。阅读了下源码，这个应该是没有解决，因为在拼接rsync命令时，后面的目的地址始终是针对module的，只要执行rsync命令，就会对整个目录进行遍历，发送要比对的文件列表，然后再发送变化的文件。sersync只是减少了监听的事件，减少了rsync的次数——这已经是很大的改进，但每次rsync没办法改变。（如有其它看法可与我讨论）</p>
+<p>其实我们也不能要求每一个软件功能都十分健全，关键是看能否满足我们当下的特定的需求。所谓好的架构不是设计出来的，而是进化来的。目前使用sersync2没什么问题，而且看了它的设计思路应该是比较科学的，特别是过滤队列的设计。双向同步看起来也是可以实现。</p>
+<h2 id="lsyncd"><a href="#lsyncd" class="headerlink" title="lsyncd"></a>lsyncd</h2><p>Lysncd 实际上是lua语言封装了 inotify 和 rsync 工具，采用了 Linux 内核（2.6.13 及以后）里的 inotify 触发机制，然后通过rsync去差异同步，达到实时的效果。我认为它最令人称道的特性是，完美解决了 inotify + rsync海量文件同步带来的文件频繁发送文件列表的问题 —— 通过时间延迟或累计触发事件次数实现。另外，它的配置方式很简单，lua本身就是一种配置语言，可读性非常强。lsyncd也有多种工作模式可以选择，本地目录cp，本地目录rsync，远程目录rsyncssh。</p>
+<p>实现简单高效的本地目录同步备份（网络存储挂载也当作本地目录），一个命令搞定。</p>
+<h1 id="使用-lsyncd-本地目录实时备份"><a href="#使用-lsyncd-本地目录实时备份" class="headerlink" title="使用 lsyncd 本地目录实时备份"></a>使用 lsyncd 本地目录实时备份</h1><p>这一节实现的功能是，本地目录source实时同步到另一个目录target，而在source下有大量的文件，并且有部分目录和临时文件不需要同步。</p>
+<h2 id="安装lsyncd"><a href="#安装lsyncd" class="headerlink" title="安装lsyncd"></a>安装lsyncd</h2><p>安装lsyncd极为简单，已经收录在ubuntu的官方镜像源里，直接通过apt-get install lsyncd就可以。<br>在Redhat系（我的环境是CentOS 7 ）<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> yum nstall -y epel-release</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> yum install lsyncd -y</span></span><br></pre></td></tr></table></figure></p>
+<p><strong> 源码编译安装 </strong><br>从源码编译安装可以使用最新版的lsyncd程序，但必须要相应的依赖库文件和编译工具：<br>从 googlecode lsyncd 上下载的lsyncd.tar.gz，直接./configure、make &amp;&amp; make install就可以了。<br>从github上下载<a href="https://github.com/axkibe/lsyncd/archive/master.zip" target="_blank" rel="noopener">lsyncd-master.zip</a> 的最新版本使用的是 cmake 编译工具，无法./configure<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> yum install lua lua-devel asciidoc cmake gcc gcc-c++</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> uzip lsyncd-master.zip</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> lsyncd-master</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake -DCMAKE_INSTALL_PREFIX=/usr/<span class="built_in">local</span>/lsyncd -DCMAKE_C_FLAGS=-ldl</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="lsyncd-conf-配置文件"><a href="#lsyncd-conf-配置文件" class="headerlink" title="lsyncd.conf 配置文件"></a>lsyncd.conf 配置文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/lsyncd-2.2.2</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mkdir etc var</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> vi etc/lsyncd.conf</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">settings &#123;</span><br><span class="line">    <span class="attr">logfile</span>      =<span class="string">"/usr/local/lsyncd/var/lsyncd.log"</span>,</span><br><span class="line">    <span class="attr">statusFile</span>   =<span class="string">"/usr/local/lsyncd/var/lsyncd.status"</span>,</span><br><span class="line">    <span class="attr">inotifyMode</span>  = <span class="string">"CloseWrite"</span>,</span><br><span class="line">    <span class="attr">maxProcesses</span> = <span class="number">7</span>,</span><br><span class="line">    -- <span class="attr">nodaemon</span> =<span class="literal">true</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">sync &#123;</span><br><span class="line">    default.rsync,</span><br><span class="line">    <span class="attr">source</span>    = <span class="string">"/tmp/src"</span>,</span><br><span class="line">    <span class="attr">target</span>    = <span class="string">"/tmp/dest"</span>,</span><br><span class="line">    -- <span class="attr">excludeFrom</span> = <span class="string">"/etc/rsyncd.d/rsync_exclude.lst"</span>,</span><br><span class="line">    <span class="attr">rsync</span>     = &#123;</span><br><span class="line">        <span class="attr">binary</span>    = <span class="string">"/usr/bin/rsync"</span>,</span><br><span class="line">        <span class="attr">archive</span>   = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">compress</span>  = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">verbose</span>   = <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="lsyncd-conf配置选项说明"><a href="#lsyncd-conf配置选项说明" class="headerlink" title="lsyncd.conf配置选项说明"></a>lsyncd.conf配置选项说明</h2><p><strong> settings </strong><br>里面是全局设置，–开头表示注释，下面是几个常用选项说明：</p>
+<ul>
+<li>logfile 定义日志文件</li>
+<li>stausFile 定义状态文件</li>
+<li>nodaemon=true 表示不启用守护模式，默认</li>
+<li>statusInterval 将lsyncd的状态写入上面的statusFile的间隔，默认10秒</li>
+<li>inotifyMode 指定inotify监控的事件，默认是CloseWrite，还可以是Modify或CloseWrite or Modify</li>
+<li>maxProcesses 同步进程的最大个数。假如同时有20个文件需要同步，而maxProcesses = 8，则最大能看到有8个rysnc进程</li>
+<li>maxDelays 累计到多少所监控的事件激活一次同步，即使后面的delay延迟时间还未到</li>
+</ul>
+<p><strong> sync </strong><br>里面是定义同步参数，可以继续使用maxDelays来重写settings的全局变量。一般第一个参数指定lsyncd以什么模式运行：rsync、rsyncssh、direct三种模式：</p>
+<ul>
+<li>default.rsync ：本地目录间同步，使用rsync，也可以达到使用ssh形式的远程rsync效果，或daemon方式连接远程rsyncd进程；</li>
+<li>default.direct ：本地目录间同步，使用cp、rm等命令完成差异文件备份；</li>
+<li>default.rsyncssh ：同步到远程主机目录，rsync的ssh模式，需要使用key来认证</li>
+<li>source 同步的源目录，使用绝对路径。</li>
+<li><p>target 定义目的地址.对应不同的模式有几种写法：<br>/tmp/dest ：本地目录同步，可用于direct和rsync模式</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">172.29</span>.<span class="number">88.223</span><span class="symbol">:/tmp/dest</span> ：同步到远程服务器目录，可用于rsync和rsyncssh模式，拼接的命令类似于</span><br><span class="line">/usr/bin/rsync -ltsd --delete --<span class="keyword">include</span>-from=- --exclude=* SOURCE TARGET，剩下的就是rsync的内容了，比如指定username，免密码同步</span><br><span class="line"><span class="number">172.29</span>.<span class="number">88.223</span><span class="symbol">:</span><span class="symbol">:module</span> ：同步到远程服务器目录，用于rsync模式</span><br><span class="line">三种模式的示例会在后面给出。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>init 这是一个优化选项，当init = false，只同步进程启动以后发生改动事件的文件，原有的目录即使有差异也不会同步。默认是true。如目标主机文件删除了,若原文件内容没有变化，init=false,重启时不会传递文件。注释init=true重启则会传递。若文件发生变化，不重启也会传递的。 注：2.2版本init=true会报错无法启动，注释–init =  false即默认开启。</p>
+</li>
+<li>delay 累计事件，等待rsync同步延时时间，默认15秒（最大累计到1000个不可合并的事件）。也就是15s内监控目录下发生的改动，会累积到一次rsync同步，避免过于频繁的同步。（可合并的意思是，15s内两次修改了同一文件，最后只同步最新的文件）</li>
+<li><p>excludeFrom 排除选项，后面指定排除的列表文件，如excludeFrom = “/etc/lsyncd.exclude”，如果是简单的排除，可以使用exclude = LIST。<br>这里的排除规则写法与原生rsync有点不同，更为简单：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">监控路径里的任何部分匹配到一个文本，都会被排除，例如/bin/foo/bar可以匹配规则foo</span><br><span class="line">如果规则以斜线/开头，则从头开始要匹配全部</span><br><span class="line">如果规则以/结尾，则要匹配监控路径的末尾</span><br><span class="line">?匹配任何字符，但不包括/</span><br><span class="line"><span class="comment">*匹配0或多个字符，但不包括/</span></span><br><span class="line"><span class="comment">**匹配0或多个字符，可以是/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>delete 为了保持target与souce完全同步，Lsyncd默认会delete = true来允许同步删除。它除了false，还有startup、running值，请参考 Lsyncd 2.1.x ‖ Layer 4 Config ‖ Default Behavior。</p>
+</li>
+</ul>
+<p><strong> rsync </strong><br>（提示一下，delete和exclude本来都是rsync的选项，上面是配置在sync中的，我想这样做的原因是为了减少rsync的开销）</p>
+<ul>
+<li>bwlimit 限速，单位kb/s，与rsync相同（这么重要的选项在文档里竟然没有标出）</li>
+<li>compress 压缩传输默认为true。在带宽与cpu负载之间权衡，本地目录同步可以考虑把它设为false</li>
+<li>perms 默认保留文件权限。</li>
+<li>其它rsync的选项<br>其它还有rsyncssh模式独有的配置项，如host、targetdir、rsync_path、password_file，见后文示例。rsyncOps={“-avz”,”–delete”}这样的写法在2.1.*版本已经不支持。</li>
+</ul>
+<p>lsyncd.conf可以有多个sync，各自的source，各自的target，各自的模式，互不影响。</p>
+<h2 id="启动lsyncd"><a href="#启动lsyncd" class="headerlink" title="启动lsyncd"></a>启动lsyncd</h2><p>使用命令加载配置文件，启动守护进程，自动同步目录操作。<br><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsyncd -<span class="built_in">log</span> <span class="built_in">Exec</span> /usr/<span class="keyword">local</span>/lsyncd/etc/lsyncd.conf</span><br></pre></td></tr></table></figure></p>
+<h2 id="lsyncd-conf其它模式示例"><a href="#lsyncd-conf其它模式示例" class="headerlink" title="lsyncd.conf其它模式示例"></a>lsyncd.conf其它模式示例</h2><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">settings &#123;</span><br><span class="line">    <span class="attr">logfile</span> =<span class="string">"/usr/local/lsyncd/var/lsyncd.log"</span>,</span><br><span class="line">    <span class="attr">statusFile</span> =<span class="string">"/usr/local/lsyncd/var/lsyncd.status"</span>,</span><br><span class="line">    <span class="attr">inotifyMode</span> = <span class="string">"CloseWrite"</span>,</span><br><span class="line">    <span class="attr">maxProcesses</span> = <span class="number">8</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-- I. 本地目录同步，direct：cp/rm/mv。 适用：<span class="number">500</span>+万文件，变动不大</span><br><span class="line">sync &#123;</span><br><span class="line">    default.direct,</span><br><span class="line">    <span class="attr">source</span>    = <span class="string">"/tmp/src"</span>,</span><br><span class="line">    <span class="attr">target</span>    = <span class="string">"/tmp/dest"</span>,</span><br><span class="line">    <span class="attr">delay</span> = <span class="number">1</span></span><br><span class="line">    <span class="attr">maxProcesses</span> = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">-- II. 本地目录同步，rsync模式：rsync</span><br><span class="line">sync &#123;</span><br><span class="line">    default.rsync,</span><br><span class="line">    <span class="attr">source</span>    = <span class="string">"/tmp/src"</span>,</span><br><span class="line">    <span class="attr">target</span>    = <span class="string">"/tmp/dest1"</span>,</span><br><span class="line">    <span class="attr">excludeFrom</span> = <span class="string">"/etc/rsyncd.d/rsync_exclude.lst"</span>,</span><br><span class="line">    <span class="attr">rsync</span>     = &#123;</span><br><span class="line">        <span class="attr">binary</span> = <span class="string">"/usr/bin/rsync"</span>,</span><br><span class="line">        <span class="attr">archive</span> = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">compress</span> = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">bwlimit</span>   = <span class="number">2000</span></span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">-- III. 远程目录同步，rsync模式 + rsyncd daemon</span><br><span class="line">sync &#123;</span><br><span class="line">    default.rsync,</span><br><span class="line">    <span class="attr">source</span>    = <span class="string">"/tmp/src"</span>,</span><br><span class="line">    <span class="attr">target</span>    = <span class="string">"syncuser@172.29.88.223::module1"</span>,</span><br><span class="line">    <span class="attr">delete="running",</span></span><br><span class="line">    <span class="attr">exclude</span> = &#123; <span class="string">".*"</span>, <span class="string">".tmp"</span> &#125;,</span><br><span class="line">    <span class="attr">delay</span> = <span class="number">30</span>,</span><br><span class="line">    <span class="attr">init</span> = <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">rsync</span>     = &#123;</span><br><span class="line">        <span class="attr">binary</span> = <span class="string">"/usr/bin/rsync"</span>,</span><br><span class="line">        <span class="attr">archive</span> = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">compress</span> = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">verbose</span>   = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">password_file</span> = <span class="string">"/etc/rsyncd.d/rsync.pwd"</span>,</span><br><span class="line">        <span class="attr">_extra</span>    = &#123;<span class="string">"--bwlimit=200"</span>&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">-- IV. 远程目录同步，rsync模式 + ssh shell</span><br><span class="line">sync &#123;</span><br><span class="line">    default.rsync,</span><br><span class="line">    <span class="attr">source</span>    = <span class="string">"/tmp/src"</span>,</span><br><span class="line">    <span class="attr">target</span>    = <span class="string">"172.29.88.223:/tmp/dest"</span>,</span><br><span class="line">    -- <span class="attr">target</span>    = <span class="string">"root@172.29.88.223:/remote/dest"</span>,</span><br><span class="line">    -- 上面target，注意如果是普通用户，必须拥有写权限</span><br><span class="line">    <span class="attr">maxDelays</span> = <span class="number">5</span>,</span><br><span class="line">    <span class="attr">delay</span> = <span class="number">30</span>,</span><br><span class="line">    -- <span class="attr">init</span> = <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">rsync</span>     = &#123;</span><br><span class="line">        <span class="attr">binary</span> = <span class="string">"/usr/bin/rsync"</span>,</span><br><span class="line">        <span class="attr">archive</span> = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">compress</span> = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">bwlimit</span>   = <span class="number">2000</span></span><br><span class="line">        -- <span class="attr">rsh</span> = <span class="string">"/usr/bin/ssh -p 22 -o StrictHostKeyChecking=no"</span></span><br><span class="line">        -- 如果要指定其它端口，请用上面的rsh</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">-- V. 远程目录同步，rsync模式 + rsyncssh，效果与上面相同</span><br><span class="line">sync &#123;</span><br><span class="line">    default.rsyncssh,</span><br><span class="line">    <span class="attr">source</span>    = <span class="string">"/tmp/src2"</span>,</span><br><span class="line">    <span class="attr">host</span>      = <span class="string">"172.29.88.223"</span>,</span><br><span class="line">    <span class="attr">targetdir</span> = <span class="string">"/remote/dir"</span>,</span><br><span class="line">    <span class="attr">excludeFrom</span> = <span class="string">"/etc/rsyncd.d/rsync_exclude.lst"</span>,</span><br><span class="line">    -- <span class="attr">maxDelays</span> = <span class="number">5</span>,</span><br><span class="line">    <span class="attr">delay</span> = <span class="number">0</span>,</span><br><span class="line">    -- <span class="attr">init</span> = <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">rsync</span>    = &#123;</span><br><span class="line">        <span class="attr">binary</span> = <span class="string">"/usr/bin/rsync"</span>,</span><br><span class="line">        <span class="attr">archive</span> = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">compress</span> = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">verbose</span>   = <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">_extra</span> = &#123;<span class="string">"--bwlimit=2000"</span>&#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">    <span class="attr">ssh</span>      = &#123;</span><br><span class="line">        <span class="attr">port</span>  =  <span class="number">1234</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>上面的内容几乎涵盖了所有同步的模式，其中第III个要求像rsync一样配置rsyncd服务端，见本文开头。第IV、V配置ssh方式同步，达到的效果相同，但实际同步时你会发现每次同步都会提示输入ssh的密码，可以通过以下方法解决：</p>
+<p>在远端被同步的服务器上开启ssh无密码登录，请注意用户身份：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">user$</span><span class="bash"> ssh-keygen -t rsa</span></span><br><span class="line">一路回车...</span><br><span class="line"><span class="meta">user$</span><span class="bash"> <span class="built_in">cd</span> ~/.ssh</span></span><br><span class="line"><span class="meta">user$</span><span class="bash"> cat id_rsa.pub &gt;&gt; authorized_keys</span></span><br></pre></td></tr></table></figure></p>
+<p>把id_rsa私钥拷贝到执行lsyncd的机器上<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">user<span class="variable">$ </span>chmod <span class="number">600</span> ~<span class="regexp">/.ssh/id</span>_rsa</span><br><span class="line">测试能否无密码登录</span><br><span class="line">user<span class="variable">$ </span>ssh user<span class="variable">@172</span>.<span class="number">29.88</span>.<span class="number">223</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="lsyncd优化"><a href="#lsyncd优化" class="headerlink" title="lsyncd优化"></a>lsyncd优化</h1><p>在使用lsyncd的时候做了个测试，创建大量的文件(超过10000)会提示：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tail -f <span class="regexp">/usr/</span>local<span class="regexp">/lsyncd/</span>var/lsyncd.log</span><br><span class="line"></span><br><span class="line">Tue Nov <span class="number">12</span> <span class="number">14</span>:<span class="number">56</span>:<span class="number">23</span> <span class="number">2013</span> <span class="string">Error:</span> Terminating since out of inotify watches.</span><br><span class="line">Consider increasing <span class="regexp">/proc/</span>sys<span class="regexp">/fs/</span>inotify/max_user_watches</span><br></pre></td></tr></table></figure></p>
+<p>lsyncd使用了inotify触发机制，但是监控的文件数是有限的（默认是8192）</p>
+<p>解决<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">echo &lt;&lt;EOF<span class="meta">&gt;&gt; </span>/etc/sysctl.conf</span><br><span class="line"><span class="comment"># Controls the maximum inotify watches per user</span></span><br><span class="line">fs.inotify.max_user_watches = <span class="number">1048576</span></span><br><span class="line">EOF</span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure></p>
+<h1 id="lsyncd的其它功能"><a href="#lsyncd的其它功能" class="headerlink" title="lsyncd的其它功能"></a>lsyncd的其它功能</h1><p>lsyncd的功能不仅仅是同步，官方手册 Lsyncd 2.1.x ‖ Layer 2 Config ‖ Advanced onAction 高级功能提到，还可以监控某个目录下的文件，根据触发的事件自己定义要执行的命令，example是监控某个某个目录，只要是有jpg、gif、png格式的文件参数，就把它们转成pdf，然后同步到另一个目录。正好在我运维的一个项目中有这个需求，现在都是在java代码里转换，还容易出现异常，通过lsyncd可以代替这样的功能。但，门槛在于要会一点点lua语言（根据官方example还是可以写出来）。</p>
+<p>另外偶然想到个问题，同时设置了maxDelays和delay，当监控目录一直没有文件变化了，也会发生同步操作，虽然没有可rsync的文件。</p>
+<p>TO-DO：</p>
+<ul>
+<li>其它同步工具：csync2，clsync，btsync，drdb 。</li>
+<li>lsyncd双向同步：GlusterFS</li>
+</ul>
+<p><a href="https://axkibe.github.io/lsyncd/manual/config/layer4/" target="_blank" rel="noopener">https://axkibe.github.io/lsyncd/manual/config/layer4/</a><br><a href="https://vastxiao.github.io/article/2017/09/02/Linux/lsyncd_usage/" target="_blank" rel="noopener">https://vastxiao.github.io/article/2017/09/02/Linux/lsyncd_usage/</a><br><a href="http://seanlook.com/2014/12/12/rsync_inotify_setup/" target="_blank" rel="noopener">http://seanlook.com/2014/12/12/rsync_inotify_setup/</a></p>
+<p>转载自: <a href="http://seanlook.com/2015/05/06/lsyncd-synchronize-realtime/" target="_blank" rel="noopener">http://seanlook.com/2015/05/06/lsyncd-synchronize-realtime/</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/tomcat/" data-toggle="tooltip" data-placement="top" title="Linux Apache Tomcat 8.5 安装与配置">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/nginx-proxy-set-header/" data-toggle="tooltip" data-placement="top" title="Nginx proxy_set_header 理解">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#lsyncd" title="lsyncd">lsyncd</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://kaijun.github.io/hexo-theme-huxblog/" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e5a8fe97a11d3eaa24842213e1d7d092';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          HAProxy 反向代理的使用 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/haproxy-tutorial/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#haproxy" title="haproxy">haproxy</a>
+                        
+                          <a class="tag" href="/tags/#高性能" title="高性能">高性能</a>
+                        
+                    </div>
+                    <h1>HAProxy 反向代理的使用</h1>
+                    <h2 class="subheading">High availability</h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-08-15
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>HAProxy 是一款高性能的反向代理软件，它可以基于四层或七层进行反向代理，尤其适合于高负载且需要进行七层处理的 Web 站点。</p>
+<p>相较与 Nginx，HAProxy 更专注与反向代理，因此它可以支持更多的选项，更精细的控制，更多的健康状态检测机制和负载均衡算法。</p>
+<h1 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h1><p>HAproxy 主要借助于现代操作系统上几种常见的技术来实现性能的最大化。</p>
+<ul>
+<li>单进程、事件驱动模型，降低了上下文切换和内存的开销</li>
+<li>O(1) 时间检查器，允许其在高并发连接中对任何连接的时间实现即使探测。</li>
+<li>单缓冲（single buffering）机制能以不复制任何数据的方式完成读写操作，借助 splice() 系统调用，可以实现零复制转发。</li>
+<li>树型存储，使用作者多年前开发的弹性二叉树，实现 O(log(N)) 的低开销</li>
+<li>在生产环境中，通常将 HAProxy 作为七层负载均衡器，实现 Web 集群的负载均衡，动静分离等功能。</li>
+</ul>
+<h1 id="配置-HAProxy"><a href="#配置-HAProxy" class="headerlink" title="配置 HAProxy"></a>配置 HAProxy</h1><p>HAProxy 的配置文件位于 /etc/haproxy/haproxy.cfg。HAProxy 配置处理主要来源有三类：</p>
+<ol>
+<li>命令行参数</li>
+<li><code>global</code> 配置端，用于设定全局配置参数</li>
+<li><code>proxy</code> 相关配置端，如 <code>default，listen，frontend 和 backend</code></li>
+</ol>
+<p>HAProxy 中，涉及时间单位的配置参数的默认后缀一般是毫秒，也可以使用 s（秒），m（分钟），h（小时），d（天）等单位</p>
+<h2 id="1-全局配置"><a href="#1-全局配置" class="headerlink" title="1. 全局配置"></a>1. 全局配置</h2><p>全局配置为 <code>global</code> 配置中的参数，有进程管理及安全相关的参数</p>
+<p><code>chroot &lt;DIR&gt;</code> # 修改 HAProxy 的工作目录至指定的目录并在放弃权限之前执行 chroot() 操作，可以提升 haproxy 的安全级别<br><code>daemon</code> # 以守护进程方式运行<br><code>log &lt;address&gt; &lt;facility&gt; [max level [min level]]</code> # 定义日志位置<br><code>nbproc &lt;NUMBER&gt;</code>  # 指定启动的 HAProxy 进程个数，默认启动一个进程，建议启动一个进程即可<br><code>uid &lt;UID&gt;</code>  # 指定以 UID 身份的用户运行 HAProxy<br><code>maxconn &lt;NUMBER&gt;</code> # 设定每个 HAProxy 进程所接受的最大并发连接数<br><code>spread-checks &lt;0..50, inpercent&gt;</code> # 在haproxy后端有着众多服务器的场景中，在精确的时间间隔后统一对众服务器进行健康状况检查可能会带来意外问题；此选项用于将其检查的时间间隔长度上增加或减小一定的随机时长<br><code>ulimit -n</code>  # 设定每进程能够打开的最大文件描述符数，默认情况下棋会自动进行计算，不推荐手动设置</p>
+<h2 id="2-代理配置"><a href="#2-代理配置" class="headerlink" title="2. 代理配置"></a>2. 代理配置</h2><p>代理配置可在一下配置段中定义：</p>
+<ul>
+<li><code>default</code>：用于为所有其它配置段提供默认参数</li>
+<li><code>frontend</code>：用于定义一系列监听的套接字，这些套接字可接受客户端请求并与之建立连接</li>
+<li><code>backend</code>：用于定义一系列后端服务器，代理将会将对应客户端的请求转发至这些服务器</li>
+<li><code>listen</code>： 通过关联前端和后端定义了一个完整的代理</li>
+</ul>
+<h3 id="2-1-前后端连接模型"><a href="#2-1-前后端连接模型" class="headerlink" title="2.1 前后端连接模型"></a>2.1 前后端连接模型</h3><p>在 HTTP 模式下，HAProxy 与前后端的连接方式取决于 frontend 和 backend 的连接选项。HAProxy 支持 5 中连接模型：</p>
+<ul>
+<li><p><code>KAL: keep alive（option http-keep-alive）</code>，这是默认的模式，所有的请求和响应都会被 HAProxy 处理，且允许在没有请求和响应时保持空闲的连接</p>
+</li>
+<li><p><code>TUN：tunnel（option http-tunnel）</code>：这是 1.0 ~ 1.5-dev21 的默认模式，类似于隧道，HAProxy 仅处理第一个请求和响应，剩余的报文将直接转发而不进行处理。尽量不要使用这个模式，因为它在日志记录和 HTTP 处理上有很多问题。</p>
+</li>
+<li><p><code>PCL：passive close（option httpclose）</code>，这和 tunnel 模式类似，区别是 HAProxy 会在发往客户端的响应报文和发往服务器的请求报文中加入 “Connection: close” 首部，使得客户端和后端主机在完成与 HAProxy 的一次通信后主动的关闭连接。</p>
+</li>
+<li><p><code>SCL：server close（option http-server-close）</code>，HAProxy 在接收到后端服务器的响应后就立即断开与后端服务器的连接，而与客户端的连接则使用保持连接。</p>
+</li>
+<li><p><code>FCL：forced close（option forceclose）</code>，HAProxy 每完成一次与客户端/服务器的通信（请求+响应）后就主动关闭连接。</p>
+</li>
+<li><p><code>max-keep-alive-queue &lt;value&gt;</code>， 用于设定后端主机保持连接数的阈值，当某后端主机的保持连接队列超过此值后，HAProxy 会将向此主机请求的保持连接调度至其他主机。默认值 -1 表示不限制， 0 表示禁用保持连接。</p>
+<h3 id="2-2-负载均衡"><a href="#2-2-负载均衡" class="headerlink" title="2.2 负载均衡"></a>2.2 负载均衡</h3></li>
+<li><code>balance &lt;algorithm&gt; [ &lt;arguments&gt; ]</code> : 定义负载均衡算法，可用于“defaults”、“listen” 和 “backend”。用于在负载均衡场景中挑选一个server，其仅应用于持久信息不可用的条件下或需要将一个连接重新派发至另一个服务器时。支持的算法有：</li>
+<li><p><code>roundrobin</code>：基于权重进行轮叫，在服务器的处理时间保持均匀分布时，这是最平衡、最公平的算法。此算法是动态的，这表示其权重可以在运行时进行调整，不过，在设计上，每个后端服务器仅能最多接受4128个连接</p>
+</li>
+<li><p><code>static-rr</code>：基于权重进行轮叫，与roundrobin类似，但是为静态方法，在运行时调整其服务器权重不会生效；不过，其在后端服务器连接数上没有限制</p>
+</li>
+<li><p><code>leastconn</code>：新的连接请求被派发至具有最少连接数目的后端服务器；在有着较长时间会话的场景中推荐使用此算法，如LDAP、SQL等，其并不太适用于较短会话的应用层协议，如HTTP；此算法是动态的，可以在运行时调整其权重</p>
+</li>
+<li><p><code>source</code>：将请求的源地址进行hash运算，并由后端服务器的权重总数相除后派发至某匹配的服务器；这可以使得同一个客户端IP的请求始终被派发至某特定的服务器；不过，当服务器权重总数发生变化时，如某服务器宕机或添加了新的服务器，许多客户端的请求可能会被派发至与此前请求不同的服务器；常用于负载均衡无cookie功能的基于TCP的协议；其默认为静态，不过也可以使用hash-type修改此特性</p>
+</li>
+<li><p><code>uri</code>：对URI的左半部分(“?”标记之前的部分)或整个URI进行hash运算，并由服务器的总权重相除后派发至某匹配的服务器；这可以使得对同一个URI的请求总是被派发至某特定的服务器，除非服务器的权重总数发生了变化；此算法常用于代理缓存或反病毒代理以提高缓存的命中率；需要注意的是，此算法仅应用于HTTP后端服务器场景；其默认为静态算法，不过也可以使用hash-type修改此特性</p>
+</li>
+<li><p><code>url_param</code>：通过为URL指定的参数在每个HTTP GET请求中将会被检索；如果找到了指定的参数且其通过等于号“=”被赋予了一个值，那么此值将被执行hash运算并被服务器的总权重相除后派发至某匹配的服务器；此算法可以通过追踪请求中的用户标识进而确保同一个用户ID的请求将被送往同一个特定的服务器，除非服务器的总权重发生了变化；如果某请求中没有出现指定的参数或其没有有效值，则使用轮叫算法对相应请求进行调度；此算法默认为静态的，不过其也可以使用hash-type修改此特性</p>
+</li>
+<li><p><code>hdr()</code>：对于每个HTTP请求，通过指定的HTTP首部将会被检索；如果相应的首部没有出现或其没有有效值，则使用轮叫算法对相应请求进行调度；其有一个可选选项“use_domain_only”，可在指定检索类似Host类的首部时仅计算域名部分（比如通过<a href="http://www.sundayle.com来说，仅计算sundayle字符串的hash值" target="_blank" rel="noopener">www.sundayle.com来说，仅计算sundayle字符串的hash值</a> )以降低hash算法的运算量；此算法默认为静态的，不过其也可以使用hash-type修改此特性</p>
+</li>
+<li><p><code>hash-type &lt;method&gt;</code> : 用于定义将hash码映射至后端服务器的方法</p>
+<p>  <code>map-based</code>：hash表是一个包含了所有在线服务器的静态数组。其hash值将会非常平滑，会将权重考虑在列，但其为静态方法，当一台服务器宕机或添加了一台新的服务器时，大多数连接将会被重新派发至一个与此前不同的服务器上，对于缓存服务器的工作场景来说，此方法不甚适用。</p>
+<p>  <code>consistent</code>：hash表是一个由各服务器填充而成的树状结构；基于hash键在hash树中查找相应的服务器时，最近的服务器将被选中。此方法是动态的，添加一个新的服务器时，仅会对一小部分请求产生影响，因此，尤其适用于后端服务器为cache的场景。</p>
+<h3 id="2-2-1-负载算法推荐"><a href="#2-2-1-负载算法推荐" class="headerlink" title="2.2.1 负载算法推荐"></a>2.2.1 负载算法推荐</h3><p>如果对 mysql 服务器进行调度，用什么算法？</p>
+</li>
+</ul>
+<blockquote>
+<p>leastconn</p>
+</blockquote>
+<p>如果对 ssh 服务器进行调度，用什么算法？</p>
+<blockquote>
+<p>leastconn</p>
+</blockquote>
+<p>如果对图片服务器进行调度，使用什么算法？</p>
+<blockquote>
+<p>rr，因为服务器是直接访问文件系统的。</p>
+</blockquote>
+<p>如果对图片服务器之前的缓存服务器进行调度，使用什么算法？</p>
+<blockquote>
+<p>uri</p>
+</blockquote>
+<p>如果对 web 动态程序服务器进行调度，使用什么算法？</p>
+<blockquote>
+<p>一般需要保持会话，可用 source</p>
+</blockquote>
+<p>但其实要保持会话的话，最理想的方法是基于 cookie 进行调度。<br>推荐对 cache servers 执行负载均衡调度时的配置</p>
+<blockquote>
+<p>balance uri<br>hash-type consistent</p>
+</blockquote>
+<h3 id="2-3-健康状态检查"><a href="#2-3-健康状态检查" class="headerlink" title="2.3 健康状态检查"></a>2.3 健康状态检查</h3><ul>
+<li><code>option httpchk [method] [uri] [version]</code> # 默认情况下，HAProxy 的后端主机健康状态检查是基于 TCP 连接来检查的。当使用 option httpchk 后，将使用一个 HTTP 请求来检查后端主机健康状态，2xx 和 3xx 的响应码表示健康状态，其他响应码或无响应表示服务器故障。</li>
+</ul>
+<p>检查端口和间隔在 server 配置中指定。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">backend https_relay</span><br><span class="line">    mod tcp</span><br><span class="line">    option httpchk OPTIONS * HTTP/1.1</span><br><span class="line">   <span class="built_in"> server </span>apache1 192.168.1.1:443 check<span class="built_in"> port </span>80</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>http-check disable-on-404 # 使用此选项后，返回 HTTP 404 状态码的后端主机将会从负载均衡列表中移除，但是仍能够继续处理已建立的连接。这可以用于手动的平滑下限。如果服务器重新开始返回 2xx 或 3xx 的状态码，将会重新被加入至负载均衡主机列表。</p>
+</li>
+<li><p><code>http-check expect [!] &lt;match&gt; &lt;pattern&gt;</code> # 此选项用于对 HTTP 检查返回的页面进行内容匹配或返回状态码匹配<br><strong>match</strong> 指定匹配方式，<code>status</code> 表示精确匹配状态码，<code>rstatus</code> 表示使用正则表达式匹配状态码，<code>string</code> 表示精确匹配响应实体字符串，<code>rstring</code> 表示使用正则表达式匹配响应实体。同时还可以使用 “!” 表示取反，如 ! status，返回内容的大小受 <code>tune.chksize</code> 参数限制，默认为 16384 字节。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http-<span class="keyword">check</span> expect ! <span class="keyword">string</span> <span class="keyword">SQL</span> <span class="keyword">Error</span> # 如果遇到 <span class="keyword">SQL</span> <span class="keyword">Error</span> 的页面测健康状态为故障</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server websrv1 192.168.18.201:80<span class="built_in"> check </span>inter 2000 rise 2 fall 3 weight 5 maxconn 2000</span><br></pre></td></tr></table></figure>
+<ul>
+<li>weight  调节服务器的权重</li>
+<li>check  允许对该服务器进行健康检查</li>
+<li>inter  设置连续的两次健康检查之间的时间，单位为毫秒(ms)，默认值 2000(ms)</li>
+<li>rise  指定多少次连续成功的健康检查后，即可认定该服务器处于可操作状态，默认值 2</li>
+<li>fall  指定多少次不成功的健康检查后，认为服务器为当掉状态，默认值 3</li>
+<li>maxconn  指定可被发送到该服务器的最大并发连接数</li>
+</ul>
+<h3 id="2-4-端口指定"><a href="#2-4-端口指定" class="headerlink" title="2.4 端口指定"></a>2.4 端口指定</h3><p><code>bind [&lt;address&gt;]:&lt;port_range&gt; [, ...]</code> # 此指令仅能用于frontend和listen区段，用于定义一个或几个监听的套接字。</p>
+<h3 id="2-5-工作模式"><a href="#2-5-工作模式" class="headerlink" title="2.5 工作模式"></a>2.5 工作模式</h3><p><code>mode {tcp | http | health}</code> #设定实例的运行模式或协议。当实现内容交换时，前端和后端必须工作于同一种模式(一般说来都是HTTP模式)，否则将无法启动实例。</p>
+<h3 id="2-6-指定后端主机"><a href="#2-6-指定后端主机" class="headerlink" title="2.6 指定后端主机"></a>2.6 指定后端主机</h3><p><code>use_backend &lt;backend&gt; &lt;if | unless&gt; &lt;condition&gt;</code> # 用于指定匹配某 condition 时使用的后端主机</p>
+<p><code>default_backend &lt;backend&gt;</code> # 指定默认情况下的后端主机</p>
+<p>例：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use_backend     <span class="keyword">dynamic</span>  <span class="keyword">if</span>  url_dyn</span><br><span class="line">use_backend     <span class="keyword">static</span>   <span class="keyword">if</span>  url_css url_img extension_img</span><br><span class="line">default_backend <span class="keyword">dynamic</span></span><br></pre></td></tr></table></figure></p>
+<p><code>server &lt;name&gt; &lt;address&gt;[:port] [param*]</code> # 为后端声明一个主机，不能用于 default 和 frontend 段<br><code>name</code> # 为此服务器指定的内部名称，其将出现在日志及警告信息中；如果设定了”http-send-server-name”，它还将被添加至发往此服务器的请求首部中<br><code>address</code> # 此服务器的地址<br><code>[:port]</code> # 指定将连接请求所发往的此服务器时的目标端口<br><code>[param]</code> # 为此服务器设定的一系参数，下面仅说明几个常用的参数：</p>
+<ul>
+<li>backup：设定为备用服务器，仅在负载均衡场景中的其它server均不可用于启用此server</li>
+<li>check：启动对此server执行健康状态检查，其可以借助于额外的其它参数完成更精细的设定</li>
+<li>cookie ：为指定server设定cookie值，此处指定的值将在请求入站时被检查，第一次为此值挑选的server将在后续的请求中被选中，其目的在于实现持久连接的功能</li>
+<li>maxconn：指定此服务器接受的最大并发连接数；如果发往此服务器的连接数目高于此处指定的值，其将被放置于请求队列，以等待其它连接被释放</li>
+<li>maxqueue：设定请求队列的最大长度</li>
+<li>observe：通过观察服务器的通信状况来判定其健康状态，默认为禁用，其支持的类型有“layer4”和“layer7”，“layer7”仅能用于http代理场景</li>
+<li>weight：权重，默认为1，最大值为256，0表示不参与负载均衡</li>
+</ul>
+<h3 id="2-7-服务器状态输出"><a href="#2-7-服务器状态输出" class="headerlink" title="2.7 服务器状态输出"></a>2.7 服务器状态输出</h3><p>stats enable # 开启状态输出页面</p>
+<p><code>stats hide-version</code> # 隐藏 HAProxy 版本报告<br><code>stats realm</code> # 启用认证领域<br><code>stats auth &lt;USER:PASSWORD&gt;</code> # 认证的用户名和密码<br><code>stats uri URI</code> # 输出页面的 URI</p>
+<p>例如：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">listen</span> <span class="selector-tag">status</span> *<span class="selector-pseudo">:8080</span></span><br><span class="line">    <span class="selector-tag">stats</span> <span class="selector-tag">enable</span></span><br><span class="line">    <span class="selector-tag">stats</span> <span class="selector-tag">hide-version</span></span><br><span class="line">    <span class="selector-tag">stats</span> <span class="selector-tag">uri</span>   /<span class="selector-tag">haproxy</span>?<span class="selector-tag">stats</span></span><br><span class="line">    <span class="selector-tag">stats</span> <span class="selector-tag">realm</span>  <span class="selector-tag">HAProxy</span>\ <span class="selector-tag">Statistics</span></span><br><span class="line">    <span class="selector-tag">stats</span> <span class="selector-tag">auth</span>  <span class="selector-tag">statsadmin</span><span class="selector-pseudo">:password</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="2-8-日志"><a href="#2-8-日志" class="headerlink" title="2.8 日志"></a>2.8 日志</h3><p><code>option httplog</code> # 启用记录HTTP请求、会话状态和计时器的功能<br><code>option logasap</code> # 启用或禁用提前将 HTTP 请求记入日志，而不等待 HTTP 报文传输完毕<br><code>option forwardfor</code> # 在发往服务器的请求中插入 X-Forwarded-For 首部用于记录客户端的 IP</p>
+<h3 id="2-9-ACL-访问控制"><a href="#2-9-ACL-访问控制" class="headerlink" title="2.9 ACL 访问控制"></a>2.9 ACL 访问控制</h3><p>haproxy的ACL用于实现基于请求报文的首部、响应报文的内容或其它的环境状态信息来做出转发决策，这大大增强了其配置弹性。其配置法则通常分为两步，首先去定义ACL，即定义一个测试条件，而后在条件得到满足时执行某特定的动作，如阻止请求或转发至某特定的后端。定义ACL的语法格式如下。</p>
+<p><code>acl &lt;aclname&gt; &lt;criterion&gt; [flags] [operator] &lt;value&gt; ...</code><br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;aclname&gt;：ACL名称，区分字符大小写，且其只能包含大小写字母、数字、-(连接线)、_(下划线)、.(点号)和:(冒号)；haproxy中，acl可以重名，这可以把多个测试条件定义为一个共同的acl</span><br><span class="line">&lt;criterion&gt;：测试标准，即对什么信息发起测试；测试方式可以由[flags]指定的标志进行调整；而有些测试标准也可以需要为其在&lt;value&gt;之前指定一个操作符[operator]</span><br><span class="line">[flags]：目前haproxy的acl支持的标志位有3个：</span><br><span class="line">    -<span class="ruby">i：不区分&lt;value&gt;中模式字符的大小写</span></span><br><span class="line"><span class="ruby">    -f：从指定的文件中加载模式</span></span><br><span class="line"><span class="ruby">    --：标志符的强制结束标记，在模式中的字符串像标记符时使用</span></span><br><span class="line"><span class="ruby">&lt;value&gt;：acl测试条件支持的值有以下四类：</span></span><br><span class="line"><span class="ruby">    - 整数或整数范围：如<span class="number">1024</span><span class="symbol">:</span><span class="number">65535</span>表示从<span class="number">1024</span>至<span class="number">65535</span>；仅支持使用正整数(如果出现类似小数的标识，其为通常为版本测试)，且支持使用的操作符有<span class="number">5</span>个，分别为eq、ge、gt、le和lt</span></span><br><span class="line"><span class="ruby">    - 字符串：支持使用“-i”以忽略字符大小写，支持使用“\”进行转义，如果在模式首部出现了-i，可以在其之前使用“--”标志位</span></span><br><span class="line"><span class="ruby">    - 正则表达式：其机制类同字符串匹配</span></span><br><span class="line"><span class="ruby">    - IP地址及网络地址</span></span><br></pre></td></tr></table></figure></p>
+<p>常用的测试标准</p>
+<p><code>be_sess_rate &lt;integer&gt;</code> # 用于测试指定的backend上会话创建的速率(即每秒创建的会话数)</p>
+<p>如：<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">backend </span>dynamic</span><br><span class="line">    mode http</span><br><span class="line">    acl <span class="keyword">being_scanned </span><span class="keyword">be_sess_rate </span>gt <span class="number">50</span></span><br><span class="line">    redirect location /error_pages/denied.html <span class="meta">if</span> <span class="keyword">being_scanned</span></span><br></pre></td></tr></table></figure></p>
+<p><code>hdr(HEADER) &lt;string&gt;</code> # 用于匹配请求报文中的指定首部<br><code>method &lt;string&gt;</code> # 用于匹配请求报文中使用的方法<br><code>path_beg &lt;string&gt;</code> # 用于测试请求的URL是否以 string 指定的模式开头<br><code>path_end &lt;string&gt;</code> # 用于测试请求的URL是否以 string 指定的模式结尾<br><code>path_reg &lt;string&gt;</code> # 用于测试请求的URL是否能以正则表达式 string 匹配</p>
+<h1 id="配置解释"><a href="#配置解释" class="headerlink" title="配置解释"></a>配置解释</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Global settings 全局配置</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">global </span><br><span class="line">    log         127.0.0.1  local2 #定义日志</span><br><span class="line">    chroot      /var/lib/haproxy  #安全模式</span><br><span class="line">    pidfile     /var/run/haproxy.pid #pid文件</span><br><span class="line">    maxconn     4000 #最大连接数</span><br><span class="line">   <span class="built_in"> user </span>       haproxy #用户</span><br><span class="line">   <span class="built_in"> group </span>      haproxy #组</span><br><span class="line">    daemon</span><br><span class="line">    stats socket /var/lib/haproxy/stats</span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Proxy settings 代理配置，下面全是代理配置</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">defaults #配置默认参数的，这些参数可以被利用配置到frontend，backend，listen组件</span><br><span class="line">    mode                    http #默认的模式mode &#123; tcp|http|health &#125;，tcp是4层,http是7层,health只会返回OK（注health已经废弃）</span><br><span class="line">    log                     global      #采用全局定义的日志</span><br><span class="line">    option                  httplog     #日志类别http日志格式</span><br><span class="line">    option                  dontlognull #不记录健康检查的日志信息</span><br><span class="line">    option http-server-close            #每次请求完毕后主动关闭http通道</span><br><span class="line">    option forwardfor       except 127.0.0.0/8 #不记录本机转发的日志</span><br><span class="line">    option                  redispatch #serverId 对应的服务器挂掉后,强制定向到其他健康的服务器</span><br><span class="line">    retries                 3     #3次连接失败就认为服务不可用，也可以通过后面设置</span><br><span class="line">    timeout http-request    10s   #请求超时</span><br><span class="line">    timeout<span class="built_in"> queue </span>          1m    #队列超时</span><br><span class="line">    timeout connect         10s   #连接超时</span><br><span class="line">    timeout<span class="built_in"> client </span>         1m    #客户端连接超时</span><br><span class="line">    timeout<span class="built_in"> server </span>         1m    #服务器连接超时</span><br><span class="line">    timeout http-keep-alive 10s   #长连接超时</span><br><span class="line">    timeout check           10s   #检查超时</span><br><span class="line">    maxconn                 30000 #最大连接数</span><br><span class="line"></span><br><span class="line">listen stats #listen是Frontend和Backend的组合体。这里定义的是haproxy监控！</span><br><span class="line">    mode http          #模式http</span><br><span class="line">    bind 0.0.0.0:1080  #绑定的监控ip与端口</span><br><span class="line">    stats <span class="builtin-name">enable</span>       #启用监控</span><br><span class="line">    stats hide-version #隐藏haproxy版本 </span><br><span class="line">    stats uri     /haproxyadmin?stats #定义的uri</span><br><span class="line">    stats realm   Haproxy\ Statistics #定义显示文字</span><br><span class="line">    stats auth    admin:admin #认证</span><br><span class="line">    stats admin <span class="keyword">if</span> <span class="literal">TRUE</span></span><br><span class="line"></span><br><span class="line">frontend http-in #接收请求的前端虚拟节点，Frontend可以根据规则直接指定具体使用后端的 backend(可动态选择)。这里定义的是http服务！</span><br><span class="line">    bind *:80    #绑定的监控ip与端口</span><br><span class="line">    mode http    #模式http</span><br><span class="line">    log global   #定义日志</span><br><span class="line">    option httpclose   #每次请求完毕后主动关闭http通道</span><br><span class="line">    option logasap     #提前将HTTP请求记入日志</span><br><span class="line">    option dontlognull #不记录健康检查的日志信息</span><br><span class="line">    #option abortonclose  #当服务器负载很高的时候，自动结束掉当前队列处理比较久的链接  </span><br><span class="line">    capture request  header Host len 20 </span><br><span class="line">    capture request  header Referer len 60</span><br><span class="line">    default_backend servers #定义的默认backend</span><br><span class="line"></span><br><span class="line">frontend healthcheck</span><br><span class="line">    bind :1099</span><br><span class="line">    mode http</span><br><span class="line">    option httpclose</span><br><span class="line">    option forwardfor</span><br><span class="line">    acl music_sundayle_com hdr_beg(host) -i music.sundayle.com #匹配请求报文的首部(host)内容，-i忽略大小写。</span><br><span class="line">    acl callback url_beg -i /change/?<span class="attribute">ac</span>=callback #匹配url以制定字符串开头，-i忽略大小写。</span><br><span class="line"></span><br><span class="line">    use_backend callback_srv <span class="keyword">if</span> callback music_sundayle_com</span><br><span class="line">    use_backend api_sundayle_com_srv <span class="keyword">if</span> api_sundayle_com</span><br><span class="line">    default_backend servers #定义的默认backend</span><br><span class="line"></span><br><span class="line">backend callback_srv</span><br><span class="line">    balance roundrobin</span><br><span class="line">    option httpchk <span class="builtin-name">GET</span> /ok.html HTTP/1.1\r\nHost:\ msuic.sundayle.com</span><br><span class="line">   <span class="built_in"> server </span>websrv1 192.168.18.207:80 check inter 2000 rise 2 fall 5 weight 5</span><br><span class="line">   <span class="built_in"> server </span>websrv1 192.168.18.208:80 check inter 2000 rise 2 fall 5 weight 5</span><br><span class="line"></span><br><span class="line">backend api_sundayle_com_srv</span><br><span class="line">    balance roundrobin</span><br><span class="line">    option httpchk <span class="builtin-name">GET</span> /ok.html HTTP/1.1\r\nHost:\ api.sundayle.com</span><br><span class="line">   <span class="built_in"> server </span>websrv1 192.168.18.77:80 check inter 2000 rise 2 fall 5 weight 5</span><br><span class="line">   <span class="built_in"> server </span>websrv1 192.168.18.78:80 check inter 2000 rise 2 fall 5 weight 5</span><br><span class="line"></span><br><span class="line">backend servers #后端服务集群的配置，是真实的服务器，一个Backend对应一个或者多个实体服务器。</span><br><span class="line">    balance roundrobin #负载均衡方式为轮询</span><br><span class="line">   <span class="built_in"> server </span>websrv1 192.168.18.201:80 check inter 2000 rise 2 fall 5 weight 5 maxconn 2000</span><br><span class="line">   <span class="built_in"> server </span>websrv2 192.168.18.202:80 check inter 2000 rise 2 fall 5 weight 3 maxconn 2000</span><br><span class="line">    #定义server,check 健康检查,inter 检测间隔2000ms,rise 指定连续2次检测成功才认为正常，fall 指定连续5次检测不成功，才认为是宕机，weight 指定权重， maxconn 定义最大连接数</span><br></pre></td></tr></table></figure>
+<h1 id="配置示例"><a href="#配置示例" class="headerlink" title="配置示例"></a>配置示例</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">global</span><br><span class="line">    log         127.0.0.1 local2</span><br><span class="line">    chroot      /var/lib/haproxy</span><br><span class="line">    pidfile     /var/run/haproxy.pid</span><br><span class="line">    maxconn     4000</span><br><span class="line">   <span class="built_in"> user </span>       haproxy</span><br><span class="line">   <span class="built_in"> group </span>      haproxy</span><br><span class="line">    daemon</span><br><span class="line">    stats socket /var/lib/haproxy/stats</span><br><span class="line"></span><br><span class="line">defaults</span><br><span class="line">    mode                    http</span><br><span class="line">    log                     global</span><br><span class="line">    option                  httplog</span><br><span class="line">    option                  dontlognull</span><br><span class="line">    option http-server-close</span><br><span class="line">    option forwardfor       except 127.0.0.0/8</span><br><span class="line">    option                  redispatch</span><br><span class="line">    retries                 3</span><br><span class="line">    timeout http-request    10s</span><br><span class="line">    timeout<span class="built_in"> queue </span>          1m</span><br><span class="line">    timeout connect         10s</span><br><span class="line">    timeout<span class="built_in"> client </span>         1m</span><br><span class="line">    timeout<span class="built_in"> server </span>         1m</span><br><span class="line">    timeout http-keep-alive 10s</span><br><span class="line">    timeout check           10s</span><br><span class="line">    maxconn                 30000</span><br><span class="line"></span><br><span class="line">listen stats</span><br><span class="line">    mode http</span><br><span class="line">    bind 0.0.0.0:1080</span><br><span class="line">    stats enable</span><br><span class="line">    stats hide-version</span><br><span class="line">    stats uri     /haproxyadmin?stats</span><br><span class="line">    stats realm   Haproxy\ Statistics</span><br><span class="line">    stats auth    admin:admin</span><br><span class="line">    stats admin <span class="keyword">if</span> <span class="literal">TRUE</span></span><br><span class="line"></span><br><span class="line">frontend http-in</span><br><span class="line">    bind *:80</span><br><span class="line">    mode http</span><br><span class="line">    log global</span><br><span class="line">    option httpclose</span><br><span class="line">    option logasap</span><br><span class="line">    option dontlognull</span><br><span class="line">    acl url_static       path_beg       -i /static /img/in-post /javascript /stylesheets</span><br><span class="line">    acl url_static       path_end       -i .jpg .jpeg .gif .png .css .js</span><br><span class="line"></span><br><span class="line">    use_backend static_servers          <span class="keyword">if</span> url_static</span><br><span class="line">    default_backend dynamic_servers</span><br><span class="line"></span><br><span class="line">backend static_servers</span><br><span class="line">    balance roundrobin</span><br><span class="line">   <span class="built_in"> server </span>imgsrv1 172.16.200.7:80 check maxconn 6000</span><br><span class="line">   <span class="built_in"> server </span>imgsrv2 172.16.200.8:80 check maxconn 6000</span><br><span class="line"></span><br><span class="line">backend dynamic_servers</span><br><span class="line">    cookie srv insert nocache</span><br><span class="line">    balance roundrobin</span><br><span class="line">   <span class="built_in"> server </span>websrv1 172.16.200.7:80 check maxconn 1000 cookie websrv1</span><br><span class="line">   <span class="built_in"> server </span>websrv2 172.16.200.8:80 check maxconn 1000 cookie websrv2</span><br></pre></td></tr></table></figure>
+<p>转载自：<a href="http://liaoph.com/haproxy-tutorial/" target="_blank" rel="noopener">http://liaoph.com/haproxy-tutorial/</a></p>
+<p><a href="https://www.sundayle.com/haproxy/">haproxy7层代理、负载均衡</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/hexo-new-process-startup-time/" data-toggle="tooltip" data-placement="top" title="Linux 查看进程启动时间">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/linux-process-management/" data-toggle="tooltip" data-placement="top" title="Linux 进程的管理与监控">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#haproxy" title="haproxy">haproxy</a>
+                        
+                          <a class="tag" href="/tags/#高性能" title="高性能">高性能</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://kaijun.github.io/hexo-theme-huxblog/" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e5a8fe97a11d3eaa24842213e1d7d092';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

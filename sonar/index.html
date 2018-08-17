@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          持续集成 代码审查 Sonar - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/sonar/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#持续集成" title="持续集成">持续集成</a>
+                        
+                          <a class="tag" href="/tags/#sonar" title="sonar">sonar</a>
+                        
+                    </div>
+                    <h1>持续集成 代码审查 Sonar</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-07-26
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>SonarQube 是一个开源的代码分析平台, 用来持续分析和评测项目源代码的质量。 通过SonarQube团队项目代码质量可以检测出项目中重复代码， 潜在bug， 代码风格问题，缺乏单元测试等问题， 并通过一个web ui展示出来。<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/SQ55Integration.png"></p>
+<p>主要功能如下：</p>
+<ol>
+<li>用户本地使用IDE的插件进行代码分析</li>
+<li>用户上传到源代码版本控制服务器</li>
+<li>持续集成，使用Sonar Scanner进行扫描</li>
+<li>将扫描结果上传到SonarQube服务器</li>
+<li>SonarQube server将结果写入db</li>
+<li>用户通过web ui查看扫描结果</li>
+<li>SonarQube导出结果到其他需要的服务</li>
+</ol>
+<p>用Sonar能够实现什么?</p>
+<ul>
+<li>技术债务(sonar根据”规则”扫描出不符合规则的代码)</li>
+<li>覆盖率(单元测试覆盖率)</li>
+<li>重复(重复的代码, 有利于提醒封装)</li>
+<li>结构</li>
+</ul>
+<h1 id="Sonar部署"><a href="#Sonar部署" class="headerlink" title="Sonar部署"></a>Sonar部署</h1><h2 id="数据库配置"><a href="#数据库配置" class="headerlink" title="数据库配置"></a>数据库配置</h2><p>安装mysql 5.6<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://dev.mysql.com/get/mysql-community-<span class="keyword">release</span>-el7<span class="number">-5.</span>noarch.rpm </span><br><span class="line">yum <span class="keyword">install</span> mysql-community-<span class="keyword">server</span> -y </span><br><span class="line">systemctl <span class="keyword">start</span> mysqld.service</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> sonar <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">GRANT</span> ALL <span class="keyword">ON</span> sonar.* <span class="keyword">TO</span> <span class="string">'sonar'</span>@<span class="string">'localhost'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'sonar'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> ALL <span class="keyword">ON</span> sonar.* <span class="keyword">TO</span> <span class="string">'sonar'</span>@<span class="string">'%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'sonar'</span>;</span><br><span class="line"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://www.sonarqube.org/downloads/" target="_blank" rel="noopener">https://www.sonarqube.org/downloads/</a><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install java<span class="number">-1.8</span><span class="number">.0</span></span><br><span class="line">unzip sonarqube<span class="number">-6.7</span><span class="number">.4</span>.zip -d /usr/local/</span><br><span class="line">ln -s /usr/local/sonarqube<span class="number">-6.7</span><span class="number">.4</span> /usr/local/sonarqube</span><br></pre></td></tr></table></figure></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/sonarqube/conf/sonar.properties</span><br><span class="line"></span><br><span class="line">sonar<span class="selector-class">.jdbc</span><span class="selector-class">.username</span>=sonar</span><br><span class="line">sonar<span class="selector-class">.jdbc</span><span class="selector-class">.password</span>=sonar</span><br><span class="line">sonar<span class="selector-class">.jdbc</span><span class="selector-class">.url</span>=jdbc:mysql:<span class="comment">//localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance&amp;useSSL=false</span></span><br><span class="line">sonar<span class="selector-class">.web</span><span class="selector-class">.host</span>=<span class="number">0.0</span>.<span class="number">0.0</span></span><br><span class="line">sonar<span class="selector-class">.web</span><span class="selector-class">.port</span>=<span class="number">9000</span></span><br></pre></td></tr></table></figure>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd sonar</span><br><span class="line">chown -R sonar.sonar <span class="regexp">/usr/</span>local<span class="regexp">/sonarqube/</span></span><br><span class="line">sudo -u sonar <span class="regexp">/usr/</span>local<span class="regexp">/sonarqube/</span>bin<span class="regexp">/linux-x86-64/</span>sonar.sh start</span><br></pre></td></tr></table></figure>
+<p>访问：192.168.10.101:9000<br>登陆管理员：admin:admin</p>
+<h2 id="中文"><a href="#中文" class="headerlink" title="中文"></a>中文</h2><p>Administration - Marketplace<br>安装 Chinese Pack,然后重启sonar<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/201807261911091.jpg"></p>
+<p>也可以通过下列的安装<br><a href="https://github.com/SonarQubeCommunity/sonar-l10n-zh" target="_blank" rel="noopener">https://github.com/SonarQubeCommunity/sonar-l10n-zh</a><br><a href="https://github.com/SonarQubeCommunity/sonar-l10n-zh/tags" target="_blank" rel="noopener">https://github.com/SonarQubeCommunity/sonar-l10n-zh/tags</a><br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp sonar-l10n-zh-plugin<span class="number">-1.19</span>.jar <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/sonarqube/</span>extensions/plugins</span><br><span class="line"><span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/sonarqube/</span>bin<span class="meta-keyword">/linux-x86-64/</span>sonar.sh restart</span><br></pre></td></tr></table></figure></p>
+<h1 id="Sonar-scanner"><a href="#Sonar-scanner" class="headerlink" title="Sonar-scanner"></a>Sonar-scanner</h1><h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unzip sonar-scanner-cli<span class="number">-3.2</span><span class="number">.0</span><span class="number">.1227</span>-linux.zip -d /usr/local/ </span><br><span class="line">ln -sv sonar-scanner-cli<span class="number">-3.2</span><span class="number">.0</span><span class="number">.1227</span>-linux /usr/local/sonar-scanner</span><br></pre></td></tr></table></figure>
+<h2 id="配置sonar-scanner与sonar关联"><a href="#配置sonar-scanner与sonar关联" class="headerlink" title="配置sonar-scanner与sonar关联"></a>配置sonar-scanner与sonar关联</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sonar.host.<span class="attribute">url</span>=http://localhost:9000</span><br><span class="line">sonar.<span class="attribute">sourceEncoding</span>=UTF-8</span><br><span class="line">sonar.jdbc.<span class="attribute">username</span>=sonar</span><br><span class="line">sonar.jdbc.<span class="attribute">password</span>=sonar</span><br><span class="line">sonar.jdbc.<span class="attribute">url</span>=jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance&amp;useSSL=false</span><br><span class="line">sonar.<span class="attribute">login</span>=admin</span><br><span class="line">sonar.<span class="attribute">log</span>=admin</span><br></pre></td></tr></table></figure>
+<h2 id="测试代码下载"><a href="#测试代码下载" class="headerlink" title="测试代码下载"></a>测试代码下载</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:<span class="regexp">//gi</span>thub.com<span class="regexp">/SonarSource/</span>sonar-scanning-examples<span class="regexp">/archive/m</span>aster.zip</span><br><span class="line">unzip master</span><br></pre></td></tr></table></figure>
+<h2 id="配置扫描"><a href="#配置扫描" class="headerlink" title="配置扫描"></a>配置扫描</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim /root/sonar-scanning-examples-master/sonarqube-scanner/sonar-project.properties</span><br><span class="line">sonar.<span class="attribute">projectKey</span>=org.sonarqube:sonarqube-scanner #keys（唯一性，不可其他项目重复）</span><br><span class="line">sonar.<span class="attribute">projectName</span>=Example of SonarQube Scanner Usage #名称（唯一性，不可其他项目重复）</span><br><span class="line">sonar.<span class="attribute">projectVersion</span>=1.0</span><br><span class="line"></span><br><span class="line">sonar.<span class="attribute">sources</span>=src #代码目录</span><br><span class="line">sonar.<span class="attribute">sourceEncoding</span>=UTF-8</span><br><span class="line"><span class="comment">#sonar.language=php  #只检测php代码，注释则检测全部代码，java,c,python 等</span></span><br></pre></td></tr></table></figure>
+<h2 id="启动检测"><a href="#启动检测" class="headerlink" title="启动检测"></a>启动检测</h2><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="meta-keyword">/root/</span>sonar-scanning-examples-master/sonarqube-scanner</span><br><span class="line"><span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/sonar-scanner/</span>bin/sonar-scanner</span><br></pre></td></tr></table></figure>
+<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/20180727141235.jpg">
+<h1 id="Jenkins配置sonar插件"><a href="#Jenkins配置sonar插件" class="headerlink" title="Jenkins配置sonar插件"></a>Jenkins配置sonar插件</h1><p>实现Jenkins构建时自动sonar检测。</p>
+<p>jenkin安装插件：SonarQube Scanner<br>系统管理-系统设置<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/20180727164117.jpg"><br>系统管理-全局工具配置<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/20180727163835.jpg"><br>web项目配置 - 配置 - 构建<br>配置sonar参数，并设置构建失败邮件通知<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/20180727170246.jpg"><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sonar.<span class="attribute">projectKey</span>=web-sonar-scanner</span><br><span class="line">sonar.<span class="attribute">projectName</span>=web-sonar-scanner</span><br><span class="line">sonar.<span class="attribute">projectVersion</span>=1.0</span><br><span class="line">sonar.<span class="attribute">sources</span>=./</span><br><span class="line">sonar.<span class="attribute">sourceEncoding</span>=UTF-8</span><br><span class="line">sonar.<span class="attribute">language</span>=php</span><br></pre></td></tr></table></figure></p>
+<p>web项目配置 立即构建<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/20180727171003.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/20180727171148.jpg"></p>
+<h1 id="故障解决"><a href="#故障解决" class="headerlink" title="故障解决"></a>故障解决</h1><p>无法启动<br> <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">cat /usr/local/sonarqube/logs/sonar<span class="selector-class">.log</span> </span><br><span class="line"><span class="number">2018.07</span>.<span class="number">26</span> <span class="number">18</span>:<span class="number">05</span>:<span class="number">54</span> WARN  app[][o<span class="selector-class">.s</span><span class="selector-class">.a</span><span class="selector-class">.p</span><span class="selector-class">.AbstractProcessMonitor</span>] Process exited with exit value [es]: <span class="number">1</span></span><br><span class="line"></span><br><span class="line">cat /usr/local/sonarqube/logs/es.log</span><br><span class="line"><span class="number">2018.07</span>.<span class="number">26</span> <span class="number">18</span>:<span class="number">05</span>:<span class="number">54</span> ERROR es[][o<span class="selector-class">.e</span><span class="selector-class">.b</span><span class="selector-class">.Bootstrap</span>] Exception</span><br><span class="line">java<span class="selector-class">.lang</span><span class="selector-class">.RuntimeException</span>: can not run elasticsearch as root</span><br><span class="line"></span><br><span class="line">useradd sonar</span><br><span class="line">chown -R sonar<span class="selector-class">.sonar</span> /usr/local/sonarqube/</span><br><span class="line">sudo -u sonar /usr/local/sonarqube/bin/linux-x86-<span class="number">64</span>/sonar<span class="selector-class">.sh</span> start</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/sonarqube/</span>elasticsearch<span class="meta-keyword">/config/</span>jvm.options</span><br><span class="line"><span class="meta">#-Xms2g</span></span><br><span class="line"><span class="meta">#-Xmx2g</span></span><br><span class="line">-Xms512m</span><br><span class="line">-Xmx512m</span><br><span class="line"></span><br><span class="line">rm -rf <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/sonarqube/</span>data<span class="comment">/*</span></span><br><span class="line"><span class="comment">sudo -u sonar /usr/local/sonarqube/bin/linux-x86-64/sonar.sh restart</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat /usr/local/sonarqube/logs/web.log</span><br><span class="line"><span class="builtin-name">ERROR</span> web[][o.s.s.p.Platform] Web<span class="built_in"> server </span>startup failed: Unsupported mysql version: 5.5. Minimal supported version is 5.6.</span><br><span class="line">6.7版本不支持mysql5.5,升级至mysql5.6</span><br><span class="line">7.2版本支持mysql5.5</span><br></pre></td></tr></table></figure>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/jenkins-maven/" data-toggle="tooltip" data-placement="top" title="持续集成 Jenkins Maven">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/jenkins-gitlab/" data-toggle="tooltip" data-placement="top" title="持续集成 Jenkins Gitlab">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#持续集成" title="持续集成">持续集成</a>
+                        
+                          <a class="tag" href="/tags/#sonar" title="sonar">sonar</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://kaijun.github.io/hexo-theme-huxblog/" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e5a8fe97a11d3eaa24842213e1d7d092';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

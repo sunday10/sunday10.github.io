@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          PHP 7 启用opcache及缓存清除 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/opcache/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#php" title="php">php</a>
+                        
+                          <a class="tag" href="/tags/#opcahce" title="opcahce">opcahce</a>
+                        
+                    </div>
+                    <h1>PHP 7 启用opcache及缓存清除</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-08-01
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="opcache-简介"><a href="#opcache-简介" class="headerlink" title="opcache 简介"></a>opcache 简介</h1><p>Zend opcache通过opcode缓存和优化提供更快的PHP执行过程。它将预编译的脚本文件存储在共享内存中供以后使用，从而避免了从磁盘读取代码并进行编译的时间消耗。同时，它还应用了一些代码优化模式，使得代码执行更快。（php &gt;= 5.5）</p>
+<h1 id="启用opcache"><a href="#启用opcache" class="headerlink" title="启用opcache"></a>启用opcache</h1><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">zend_extension=opcache.so</span><br><span class="line">opcache.enable=<span class="number">1</span>                    <span class="comment">//启用opcache</span></span><br><span class="line">opcache.enable_cli=<span class="number">1</span>                <span class="comment">//针对支持CLI版本PHP启动操作码缓存 一般被用来测试和调试</span></span><br><span class="line">opcache.memory_consumption=<span class="number">128</span>      <span class="comment">//共享内存大小, 这个根据你们的需求可调</span></span><br><span class="line">opcache.interned_strings_buffer=<span class="number">8</span>   <span class="comment">//interned string的内存大小, 也可调</span></span><br><span class="line">opcache.max_accelerated_files=<span class="number">4000</span>  <span class="comment">//最大缓存的文件数目</span></span><br><span class="line">opcache.validate_timestamps=<span class="number">1</span>       <span class="comment">//启用时间戳验证，配置opcache.revalidate_freq使用。设置0禁用，则必须手动重置OPcache或重新启动才能清除过期缓存</span></span><br><span class="line">opcache.revalidate_freq=<span class="number">60</span>          <span class="comment">//60s检查一次文件更新</span></span><br><span class="line">opcache.fast_shutdown=<span class="number">1</span>             <span class="comment">//打开快速关闭, 打开这个在PHP Request Shutdown的时候，会收内存的速度会提高</span></span><br><span class="line">opcache.save_comments=<span class="number">0</span>             <span class="comment">//不保存文件/函数的注释</span></span><br></pre></td></tr></table></figure>
+<h1 id="cachetool"><a href="#cachetool" class="headerlink" title="cachetool"></a>cachetool</h1><p>如上设置60秒才自动清除过期缓存。这时要提交代码，不想重启php-fpm，想立即看到修改效果，可以使用cachetool清除所有opcache缓存。<br><a href="https://github.com/gordalina/cachetool" target="_blank" rel="noopener">https://github.com/gordalina/cachetool</a><br>CacheTool - 在CLI中管理缓存<br>CacheTool允许您通过cli使用apc，opcache和文件状态缓存。它将连接到fastcgi服务器（如php-fpm）并运行它的缓存。</p>
+<h2 id="为什么这么有用？"><a href="#为什么这么有用？" class="headerlink" title="为什么这么有用？"></a>为什么这么有用？</h2><ul>
+<li>也许你想清除字节码缓存而不重新加载php-fpm或使用web端点</li>
+<li>也许你想要一个处理缓存失效的cron</li>
+<li>也许你想直接从控制台看到一些统计数据</li>
+<li>还有很多…</li>
+</ul>
+<h2 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2><p>CacheTool 4.x适用于PHP&gt; = 7.1<br>CacheTool 3.x适用于PHP&gt; = 5.5.9<br>CacheTool 2.x适用于PHP&gt; = 5.5.9<br>CacheTool 1.x适用于PHP&gt; = 5.3.3</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -sO <span class="symbol">http:</span>/<span class="regexp">/gordalina.github.io/cachetool</span><span class="regexp">/downloads/cachetool</span>.phar</span><br><span class="line">chmod +x cachetool.phar</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>CacheTool需要一个适配器才能连接，它可以是cli，fcgi和web。 fcgi适配器是最常见的，因为它直接连接到php-fpm。<br>您可以将IP地址或unix套接字传递给–fcgi适配器，或将其留空，CacheTool将尝试为您找到php-fpm套接字。如果找不到，则默认为127.0.0.1:9000。<br>您可以让CacheTool为您找到unix套接字，或默认为IP。</p>
+<h2 id="查看当前opcache配置"><a href="#查看当前opcache配置" class="headerlink" title="查看当前opcache配置"></a>查看当前opcache配置</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">php</span> cachetool.phar opcache:configuration --fcgi=<span class="number">127.0.0.1:9000</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">Zend OPcache 7.1.3</span><br><span class="line">+---------------------------------------+------------+</span><br><span class="line">|<span class="string"> Directive                             </span>|<span class="string"> Value      </span>|</span><br><span class="line">+---------------------------------------+------------+</span><br><span class="line">|<span class="string"> opcache.enable                        </span>|<span class="string"> true       </span>|</span><br><span class="line">|<span class="string"> opcache.enable_cli                    </span>|<span class="string"> true       </span>|</span><br><span class="line">|<span class="string"> opcache.use_cwd                       </span>|<span class="string"> true       </span>|</span><br><span class="line">|<span class="string"> opcache.validate_timestamps           </span>|<span class="string"> false      </span>|</span><br><span class="line">|<span class="string"> opcache.validate_permission           </span>|<span class="string"> false      </span>|</span><br><span class="line">|<span class="string"> opcache.validate_root                 </span>|<span class="string"> false      </span>|</span><br><span class="line">|<span class="string"> opcache.inherited_hack                </span>|<span class="string"> true       </span>|</span><br><span class="line">|<span class="string"> opcache.dups_fix                      </span>|<span class="string"> false      </span>|</span><br><span class="line">|<span class="string"> opcache.revalidate_path               </span>|<span class="string"> false      </span>|</span><br><span class="line">|<span class="string"> opcache.log_verbosity_level           </span>|<span class="string"> 1          </span>|</span><br><span class="line">|<span class="string"> opcache.memory_consumption            </span>|<span class="string"> 134217728  </span>|</span><br><span class="line">|<span class="string"> opcache.interned_strings_buffer       </span>|<span class="string"> 8          </span>|</span><br><span class="line">|<span class="string"> opcache.max_accelerated_files         </span>|<span class="string"> 4000       </span>|</span><br><span class="line">|<span class="string"> opcache.max_wasted_percentage         </span>|<span class="string"> 0.05       </span>|</span><br><span class="line">|<span class="string"> opcache.consistency_checks            </span>|<span class="string"> 0          </span>|</span><br><span class="line">|<span class="string"> opcache.force_restart_timeout         </span>|<span class="string"> 180        </span>|</span><br><span class="line">|<span class="string"> opcache.revalidate_freq               </span>|<span class="string"> 0          </span>|</span><br><span class="line">|<span class="string"> opcache.preferred_memory_model        </span>|<span class="string"> ''         </span>|</span><br><span class="line">|<span class="string"> opcache.blacklist_filename            </span>|<span class="string"> ''         </span>|</span><br><span class="line">|<span class="string"> opcache.max_file_size                 </span>|<span class="string"> 0          </span>|</span><br><span class="line">|<span class="string"> opcache.error_log                     </span>|<span class="string"> ''         </span>|</span><br><span class="line">|<span class="string"> opcache.protect_memory                </span>|<span class="string"> false      </span>|</span><br><span class="line">|<span class="string"> opcache.save_comments                 </span>|<span class="string"> true       </span>|</span><br><span class="line">|<span class="string"> opcache.fast_shutdown                 </span>|<span class="string"> true       </span>|</span><br><span class="line">|<span class="string"> opcache.enable_file_override          </span>|<span class="string"> false      </span>|</span><br><span class="line">|<span class="string"> opcache.optimization_level            </span>|<span class="string"> 2147467263 </span>|</span><br><span class="line">|<span class="string"> opcache.lockfile_path                 </span>|<span class="string"> '/tmp'     </span>|</span><br><span class="line">|<span class="string"> opcache.file_cache                    </span>|<span class="string"> ''         </span>|</span><br><span class="line">|<span class="string"> opcache.file_cache_only               </span>|<span class="string"> false      </span>|</span><br><span class="line">|<span class="string"> opcache.file_cache_consistency_checks </span>|<span class="string"> true       </span>|</span><br><span class="line">+---------------------------------------+------------+</span><br></pre></td></tr></table></figure>
+<h3 id="查看opcache缓存状态"><a href="#查看opcache缓存状态" class="headerlink" title="查看opcache缓存状态"></a>查看opcache缓存状态</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php cachetool.phar opcache:<span class="built_in">status</span> <span class="comment">--fcgi=127.0.0.1:9000</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">+----------------------+---------------------------------+</span><br><span class="line">|<span class="string"> Name                 </span>|<span class="string"> Value                           </span>|</span><br><span class="line">+----------------------+---------------------------------+</span><br><span class="line">|<span class="string"> Enabled              </span>|<span class="string"> Yes                             </span>|</span><br><span class="line">|<span class="string"> Cache full           </span>|<span class="string"> No                              </span>|</span><br><span class="line">|<span class="string"> Restart pending      </span>|<span class="string"> No                              </span>|</span><br><span class="line">|<span class="string"> Restart in progress  </span>|<span class="string"> No                              </span>|</span><br><span class="line">|<span class="string"> Memory used          </span>|<span class="string"> 15.13 MiB                       </span>|</span><br><span class="line">|<span class="string"> Memory free          </span>|<span class="string"> 112.87 MiB                      </span>|</span><br><span class="line">|<span class="string"> Memory wasted (%)    </span>|<span class="string"> 0 b (0%)                        </span>|</span><br><span class="line">+----------------------+---------------------------------+</span><br><span class="line">|<span class="string"> Cached scripts       </span>|<span class="string"> 754                             </span>|</span><br><span class="line">|<span class="string"> Cached keys          </span>|<span class="string"> 1394                            </span>|</span><br><span class="line">|<span class="string"> Max cached keys      </span>|<span class="string"> 7963                            </span>|</span><br><span class="line">|<span class="string"> Start time           </span>|<span class="string"> Wed, 01 Aug 2018 03:57:43 +0000 </span>|</span><br><span class="line">|<span class="string"> Last restart time    </span>|<span class="string"> Wed, 01 Aug 2018 05:49:38 +0000 </span>|</span><br><span class="line">|<span class="string"> Oom restarts         </span>|<span class="string"> 0                               </span>|</span><br><span class="line">|<span class="string"> Hash restarts        </span>|<span class="string"> 0                               </span>|</span><br><span class="line">|<span class="string"> Manual restarts      </span>|<span class="string"> 7                               </span>|</span><br><span class="line">|<span class="string"> Hits                 </span>|<span class="string"> 582                             </span>|</span><br><span class="line">|<span class="string"> Misses               </span>|<span class="string"> 766                             </span>|</span><br><span class="line">|<span class="string"> Blacklist misses (%) </span>|<span class="string"> 0 (0%)                          </span>|</span><br><span class="line">|<span class="string"> Opcache hit rate     </span>|<span class="string"> 43.175074183976                 </span>|</span><br><span class="line">+----------------------+---------------------------------+</span><br></pre></td></tr></table></figure>
+<h3 id="查看opcache缓存文件"><a href="#查看opcache缓存文件" class="headerlink" title="查看opcache缓存文件"></a>查看opcache缓存文件</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php cachetool.phar <span class="string">opcache:</span><span class="string">status:</span>scripts --fcgi=<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9000</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">+------+</span>------------<span class="code">+---------------------------------------------------------------------------------------------------------------------------+</span></span><br><span class="line">| Hits | Memory     | Filename                                                                                                                  |</span><br><span class="line"><span class="code">+------+</span>------------<span class="code">+---------------------------------------------------------------------------------------------------------------------------+</span></span><br><span class="line">| 0    | 1.92 KiB   | /data/web/demo.sundayle.com/app/Repositories/Contracts/IndexRepository.php                                                 |</span><br><span class="line">| 1    | 3.52 KiB   | /data/web/demo.sundayle.com/routes/admin/user.php                                                                          |</span><br><span class="line">| 1    | 83.82 KiB  | /data/web/demo.sundayle.com/vendor/laravel/framework/src/Illuminate/Database/Query/Grammars/Grammar.php                    |</span><br><span class="line">| 1    | 9.75 KiB   | /data/web/demo.sundayle.com/vendor/symfony/http-foundation/ServerBag.php                                                   |</span><br><span class="line"><span class="code">+------+</span>------------<span class="code">+---------------------------------------------------------------------------------------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="清除opcache缓存文件"><a href="#清除opcache缓存文件" class="headerlink" title="清除opcache缓存文件"></a>清除opcache缓存文件</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">php</span> cachetool.phar opcache:reset --fcgi=<span class="number">127.0.0.1:9000</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看opcache清除后效果"><a href="#查看opcache清除后效果" class="headerlink" title="查看opcache清除后效果"></a>查看opcache清除后效果</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">php cachetool.phar opcache:status:scripts --fcgi=127.0.0.1:9000</span><br><span class="line"><span class="code">+------+</span>--------<span class="code">+----------+</span></span><br><span class="line">| Hits | Memory | Filename |</span><br><span class="line"><span class="code">+------+</span>--------<span class="code">+----------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">php cachetool.phar list</span><br><span class="line"></span><br><span class="line">CacheTool <span class="number">3.2</span>.<span class="number">1</span>-<span class="number">2</span>-ga819a69</span><br><span class="line"></span><br><span class="line"><span class="symbol">Usage:</span></span><br><span class="line">  command [options] [arguments]</span><br><span class="line"></span><br><span class="line"><span class="symbol">Options:</span></span><br><span class="line">  -h, --help                       Display this help message</span><br><span class="line">  -q, --quiet                      Do <span class="keyword">not</span> output any message</span><br><span class="line">  -V, --version                    Display this application version</span><br><span class="line">      --ansi                       Force ANSI output</span><br><span class="line">      --no-ansi                    Disable ANSI output</span><br><span class="line">  -n, --no-interaction             Do <span class="keyword">not</span> ask any interactive question</span><br><span class="line">      --fcgi[=FCGI]                If specified, used as a connection string to FastCGI server.</span><br><span class="line">      --fcgi-chroot[=FCGI-CHROOT]  If specified, used <span class="keyword">for</span> mapping script path to chrooted FastCGI server. --tmp-dir need to be chrooted too.</span><br><span class="line">      --cli                        If specified, forces adapter to cli</span><br><span class="line">      --web                        If specified, forces adapter to web</span><br><span class="line">      --web-path[=WEB-PATH]        If specified, used as a information <span class="keyword">for</span> web adapter</span><br><span class="line">      --web-url[=WEB-URL]          If specified, used as a information <span class="keyword">for</span> web adapter</span><br><span class="line">  -t, --tmp-dir=TMP-DIR            Temporary directory to write files to</span><br><span class="line">  -v<span class="params">|vv|</span>vvv, --verbose             Increase the verbosity of <span class="symbol">messages:</span> <span class="number">1</span> <span class="keyword">for</span> normal output, <span class="number">2</span> <span class="keyword">for</span> more verbose output <span class="keyword">and</span> <span class="number">3</span> <span class="keyword">for</span> debug</span><br><span class="line"></span><br><span class="line">Available <span class="symbol">commands:</span></span><br><span class="line">  help                        Displays help <span class="keyword">for</span> a command</span><br><span class="line">  list                        Lists commands</span><br><span class="line">  <span class="keyword">self</span>-update                 [selfupdate] Updates cachetool.phar to the latest version</span><br><span class="line"> apc</span><br><span class="line">  <span class="symbol">apc:</span><span class="symbol">bin:</span>dump                Get a binary dump of files <span class="keyword">and</span> user variables</span><br><span class="line">  <span class="symbol">apc:</span><span class="symbol">bin:</span>load                Load a binary dump into the APC file <span class="keyword">and</span> user variables</span><br><span class="line">  <span class="symbol">apc:</span><span class="symbol">cache:</span>clear             Clears APC cache (user, system <span class="keyword">or</span> all)</span><br><span class="line">  <span class="symbol">apc:</span><span class="symbol">cache:</span>info              Shows APC user &amp; system cache information</span><br><span class="line">  <span class="symbol">apc:</span><span class="symbol">cache:</span><span class="symbol">info:</span>file         Shows APC file cache information</span><br><span class="line">  <span class="symbol">apc:</span><span class="symbol">key:</span>delete              Deletes an APC key</span><br><span class="line">  <span class="symbol">apc:</span><span class="symbol">key:</span>exists              Checks <span class="keyword">if</span> an APC key exists</span><br><span class="line">  <span class="symbol">apc:</span><span class="symbol">key:</span>fetch               Shows the content of an APC key</span><br><span class="line">  <span class="symbol">apc:</span><span class="symbol">key:</span>store               Store an APC key with given value</span><br><span class="line">  <span class="symbol">apc:</span><span class="symbol">regexp:</span>delete           Deletes all APC key matching a regexp</span><br><span class="line">  <span class="symbol">apc:</span><span class="symbol">sma:</span>info                Show APC shared memory allocation information</span><br><span class="line"> apcu</span><br><span class="line">  <span class="symbol">apcu:</span><span class="symbol">cache:</span>clear            Clears APCu cache</span><br><span class="line">  <span class="symbol">apcu:</span><span class="symbol">cache:</span>info             Shows APCu user &amp; system cache information</span><br><span class="line">  <span class="symbol">apcu:</span><span class="symbol">cache:</span><span class="symbol">info:</span>keys        Shows APCu keys cache information</span><br><span class="line">  <span class="symbol">apcu:</span><span class="symbol">key:</span>delete             Deletes an APCu key</span><br><span class="line">  <span class="symbol">apcu:</span><span class="symbol">key:</span>exists             Checks <span class="keyword">if</span> an APCu key exists</span><br><span class="line">  <span class="symbol">apcu:</span><span class="symbol">key:</span>fetch              Shows the content of an APCu key</span><br><span class="line">  <span class="symbol">apcu:</span><span class="symbol">key:</span>store              Store an APCu key with given value</span><br><span class="line">  <span class="symbol">apcu:</span><span class="symbol">regexp:</span>delete          Deletes all APCu key matching a regexp</span><br><span class="line">  <span class="symbol">apcu:</span><span class="symbol">sma:</span>info               Show APCu shared memory allocation information</span><br><span class="line"> opcache</span><br><span class="line">  <span class="symbol">opcache:</span>configuration       Get configuration information about the cache</span><br><span class="line">  <span class="symbol">opcache:</span><span class="symbol">invalidate:</span>scripts  Remove scripts from the opcode cache</span><br><span class="line">  <span class="symbol">opcache:</span>reset               Resets the contents of the opcode cache</span><br><span class="line">  <span class="symbol">opcache:</span>status              Show summary information about the opcode cache</span><br><span class="line">  <span class="symbol">opcache:</span><span class="symbol">status:</span>scripts      Show scripts <span class="keyword">in</span> the opcode cache</span><br><span class="line"> stat</span><br><span class="line">  <span class="symbol">stat:</span>clear                  Clears the file status cache, including the realpath cache</span><br><span class="line">  <span class="symbol">stat:</span>realpath_get           Show summary information of realpath cache entries</span><br><span class="line">  <span class="symbol">stat:</span>realpath_size          Display size of realpath cache</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.laruence.com/2015/12/04/3086.html" target="_blank" rel="noopener">http://www.laruence.com/2015/12/04/3086.html</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/haproxy-optimization/" data-toggle="tooltip" data-placement="top" title="使用 HAProxy 负载均衡300k并发tcp连接">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/tmpfs/" data-toggle="tooltip" data-placement="top" title="CentOS 7 使用tmpfs优化应用服务缓存读写速度">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#php" title="php">php</a>
+                        
+                          <a class="tag" href="/tags/#opcahce" title="opcahce">opcahce</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://kaijun.github.io/hexo-theme-huxblog/" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e5a8fe97a11d3eaa24842213e1d7d092';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

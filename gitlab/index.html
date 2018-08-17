@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Ubuntu 安装GitLab服务器 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/gitlab/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#gitlab" title="gitlab">gitlab</a>
+                        
+                    </div>
+                    <h1>Ubuntu 安装GitLab服务器</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2017-11-18
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>操作系统：Ubuntu 16.04<br>应用服务：Gitlab 10.1.4-ce.0<br>防火墙状态：关闭</p>
+<h1 id="安装并配置必要的依赖关系"><a href="#安装并配置必要的依赖关系" class="headerlink" title="安装并配置必要的依赖关系"></a>安装并配置必要的依赖关系</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="builtin-name">get</span> install -y curl openssh-server ca-certificates</span><br></pre></td></tr></table></figure>
+<h1 id="添加-GitLab-镜像源并安装"><a href="#添加-GitLab-镜像源并安装" class="headerlink" title="添加 GitLab 镜像源并安装"></a>添加 GitLab 镜像源并安装</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -sS http://packages.gitlab.<span class="keyword">com</span>.<span class="keyword">cn</span>/install/gitlab-<span class="keyword">ce</span>/script.<span class="keyword">deb</span>.<span class="keyword">sh</span> | sudo bash</span><br><span class="line">sudo apt-<span class="built_in">get</span> install gitlab-<span class="keyword">ce</span></span><br></pre></td></tr></table></figure>
+<h1 id="配置并启动-GitLab"><a href="#配置并启动-GitLab" class="headerlink" title="配置并启动 GitLab"></a>配置并启动 GitLab</h1><h1 id="通过浏览器访问上一步配置的域名"><a href="#通过浏览器访问上一步配置的域名" class="headerlink" title="通过浏览器访问上一步配置的域名"></a>通过浏览器访问上一步配置的域名</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/gitlab/gitlab<span class="selector-class">.rb</span> </span><br><span class="line">external_url <span class="string">'http://git.sundayle.com'</span></span><br></pre></td></tr></table></figure>
+<p>注意端口占用：如80 8080被占用需要修改这两个<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gitlab_workhorse[<span class="string">'auth_backend'</span>] = <span class="string">"http://localhost:8181"</span></span><br><span class="line">unicorn[<span class="string">'port'</span>] = <span class="number">8181</span></span><br><span class="line"># nginx[<span class="string">'listen_port'</span>] = <span class="number">81</span></span><br><span class="line">external_url <span class="string">'http://git.sundayle.com:81'</span></span><br></pre></td></tr></table></figure></p>
+<p>gitlab 检测 重置 重启<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl reconfigure</span><br><span class="line">gitlab-rake <span class="string">gitlab:</span>check</span><br><span class="line">gitlab-ctl restart</span><br><span class="line"><span class="regexp">/var/</span>log<span class="regexp">/gitlab/</span>  查看日志</span><br></pre></td></tr></table></figure></p>
+<p>第一次访问 GitLab，系统会重定向 url 到重置密码的页面，你需要输入初始化管理员账号的密码。 设置完成后，系统会重定向到登录界面，你就可以使用刚才输入的密码登录系统了。</p>
+<p>系统默认的管理员账号为 root， 登录系统后，你可以修改管理员账号为自己喜欢的账号。</p>
+<h1 id="gitlab-mail"><a href="#gitlab-mail" class="headerlink" title="gitlab mail"></a>gitlab mail</h1><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">gitlab_rails[<span class="string">'smtp_enable'</span>] = true</span><br><span class="line">gitlab_rails[<span class="string">'smtp_address'</span>] = <span class="string">"smtp.qq.com"</span></span><br><span class="line">gitlab_rails[<span class="string">'smtp_port'</span>] = <span class="number">465</span></span><br><span class="line">gitlab_rails[<span class="string">'smtp_user_name'</span>] = <span class="string">"sundayhk@qq.com"</span></span><br><span class="line">gitlab_rails[<span class="string">'smtp_password'</span>] = <span class="string">"uzynkmhoockqbcgh"</span></span><br><span class="line">gitlab_rails[<span class="string">'smtp_authentication'</span>] = <span class="string">"login"</span></span><br><span class="line">gitlab_rails[<span class="string">'smtp_enable_starttls_auto'</span>] = true</span><br><span class="line">gitlab_rails[<span class="string">'smtp_tls'</span>] = true</span><br><span class="line">gitlab_rails[<span class="string">'gitlab_email_from'</span>] = <span class="string">'sundayhk@qq.com'</span></span><br></pre></td></tr></table></figure>
+<p>测试邮件发送功能<br>执行 gitlab-rails console 进入控制台,发送一封测试邮件<br><figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">gitlab-rails console </span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">### Notify.test_email('收件人邮箱', '邮件标题', '邮件正文').deliver_now</span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">irb(main):001:0&gt; Notify.test_email('zsp@xwx.cn','test','test_text').deliver_now</span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">Notify#test_email: processed outbound mail in 197.3ms</span></span><br><span class="line"><span class="xml">Sent mail to zsp@xwx.cn (1824.6ms)</span></span><br><span class="line"><span class="xml">Date: Mon, 27 Nov 2017 18:20:08 +0800</span></span><br><span class="line"><span class="xml">From: GitLab <span class="tag">&lt;<span class="name">sundayhk@qq.com</span>&gt;</span></span></span><br><span class="line"><span class="xml">Reply-To: GitLab <span class="tag">&lt;<span class="name">noreply@git.sundayle.com</span>&gt;</span></span></span><br><span class="line"><span class="xml">To: zsp@xwx.cn</span></span><br><span class="line"><span class="xml">Message-ID: <span class="tag">&lt;<span class="name">5a1be6d8e0a75_127623ff905fdb0f45758e@demo18.mail</span>&gt;</span></span></span><br><span class="line"><span class="xml">Subject: test</span></span><br><span class="line"><span class="xml">Mime-Version: 1.0</span></span><br><span class="line"><span class="xml">Content-Type: text/html;</span></span><br><span class="line"><span class="xml"> charset=UTF-8</span></span><br><span class="line"><span class="xml">Content-Transfer-Encoding: 7bit</span></span><br><span class="line"><span class="xml">Auto-Submitted: auto-generated</span></span><br><span class="line"><span class="xml">X-Auto-Response-Suppress: All</span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span><span class="tag">&lt;<span class="name">body</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>test_text<span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">body</span>&gt;</span><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">=&gt; #<span class="tag">&lt;<span class="name">Mail::Message:70338453025500,</span> <span class="attr">Multipart:</span> <span class="attr">false</span>, <span class="attr">Headers:</span> &lt;<span class="attr">Date:</span> <span class="attr">Mon</span>, <span class="attr">27</span> <span class="attr">Nov</span> <span class="attr">2017</span> <span class="attr">18:20:08</span> +<span class="attr">0800</span>&gt;</span>, <span class="tag">&lt;<span class="name">From:</span> <span class="attr">GitLab</span> &lt;<span class="attr">sundayhk</span>@<span class="attr">qq.com</span>&gt;</span>&gt;, <span class="tag">&lt;<span class="name">Reply-To:</span> <span class="attr">GitLab</span> &lt;<span class="attr">noreply</span>@<span class="attr">git.xwx.cn</span>&gt;</span>&gt;, <span class="tag">&lt;<span class="name">To:</span> <span class="attr">zsp</span>@<span class="attr">xwx.cn</span>&gt;</span>, <span class="tag">&lt;<span class="name">Message-ID:</span> &lt;<span class="attr">5a1be6d8e0a75_127623ff905fdb0f45758e</span>@<span class="attr">demo18.mail</span>&gt;</span>&gt;, <span class="tag">&lt;<span class="name">Subject:</span> <span class="attr">test</span>&gt;</span>, <span class="tag">&lt;<span class="name">Mime-Version:</span> <span class="attr">1.0</span>&gt;</span>, <span class="tag">&lt;<span class="name">Content-Type:</span> <span class="attr">text</span>/<span class="attr">html</span>; <span class="attr">charset</span>=<span class="string">UTF-8</span>&gt;</span>, <span class="tag">&lt;<span class="name">Content-Transfer-Encoding:</span> <span class="attr">7bit</span>&gt;</span>, <span class="tag">&lt;<span class="name">Auto-Submitted:</span> <span class="attr">auto-generated</span>&gt;</span>, <span class="tag">&lt;<span class="name">X-Auto-Response-Suppress:</span> <span class="attr">All</span>&gt;</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="gitlab-替换-内置服务"><a href="#gitlab-替换-内置服务" class="headerlink" title="gitlab 替换 内置服务"></a>gitlab 替换 内置服务</h1><h2 id="1-gitlab-postgresql-替换-mysql"><a href="#1-gitlab-postgresql-替换-mysql" class="headerlink" title="1. gitlab-postgresql 替换 mysql"></a>1. gitlab-postgresql 替换 mysql</h2><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">postgresql[<span class="string">'enable'</span>] = false</span><br><span class="line"></span><br><span class="line">gitlab_rails[<span class="string">'db_adapter'</span>] = <span class="string">"mysql2"</span></span><br><span class="line">gitlab_rails[<span class="string">'db_encoding'</span>] = <span class="string">"utf8"</span></span><br><span class="line">gitlab_rails[<span class="string">'db_database'</span>] = <span class="string">"gitlab"</span></span><br><span class="line">gitlab_rails[<span class="string">'db_username'</span>] = <span class="string">"gitlab"</span></span><br><span class="line">gitlab_rails[<span class="string">'db_password'</span>] = <span class="string">"star"</span></span><br><span class="line">gitlab_rails[<span class="string">'db_host'</span>] = <span class="string">"localhost"</span></span><br><span class="line">gitlab_rails[<span class="string">'db_port'</span>] = <span class="string">"3306"</span></span><br><span class="line">gitlab_rails[<span class="string">'db_socket'</span>] = <span class="string">"/tmp/mysql.sock"</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建数据库及授权"><a href="#创建数据库及授权" class="headerlink" title="创建数据库及授权"></a>创建数据库及授权</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; grant all privileges on *.* <span class="keyword">to</span> gitlab@<span class="string">"localhost"</span> identified by <span class="string">"star"</span>;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">mysql&gt; CREATE DATABASE <span class="keyword">IF</span> <span class="keyword">NOT</span> EXISTS `gitlab`<span class="built_in"> DEFAULT </span>CHARACTER <span class="builtin-name">SET</span> `utf8` COLLATE `utf8_general_ci`;</span><br></pre></td></tr></table></figure>
+<h3 id="bundle禁用postgres"><a href="#bundle禁用postgres" class="headerlink" title="bundle禁用postgres"></a>bundle禁用postgres</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /opt/gitlab/embedded/service/gitlab-rails/.bundle<span class="built_in">/config </span></span><br><span class="line"></span><br><span class="line">BUNDLE_WITHOUT: <span class="string">"development:test:mysql"</span></span><br><span class="line">修改成</span><br><span class="line">BUNDLE_WITHOUT: <span class="string">"development:test:postgres"</span></span><br></pre></td></tr></table></figure>
+<h3 id="bundle-安装mysql2"><a href="#bundle-安装mysql2" class="headerlink" title="bundle 安装mysql2"></a>bundle 安装mysql2</h3><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="meta-keyword">/opt/</span>gitlab<span class="meta-keyword">/embedded/</span>service/gitlab-rails</span><br><span class="line"><span class="meta-keyword">/opt/</span>gitlab<span class="meta-keyword">/embedded/</span>bin/bundle install</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">gitlab-ctl</span> <span class="selector-tag">reconfigure</span></span><br><span class="line"><span class="selector-tag">gitlab-rakegitlab</span><span class="selector-pseudo">:check</span></span><br><span class="line"><span class="selector-tag">gitlab-ctl</span> <span class="selector-tag">restart</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-gitlab-nginx-替换-现有nginx"><a href="#2-gitlab-nginx-替换-现有nginx" class="headerlink" title="2. gitlab-nginx 替换 现有nginx"></a>2. gitlab-nginx 替换 现有nginx</h2><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx[<span class="string">'enable'</span>] = false</span><br><span class="line">web_server[<span class="string">'external_users'</span>] = [<span class="string">'www'</span>]</span><br></pre></td></tr></table></figure>
+<p>www 为nginx 用户</p>
+<h2 id="3-gitlab-redis-替换-现有redis"><a href="#3-gitlab-redis-替换-现有redis" class="headerlink" title="3. gitlab-redis 替换 现有redis"></a>3. gitlab-redis 替换 现有redis</h2><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gitlab_rails[<span class="string">'redis_host'</span>] = <span class="string">"localhost"</span></span><br><span class="line">gitlab_rails[<span class="string">'redis_port'</span>] = <span class="number">6379</span> </span><br><span class="line">gitlab_rails[<span class="string">'redis_socket'</span>] = <span class="string">"/tmp/redis.socket"</span></span><br></pre></td></tr></table></figure>
+<h1 id="gitlab-备份"><a href="#gitlab-备份" class="headerlink" title="gitlab 备份"></a>gitlab 备份</h1><h2 id="Gitlab-创建备份"><a href="#Gitlab-创建备份" class="headerlink" title="Gitlab 创建备份"></a>Gitlab 创建备份</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">gitlab-rake</span> <span class="selector-tag">gitlab</span><span class="selector-pseudo">:backup</span><span class="selector-pseudo">:create</span></span><br></pre></td></tr></table></figure>
+<p>使用以上命令会在/var/opt/gitlab/backups目录下创建一个名称类似为1511172598_2017_11_20_10.1.4_gitlab_backup.tar的压缩包, 这个压缩包就是Gitlab整个的完整部分,</p>
+<h2 id="Gitlab-自动备份"><a href="#Gitlab-自动备份" class="headerlink" title="Gitlab 自动备份"></a>Gitlab 自动备份</h2><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">00 </span><span class="number">01</span> * * * /opt/gitlab/bin/gitlab-rake gitlab:backup:create</span><br></pre></td></tr></table></figure>
+<h2 id="Gitlab-恢复"><a href="#Gitlab-恢复" class="headerlink" title="Gitlab 恢复"></a>Gitlab 恢复</h2><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 停止相关数据连接服务</span></span><br><span class="line">gitlab-ctl <span class="literal">stop</span> unicorn</span><br><span class="line">gitlab-ctl <span class="literal">stop</span> sidekiq</span><br><span class="line">gitlab-rake gitlab:backup:restore <span class="attr">BACKUP=</span><span class="number">1511172598</span>_2017_11_20_10.<span class="number">1.4</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动Gitlab</span></span><br><span class="line">sudo gitlab-ctl <span class="literal">start</span></span><br></pre></td></tr></table></figure>
+<h1 id="错误提示"><a href="#错误提示" class="headerlink" title="错误提示"></a>错误提示</h1><h2 id="错误1-tail-var-log-gitlab-nginx-error-log"><a href="#错误1-tail-var-log-gitlab-nginx-error-log" class="headerlink" title="错误1 tail /var/log/gitlab/nginx/error.log"></a>错误1 tail /var/log/gitlab/nginx/error.log</h2><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">client: <span class="number">192.168.10.251</span>, server: git.sundayle.com, request: <span class="string">"<span class="keyword">GET</span> / HTTP/1.1"</span>, upstream: <span class="string">"http://unix:/var/opt/gitlab/gitlab-workhorse/socket:/"</span>, host: <span class="string">"git.sundayle.com"</span></span><br><span class="line"><span class="number">2017</span>/<span class="number">11</span>/<span class="number">17</span> <span class="number">17</span>:<span class="number">26</span>:<span class="number">53</span> <span class="string">[crit]</span> <span class="number">154640</span>#<span class="number">0</span>: *<span class="number">540989</span> connect() to unix:/var/opt/gitlab/gitlab-workhorse/socket failed (<span class="number">13</span>: Permission denied) while connecting to upstream, client: <span class="number">192.168.10.251</span>, server: git.sundayle.com, request: <span class="string">"<span class="keyword">GET</span> /favicon.ico HTTP/1.1"</span>, upstream: <span class="string">"http://unix:/var/opt/gitlab/gitlab-workhorse/socket:/favicon.ico"</span>, host: <span class="string">"git.sundayle.com"</span>, referrer: <span class="string">"http://git.sundayle.com/"</span></span><br></pre></td></tr></table></figure>
+<p>解决：<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">web_server[<span class="string">'external_users'</span>] = [ ]</span><br><span class="line">修改成（nginx用户）</span><br><span class="line">web_server[<span class="string">'external_users'</span>] = [<span class="string">'www'</span>]</span><br></pre></td></tr></table></figure></p>
+<h2 id="错误2-gitlab-rake-gitlab-backup-restore"><a href="#错误2-gitlab-rake-gitlab-backup-restore" class="headerlink" title="错误2 gitlab-rake gitlab:backup:restore"></a>错误2 gitlab-rake gitlab:backup:restore</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Before restoring the database we recommend removing all existing</span><br><span class="line">tables <span class="keyword">to</span> avoid future<span class="built_in"> upgrade </span>problems. Be aware that <span class="keyword">if</span> you have</span><br><span class="line">custom tables <span class="keyword">in</span> the GitLab database these tables <span class="keyword">and</span> all data will be</span><br><span class="line">removed.</span><br></pre></td></tr></table></figure>
+<p>解决：<br><figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; GRANT PROXY <span class="keyword">ON</span> <span class="string">''</span>@<span class="string">''</span> <span class="keyword">TO</span> <span class="string">'gitlab'</span>@<span class="string">'localhost'</span> <span class="keyword">WITH</span> GRANT OPTION</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://segmentfault.com/a/1190000002439923" target="_blank" rel="noopener">https://segmentfault.com/a/1190000002439923</a><br><a href="https://lessmind.github.io/2016/11/18/gitlab-ce-omnibus-package-with-mysql/" target="_blank" rel="noopener">https://lessmind.github.io/2016/11/18/gitlab-ce-omnibus-package-with-mysql/</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/git-base/" data-toggle="tooltip" data-placement="top" title="Git 简易教程">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/rsync-delete/" data-toggle="tooltip" data-placement="top" title="Linux 使用Rsync最快删除海量文件">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#gitlab" title="gitlab">gitlab</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://kaijun.github.io/hexo-theme-huxblog/" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e5a8fe97a11d3eaa24842213e1d7d092';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
