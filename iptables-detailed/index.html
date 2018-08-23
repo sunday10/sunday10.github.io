@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -196,10 +196,27 @@
                 <h1 id="Netfilter-与-iptables-的关系"><a href="#Netfilter-与-iptables-的关系" class="headerlink" title="Netfilter 与 iptables 的关系"></a>Netfilter 与 iptables 的关系</h1><p>Linux 系统在内核中提供了对报文数据包过滤和修改的官方项目名为 Netfilter，它指的是 Linux 内核中的一个框架，它可以用于在不同阶段将某些钩子函数（hook）作用域网络协议栈。Netfilter 本身并不对数据包进行过滤，它只是允许可以过滤数据包或修改数据包的函数挂接到内核网络协议栈中的适当位置。这些函数是可以自定义的。</p>
 <p>iptables 是用户层的工具，它提供命令行接口，能够向 Netfilter 中添加规则策略，从而实现报文过滤，修改等功能。Linux 系统中并不止有 iptables 能够生成防火墙规则，其他的工具如 firewalld 等也能实现类似的功能。</p>
 <h1 id="使用-iptables-进行包过滤"><a href="#使用-iptables-进行包过滤" class="headerlink" title="使用 iptables 进行包过滤"></a>使用 iptables 进行包过滤</h1><p>iptables 策略是由一组有序的规则建立的，它告诉内核应该如何处理某些类别的数据包。每一个 iptables 规则应用于一个表中的一个链。一个 iptables 链就是一个规则集，这些规则按序与包含某种特征的数据包进行比较匹配。</p>
-<h1 id="表"><a href="#表" class="headerlink" title="表"></a>表</h1><p>iptables 根据功能分类，iptables 的内建有多个表，如包过滤（filter）或者网络地址转换（NAT）。iptables 中共有 4 个表：filter，nat，mangle 和 raw。filter 表主要实现过滤功能，nat 表实现 NAT 功能，mangle 表用于修改分组数据，raw 表用于修改俩节追踪的功能。</p>
+<h1 id="表"><a href="#表" class="headerlink" title="表"></a>表</h1><p>iptables 根据功能分类，iptables 的内建有多个表，如包过滤（filter）或者网络地址转换（NAT）。iptables 中共有 4 个表：filter，nat，mangle 和 raw。</p>
+<ul>
+<li>filter 表：主要实现过滤功能</li>
+<li>nat 表：实现 NAT 功能（端口映射，地址映射等）</li>
+<li>mangle 表：用于对特定数据包的修改</li>
+<li>raw 表：有限级最高，设置raw时一般是为了不再让iptables做数据包的链接跟踪处理，提高性能<br>注：表的处理优先级：raw &gt; mangle &gt; nat &gt; filter</li>
+</ul>
 <h1 id="链"><a href="#链" class="headerlink" title="链"></a>链</h1><p>每个表都有一组内置链，用户还可以添加自定义的链。最重要的内置链是 filter 表中的 INPUT、OUTPUT 和 FORWARD 链。</p>
-<p>INPUT 链：发往本机的报文<br>OUTPUT 链：由本机发出的报文<br>FORWARD 链：经由本机转发的报文<br>PREROUTING 链：报文到达本机，进行路由决策之前<br>POSTROUTING 链：报文由本机发出，进行路由决策之后<br>下图展现了一个数据包是如何通过内核中的 net 和 filter 表的：</p>
+<p><strong> CHAIN ：</strong></p>
+<ul>
+<li>PREROUTING 链：报文到达本机，进行路由决策之前</li>
+<li>INPUT 链：发往本机的报文</li>
+<li>FORWARD 链：经由本机转发的报文</li>
+<li>OUTPUT 链：由本机发出的报文</li>
+<li>POSTROUTING 链：报文由本机发出，进行路由决策之后</li>
+</ul>
+<p>下图展现了一个数据包是如何通过内核中的 net 和 filter 表的：</p>
 <img src="http://owsi2j3f8.bkt.clouddn.com/static/images/iptables.png">
+<h1 id="管理类命令"><a href="#管理类命令" class="headerlink" title="管理类命令"></a>管理类命令</h1><p>管理规则<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">A：             附加一条规则，添加在链的尾部</span></span><br><span class="line"><span class="ruby">-I CHAIN [n]：   插入一条规则，插入对应 CHAIN 上的第 n 条，默认插到第一条</span></span><br><span class="line"><span class="ruby">-D CHAIN [n]：   删除指定链中的第 n 条规则</span></span><br><span class="line"><span class="ruby">-R CHAIN [num]: 替换指定的规则</span></span><br></pre></td></tr></table></figure></p>
+<p>管理链<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">F [CHAIN]：     清空指定规则链，如果省略 CHAIN，则清空对应表中的所有链</span></span><br><span class="line"><span class="ruby">-P CHAIN TARGE： 设定指定链的默认策略</span></span><br><span class="line"><span class="ruby">-N：             自定义一个新的空链</span></span><br><span class="line"><span class="ruby">-X：             删除一个自定义的空链</span></span><br></pre></td></tr></table></figure></p>
+<p>查看规则：<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">L：             显式指定表中的规则</span></span><br><span class="line"><span class="ruby">-n：             以数字格式显式主机地址和端口号</span></span><br><span class="line"><span class="ruby">-v：             显式链及规则的详细信息</span></span><br><span class="line"><span class="ruby">--line-numbers： 显式规则号码</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="匹配"><a href="#匹配" class="headerlink" title="匹配"></a>匹配</h1><p>每个 iptables 规则都包含一组匹配和一个目标动作，后者定义了复合规则的数据包应该采取什么处理行为。iptables 匹配指定是数据包必须匹配的条件，只有当数据包满足所有的匹配条件时，iptables 才能根据规则的目标所指定的动作来处理该数据包。</p>
 <h2 id="常用的基本匹配"><a href="#常用的基本匹配" class="headerlink" title="常用的基本匹配"></a>常用的基本匹配</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-s                  匹配源<span class="built_in"> IP </span>地址或网络</span><br><span class="line">-d                  匹配目标<span class="built_in"> IP </span>地址或网络</span><br><span class="line">-p                  匹配协议类型（如 tcp，udp，icmp）</span><br><span class="line">-i                  流入接口（如 eth0）</span><br><span class="line">-o                  流出接口</span><br></pre></td></tr></table></figure>
 <p>在使用 <code>-p {tcp|udp|icmp}</code> 进行匹配时，还可以使用隐含的扩展匹配，这些功能是由 iptables 的模块提供的，但是这里可以省去指明模块：<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">p tcp</span></span><br><span class="line"><span class="ruby">    --sport [!] port[<span class="symbol">:port</span>]     匹配源端口</span></span><br><span class="line"><span class="ruby">    --dport [!] port[<span class="symbol">:port</span>]     匹配目标端口</span></span><br><span class="line"><span class="ruby">    --tcp-flags [!] mask comp</span></span><br><span class="line"><span class="ruby">        检查 TCP 标志位，各标志以逗号分隔，comp 中指定的标记必须为 <span class="number">1</span>，comp 中没出现，而 mask 中出现的，必须为 <span class="number">0</span></span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">-p icmp</span></span><br><span class="line"><span class="ruby">    --icmp-type [!] TYPENAME    匹配 ICMP 类型</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">-p udp</span></span><br><span class="line"><span class="ruby">    --sport [!] port[<span class="symbol">:port</span>]     匹配源端口</span></span><br><span class="line"><span class="ruby">    --dport [!] port[<span class="symbol">:port</span>]     匹配目标端口</span></span><br></pre></td></tr></table></figure></p>
@@ -210,11 +227,11 @@
 <p>连接速率限制<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">m limit</span></span><br><span class="line"><span class="ruby">    --limit RATE        单位时间连接控制，使用 <span class="string">'/second'</span>，<span class="string">'/minute'</span>，<span class="string">'/hour'</span>，<span class="string">'/day'</span> 等单位为后缀，默认是 <span class="number">3</span>/hour</span></span><br><span class="line"><span class="ruby">    --limit-burst N     同一时间的连接的并发连接控制，默认为 <span class="number">5</span></span></span><br></pre></td></tr></table></figure></p>
 <p>报文内容字符串匹配<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-m <span class="keyword">string</span></span><br><span class="line"><span class="keyword"> </span>   --algo &#123;<span class="keyword">bm|kmp&#125; </span>    字符串匹配算法，可以选择 <span class="keyword">bm </span>或 kmp</span><br><span class="line">    --<span class="keyword">string </span><span class="string">"STRING"</span>   匹配的字符串</span><br><span class="line">    --hex-<span class="keyword">string </span><span class="string">"STRING"</span>   十六进制格式的字符串</span><br></pre></td></tr></table></figure></p>
 <p>基于时间的控制<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">m time</span></span><br><span class="line"><span class="ruby">    --datestart YYYY[-MM[[-DD[Thh[<span class="symbol">:mm</span>[<span class="symbol">:ss</span>]]]]]</span></span><br><span class="line"><span class="ruby">    --datestop YYYY[-MM[-DD[Thh[<span class="symbol">:mm</span>[<span class="symbol">:ss</span>]]]]]</span></span><br><span class="line"><span class="ruby">        匹配起始时间与结束时间</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">    --timestart <span class="symbol">hh:</span>mm[<span class="symbol">:ss</span>]</span></span><br><span class="line"><span class="ruby">    --timestop <span class="symbol">hh:</span>mm[<span class="symbol">:ss</span>]</span></span><br><span class="line"><span class="ruby">        [!] --monthdays day[,day...]</span></span><br><span class="line"><span class="ruby">        [!] --weekdays day[,day...]</span></span><br><span class="line"><span class="ruby">    根据时间和星期几来匹配</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="目标动作"><a href="#目标动作" class="headerlink" title="目标动作"></a>目标动作</h1><p>iptables 对匹配的数据包执行一个目标动作，目标动作由 -j 来指定<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ACCEPT：     放行</span><br><span class="line">DROP：       丢弃报文</span><br><span class="line">REJECT：     发送一个 ICMP 报文拒绝</span><br><span class="line">DNAT：       目标地址转换（即修改报文的目标地址）</span><br><span class="line">    -<span class="ruby">-to-destination ipaddr[<span class="symbol">:port</span>]  </span></span><br><span class="line"><span class="ruby">    指定修改的目标地址和端口</span></span><br><span class="line"><span class="ruby">SNAT：       源地址转换（修改报文的源地址）</span></span><br><span class="line"><span class="ruby">    --to-source ipaddr[-ipaddr][<span class="symbol">:port-port</span>]</span></span><br><span class="line"><span class="ruby">    指定修改的源地址和端口</span></span><br><span class="line"><span class="ruby">REDIRECT：   端口重定向</span></span><br><span class="line"><span class="ruby">MASQUERADE： 地址伪装</span></span><br><span class="line"><span class="ruby">LOG：        记录日志</span></span><br><span class="line"><span class="ruby">    --log-prefix <span class="string">"STRING"</span></span></span><br><span class="line"><span class="ruby">    记录日志的前缀</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="管理类命令"><a href="#管理类命令" class="headerlink" title="管理类命令"></a>管理类命令</h1><p>管理规则<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">A：             附加一条规则，添加在链的尾部</span></span><br><span class="line"><span class="ruby">-I CHAIN [n]：   插入一条规则，插入对应 CHAIN 上的第 n 条，默认插到第一条</span></span><br><span class="line"><span class="ruby">-D CHAIN [n]：   删除指定链中的第 n 条规则</span></span><br><span class="line"><span class="ruby">-R CHAIN [num]: 替换指定的规则</span></span><br></pre></td></tr></table></figure></p>
-<p>管理链<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">F [CHAIN]：     清空指定规则链，如果省略 CHAIN，则清空对应表中的所有链</span></span><br><span class="line"><span class="ruby">-P CHAIN TARGE： 设定指定链的默认策略</span></span><br><span class="line"><span class="ruby">-N：             自定义一个新的空链</span></span><br><span class="line"><span class="ruby">-X：             删除一个自定义的空链</span></span><br></pre></td></tr></table></figure></p>
-<p>查看规则：<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">L：             显式指定表中的规则</span></span><br><span class="line"><span class="ruby">-n：             以数字格式显式主机地址和端口号</span></span><br><span class="line"><span class="ruby">-v：             显式链及规则的详细信息</span></span><br><span class="line"><span class="ruby">--line-numbers： 显式规则号码</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="范例"><a href="#范例" class="headerlink" title="范例"></a>范例</h1><ol>
+<h1 id="目标动作"><a href="#目标动作" class="headerlink" title="目标动作"></a>目标动作</h1><p>iptables 对匹配的数据包执行一个目标动作，目标动作由 -j 来指定<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># -j ACCEPT</span><br><span class="line">ACCEPT：     放行</span><br><span class="line">DROP：       丢弃报文</span><br><span class="line">REJECT：     发送一个 ICMP 报文拒绝</span><br><span class="line">DNAT：       目标地址转换（即修改报文的目标地址）</span><br><span class="line">    -<span class="ruby">-to-destination ipaddr[<span class="symbol">:port</span>]  </span></span><br><span class="line"><span class="ruby">    指定修改的目标地址和端口</span></span><br><span class="line"><span class="ruby">SNAT：       源地址转换（修改报文的源地址）</span></span><br><span class="line"><span class="ruby">    --to-source ipaddr[-ipaddr][<span class="symbol">:port-port</span>]</span></span><br><span class="line"><span class="ruby">    指定修改的源地址和端口</span></span><br><span class="line"><span class="ruby">REDIRECT：   端口重定向</span></span><br><span class="line"><span class="ruby">MASQUERADE： 地址伪装</span></span><br><span class="line"><span class="ruby">LOG：        记录日志</span></span><br><span class="line"><span class="ruby">    --log-prefix <span class="string">"STRING"</span></span></span><br><span class="line"><span class="ruby">    记录日志的前缀</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="范例"><a href="#范例" class="headerlink" title="范例"></a>范例</h1><ol start="0">
+<li><p>配置默认规则</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -P INPUT <span class="keyword">DROP</span></span><br><span class="line">iptables -P <span class="keyword">OUTPUT</span> <span class="keyword">ACCEPT</span></span><br><span class="line">iptables -P FORWARD <span class="keyword">DROP</span></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>设置 filter 表 INPUT 链的默认策略为 DROP</p>
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -P <span class="keyword">INPUT</span> <span class="keyword">DROP</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -239,6 +256,36 @@
 <li><p>允许 172.16.0.1 ~ 172.16.0.100 的主机访问本机 TCP 3306 端口</p>
 <figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport <span class="number">3306</span> -m iprange --src-range <span class="number">172.16</span><span class="number">.0</span><span class="number">.1</span><span class="number">-172.16</span><span class="number">.0</span><span class="number">.100</span> -j ACCEPT</span><br></pre></td></tr></table></figure>
 </li>
+<li><p>目的地址转换，映射内部地址</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t<span class="built_in"> nat </span>-A PREROUTING -i ppp0 -p tcp --dprot 81 -j DNAT --to 192.168.0.2:80</span><br><span class="line">iptables -t<span class="built_in"> nat </span>-A PREROUTING -i ppp0 -p tcp --dprot 81 -j DNAT --to 192.168.0.1-192.168.0.10</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>源地址转换，隐藏内部地址</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 192.168.0.0/24 -j SNAT --to 1.1.1.1</span><br><span class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 192.168.0.0/24 -j SNAT --to 1.1.1.1-1.1.1.10</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>地址伪装，动态ip的NAT</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>让其他私有IP的服务器连接公网<br>masquerade和snat的主要区别在于，snat是把源地址转换为固定的IP地址或者是地址池，而masquerade在adsl等方式拨号上网时候非常有用，因为是拨号上网所以网卡的外网IP经常变化，这样在进行地址转换的时候就要在每次都要修改转换策略里面的ip，使用masquerade就很好的解决了这个问题，他会自己去探测外网卡获得的ip地址然后自动进行地址转换，这样就算外网获得的ip经常变化也不用人工干预了。</p>
+<ol start="12">
+<li><p>开启转发功能</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A FORWARD -i eth1 -o eth0 -<span class="keyword">j </span>ACCEPT <span class="comment">#允许对外转发</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>过滤某个MAC</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A FORWARD -<span class="keyword">m</span> <span class="keyword">mac</span> --<span class="keyword">mac</span> -source <span class="keyword">MAC</span>地址 -j <span class="keyword">DROP</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>报文经过路由后，数据包中原有的MAC信息会被替换，所以在路由后的iptables中使用mac匹配没有意义。</p>
+<ol start="14">
+<li><p>数据包限流</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A FORWARD -d <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span> -m limit --limit <span class="number">50</span>/s -j ACCEPT</span><br><span class="line">iptables -A FORWARD -d <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span> -j DROP</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多端口匹配</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp -m muliport --dport s <span class="number">21</span>,<span class="number">22</span>,<span class="number">25</span>,<span class="number">80</span>,<span class="number">110</span> -j ACCEPT</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>丢弃非法连接</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT   -m <span class="keyword">state</span> --state INVALID -j DROP</span><br><span class="line">iptables -A OUTPUT -m <span class="keyword">state</span> --state INVALID -j DROP</span><br><span class="line">iptables-A FORWARD -m <span class="keyword">state</span> --state INVALID -j DROP</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 <h1 id="iptables-的状态追踪"><a href="#iptables-的状态追踪" class="headerlink" title="iptables 的状态追踪"></a>iptables 的状态追踪</h1><p>iptables中连接追踪的功能叫做 <code>ip_conntrack</code>，<code>ip_conntrack</code> 是个内核模块，能够实时记录当前主机上客户端和服务器端彼此正在建立的连接关系，<br>并且能够追踪到连接所处的状态和连接之间的关系</p>
 <p>查看状态追踪模块是否启用：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> lsmod | grep <span class="string">"ip_conntrack"</span></span></span><br></pre></td></tr></table></figure></p>
@@ -257,8 +304,9 @@
 <p>三、添加计划任务，防止 iptables 的错误规则导致服务器无法访问<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> at now + 2 minite</span></span><br><span class="line"><span class="meta">at&gt;</span><span class="bash"> /sbin/iptables-restore &lt; /etc/sysconfig/iptables.bak          </span></span><br><span class="line"><span class="meta">at&gt;</span><span class="bash"> &lt;EOT&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>四、使用预定义的脚本修改防火墙规则<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> sh ~/iptables.sh</span></span><br></pre></td></tr></table></figure></p>
 <p>五、如果规则没问题，则取消掉定时任务<br><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># atrm <span class="built_in">N</span>（<span class="built_in">N</span>表示at队列号）</span><br></pre></td></tr></table></figure></p>
+<p>Nginx iptables 优化<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -m state --state ESTABLISHED,RELATED,UNTRACKED -j ACCEPT</span><br><span class="line">iptables -t<span class="built_in"> raw </span>-A PREROUTING -p tcp -m tcp -m multiport --dports 80,81,443 -j NOTRACK</span><br><span class="line">iptables -t<span class="built_in"> raw </span>-A OUTPUT -p tcp -m tcp -m multiport --sports 80,81,443 -j NOTRACK</span><br></pre></td></tr></table></figure></p>
 <p>转载自：<a href="http://liaoph.com/iptables/" target="_blank" rel="noopener">http://liaoph.com/iptables/</a></p>
-<p><a href="http://www.ha97.com/4095.html" target="_blank" rel="noopener">iptables/netfilter详解中文手册</a><br><a href="http://www.ha97.com/3928.html" target="_blank" rel="noopener">Linux的iptables常用配置范例</a></p>
+<p><a href="http://www.ha97.com/4095.html" target="_blank" rel="noopener">iptables/netfilter详解中文手册</a><br><a href="http://www.ha97.com/3928.html" target="_blank" rel="noopener">Linux的iptables常用配置范例</a><br><a href="https://www.cnblogs.com/clsn/p/8308678.html" target="_blank" rel="noopener">https://www.cnblogs.com/clsn/p/8308678.html</a></p>
 
 
                 <hr>
@@ -329,7 +377,7 @@
                 <ul class="list-inline">
 
                     
-                        <li><a href="http://kaijun.github.io/hexo-theme-huxblog/" target="_blank">Kaijun&#39;s Blog</a></li>
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
                     
                         <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
                     
@@ -507,22 +555,6 @@
 
 
 <!-- Google Analytics -->
-
-
-<script>
-    // dynamic User by Hux
-    var _gaId = 'UA-70699634-1';
-    var _gaDomain = 'auto';
-
-    // Originial
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', _gaId, _gaDomain);
-    ga('send', 'pageview');
-</script>
 
 
 

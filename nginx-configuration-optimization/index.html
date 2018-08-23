@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -216,7 +216,32 @@
 <h1 id="22-防DOS攻击"><a href="#22-防DOS攻击" class="headerlink" title="22. 防DOS攻击"></a>22. 防DOS攻击</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">使用limit_conn_zone进行控制，控制单个IP或域名的访问次数，限制连续访问</span><br><span class="line"></span><br><span class="line">limit_conn_zone <span class="variable">$binary_remote_addr</span> <span class="attribute">zone</span>=perip:10m;</span><br><span class="line">limit_conn_zone <span class="variable">$server_remote_addr</span> <span class="attribute">zone</span>=perserver:10m;</span><br><span class="line">server &#123;</span><br><span class="line">limit_conn perip 10; 允许每一个IP地址最多同时打开有10个连接。</span><br><span class="line">limit_conn perserver 100;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#还可以使用limit_req_zone进行控制，控制单个IP的访问速率</span></span><br></pre></td></tr></table></figure>
 <h1 id="23-使用CDN为网站内容加速"><a href="#23-使用CDN为网站内容加速" class="headerlink" title="23. 使用CDN为网站内容加速"></a>23. 使用CDN为网站内容加速</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　CDN是一套全国或全球的分布式缓存集群，其实质是通过智能DNS判断用户的来源地域以及上网线路，为用户选择一个最接近用户地狱以及和用户上网线路相同的服务器节点，因为地狱近，切线路相同，所以，可以大幅度提升浏览网站的体验。</span><br><span class="line">提升企业网站的用户访问体验。 可以阻挡大部分流量攻击，DOSS攻击</span><br></pre></td></tr></table></figure>
 <h1 id="24-Nginx程序架构优化"><a href="#24-Nginx程序架构优化" class="headerlink" title="24. Nginx程序架构优化"></a>24. Nginx程序架构优化</h1><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">解耦，一堆程序代码按照业务用途分开，然后提供服务，例如：注册登录、上传、下载、浏览列表、商品内容、订单支付等都应该是独立的程序服务，</span><br><span class="line">只不过在客户端看来是一个整体而已，小公司最起码要做到的解耦是</span><br><span class="line"><span class="number">01.</span>网页页面服务</span><br><span class="line"><span class="number">02.</span>图片附件及下载服务</span><br><span class="line"><span class="number">03.</span>上传图片服务</span><br></pre></td></tr></table></figure>
-<p>参考链接：<br><a href="https://www.abcdocker.com/abcdocker/2167" target="_blank" rel="noopener">https://www.abcdocker.com/abcdocker/2167</a><br><a href="http://www.lichengbing.com/archivers/279.html" target="_blank" rel="noopener">http://www.lichengbing.com/archivers/279.html</a></p>
+<h1 id="另一个维度来总结"><a href="#另一个维度来总结" class="headerlink" title="另一个维度来总结"></a>另一个维度来总结</h1><h1 id="一、安全方面"><a href="#一、安全方面" class="headerlink" title="一、安全方面"></a>一、安全方面</h1><ul>
+<li>1.1. 根据实际情况，隐藏 nginx header 版本号</li>
+<li>1.2. 根据实际情况，更改源码，隐藏 nginx 软件名称</li>
+<li>1.3. 更改 nginx 默认用户及用户组</li>
+<li>1.4. nginx 站点目录及文件 URL 访问控制（防止恶意解析）</li>
+<li>1.5. 防止恶意解析访问企业网站</li>
+<li>1.6. 配置 nginx 图片及目录防盗链</li>
+<li>1.7. 配置 nginx 防爬虫</li>
+<li>1.8. 限制 HTTP 请求方法</li>
+<li>1.9. 防 DOS 攻击<h1 id="二、性能方面"><a href="#二、性能方面" class="headerlink" title="二、性能方面"></a>二、性能方面</h1></li>
+<li>2.1. 根据 CPU 逻辑核心数，配置 nginx worker 进程个数</li>
+<li>2.2. 配置 nginx worker 进程的 CPU 亲和力参数</li>
+<li>2.3. 配置 ngixn worker 单个进程允许的客户端最大连接数</li>
+<li>2.4. 配置 nginx worker 进程的最大打开文件数</li>
+<li>2.5. 配置 nginx 事件处理模型为 epoll<h1 id="三、HTTP-协议方面"><a href="#三、HTTP-协议方面" class="headerlink" title="三、HTTP 协议方面"></a>三、HTTP 协议方面</h1></li>
+<li>3.1. 开启高效的文件传输模式（sendfile/tcp_nopush/tcp_nodelay）</li>
+<li>3.2. 设置连接超时时间</li>
+<li>3.3. 设置客户端上传文件大小</li>
+<li>3.4. fastcgi 调优<h1 id="四、功能方面"><a href="#四、功能方面" class="headerlink" title="四、功能方面"></a>四、功能方面</h1></li>
+<li>4.1. 配置 nginx gzip 压缩功能</li>
+<li>4.2. 配置 nginx expires 缓存功能</li>
+<li>4.3. 配置 nginx 错误页面的优雅显示<h1 id="五、日志方面"><a href="#五、日志方面" class="headerlink" title="五、日志方面"></a>五、日志方面</h1></li>
+<li>5.1. 每天进行日志切割、备份/不记录不需要的访问日志/访问日志的权限设置<h1 id="六、架构方面"><a href="#六、架构方面" class="headerlink" title="六、架构方面"></a>六、架构方面</h1></li>
+<li>6.1. nginx 程序架构优化(服务解耦)</li>
+<li>6.2. 使用 CDN 为网站内容加速<br>参考链接：<br><a href="https://jaminzhang.github.io/nginx/Nginx-Optimization-Summary/" target="_blank" rel="noopener">https://jaminzhang.github.io/nginx/Nginx-Optimization-Summary/</a><br><a href="http://www.lichengbing.com/archivers/279.html" target="_blank" rel="noopener">http://www.lichengbing.com/archivers/279.html</a></li>
+</ul>
 
 
                 <hr>
@@ -226,7 +251,7 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/linux-tcp/" data-toggle="tooltip" data-placement="top" title="Linux下如何知道http并发和tcp连接数量">&larr; Previous Post</a>
+                            <a href="/apache-bench/" data-toggle="tooltip" data-placement="top" title="Apache Benchmark wrk 压力测试工具使用">&larr; Previous Post</a>
                         </li>
                     
                     
@@ -285,7 +310,7 @@
                 <ul class="list-inline">
 
                     
-                        <li><a href="http://kaijun.github.io/hexo-theme-huxblog/" target="_blank">Kaijun&#39;s Blog</a></li>
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
                     
                         <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
                     
@@ -463,22 +488,6 @@
 
 
 <!-- Google Analytics -->
-
-
-<script>
-    // dynamic User by Hux
-    var _gaId = 'UA-70699634-1';
-    var _gaDomain = 'auto';
-
-    // Originial
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', _gaId, _gaDomain);
-    ga('send', 'pageview');
-</script>
 
 
 

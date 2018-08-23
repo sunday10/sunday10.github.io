@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          LVM逻辑卷管理配置 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/lvm2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#lvm" title="lvm">lvm</a>
+                        
+                    </div>
+                    <h1>LVM逻辑卷管理配置</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-08-23
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <img src="http://owsi2j3f8.bkt.clouddn.com/static/images/lvm-on-ubuntu.png">
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Logical Volume Manager (LVM) 重点在于 可以弹性的调整 文件系统 的容量！</p>
+<p>LVM 可以整合多个硬盘 分区在一起， 让这些 分区 看起来就像是一个磁盘一样！</p>
+<p>传统分区使用固定大小分区，重新调整大小十分麻烦，但是LVM可以创建和管理“逻辑”卷，而不是直接使用物理硬盘，可以让管理员弹性的管理逻辑卷的扩大缩小，操作简单，而不损坏已存储的数据。可以随意将新的硬盘添加到LVM，以直接扩展已经存在的逻辑卷，LVM并不需要重启就可以让内核知道分区的存在。</p>
+<blockquote>
+<p>LVM 可用来创建和弹性的调整 分区大小</p>
+</blockquote>
+<h1 id="LVM基本组成"><a href="#LVM基本组成" class="headerlink" title="LVM基本组成"></a>LVM基本组成</h1><p>LVM利用Linux内核的device-mapper来实现存储系统的虚拟化（系统分区独立于底层硬件）。 通过LVM，你可以实现存储空间的抽象化并在上面建立虚拟分区（virtual partitions），可以更简便地扩大和缩小分区，可以增删分区时无需担心某个硬盘上没有足够的连续空间，  LVM是用来方便管理的，不会提供额外的性能与安全保证。 需要文件的读写性能或者是数据的可靠性，请配置RAID或分布式文件系统。</p>
+<p>LVM的基本组成块（building blocks）如下：</p>
+<p><strong>物理卷Physical volume (PV)</strong> ：可以在上面建立卷组的媒介，可以是硬盘分区，也可以是硬盘本身或者回环文件（loopback file）。</p>
+<p><strong>卷组Volume group (VG)</strong> ：将一组物理卷收集为一个管理单元。</p>
+<p><strong>逻辑卷Logical volume (LV)</strong> ：虚拟分区，由物理区域（physical extents）组成。</p>
+<p><strong>物理区域Physical extent (PE) </strong>：硬盘可供指派给逻辑卷的最小单位（通常为4MB）。</p>
+<h1 id="LVM优点"><a href="#LVM优点" class="headerlink" title="LVM优点"></a>LVM优点</h1><p>比起正常的硬盘分区管理，LVM更富于弹性：</p>
+<ul>
+<li>使用卷组(VG)，使众多硬盘空间看起来像一个大硬盘。</li>
+<li>使用逻辑卷（LV），可以创建跨越众多硬盘空间的分区。</li>
+<li>可以创建小的逻辑卷（LV），在空间不足时再动态调整它的大小。</li>
+<li>在调整逻辑卷（LV）大小时可以不用考虑逻辑卷在硬盘上的位置，不用担心没有可用的连续空间。</li>
+<li>可以在线对逻辑卷（LV）和卷组（VG）进行创建、删除、调整大小等操作。LVM上的文件系统也需要重新调整大小，某些文件系统也支持这样的在线操作。</li>
+<li>无需重新启动服务，就可以将服务中用到的逻辑卷（LV）在线/动态迁移至别的硬盘上。</li>
+<li>允许创建快照，可以保存文件系统的备份，同时使服务的下线时间降低到最小。</li>
+</ul>
+<h1 id="LVM配置"><a href="#LVM配置" class="headerlink" title="LVM配置"></a>LVM配置</h1><p><strong> 新建分区 修改分区格式 </strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> help): n</span><br><span class="line">Command action</span><br><span class="line">   e   extended</span><br><span class="line">   p   primary partition (1-4)</span><br><span class="line">p #主分区</span><br><span class="line">Partition number (1-4): 1 #分区号</span><br><span class="line">First cylinder (1-1044,<span class="built_in"> default </span>1):  #回车用默认的1</span><br><span class="line">Last cylinder, +cylinders <span class="keyword">or</span> +size&#123;K,M,G&#125; (1-1044,<span class="built_in"> default </span>1044): #大小</span><br><span class="line">Command (m <span class="keyword">for</span> help): t #改变类型</span><br><span class="line">Selected partition 1</span><br><span class="line">Hex code (type L <span class="keyword">to</span> list codes): 8e #LVM 的分区代码</span><br><span class="line">Changed<span class="built_in"> system type </span>of partition 1 <span class="keyword">to</span> 8e (Linux LVM)</span><br><span class="line">w #保存</span><br><span class="line">q #退出</span><br></pre></td></tr></table></figure></p>
+<p><strong> 创建物理卷(PV)</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pvcreate <span class="regexp">/dev/</span>sdb1</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">pvscan</span><br><span class="line"></span><br><span class="line">  PV /dev/sdb1   VG vg_data   lvm2 [<span class="number">200.00</span> GiB / <span class="number">30.00</span> GiB <span class="keyword">free</span>]</span><br><span class="line">  PV /dev/sda2   VG VolGroup   lvm2 [<span class="number">89.51</span> GiB / <span class="number">1.51</span> GiB <span class="keyword">free</span>]</span><br><span class="line">  Total: <span class="number">2</span> [<span class="number">289.50</span> GiB] / <span class="keyword">in</span> <span class="keyword">use</span>: <span class="number">2</span> [<span class="number">289.50</span> GiB] / <span class="keyword">in</span> no VG: <span class="number">0</span> [<span class="number">0</span>   ]</span><br><span class="line"></span><br><span class="line">pvdisplay</span><br><span class="line"></span><br><span class="line">  --- Physical volume ---</span><br><span class="line">  PV <span class="keyword">Name</span>               /dev/sdb1</span><br><span class="line">  VG <span class="keyword">Name</span>               vg_data</span><br><span class="line">  PV <span class="built_in">Size</span>               <span class="number">200.00</span> GiB / not usable <span class="number">1.34</span> MiB</span><br><span class="line">  <span class="keyword">Allocatable</span>           yes</span><br><span class="line">  PE <span class="built_in">Size</span>               <span class="number">4.00</span> MiB</span><br><span class="line">  Total PE              <span class="number">51199</span></span><br><span class="line">  <span class="keyword">Free</span> PE               <span class="number">7679</span></span><br><span class="line">  <span class="built_in">Allocated</span> PE          <span class="number">43520</span></span><br><span class="line">  PV UUID               c9js6G-WP93-ug9b-aXe-unnZ-doWQ-AkzOKf</span><br><span class="line"></span><br><span class="line">  --- Physical volume ---</span><br><span class="line">  PV <span class="keyword">Name</span>               /dev/sda2</span><br><span class="line">  VG <span class="keyword">Name</span>               VolGroup</span><br><span class="line">  PV <span class="built_in">Size</span>               <span class="number">89.51</span> GiB / not usable <span class="number">3.00</span> MiB</span><br><span class="line">  <span class="keyword">Allocatable</span>           yes</span><br><span class="line">  PE <span class="built_in">Size</span>               <span class="number">4.00</span> MiB</span><br><span class="line">  Total PE              <span class="number">22914</span></span><br><span class="line">  <span class="keyword">Free</span> PE               <span class="number">386</span></span><br><span class="line">  <span class="built_in">Allocated</span> PE          <span class="number">22528</span></span><br><span class="line">  PV UUID               bFne0f-RnL8-vut2-AcKr-fr9k-VfeG-C8OHSR</span><br></pre></td></tr></table></figure>
+<p><strong>删除物理卷</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pvremove <span class="regexp">/dev/</span>sdb1</span><br></pre></td></tr></table></figure></p>
+<p><strong> 创建卷组(VG)</strong><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vgcreate vg_data /dev/sdb1</span><br><span class="line">vgcreate vg_data /dev/hda&#123;<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong> 扩展VG</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vgextend vg_data <span class="regexp">/dev/</span>hda9</span><br></pre></td></tr></table></figure></p>
+<p><strong> 查看VG信息</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">vgscan</span><br><span class="line"></span><br><span class="line">  Reading all physical volumes.  This may take a <span class="keyword">while</span><span class="built_in">..</span>.</span><br><span class="line">  Found volume<span class="built_in"> group </span><span class="string">"vg_data"</span> using metadata<span class="built_in"> type </span>lvm2</span><br><span class="line">  Found volume<span class="built_in"> group </span><span class="string">"VolGroup"</span> using metadata<span class="built_in"> type </span>lvm2</span><br><span class="line"></span><br><span class="line">vgdisplay</span><br><span class="line"></span><br><span class="line">  --- Volume<span class="built_in"> group </span>---</span><br><span class="line">  VG Name               vg_data</span><br><span class="line"> <span class="built_in"> System </span>ID             </span><br><span class="line">  Format                lvm2</span><br><span class="line">  Metadata Areas        1</span><br><span class="line">  Metadata Sequence <span class="literal">No</span>  4</span><br><span class="line">  VG Access             read/write</span><br><span class="line">  VG Status             resizable</span><br><span class="line">  MAX LV                0</span><br><span class="line">  Cur LV                3</span><br><span class="line">  Open LV               3</span><br><span class="line">  Max PV                0</span><br><span class="line">  Cur PV                1</span><br><span class="line">  Act PV                1</span><br><span class="line">  VG Size               200.00 GiB</span><br><span class="line">  PE Size               4.00 MiB</span><br><span class="line">  Total PE              51199</span><br><span class="line">  Alloc PE / Size       43520 / 170.00 GiB</span><br><span class="line">  Free  PE / Size       7679 / 30.00 GiB</span><br><span class="line">  VG UUID               EQhiUt-Waj1-F3V2-cwej-2joz-oC3P-JMSFui</span><br><span class="line"></span><br><span class="line">  --- Volume<span class="built_in"> group </span>---</span><br><span class="line">  VG Name               VolGroup</span><br><span class="line"> <span class="built_in"> System </span>ID             </span><br><span class="line">  Format                lvm2</span><br><span class="line">  Metadata Areas        1</span><br><span class="line">  Metadata Sequence <span class="literal">No</span>  6</span><br><span class="line">  VG Access             read/write</span><br><span class="line">  VG Status             resizable</span><br><span class="line">  MAX LV                0</span><br><span class="line">  Cur LV                5</span><br><span class="line">  Open LV               5</span><br><span class="line">  Max PV                0</span><br><span class="line">  Cur PV                1</span><br><span class="line">  Act PV                1</span><br><span class="line">  VG Size               89.51 GiB</span><br><span class="line">  PE Size               4.00 MiB</span><br><span class="line">  Total PE              22914</span><br><span class="line">  Alloc PE / Size       22528 / 88.00 GiB</span><br><span class="line">  Free  PE / Size       386 / 1.51 GiB</span><br><span class="line">  VG UUID               i0qDld-uOz4-P1BS-2gN8-2vhj-5gdc-DnHfa4</span><br></pre></td></tr></table></figure></p>
+<p><strong> 删除VG</strong><br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">vgremove</span> vg_data</span><br></pre></td></tr></table></figure></p>
+<p><strong>创建逻辑卷(LV)</strong><br><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lvcreate -L <span class="number">20</span>g -<span class="built_in">n</span> lv_oracle vg_data</span><br><span class="line">lvcreate -l <span class="number">100%</span>FREE -<span class="built_in">n</span> lv_oracle vg_data</span><br></pre></td></tr></table></figure></p>
+<p><strong> 查看LV</strong><br><figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">lvscan</span><br><span class="line"></span><br><span class="line">  ACTIVE            <span class="string">'/dev/vg_data/lv_oracle'</span> [<span class="number">20.00</span> GiB] inherit</span><br><span class="line">  ACTIVE            <span class="string">'/dev/VolGroup/lv_root'</span> [<span class="number">50.00</span> GiB] inherit</span><br><span class="line">  ACTIVE            <span class="string">'/dev/VolGroup/lv_home'</span> [<span class="number">10.00</span> GiB] inherit</span><br><span class="line"></span><br><span class="line">lvdisplay</span><br><span class="line"></span><br><span class="line">  --- Logical volume ---</span><br><span class="line">  LV Path                /dev/vg_data/lv_oracle</span><br><span class="line">  LV <span class="keyword">Name</span>                lv_oracle</span><br><span class="line">  VG <span class="keyword">Name</span>                vg_data</span><br><span class="line">  LV UUID                P3jVXt-<span class="number">92</span>Lp-QElD-ddl8-lW4r-okz7-n8fdXD</span><br><span class="line">  LV <span class="keyword">Write</span> Access        <span class="keyword">read</span>/<span class="keyword">write</span></span><br><span class="line">  LV Creation host, time capdb, <span class="number">2016</span>-<span class="number">03</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">12</span>:<span class="number">43</span> +<span class="number">0800</span></span><br><span class="line">  LV Status              available</span><br><span class="line">  # open                 <span class="number">1</span></span><br><span class="line">  LV Size                <span class="number">20.00</span> GiB</span><br><span class="line">  Current LE             <span class="number">5120</span></span><br><span class="line">  Segments               <span class="number">1</span></span><br><span class="line">  Allocation             inherit</span><br><span class="line">  <span class="keyword">Read</span> ahead sectors     auto</span><br><span class="line">  - currently <span class="keyword">set</span> <span class="keyword">to</span>     <span class="number">256</span></span><br><span class="line">  Block device           <span class="number">253</span>:<span class="number">5</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>格式化逻辑卷</strong><br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkfs -t ext4 <span class="meta-keyword">/dev/</span>vg_data/lv_oracle</span><br><span class="line">mkfs.ext4 <span class="meta-keyword">/dev/</span>vg_data/lv_oracle</span><br></pre></td></tr></table></figure></p>
+<p><strong> 挂载逻辑卷</strong><br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir <span class="string">/oracle</span></span><br><span class="line"><span class="comment">#修改fstab</span></span><br><span class="line">vi <span class="string">/etc/fstab</span></span><br><span class="line"><span class="string">/dev/vg_data/lv_oracle</span> <span class="string">/oracle</span> ext4 dafualts 0 0</span><br></pre></td></tr></table></figure></p>
+<p><strong>测试lv是否可以挂载</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mount -a</span><br><span class="line">mount <span class="regexp">/dev/</span>vg_data<span class="regexp">/lv_oracle /</span>oracle</span><br><span class="line">df -h</span><br></pre></td></tr></table></figure></p>
+<p><strong> 删除逻辑卷</strong><br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fuser -m <span class="string">/oracle</span></span><br><span class="line">umount <span class="string">/oracle</span></span><br><span class="line">lvremove <span class="string">/dev/vg_data/lv_oracle</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="LVM扩展"><a href="#LVM扩展" class="headerlink" title="LVM扩展"></a>LVM扩展</h1><blockquote>
+<p>LVM特点就是支持在线动态扩容，如果为了稳妥也可以先umount</p>
+</blockquote>
+<p><strong> 查看Free  PE / Size可用空间</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">vgdisplay</span><br><span class="line"></span><br><span class="line">  --- Volume<span class="built_in"> group </span>---</span><br><span class="line">  VG Name               vg_data</span><br><span class="line"> <span class="built_in"> System </span>ID             </span><br><span class="line">  Format                lvm2</span><br><span class="line">  Metadata Areas        1</span><br><span class="line">  Metadata Sequence <span class="literal">No</span>  4</span><br><span class="line">  VG Access             read/write</span><br><span class="line">  VG Status             resizable</span><br><span class="line">  MAX LV                0</span><br><span class="line">  Cur LV                3</span><br><span class="line">  Open LV               3</span><br><span class="line">  Max PV                0</span><br><span class="line">  Cur PV                1</span><br><span class="line">  Act PV                1</span><br><span class="line">  VG Size               200.00 GiB</span><br><span class="line">  PE Size               4.00 MiB</span><br><span class="line">  Total PE              51199</span><br><span class="line">  Alloc PE / Size       43520 / 170.00 GiB</span><br><span class="line">  Free  PE / Size       7679 / 30.00 GiB</span><br><span class="line">  VG UUID               EQhiUt-Waj1-F3V2-cwej-2joz-oC3P-JMSFui</span><br></pre></td></tr></table></figure></p>
+<p><strong>  设置逻辑卷的大小</strong><br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lvresize -L <span class="number">40</span>g <span class="meta-keyword">/dev/</span>vg_data/lv_oracle</span><br><span class="line">lvresize -L +<span class="number">20</span>g <span class="meta-keyword">/dev/</span>vg_data/lv_oracle</span><br></pre></td></tr></table></figure></p>
+<p><strong>  检查磁盘错误，等待时间较长可以考虑跳过</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e2fsck -f <span class="regexp">/dev/</span>vg_data<span class="regexp">/lv_oracle</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>  更新文件系统信息</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resize2fs <span class="regexp">/dev/</span>vg_data<span class="regexp">/lv_oracle</span></span><br></pre></td></tr></table></figure></p>
+<p><strong> 检查逻辑卷状态 </strong><br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">lvdisplay</span> vg_data</span><br></pre></td></tr></table></figure></p>
+<h1 id="LVM缩减"><a href="#LVM缩减" class="headerlink" title="LVM缩减"></a>LVM缩减</h1><blockquote>
+<p>注意减少的大小，实施前umount逻辑卷</p>
+</blockquote>
+<p><strong>卸载LV</strong><br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">umount <span class="string">/oracle</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>检查磁盘错误</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e2fsck -f <span class="regexp">/dev/</span>vg_data<span class="regexp">/lv_oracle</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>缩小文件系统，更新文件系统信息</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resize2fs <span class="regexp">/dev/</span>vg_data<span class="regexp">/lv_oracle 10g</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>减少LV大小</strong><br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lvresize -L <span class="number">10</span>g <span class="meta-keyword">/dev/</span>vg_data/lv_oracle</span><br><span class="line">lvresize -L <span class="number">-30</span>g <span class="meta-keyword">/dev/</span>vg_data/lv_oracle</span><br></pre></td></tr></table></figure></p>
+<p><strong>检查逻辑卷大小</strong><br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">lvdisplay</span></span><br><span class="line"><span class="attribute">df -h</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="扩展卷组"><a href="#扩展卷组" class="headerlink" title="扩展卷组"></a>扩展卷组</h1><blockquote>
+<p>步骤和创建VG类似</p>
+</blockquote>
+<p><strong>创建一个2GB分区sdc1，类型为LVM（8e</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sdc</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> help): n</span><br><span class="line">Command action</span><br><span class="line">   e   extended</span><br><span class="line">   p   primary partition (1-4)</span><br><span class="line">p</span><br><span class="line">Partition number (1-4): 1</span><br><span class="line">First cylinder (1-1044,<span class="built_in"> default </span>1):</span><br><span class="line">Using<span class="built_in"> default </span>value 1</span><br><span class="line">Last cylinder, +cylinders <span class="keyword">or</span> +size&#123;K,M,G&#125; (1-1044,<span class="built_in"> default </span>1044): +2G</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> help): t</span><br><span class="line">Selected partition 1</span><br><span class="line">Hex code (type L <span class="keyword">to</span> list codes): 8e</span><br><span class="line">Changed<span class="built_in"> system type </span>of partition 1 <span class="keyword">to</span> 8e (Linux LVM)</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> help): w</span><br><span class="line">The partition table has been altered!</span><br></pre></td></tr></table></figure></p>
+<p><strong>创建一个物理卷 /dev/sdc1</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pvcreate <span class="regexp">/dev/</span>sdc1</span><br></pre></td></tr></table></figure></p>
+<p><strong>增加到已存在的卷组</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vgextend vg_data <span class="regexp">/dev/</span>sdc1</span><br></pre></td></tr></table></figure></p>
+<p><strong> 验证卷组大小 </strong><br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">vgdisplay</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="删除卷组"><a href="#删除卷组" class="headerlink" title="删除卷组"></a>删除卷组</h1><p><strong>卸载逻辑卷</strong><br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">umount <span class="string">/oracle</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>删除逻辑卷</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lvremove <span class="regexp">/dev/</span>vg_data<span class="regexp">/lv_oracle</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>取消激活卷组</strong><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vgchange -<span class="selector-tag">a</span> n vg_data</span><br></pre></td></tr></table></figure></p>
+<p><strong>删除卷组</strong><br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">vgremove</span> vg_data</span><br></pre></td></tr></table></figure></p>
+<p><strong>删除物理卷</strong><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pvremove /dev/sdb1</span><br><span class="line">pvremove /dev/hda&#123;<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>普通磁盘类型是83</strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fdisk <span class="regexp">/dev/</span>sdb</span><br><span class="line">t <span class="number">83</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="lvchange"><a href="#lvchange" class="headerlink" title="lvchange"></a>lvchange</h1><blockquote>
+<p>在做HA共享存储时需要配合lvchange激活lv</p>
+</blockquote>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lvscan</span><br><span class="line">lvchange -<span class="selector-tag">a</span> y /dev/vg_data/lv_oradata</span><br></pre></td></tr></table></figure>
+<h1 id="命令总结"><a href="#命令总结" class="headerlink" title="命令总结"></a>命令总结</h1><table>
+<thead>
+<tr>
+<th>任务</th>
+<th>PV 阶段</th>
+<th>VG 阶段</th>
+<th>LV 阶段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>扫描 (scan)</td>
+<td>pvscan</td>
+<td>vgscan</td>
+<td>lvscan</td>
+</tr>
+<tr>
+<td>创建 (create)</td>
+<td>pvcreate</td>
+<td>vgcreate</td>
+<td>lvcreate</td>
+</tr>
+<tr>
+<td>列出 (display)</td>
+<td>pvdisplay</td>
+<td>vgdisplay</td>
+<td>lvdisplay</td>
+</tr>
+<tr>
+<td>扩展 (extend)</td>
+<td>vgextend</td>
+<td></td>
+<td>lvextend (lvresize)</td>
+</tr>
+<tr>
+<td>减少 (reduce)</td>
+<td>vgreduce</td>
+<td></td>
+<td>lvreduce (lvresize)</td>
+</tr>
+<tr>
+<td>删除 (remove)</td>
+<td>pvremove</td>
+<td>vgremove</td>
+<td>lvremove</td>
+</tr>
+<tr>
+<td>改变容量 (resize)</td>
+<td></td>
+<td></td>
+<td>lvresize</td>
+<td></td>
+</tr>
+<tr>
+<td>改变属性 (attribute)</td>
+<td>pvchange</td>
+<td>vgchange</td>
+<td>lvchange</td>
+</tr>
+</tbody>
+</table>
+<p>转载自：<a href="https://wsgzao.github.io/post/lvm/" target="_blank" rel="noopener">https://wsgzao.github.io/post/lvm/</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/glusterfs/" data-toggle="tooltip" data-placement="top" title="企业级分布式存储 Glusterfs">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/glusterfs-docker/" data-toggle="tooltip" data-placement="top" title="基于 GlusterFS 实现 Docker 集群的分布式存储">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#lvm" title="lvm">lvm</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e5a8fe97a11d3eaa24842213e1d7d092';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

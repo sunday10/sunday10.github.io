@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,213 @@
 
 <div class="post-preview">
 
+    <a href="/mongodb-cluster-upgrade/">
+        <h2 class="post-title">
+            mongodb 3.4 集群搭建升级版 五台集群
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文转载自：http://www.mooooc.com/mongodb/2017/08/16/install-mongodb-cluster.html
+最新版mongodb推荐使用yaml语法来做配置，另外一些旧的配置在最新版本中已经不在生效，所以我们在生产实际搭建mongodb集群的时候做了一些改进。如果大家不熟悉什么是分片、副本集、仲裁者的话请先移步查看上一篇文章：mongodb 3.4......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-17
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mongodb-cluster/">
+        <h2 class="post-title">
+            mongodb 3.4 集群搭建：分片+副本集
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文转载自：http://www.ityouknow.com/mongodb/2017/08/05/mongodb-cluster-setup.html
+mongodb是最常用的nosql数据库，在数据库排名中已经上升到了前六。这篇文章介绍如何搭建高可用的mongodb（分片+副本）集群。
+在搭建集群之前，需要首先了解几个概念：路由，分片、副本集、配置服务器等。
+相关概念先来看一张图：
+
+从......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-17
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mongodb-command/">
+        <h2 class="post-title">
+            MongoDB命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            帮助db.help()db.mycoll.help()db.mycoll.find().help()
+数据库创建数据库12&gt; use mydb;switched to db mydb
+删除数据库1&gt; db.dropDatabase()
+显示所有数据库12345&gt; show dbs;admin   0.000GBconfig  0.000GBlocal   0.001GBte......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysql-pmm/">
+        <h2 class="post-title">
+            MySQL 5.7 使用PMM监视和管理数据库
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Server端安装server端安装非常简单，我们采用docker的方式来部署。
+1.拉取镜像1docker pull percona/pmm-server:latest
+2.创建PMM数据容器1234567docker create \   -v /opt/prometheus/data \   -v /opt/consul-data \   -v /var/lib/mysql \   -......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysqlbinlog-recovery-data/">
+        <h2 class="post-title">
+            mysqlbinlog 恢复数据
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            mysqlbinlog支持下面的选项：
+
+--help，-？ 显示帮助消息并退出。
+--database=db_name，-d db_name 只列出该数据库的条目(只用本地日志)。
+--force-read，-f 使用该选项，如果mysqlbinlog读它不能识别的二进制日志事件，它会打印警告，忽略该事件并继续。没有该选项，如果mysqlbinlog读到此类事件则停止。
+--hexdump......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-10
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/xtrabackup/">
+        <h2 class="post-title">
+            xtrabackup备份和恢复
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            备份方式热备份：读写不受影响（mysqldump–&gt;innodb）温备份：仅可以执行读操作（mysqldump–&gt;myisam）冷备份：离线备份，读写都不可用逻辑备份：将数据导出文本文件中（mysqldump）物理备份：将数据文件拷贝（xtrabackup、mysqlhotcopy）完整备份：备份所有数据增量备份：仅备份上次完整备份或增量备份以来变化的数据差异备份：仅备份上次完整......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-09
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysql-multi-source-replication/">
+        <h2 class="post-title">
+            MySQL5.7的多源复制
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境Mysql: 5.7.18Master1: 192.168.1.41Master2: 192.168.1.42Slave: 192.168.1.43复制模式: gtid
+配置文件Master1123456789101112131415161718server_id = 41log-bin = mysql-binbinlog_format = rowbinlog_cache_size = ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-09
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysql-gtid-online/">
+        <h2 class="post-title">
+            MySQL 5.7 GTID在线切换
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            在线切换的版本要&gt;=5.7.6gitd_mode   解释OFF 不产生GTID,Slave只接收不带GTID的事务OFF_PERMISSIVE  不产生GTID,Slave接收不带GTID的事务也接收带GTID的事务ON_PERMISSIVE   产生GTID,Slave接收不带GTID的事务也接收带GTID的事务ON  产生GTID,Slave只接收带GTID的事务环境MySQL版......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-09
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysql-gtid-error-1062/">
+        <h2 class="post-title">
+            Mysql 5.7 gtid主从复制错误处理
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境主库IP：192.168.11.31从库IP：192.168.11.32数据库：MySQL 5.7 gtid 主从复制原因：由于从库没有限制好权限，开发人员在从库插入数据从而导致主从同步错误。
+在主库31 新建库12345678CREATE DATABASE test;CREATE TABLE `test`.`info_test` (  `id` int(11) NOT NULL AUT......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-04-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/mysql-gtid-relication/">
         <h2 class="post-title">
             MySQL 5.7 基于GTID及多线程主从复制
@@ -198,210 +405,6 @@
     <p class="post-meta">
         Posted by Sunday on
         2018-04-20
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/mysqld-multi/">
-        <h2 class="post-title">
-            MySQL 多实例配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装MySQL 5.7 源码安装 http://www.sundayle.com/2017/12/25/mysql/ Apt源安装 12345#https://www.percona.com/doc/percona-server/LATEST/installation/apt_repo.htmlwget https://repo.percona.com/apt/percona-release......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-04-19
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kvm/">
-        <h2 class="post-title">
-            KVM 虚拟化
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            云计算指的是资源使用和交互的一种模式虚拟化指的是技术，可以将物理计算机虚拟成多个逻辑计算机（如VMware）他们彼此独立，互不影响，但是云计算又需要使用虚拟化技术。
-操作环境系统: Centos 7KVM宿主机IP:192.168.77.11 (KVM-S1)KVM子虚拟机IP:192.168.77.111防火墙状态: 关闭selinux状态: 关闭NetworkManager: 关闭
-虚拟......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-04-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/gitlab-webhook/">
-        <h2 class="post-title">
-            gitlab webhook 自动部署代码
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            原理1、配置gitlab，当客户端git push动作的时候，访问服务器上的一个链接比如demo.sundayle.com/applet.php2、applet.php会调用applet.sh脚本，检测master或upload更新，就会让服务器git pull相应项目的代码到内网web目录或外网web目录。3、pull结束，我们只要重新访问内网或外网 网站就可以了。
-内外网shell脚本同......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/rsync/">
-        <h2 class="post-title">
-            Rsyncd 服务器配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装rsync1yum install rsync -y
-环境server:192.168.10.100client:192.168.10.101
-配置rsyncd.conf1234567891011121314151617181920212223242526272829address = 0.0.0.0uid = nobodygid = nobodyuse chroot = nomax c......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/vsftp/">
-        <h2 class="post-title">
-            vsftp服务器配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-yum install vsftpd
-
-#apt-get install vsftpd
-vsftpd相关文件  文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftpd    Vsftpd的主程序。/etc/pam.d/vsftpd   PAM认证文件 指明阻止访问的用户来自/etc/vsftpd/ftpusers/etc/vsft......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/svnserve/">
-        <h2 class="post-title">
-            Svn 版本系统安装
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装12345apt-get install libapr1-dev libaprutil1-devtar xf subversion-1.8.17.tar.gzcd subversion-1.8.17./configure --prefix=/usr/local/svnservemake &amp;&amp; make install
-依赖解决12345678910111213An app......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/crontab/">
-        <h2 class="post-title">
-            Crontab 计划任务
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            可用crontab -e命令来编辑，编辑的是/var/spool/cron下对应用户的cron文件，也可以直接修改/etc/crontab文件。具体格式如下：123Minute Hour Day Month Week command分钟 小时 天 月 星期 命令0-59 0-23 1-31 1-12 0-6 command
-每个字段代表的含义如下：
-
-Minute：每个小时的第几分钟执行该任......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/linux-tar/">
-        <h2 class="post-title">
-            linux 常用压缩 解压命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            压缩1、tar -cvf jpg.tar .jpg //将目录里所有jpg文件打包成tar.jpg2、tar -czf jpg.tar.gz .jpg   //将目录里所有jpg文件打包成jpg.tar后，并且将其用gzip压缩，生成一个gzip压缩过的包，命名为jpg.tar.gz3、tar -cjf jpg.tar.bz2 .jpg //将目录里所有jpg文件打包成jpg.tar后，并且......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/snipe-it/">
-        <h2 class="post-title">
-            开源资产管理软件 Snipe-IT
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            需求现在公司，办公设备的管理是基本需求。员工相应的笔记本，台式机，门禁卡都必须做好记录。一般公司都是有Execl管理。但当公司人员庞大，办公地点多样，人员经常流动时，更新Execl表会是一个十分繁琐的工作。而且很多公司有多个办公地点，多个分公司。需要集体公司同意管理，统一采购设备。
-这时候需要专门的系统工具去管理资产。
-Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，完......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
     </p>
 
 </div>
@@ -446,6 +449,18 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
                     <div class="tags">
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="3">ansible</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                         
                             
                         
@@ -464,13 +479,39 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
                             
                         
                             
@@ -482,31 +523,7 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
                             
                         
                             
-                            <a href="/tags/#git" title="git" rel="2">git</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#iptables" title="iptables" rel="3">iptables</a>
-                            
-                        
                             
                         
                             
@@ -520,17 +537,13 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
                             
                         
                             
                             <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
-                            
-                        
-                            
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
                             
                         
                             
@@ -542,7 +555,21 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
                             
                         
                             
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                        
+                            
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -572,19 +599,15 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
                             
                         
                             
-                        
-                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -602,7 +625,11 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
                             
                         
                             
-                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            <a href="/tags/#python" title="python" rel="2">python</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -613,6 +640,12 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
                         
                             
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -629,10 +662,6 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -696,7 +725,7 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
                 <ul class="list-inline">
 
                     
-                        <li><a href="http://kaijun.github.io/hexo-theme-huxblog/" target="_blank">Kaijun&#39;s Blog</a></li>
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
                     
                         <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
                     
@@ -832,22 +861,6 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
 
 
 <!-- Google Analytics -->
-
-
-<script>
-    // dynamic User by Hux
-    var _gaId = 'UA-70699634-1';
-    var _gaDomain = 'auto';
-
-    // Originial
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', _gaId, _gaDomain);
-    ga('send', 'pageview');
-</script>
 
 
 
