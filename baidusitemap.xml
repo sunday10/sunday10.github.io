@@ -4,14 +4,14 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/ansible-roles/</loc>
-    <lastmod>2018-08-23T09:37:34.197Z</lastmod>
+    <loc>http://www.sundayle.com/remove-iis-server-info/</loc>
+    <lastmod>2018-09-14T06:23:09.921Z</lastmod>
     <data>
         <display>
-        <title>编写 Ansible Role</title>
-        <pubTime>2018-05-18T08:11:47.000Z</pubTime>
+        <title>IIS 8.5 隐藏 X-Powered-By 及 X-Powered-By 信息</title>
+        <pubTime>2018-09-14T06:02:48.000Z</pubTime>
         
-        <tag>ansible</tag>
+        <tag>iis</tag>
          
          
            
@@ -21,16 +21,35 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/ansible-playbooks/</loc>
-    <lastmod>2018-08-23T09:33:06.793Z</lastmod>
+    <loc>http://www.sundayle.com/fastdfs-cluster/</loc>
+    <lastmod>2018-09-10T10:50:17.763Z</lastmod>
     <data>
         <display>
-        <title>使用 Ansible Playbooks</title>
-        <pubTime>2018-05-18T07:11:47.000Z</pubTime>
+        <title>FastDFS 分布式存储集群部署</title>
+        <pubTime>2018-09-10T10:23:32.000Z</pubTime>
         
-        <tag>ansible</tag>
+        <tag>fastdfs</tag>
          
-        <tag>自动化</tag>
+        <tag>分布式</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/mogilefs/</loc>
+    <lastmod>2018-09-10T10:24:50.467Z</lastmod>
+    <data>
+        <display>
+        <title>MogileFS 分布式存储</title>
+        <pubTime>2018-09-07T02:47:57.000Z</pubTime>
+        
+        <tag>分布式</tag>
+         
+        <tag>mogilefs</tag>
          
          
            
@@ -41,13 +60,32 @@
     
   <url>
     <loc>http://www.sundayle.com/glusterfs/</loc>
-    <lastmod>2018-08-23T09:25:24.422Z</lastmod>
+    <lastmod>2018-08-24T01:27:12.568Z</lastmod>
     <data>
         <display>
         <title>企业级分布式存储 Glusterfs</title>
         <pubTime>2018-08-23T07:41:57.000Z</pubTime>
         
         <tag>glusterfs</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/ansible-playbooks/</loc>
+    <lastmod>2018-08-23T10:07:21.031Z</lastmod>
+    <data>
+        <display>
+        <title>使用 Ansible Playbooks</title>
+        <pubTime>2018-05-18T07:11:47.000Z</pubTime>
+        
+        <tag>ansible</tag>
+         
+        <tag>自动化</tag>
          
          
            
@@ -245,9 +283,9 @@
         
         <tag>防火墙</tag>
          
-        <tag>iptables</tag>
-         
         <tag>ufw</tag>
+         
+        <tag>iptables</tag>
          
          
            
@@ -1774,7 +1812,7 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/elk-elasticsearch/</loc>
+    <loc>http://www.sundayle.com/elk-kafka-filebeat/</loc>
     <lastmod>2018-01-30T05:58:49.000Z</lastmod>
     <data>
         <display>
@@ -1783,7 +1821,7 @@
         
         <tag>elk</tag>
          
-        <tag>elasticsearch</tag>
+        <tag>kafka</tag>
          
          
            
@@ -1796,7 +1834,7 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/elk-kafka-filebeat/</loc>
+    <loc>http://www.sundayle.com/elk-elasticsearch/</loc>
     <lastmod>2018-01-30T05:58:49.000Z</lastmod>
     <data>
         <display>
@@ -1805,7 +1843,7 @@
         
         <tag>elk</tag>
          
-        <tag>kafka</tag>
+        <tag>elasticsearch</tag>
          
          
            

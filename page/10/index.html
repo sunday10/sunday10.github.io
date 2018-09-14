@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,52 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/gitlab/">
+        <h2 class="post-title">
+            Ubuntu 安装GitLab服务器
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境操作系统：Ubuntu 16.04应用服务：Gitlab 10.1.4-ce.0防火墙状态：关闭
+安装并配置必要的依赖关系1sudo apt-get install -y curl openssh-server ca-certificates
+添加 GitLab 镜像源并安装12curl -sS http://packages.gitlab.com.cn/install/gitlab-c......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-11-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/rsync-delete/">
+        <h2 class="post-title">
+            Linux 使用Rsync最快删除海量文件
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            摘要在Linux Web维护过程中，Web服务会生成海量（万级）缓存文件。这些小文件会消耗大量的inode。使用我们最常用的删除命令rm -fr * 就不好用了，非常吃力，等待的时间太长了。有时会报错。-bash: /bin/rm: Argument list too long。这时，我们可以使用rsync来实现快速删除大量文件。
+新建空目录1mkdir /tmp/empty
+Rsync删除......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-11-18
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -370,52 +416,6 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/iptables-forward/">
-        <h2 class="post-title">
-            配置iptables、ufw端口转发
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            本地网络 &gt;&gt; 中转IP:183.60.100.8 &gt;&gt; 目标IP:103.79.78.76
-温馨提示如果是远程操作的话，请做好定时防火墙失效，防止自己连接不上。
-每10分钟关闭防火墙12$ crontab -e#*/10 * * * * /data/shell/stop_ufw.sh
-非常简单的代码123456$ cat /data/shell/stop_ufw.s......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-11
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/ubuntu-ufw/">
-        <h2 class="post-title">
-            Ubuntu 开启ufw防火墙的一些命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            UFW，即Uncomplicated Firewall，是基于iptables实现的防火墙管理工具，旨在简化配置防火墙的过程，所以实际上UFW修改的是iptables的规则。虽然iptables是一个坚实而灵活的工具，但初学者很难学习如何使用它来正确配置防火墙。如果您希望开始保护您的网络，并且您不确定使用哪种工具，UFW可能是您的正确选择。
-本文测试环境为Ubuntu 16.04，其他系统可......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-11
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -455,21 +455,7 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                     <div class="tags">
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="3">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -485,7 +471,21 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -497,25 +497,7 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            <a href="/tags/#分布式" title="分布式" rel="2">分布式</a>
                             
                         
                             
@@ -529,7 +511,41 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -541,11 +557,7 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
-                            
-                        
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -559,33 +571,23 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                         
                             
                         
                             
                             <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -613,7 +615,15 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
+                        
+                            
                             <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -641,11 +651,17 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -657,17 +673,11 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -732,14 +742,6 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
 
                     
                         <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
-                    
-                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
-                    
-                        <li><a href="#" target="_blank">Foo</a></li>
-                    
-                        <li><a href="#" target="_blank">Bar</a></li>
-                    
-                        <li><a href="#" target="_blank">Example Friends</a></li>
                     
                         <li><a href="#" target="_blank">It helps SEO</a></li>
                     

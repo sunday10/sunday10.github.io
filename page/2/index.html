@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,77 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/">
+        <h2 class="post-title">
+            我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+仔细看上图，我们可以发现两个信息：
+
+1.该机器建立了238万个TCP连接；2.此时内存使用量大约在48G左右。
+
+看上去很赞吧？如果有人能够提供配置，并且在单台部署HAProxy的服务器上完成这样规模的调优，是不是更赞？本文将详细描述这个过程;
+本文是一系列关于HAProxy压力测试文章的最后一篇。如果有时间，建议读者能够先阅读本系列的其余两部分。这样能够更好的帮助我们了解本文所提及的内......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-domain-judgment/">
+        <h2 class="post-title">
+            Nginx 域名判断
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            判断 HTTP 请求的 HOST 首部，如果不是 sundayle.com 或者 www.sundayle.com , 则进行重定向到 sundayle.com
+通过设置变量到达条件组合的效果。1234567891011121314151617181920212223server &#123;    listen 80;    server_name sundayle.com www.sun......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/hexo-new-process-startup-time/">
+        <h2 class="post-title">
+            Linux 查看进程启动时间
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            按进程名查看123 ps axo comm,lstart| grep nginxnginx           Tue Aug 14 16:06:18 2018nginx           Tue Aug 14 16:06:18 2018
+1234ps axo pid,ppid,comm,pmem,lstart | grep nginx 1159     1 nginx          ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-16
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -340,70 +411,6 @@
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/lvs/">
-        <h2 class="post-title">
-            负载均衡集群 LVS 详解
-        </h2>
-        <h3 class="post-subtitle">
-            Loadbalancer & LVS
-        </h3>
-        <div class="post-content-preview">
-            负载均衡集群负载均衡集群指使用多台提供相同服务的服务器组成集群系统，提高服务的并发处理能力。负载均衡集群的前端使用一个调度器，将客户端请求平均分配到后端的服务器中，同时调度器可能还具有后端服务器状态检测的功能，将故障的服务器自动下线，使得集群具有一定的容错能力。
-使用负载均衡集群能够有效的扩展服务的并发能力，负载均衡集群中的主机间应该尽量的「低耦合」，最好是「无状态」的，这样就能够方便的增加......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-07
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/firewalld/">
-        <h2 class="post-title">
-            CentOS 7  Firewalld防火墙管理工具
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            firewalld 简介firewalld 提供了支持网络 / 防火墙区域 (zone) 定义网络链接以及接口安全等级的动态防火墙管理工具。它支持 IPv4, IPv6 防火墙设置以及以太网桥接，并且拥有运行时配置和永久配置选项。它也支持允许服务或者应用程序直接添加防火墙规则的接口。以前的 iptables 防火墙是静态的，每次修改都要求防火墙完全重启。这个过程包括内核 netfilter ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-07
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/haproxy-optimization/">
-        <h2 class="post-title">
-            使用 HAProxy 负载均衡300k并发tcp连接
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            我最近正在尝试建立一个推送系统。为了提高系统的可扩展性，最佳做法是使每个连接尽可能无状态。因此，当出现瓶颈时，通过添加更多机器可以轻松扩展整个系统的容量。说到负载平衡和反向代理，Nginx可能是最着名和最公认的。但是，TCP代理是一个相当新的事情。 Nginx从v1.9引入了TCP负载均衡和反向代理，v1.9于今年5月下旬发布，具有大量缺失功能。另一方面，HAProxy作为TCP加载bala......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-02
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -443,21 +450,7 @@
                     <div class="tags">
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="3">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -473,7 +466,21 @@
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -485,25 +492,7 @@
                             
                         
                             
-                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            <a href="/tags/#分布式" title="分布式" rel="2">分布式</a>
                             
                         
                             
@@ -517,7 +506,41 @@
                             
                         
                             
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -529,11 +552,7 @@
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
-                            
-                        
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -547,33 +566,23 @@
                             
                         
                             
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                         
                             
                         
                             
                             <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -601,7 +610,15 @@
                             
                         
                             
+                        
+                            
                             <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -629,11 +646,17 @@
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -645,17 +668,11 @@
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -720,14 +737,6 @@
 
                     
                         <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
-                    
-                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
-                    
-                        <li><a href="#" target="_blank">Foo</a></li>
-                    
-                        <li><a href="#" target="_blank">Bar</a></li>
-                    
-                        <li><a href="#" target="_blank">Example Friends</a></li>
                     
                         <li><a href="#" target="_blank">It helps SEO</a></li>
                     

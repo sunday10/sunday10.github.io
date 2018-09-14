@@ -2,23 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.sundayle.com/ansible-roles/</loc>
+    <loc>http://www.sundayle.com/remove-iis-server-info/</loc>
     
-    <lastmod>2018-08-23T09:37:34.197Z</lastmod>
+    <lastmod>2018-09-14T06:23:09.921Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/ansible-playbooks/</loc>
+    <loc>http://www.sundayle.com/fastdfs-cluster/</loc>
     
-    <lastmod>2018-08-23T09:33:06.793Z</lastmod>
+    <lastmod>2018-09-10T10:50:17.763Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/mogilefs/</loc>
+    
+    <lastmod>2018-09-10T10:24:50.467Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.sundayle.com/glusterfs/</loc>
     
-    <lastmod>2018-08-23T09:25:24.422Z</lastmod>
+    <lastmod>2018-08-24T01:27:12.568Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/ansible-playbooks/</loc>
+    
+    <lastmod>2018-08-23T10:07:21.031Z</lastmod>
     
   </url>
   
@@ -646,14 +660,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/elk-elasticsearch/</loc>
+    <loc>http://www.sundayle.com/elk-kafka-filebeat/</loc>
     
     <lastmod>2018-01-30T05:58:49.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/elk-kafka-filebeat/</loc>
+    <loc>http://www.sundayle.com/elk-elasticsearch/</loc>
     
     <lastmod>2018-01-30T05:58:49.000Z</lastmod>
     

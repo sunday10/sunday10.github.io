@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -220,7 +220,7 @@
 <h1 id="使用变量"><a href="#使用变量" class="headerlink" title="使用变量"></a>使用变量</h1><p>Ansible允许你使用Jinja2模板系统在playbook中引用变量.<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">My amp goes <span class="keyword">to</span> &#123;&#123; max_amp_value &#125;&#125;</span><br></pre></td></tr></table></figure></p>
 <p>jinjia2过滤器<br><figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># <span class="keyword">default</span><span class="comment">(*value*, *default_value=u''*, *boolean=False*)</span></span><br></pre></td></tr></table></figure></p>
 <p><a href="http://jinja.pocoo.org/docs/dev/templates/#builtin-filters" target="_blank" rel="noopener">http://jinja.pocoo.org/docs/dev/templates/#builtin-filters</a><br><a href="http://ju.outofmemory.cn/entry/97893" target="_blank" rel="noopener">http://ju.outofmemory.cn/entry/97893</a></p>
-<p>使用Facts获取的信息<br><a href="https://ansible-tran.readthedocs.io/en/latest/docs/playbooks_variables.html#inventory" target="_blank" rel="noopener">https://ansible-tran.readthedocs.io/en/latest/docs/playbooks_variables.html#inventory</a><br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible hostname -m <span class="built_in">setup</span></span><br></pre></td></tr></table></figure></p>
+<p>使用Facts获取的信息<br><a href="https://ansible-tran.readthedocs.io/en/latest/docs/playbooks_variables.html#inventory" target="_blank" rel="noopener">https://ansible-tran.readthedocs.io/en/latest/docs/playbooks_variables.html#inventory</a><br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible hostname -m <span class="built_in">setup</span></span><br><span class="line">ansible all -m <span class="built_in">setup</span> -a <span class="string">"filter=ansible_distribution*"</span></span><br></pre></td></tr></table></figure></p>
 <p>如果没有使用fact变量时可以强制地关闭,这样执行速度会快一点.<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- hosts:</span> <span class="string">whatever</span></span><br><span class="line"><span class="attr">  gather_facts:</span> <span class="literal">no</span></span><br></pre></td></tr></table></figure></p>
 <p>魔法变量</p>
 <ul>
@@ -262,7 +262,7 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/ansible-roles/" data-toggle="tooltip" data-placement="top" title="编写 Ansible Role">&larr; Previous Post</a>
+                            <a href="/s-nail/" data-toggle="tooltip" data-placement="top" title="Ubuntu 配置S-nail 使用QQ邮箱服务器">&larr; Previous Post</a>
                         </li>
                     
                     
@@ -324,14 +324,6 @@
 
                     
                         <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
-                    
-                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
-                    
-                        <li><a href="#" target="_blank">Foo</a></li>
-                    
-                        <li><a href="#" target="_blank">Bar</a></li>
-                    
-                        <li><a href="#" target="_blank">Example Friends</a></li>
                     
                         <li><a href="#" target="_blank">It helps SEO</a></li>
                     

@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -204,7 +204,7 @@
 <h1 id="配置密钥"><a href="#配置密钥" class="headerlink" title="配置密钥"></a>配置密钥</h1><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">shell</span><span class="bash">&gt; ssh-keygen </span></span><br><span class="line"><span class="bash">shell&gt; ssh-copy-id -i ~/.ssh/id_rsa.pub root@192.168.1.36</span></span><br><span class="line"><span class="bash">shell&gt; ssh-copy-id -i ~/.ssh/id_rsa.pub root@192.168.1.37</span></span><br></pre></td></tr></table></figure>
 <p>客户端设置允许root登陆<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="meta-keyword">/etc/</span>ssh/sshd_config</span><br><span class="line"><span class="meta">#PermitRootLogin yes</span></span><br></pre></td></tr></table></figure></p>
 <p>ansible控制端<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ssh</span> <span class="selector-tag">root</span>@<span class="keyword">192</span>.<span class="keyword">168</span>.<span class="keyword">1</span>.<span class="keyword">36</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="配置Ansible主机管理"><a href="#配置Ansible主机管理" class="headerlink" title="配置Ansible主机管理"></a>配置Ansible主机管理</h1><h2 id="普通分组和组中组"><a href="#普通分组和组中组" class="headerlink" title="普通分组和组中组"></a>普通分组和组中组</h2><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/ansible/hosts</span><br><span class="line"><span class="string">[web36]</span></span><br><span class="line"><span class="number">192.168.1.36</span></span><br><span class="line"><span class="string">[web37]</span></span><br><span class="line"><span class="number">192.168.1.37</span>    </span><br><span class="line"></span><br><span class="line">#普通分组</span><br><span class="line"><span class="string">[webs]</span></span><br><span class="line"><span class="number">192</span>.<span class="number">168</span>.<span class="number">1</span>.<span class="string">[36:37]</span> #:可以表示to的含义,如<span class="string">[01:50]</span>表示从<span class="number">01</span>到<span class="number">50</span></span><br><span class="line"></span><br><span class="line"><span class="string">[db1]</span></span><br><span class="line"><span class="number">192.168.1.41</span></span><br><span class="line"><span class="string">[db2]</span></span><br><span class="line"><span class="number">192.168.1.42</span></span><br><span class="line"></span><br><span class="line">#dbs 组中组</span><br><span class="line"><span class="string">[dbs:children]</span></span><br><span class="line"><span class="string">[db1]</span></span><br><span class="line"><span class="string">[db2]</span></span><br></pre></td></tr></table></figure>
+<h1 id="配置Ansible主机管理"><a href="#配置Ansible主机管理" class="headerlink" title="配置Ansible主机管理"></a>配置Ansible主机管理</h1><h2 id="普通分组和组中组"><a href="#普通分组和组中组" class="headerlink" title="普通分组和组中组"></a>普通分组和组中组</h2><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/ansible/hosts</span><br><span class="line"><span class="string">[web36]</span></span><br><span class="line"><span class="number">192.168.1.36</span></span><br><span class="line"><span class="string">[web37]</span></span><br><span class="line"><span class="number">192.168.1.37</span>    </span><br><span class="line"></span><br><span class="line">#普通分组</span><br><span class="line"><span class="string">[webs]</span></span><br><span class="line"><span class="number">192</span>.<span class="number">168</span>.<span class="number">1</span>.<span class="string">[36:37]</span> #:可以表示to的含义,如<span class="string">[01:50]</span>表示从<span class="number">01</span>到<span class="number">50</span></span><br><span class="line"></span><br><span class="line"><span class="string">[db1]</span></span><br><span class="line"><span class="number">192.168.1.41</span></span><br><span class="line"><span class="string">[db2]</span></span><br><span class="line"><span class="number">192.168.1.42</span></span><br><span class="line"></span><br><span class="line">#dbs 组中组</span><br><span class="line"><span class="string">[dbs:children]</span></span><br><span class="line">db1</span><br><span class="line">db2</span><br></pre></td></tr></table></figure>
 <h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p><strong> 系统预设变量 </strong><br>ansible_connection=ssh #定义连接类型<br>ansible_ssh_user=root  #连接用户名<br>ansible_ssh_pass=pass  #连接密码<br>ansible_ssh_port=22    #连接主机的端口<br>ansible_sudo_pass=’4kX5KyVmk3/zq #sudo用户密码</p>
 <p><strong> 主机变量 </strong><br>在主机定义时，直接定义相关变量.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.36 http_port=80 maxRequestsPerChild=808</span><br><span class="line">192.168.1.37 http_port=8280 maxRequestsPerChild=909</span><br></pre></td></tr></table></figure></p>
 <p><strong> 组变量 </strong><br>同一组的主机具有相同的变量时使用组变量比较方便，同样适用vars来进行识别。</p>
@@ -243,7 +243,7 @@
 </ul>
 <h1 id="使用Include、Roles组织Playbook"><a href="#使用Include、Roles组织Playbook" class="headerlink" title="使用Include、Roles组织Playbook"></a>使用Include、Roles组织Playbook</h1><p>对于一个需要上百个task自动化任务来说，全部写在一个playbook中，是非常混乱的。<br>那么将一个复杂的playbook拆分为多个简单的playbook就会灵活多了。<br>Roles是通过规范目录结构，自动include对应目录下的任务。格式上不再需要通过include来明确定义引入哪个playbook.</p>
 <h1 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h1><p>ansible -h 查看其帮助信息<br>ansible-doc module_name来查看,<br>ansible-doc -l查看系统模块有哪些。</p>
-<p><a href="https://zhuanlan.zhihu.com/p/25368281" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25368281</a><br><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-centos-7" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-centos-7</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/25368281" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25368281</a><br><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-centos-7" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-centos-7</a><br><a href="https://www.jianshu.com/p/c56a88b103f8" target="_blank" rel="noopener">https://www.jianshu.com/p/c56a88b103f8</a></p>
 
 
                 <hr>
@@ -313,14 +313,6 @@
 
                     
                         <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
-                    
-                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
-                    
-                        <li><a href="#" target="_blank">Foo</a></li>
-                    
-                        <li><a href="#" target="_blank">Bar</a></li>
-                    
-                        <li><a href="#" target="_blank">Example Friends</a></li>
                     
                         <li><a href="#" target="_blank">It helps SEO</a></li>
                     
