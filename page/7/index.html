@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,143 @@
 
 <div class="post-preview">
 
+    <a href="/mongodb-command/">
+        <h2 class="post-title">
+            MongoDB命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            帮助db.help()db.mycoll.help()db.mycoll.find().help()
+数据库创建数据库12&gt; use mydb;switched to db mydb
+删除数据库1&gt; db.dropDatabase()
+显示所有数据库12345&gt; show dbs;admin   0.000GBconfig  0.000GBlocal   0.001GBte......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysql-pmm/">
+        <h2 class="post-title">
+            MySQL 5.7 使用PMM监视和管理数据库
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Server端安装server端安装非常简单，我们采用docker的方式来部署。
+1.拉取镜像1docker pull percona/pmm-server:latest
+2.创建PMM数据容器1234567docker create \   -v /opt/prometheus/data \   -v /opt/consul-data \   -v /var/lib/mysql \   -......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysqlbinlog-recovery-data/">
+        <h2 class="post-title">
+            mysqlbinlog 恢复数据
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            mysqlbinlog支持下面的选项：
+
+--help，-？ 显示帮助消息并退出。
+--database=db_name，-d db_name 只列出该数据库的条目(只用本地日志)。
+--force-read，-f 使用该选项，如果mysqlbinlog读它不能识别的二进制日志事件，它会打印警告，忽略该事件并继续。没有该选项，如果mysqlbinlog读到此类事件则停止。
+--hexdump......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-10
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/xtrabackup/">
+        <h2 class="post-title">
+            xtrabackup备份和恢复
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            备份方式热备份：读写不受影响（mysqldump–&gt;innodb）温备份：仅可以执行读操作（mysqldump–&gt;myisam）冷备份：离线备份，读写都不可用逻辑备份：将数据导出文本文件中（mysqldump）物理备份：将数据文件拷贝（xtrabackup、mysqlhotcopy）完整备份：备份所有数据增量备份：仅备份上次完整备份或增量备份以来变化的数据差异备份：仅备份上次完整......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-09
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysql-multi-source-replication/">
+        <h2 class="post-title">
+            MySQL5.7的多源复制
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境Mysql: 5.7.18Master1: 192.168.1.41Master2: 192.168.1.42Slave: 192.168.1.43复制模式: gtid
+配置文件Master1123456789101112131415161718server_id = 41log-bin = mysql-binbinlog_format = rowbinlog_cache_size = ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-09
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysql-gtid-online/">
+        <h2 class="post-title">
+            MySQL 5.7 GTID在线切换
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            在线切换的版本要&gt;=5.7.6gitd_mode   解释OFF 不产生GTID,Slave只接收不带GTID的事务OFF_PERMISSIVE  不产生GTID,Slave接收不带GTID的事务也接收带GTID的事务ON_PERMISSIVE   产生GTID,Slave接收不带GTID的事务也接收带GTID的事务ON  产生GTID,Slave只接收带GTID的事务环境MySQL版......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-09
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/mysql-gtid-error-1062/">
         <h2 class="post-title">
             Mysql 5.7 gtid主从复制错误处理
@@ -257,150 +394,15 @@
         </h3>
         <div class="post-content-preview">
             云计算指的是资源使用和交互的一种模式虚拟化指的是技术，可以将物理计算机虚拟成多个逻辑计算机（如VMware）他们彼此独立，互不影响，但是云计算又需要使用虚拟化技术。
-操作环境系统: Centos 7KVM宿主机IP:192.168.77.11 (KVM-S1)KVM子虚拟机IP:192.168.77.111防火墙状态: 关闭selinux状态: 关闭NetworkManager: 关闭
-虚拟......
+1. 操作环境
+系统: Centos 7母机IP:192.168.77.11 (KVM-S1)KVM IP:192.168.77.111防火墙状态: 关闭selinux状态: 关闭NetworkManager: 关闭
+
+2. 检......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
         2018-04-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/gitlab-webhook/">
-        <h2 class="post-title">
-            gitlab webhook 自动部署代码
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            原理1、配置gitlab，当客户端git push动作的时候，访问服务器上的一个链接比如demo.sundayle.com/applet.php2、applet.php会调用applet.sh脚本，检测master或upload更新，就会让服务器git pull相应项目的代码到内网web目录或外网web目录。3、pull结束，我们只要重新访问内网或外网 网站就可以了。
-内外网shell脚本同......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/rsync/">
-        <h2 class="post-title">
-            Rsyncd 服务器配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装rsync1yum install rsync -y
-环境server:192.168.10.100client:192.168.10.101
-配置rsyncd.conf1234567891011121314151617181920212223242526272829address = 0.0.0.0uid = nobodygid = nobodyuse chroot = nomax c......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/vsftp/">
-        <h2 class="post-title">
-            vsftp服务器配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装
-yum install vsftpd
-#apt-get install vsftpd
-
-vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftpd    Vsftpd的主程序。/etc/pam.d/vsftpd   PAM认证文件 指明阻止访问的用户来自/etc/vsftpd/ftpusers/etc/vsftpd/f......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/svnserve/">
-        <h2 class="post-title">
-            Svn 版本系统安装
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装12345apt-get install libapr1-dev libaprutil1-devtar xf subversion-1.8.17.tar.gzcd subversion-1.8.17./configure --prefix=/usr/local/svnservemake &amp;&amp; make install
-依赖解决12345678910111213An app......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/crontab/">
-        <h2 class="post-title">
-            Crontab 计划任务
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            可用crontab -e命令来编辑，编辑的是/var/spool/cron下对应用户的cron文件，也可以直接修改/etc/crontab文件。具体格式如下：123Minute Hour Day Month Week command分钟 小时 天 月 星期 命令0-59 0-23 1-31 1-12 0-6 command
-每个字段代表的含义如下：
-
-Minute：每个小时的第几分钟执行该任......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/linux-tar/">
-        <h2 class="post-title">
-            linux 常用压缩 解压命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            压缩1、tar -cvf jpg.tar .jpg //将目录里所有jpg文件打包成tar.jpg2、tar -czf jpg.tar.gz .jpg   //将目录里所有jpg文件打包成jpg.tar后，并且将其用gzip压缩，生成一个gzip压缩过的包，命名为jpg.tar.gz3、tar -cjf jpg.tar.bz2 .jpg //将目录里所有jpg文件打包成jpg.tar后，并且......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
     </p>
 
 </div>
@@ -451,6 +453,28 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
+                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
+                            
+                        
+                            
+                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
+                            
+                        
+                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -465,19 +489,27 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
-                            
-                        
-                            
-                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
                         
                             
                         
+                            
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
                             
@@ -489,25 +521,7 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
-                            
                         
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
                             
@@ -517,11 +531,7 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                            <a href="/tags/#分布式" title="分布式" rel="2">分布式</a>
-                            
-                        
-                            
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -532,16 +542,6 @@ Minute：每个小时的第几分钟执行该任......
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -557,11 +557,21 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            
+                        
                             
                         
                             
@@ -571,15 +581,7 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -603,6 +605,8 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
                             
                         
@@ -610,6 +614,8 @@ Minute：每个小时的第几分钟执行该任......
                         
                             
                             <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                            
+                        
                             
                         
                             
@@ -635,15 +641,9 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#python" title="python" rel="2">python</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
@@ -659,6 +659,10 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
+                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
+                            
                         
                             
                         
@@ -668,6 +672,10 @@ Minute：每个小时的第几分钟执行该任......
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

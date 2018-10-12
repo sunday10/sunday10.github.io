@@ -2,30 +2,72 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.sundayle.com/remove-iis-server-info/</loc>
+    <loc>http://www.sundayle.com/glusterfs/</loc>
     
-    <lastmod>2018-09-14T06:40:53.937Z</lastmod>
+    <lastmod>2018-10-12T06:19:00.598Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.sundayle.com/fastdfs-cluster/</loc>
     
-    <lastmod>2018-09-10T10:50:17.763Z</lastmod>
+    <lastmod>2018-10-12T06:18:05.586Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/distributed-file-system-fastdfs/</loc>
+    
+    <lastmod>2018-10-12T06:13:34.677Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/sql-server-replication/</loc>
+    
+    <lastmod>2018-10-12T05:57:48.605Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/codis-redis-cluster/</loc>
+    
+    <lastmod>2018-10-12T05:56:36.216Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.sundayle.com/mogilefs/</loc>
     
-    <lastmod>2018-09-10T10:24:50.467Z</lastmod>
+    <lastmod>2018-10-11T10:22:01.949Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/glusterfs/</loc>
+    <loc>http://www.sundayle.com/redis-install/</loc>
     
-    <lastmod>2018-08-24T01:27:12.568Z</lastmod>
+    <lastmod>2018-10-09T04:37:49.840Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/dd-simple-test/</loc>
+    
+    <lastmod>2018-10-08T10:31:25.580Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/iis-8-5-configure-high-concurrency/</loc>
+    
+    <lastmod>2018-09-30T10:42:21.689Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/remove-iis-server-info/</loc>
+    
+    <lastmod>2018-09-14T06:40:53.937Z</lastmod>
     
   </url>
   
@@ -723,7 +765,7 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/megacli/</loc>
+    <loc>http://www.sundayle.com/raid-megacli/</loc>
     
     <lastmod>2017-11-27T03:15:09.000Z</lastmod>
     

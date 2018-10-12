@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,149 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/sed/">
+        <h2 class="post-title">
+            文本处理工具 Sed
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            stream editor 流式编辑器sed是Linux中的一个文件编辑工具，按行处理文件内容，可以实现插入，删除，替换等功能。更重要的是sed命令可以用script来处理文本文件，能够应对复杂的编辑需求。
+sed命令语法基本格式 sed [option] [sed.txt]
+选项:
+
+-e &lt;script>: 按script编辑文本并输出到控制台，但不修改原文件内容
+-f : sed......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/grep/">
+        <h2 class="post-title">
+            文本处理工具 Grep
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            文本搜索工具，根据用户指定的文本模式（搜索条件）对目标文件进行逐行搜索，显示能匹配到的行
+grep：最常用，可以检索目标（一个活多个单词或正则表达式）。egrep：支持丰富的正则表达式，而且支持多目标检索，等同于 grep -e。fgrep：不能使用正则表达式，可以检索多个目标，等同于 grep -f，不建议使用。
+Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/elk-elasticsearch-plug/">
+        <h2 class="post-title">
+            ELK实时日志分析 Elasticsearch 插件
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Elasticsearch插件
+环境
+系统：CentOS 7
+
+部署elasticsearch 5.x 不再支持插件，需运行独立
+2.1 Head插件作用：集群监制
+123456789101112yum install bzip2 unzip git -y# git clone https://github.com/mobz/elasticsearch-headwget https://gi......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/elk-kafka-filebeat/">
+        <h2 class="post-title">
+            ELK+Filebeat+Kafka 日志分析
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            为什么要用ELK日志主要包括系统日志、应用程序日志和安全日志。系统运维和开发人员可以通过日志了解服务器软硬件信息、检查配置过程中的错误及错误发生的原因。经常分析日志可以了解服务器的负荷，性能安全性，从而及时采取措施纠正错误。
+通常，日志被分散的储存不同的设备上。如果你管理数十上百台服务器，你还在使用依次登录每台机器的传统方法查阅日志。这样是不是感觉很繁琐和效率低下。日志的统计和检索又成为一件......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/elk-elasticsearch/">
+        <h2 class="post-title">
+            ELK+Filebeat+Kafka 日志分析
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            为什么要用ELK日志主要包括系统日志、应用程序日志和安全日志。系统运维和开发人员可以通过日志了解服务器软硬件信息、检查配置过程中的错误及错误发生的原因。经常分析日志可以了解服务器的负荷，性能安全性，从而及时采取措施纠正错误。
+通常，日志被分散的储存不同的设备上。如果你管理数十上百台服务器，你还在使用依次登录每台机器的传统方法查阅日志。这样是不是感觉很繁琐和效率低下。日志的统计和检索又成为一件......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/java/">
+        <h2 class="post-title">
+            CentOS 7 安装 Java
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            两种方式安装JDK
+1. yum安装12345yum install -y javajava -versionopenjdk version "1.8.0_171"OpenJDK Runtime Environment (build 1.8.0_171-b14)OpenJDK 64-Bit Server VM (build 25.171-b14, mixed mode
+2. 源码安装http......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-30
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -270,141 +413,6 @@ ipt......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/nginx/">
-        <h2 class="post-title">
-            Nginx 编译
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 安装依赖12345#ubuntuapt-get install gcc g++ make libtool openssl libssl-dev libpcre3 libpcre3-dev libgd-dev#centosyum install gcc make openssl-devel pcre-devel gd-devel
-2. jemalloc 安装http://www.sund......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/jemalloc/">
-        <h2 class="post-title">
-            更好的内存管理jemalloc
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. jemalloc是干什么的呢？官方说明：
-
-jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support.jemalloc干了malloc干的活，而且干得好一些，主要体现在避免内存碎片与并发扩展......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-log-cut/">
-        <h2 class="post-title">
-            Logrotate Nginx日志切割
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. Logrotate日志切割Linux日志文件如果不定期清理，查看日志会比较麻烦。我们可以使用”logrotate”来管理linux日志文件，它可以实现日志的自动滚动，日志归档等功能。下面以nginx日志文件来讲解下logrotate的用法。
-在/etc/logrotate.d/目录下创建一个配置文件”nginx”，内容如下：1234567891011121314vim /etc/log......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-27
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/megacli/">
-        <h2 class="post-title">
-            MegaCli64 常用管理命令汇总
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            硬盘方面：
-1、查看所有物理磁盘信息12345678910111213141516171819202122232425262728293031# MegaCli64 -PDList -aALL                                     Adapter #0Enclosure Device ID: 32Slot Number: 0Drive's position:......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-27
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/git-command/">
-        <h2 class="post-title">
-            Git 常用命令集合
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些全局设置的，如用户名、邮箱。设置的主要命令是 git config:12git config --global user.name "your name"      // 设置全局用户名git config --global user.email "your email"    // 设置邮箱
-其中， –global 指定......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-21
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/git-base/">
-        <h2 class="post-title">
-            Git 简易教程
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 创建新仓库创建新文件夹，打开，然后执行git init以创建新的 git 仓库。
-2. 检出仓库执行如下命令以创建一个本地仓库的克隆版本：git clone /path/to/repository如果是远端服务器上的仓库，你的命令会是这个样子：git clone username@host:/path/to/repository
-3. 工作流你的本地仓库由 git 维护的三棵“树”组成......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-21
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -450,6 +458,28 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
+                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
+                            
+                        
+                            
+                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
+                            
+                        
+                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -464,19 +494,27 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
-                            
-                        
-                            
-                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
                         
                             
                         
+                            
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
                             
@@ -488,25 +526,7 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
-                            
                         
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
                             
@@ -516,11 +536,7 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
-                            <a href="/tags/#分布式" title="分布式" rel="2">分布式</a>
-                            
-                        
-                            
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -531,16 +547,6 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -556,11 +562,21 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            
+                        
                             
                         
                             
@@ -570,15 +586,7 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -602,6 +610,8 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
                             
                         
@@ -609,6 +619,8 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                         
                             
                             <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                            
+                        
                             
                         
                             
@@ -634,15 +646,9 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
+                        
+                            
                             <a href="/tags/#python" title="python" rel="2">python</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
@@ -658,6 +664,10 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
+                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
+                            
                         
                             
                         
@@ -667,6 +677,10 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

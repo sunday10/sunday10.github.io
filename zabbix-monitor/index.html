@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -222,7 +222,7 @@
 <h1 id="WEB界面"><a href="#WEB界面" class="headerlink" title="WEB界面"></a>WEB界面</h1><h2 id="激活客户端"><a href="#激活客户端" class="headerlink" title="激活客户端"></a>激活客户端</h2><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/zabbix-enable-agent.jpg">
 <h2 id="查看cpu负载"><a href="#查看cpu负载" class="headerlink" title="查看cpu负载"></a>查看cpu负载</h2><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/zabbix-cpu-load.jpg">
 <h2 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h2><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/zabbix-password.jpg">
-<h2 id="设置中文"><a href="#设置中文" class="headerlink" title="设置中文"></a>设置中文</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/www/web/zabbix/<span class="keyword">include</span>/locales.inc.php <span class="comment">#检测启用：true</span></span><br><span class="line"><span class="string">'zh_CN'</span> =&gt; [<span class="string">'name'</span> =&gt; _(<span class="string">'Chinese (zh_CN)'</span>), <span class="string">'display'</span> =&gt; <span class="keyword">true</span>],</span><br><span class="line"></span><br><span class="line"> apt-get install language-pack-zh-hant language-pack-zh-hans</span><br><span class="line"> dpkg-reconfigure locales <span class="comment"># 选择的 en_US.UTF-8/zh_CN.UTF-8 </span></span><br><span class="line"> /etc/init.d/php7 restart</span><br><span class="line"> /etc/init.d/nginx restart</span><br></pre></td></tr></table></figure>
+<h2 id="设置中文"><a href="#设置中文" class="headerlink" title="设置中文"></a>设置中文</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">上传微软雅黑( msyh.ttf</span><br><span class="line">)到/www/web/zabbix/fonts/</span><br><span class="line"></span><br><span class="line">/www/web/zabbix/<span class="keyword">include</span>/locales.inc.php <span class="comment">#检测启用：true</span></span><br><span class="line"><span class="string">'zh_CN'</span> =&gt; [<span class="string">'name'</span> =&gt; _(<span class="string">'Chinese (zh_CN)'</span>), <span class="string">'display'</span> =&gt; <span class="keyword">true</span>],</span><br><span class="line"><span class="comment">//define('ZBX_FONT_NAME', 'DejaVuSans');</span></span><br><span class="line">define(<span class="string">'ZBX_FONT_NAME'</span>, <span class="string">'msyh'</span>);</span><br><span class="line"></span><br><span class="line"> apt-get install language-pack-zh-hant language-pack-zh-hans</span><br><span class="line"> dpkg-reconfigure locales <span class="comment"># 选择的 en_US.UTF-8/zh_CN.UTF-8 </span></span><br><span class="line"> /etc/init.d/php7 restart</span><br><span class="line"> /etc/init.d/nginx restart</span><br></pre></td></tr></table></figure>
 <img src="http://owsi2j3f8.bkt.clouddn.com/static/images/zabbix-chinese.jpg">
 <h1 id="监控部署"><a href="#监控部署" class="headerlink" title="监控部署"></a>监控部署</h1><p><a href="https://www.zabbix.com/download?zabbix=3.4&amp;os_distribution=ubuntu&amp;os_version=xenial&amp;db=MySQL" target="_blank" rel="noopener">https://www.zabbix.com/download?zabbix=3.4&amp;os_distribution=ubuntu&amp;os_version=xenial&amp;db=MySQL</a></p>
 <h2 id="安装客户端-web36"><a href="#安装客户端-web36" class="headerlink" title="安装客户端 web36"></a>安装客户端 web36</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> wget http://repo.zabbix.com/zabbix/3.4/ubuntu/pool/main/z/zabbix-<span class="keyword">release</span>/zabbix-release_3<span class="number">.4</span><span class="number">-1</span>+xenial_all.deb</span><br><span class="line"> dpkg -i zabbix-release_3<span class="number">.4</span><span class="number">-1</span>+xenial_all.deb</span><br><span class="line"> apt <span class="keyword">update</span></span><br><span class="line"> apt <span class="keyword">install</span> zabbix-<span class="keyword">agent</span></span><br><span class="line"> systemctl <span class="keyword">enable</span> zabbix-<span class="keyword">agent</span></span><br><span class="line"> vim /etc/zabbix/zabbix_agent.conf</span><br><span class="line"><span class="keyword">Server</span>=<span class="number">192.168</span><span class="number">.1</span><span class="number">.39</span></span><br><span class="line">ServerActive=<span class="number">192.168</span><span class="number">.1</span><span class="number">.39</span></span><br><span class="line">Hostname=web36</span><br></pre></td></tr></table></figure>

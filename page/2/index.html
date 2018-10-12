@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,178 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/lvm2/">
+        <h2 class="post-title">
+            LVM逻辑卷管理配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+前言Logical Volume Manager (LVM) 重点在于 可以弹性的调整 文件系统 的容量！
+LVM 可以整合多个硬盘 分区在一起， 让这些 分区 看起来就像是一个磁盘一样！
+传统分区使用固定大小分区，重新调整大小十分麻烦，但是LVM可以创建和管理“逻辑”卷，而不是直接使用物理硬盘，可以让管理员弹性的管理逻辑卷的扩大缩小，操作简单，而不损坏已存储的数据。可以随意将新的硬盘添加......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/glusterfs-docker/">
+        <h2 class="post-title">
+            基于 GlusterFS 实现 Docker 集群的分布式存储
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            企业中的应用场景理论和实践上分析，GlusterFS 目前主要适用于大文件存储场景，对于小文件尤其是海量小文件，存储效率和访问性能都表现不佳。海量小文件 LOSF 问题是工业界和学术界公认的难题，GlusterFS 作为通用的分布式文件系统，并没有对小文件作额外的优化措施，性能不好也是可以理解的。
+
+Media - 文档、图片、音频、视频
+Shared storage - 云存储、虚拟化存储......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nmap-penetration/">
+        <h2 class="post-title">
+            Nmap 渗透使用指南
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            介绍nmap是用来探测计算机网络上的主机和服务的一种安全扫描器。为了绘制网络拓扑图Nmap的发送特制的数据包到目标主机然后对返回数据包进行分析。Nmap是一款枚举和测试网络的强大工具。
+特点
+主机探测
+端口扫描
+版本检测
+支持探测脚本的编写
+
+安装官网:http://nmap.org 图形化:Zenmap
+基本操作基本快速扫描Nmap 默认发送一个arp的ping数据包来探测目标主机在1-1......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-21
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/python-deep-copy-and-shallow-copy/">
+        <h2 class="post-title">
+            Python中的深拷贝和浅拷贝
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最近面试被问到python中深拷贝和浅拷贝的知识这里进行下总结，以便今后复习python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。首先，对赋值操作我们要有以下认识：
+
+赋值是将一个对象的地址赋值给一个变量，让变量指向该地址（ 旧瓶装旧酒 ）。
+修改不可变对象（str、tuple）需要开辟新的空间
+修改可变对象（list等）不......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-21
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/python-note/">
+        <h2 class="post-title">
+            Python学习笔记
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Python学习笔记基础基础
+语法
+
+
+#开头，注释
+缩进的语句视为代码块
+大小写敏感
+
+
+数据类型和变量
+
+True和False首字母大写
+and、or和not
+空值：None
+
+
+字符串格式化%
+
+%d整数
+
+%f浮点数
+
+%s字符串
+
+%x十六进制整数
+
+补位
+12345&gt;&gt;&gt; '%2d-%02d' % (3, 1)' 3-01'&gt;&gt;&gt; '%.2f'......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-20
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/iptables-for-anti-ddos/">
+        <h2 class="post-title">
+            配置 Sysctl 和 Iptables 防攻击
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            sysctl 可以显示和修改内核参数，包含一些 TCP/IP 堆栈和虚拟内存系统的高级选项，合理设置可以显著提高系统性能。iptables 是 Linux 下最常用的防火墙软件，也是很多 Linux 发行版自带的默认防火墙软件。通过设置 sysctl 和 iptables，可以有效防范中小程度的攻击。
+查看状态查看TCP连接状态12#netstat -nat |awk '&#123;prin......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-20
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -278,139 +450,6 @@
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/linux-process-management/">
-        <h2 class="post-title">
-            Linux 进程的管理与监控
-        </h2>
-        <h3 class="post-subtitle">
-            Process Management
-        </h3>
-        <div class="post-content-preview">
-            进程的概念什么是进程进程（Process）是计算机中程序执的实体。程序通常是由指令和相关数据组成的，在 Linux 系统中，程序的运行通常是由用户通过一个命令行解释器（例如 bash shell）发起执行，或者由其他进程派生而来。
-进程标识符每个进程都有一个非负整数表示的唯一标识符，进程运行时 PID 是由操作系统随机分配的，进程 ID 可以重用。当一个进程终止后，其进程 ID 就可以再次使......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-15
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived-nginx-dual-network/">
-        <h2 class="post-title">
-            Keepalived Nginx双网络(内外网)故障非同步漂移双主模式
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            简介有了keepalived+Lvs这样的高性能组合，为什么还需keepalived+Nginx呢。keepalived是为了Lvs而设计。Lvs是一个四层的负载均衡设备，虽然有着高性能的优势，但它无后端服务器的健康检查机制。keepalived为lvs提供一系列的健康检查机制，例如：TCP_CHECK,UDP_CHECK,HTTP_GET等。同时lvs也可以自己写健康检查脚脚本。或者结合l......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-13
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived-dual-network/">
-        <h2 class="post-title">
-            Keepalived 双网络(内外网)故障同步漂移主备模式
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            前言在生产环境当中，内网与公网都是独立分开的，因此内网和公网不用同步漂移，例如：Keepalived+LVS-DR、Keepalived+Nginx、Keepalived+HAProxy 都无需同步漂移。
-注：Keepalived+LVS-NAT模式除外。
-架构图123456789101112131415161718192021222324    +------+              ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-13
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived-lvs-dr-nginx/">
-        <h2 class="post-title">
-            Keepalived + LVS-DR Nginx 双主高可用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            LVS/DR模式LVS是Linux Virtual Server的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。LVS目前有三种IP负载均衡技术（VS/NAT、VS/TUN和VS/DR）、十种调度算法（rr | wrr | lc | wlc | lblc | lblcr |dh | sh | sed | nq）。LVS在Unix-like系统中是作为一个前端(Director)......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-09
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived/">
-        <h2 class="post-title">
-            Keepavlied 编译及配置文件详解
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Keepalived简介Keepalived是一个基于vrrp来实现的服务器高可用解决方案，可以利用其实现避免IP单点故障，类似的工具还有heartbeat、corosync。不过其不会单独出现，而是搭配着 LVS、Nginx、HAproxy，一起协同工作达到高可用的目的。
-具体来说，其作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，KeepAlived将会检测到，并将有......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-09
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/high-availability/">
-        <h2 class="post-title">
-            高可用集群基本概念
-        </h2>
-        <h3 class="post-subtitle">
-            High availability
-        </h3>
-        <div class="post-content-preview">
-            什么是高可用可用性如何定义
-
-可用性（availability）是关于系统可供使用时间的表述，以不可用的时间为衡量指标。不可用时间越短，可用性越高。通常用 n 个 9 来描述。比如 4 个 9 的可用性（99.99%），是指一年中不可用时间在 52 分钟内，平均每周不可用时间在 1 分钟。
-可靠性（reliability）是关于系统无故障时间间隔的描述，以发生故障的次数为衡量指标，故障次数越......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-07
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -456,6 +495,28 @@
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
+                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
+                            
+                        
+                            
+                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
+                            
+                        
+                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -470,19 +531,27 @@
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
-                            
-                        
-                            
-                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
                         
                             
                         
+                            
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
                             
@@ -494,25 +563,7 @@
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
-                            
                         
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
                             
@@ -522,11 +573,7 @@
                             
                         
                             
-                            <a href="/tags/#分布式" title="分布式" rel="2">分布式</a>
-                            
-                        
-                            
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -537,16 +584,6 @@
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -562,11 +599,21 @@
                             
                         
                             
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            
+                        
                             
                         
                             
@@ -576,15 +623,7 @@
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -608,6 +647,8 @@
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
                             
                         
@@ -615,6 +656,8 @@
                         
                             
                             <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                            
+                        
                             
                         
                             
@@ -640,15 +683,9 @@
                             
                         
                             
+                        
+                            
                             <a href="/tags/#python" title="python" rel="2">python</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
@@ -664,6 +701,10 @@
                             
                         
                             
+                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
+                            
                         
                             
                         
@@ -673,6 +714,10 @@
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

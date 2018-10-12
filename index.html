@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,118 @@
 
 <div class="post-preview">
 
+    <a href="/codis-redis-cluster/">
+        <h2 class="post-title">
+            Codis Redis 集群
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            https://www.jianshu.com/p/10c68da215bahttps://github.com/CodisLabs/codis
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/dd-simple-test/">
+        <h2 class="post-title">
+            Linux 使用dd 简单测试 读写速度
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            注：要正确测试磁盘读写能力，建议测试文件的大小要远远大于内存的容量！10G 文件 
+测试 写入速度time dd if=/dev/zero of=./test.img bs=160k count=64k conv=fsync
+测试 读取速度time dd if=./test.img of=/dev/null bs=160k count=64k
+hdparm -t /dev/sda1
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/iis-8-5-configure-high-concurrency/">
+        <h2 class="post-title">
+            IIS 8.5 高并发配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. 调整IIS的应用程序池队列长度在【应用程序池】列表中，选择你相应网站所使用的应用程序池，将原来的队列长度由1000改为65535。当然这里的队列长度你可以根据自己的访问用户*1.5来设置，例如：你有2000用户，你此处就可以设置为3000(3000=2000用户数*1.5)
+2. 调整IIS的appConcurrentRequestLimit值12cd %windir%\system3......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/redis-install/">
+        <h2 class="post-title">
+            Redis 3.2 安装及主从复制详细配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            编译安装1234567891011121314151617cd /usr/local/srcwget http://download.redis.io/releases/redis-3.2.12.tar.gztar xf redis-3.2.10.tar.gzcd redis-3.2.10make PREFIX=/usr/local/redis installuseradd -s /bin/......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/sql-server-replication/">
+        <h2 class="post-title">
+            Windows SQL Server 主从复制
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            注：只有设置主键的表才能同步
+SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLISHDBGOCREATE　TABLE　TEST(ID　VARCHAR(10) PRIMARY KEY NOT NULL,NAME VARCHAR(10))GOINSERT INTO TEST VALUES ('1','A')I......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/remove-iis-server-info/">
         <h2 class="post-title">
             IIS 8.5 隐藏 X-Powered-By 及 X-Powered-By 信息
@@ -215,6 +327,30 @@
         <div class="post-content-preview">
             FastDFS是一个开源的轻量级分布式文件系统，它对文件进行管理，功能包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了大容量存储和负载均衡的问题。特别适合以文件为载体的在线服务，如相册网站、视频网站等等。
 FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、线性扩容等机制，并注重高可用、高性能等指标，使用FastDFS很容易搭建一套高性能的文件服务器集群提供文件上......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-10
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/distributed-file-system-fastdfs/">
+        <h2 class="post-title">
+            分布式文件系统FastDFS详解
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            为什么要使用分布式文件系统呢？
+嗯，这个问题问的好，使用了它对我们有哪些好处？带着这个问题我们来往下看：
+单机时代初创时期由于时间紧迫，在各种资源有限的情况下，通常就直接在项目目录下建立静态文件夹，用于用户存放项目中的文件资源。如果按不同类型再细分，可以在项目目录下再建立不同的子目录来区分。例如：resources\static\file、resources\static\img等。
+优点：......
         </div>
     </a>
     <p class="post-meta">
@@ -269,178 +405,6 @@ CAP理论C：Consisten......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/lvm2/">
-        <h2 class="post-title">
-            LVM逻辑卷管理配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-前言Logical Volume Manager (LVM) 重点在于 可以弹性的调整 文件系统 的容量！
-LVM 可以整合多个硬盘 分区在一起， 让这些 分区 看起来就像是一个磁盘一样！
-传统分区使用固定大小分区，重新调整大小十分麻烦，但是LVM可以创建和管理“逻辑”卷，而不是直接使用物理硬盘，可以让管理员弹性的管理逻辑卷的扩大缩小，操作简单，而不损坏已存储的数据。可以随意将新的硬盘添加......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-23
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/glusterfs-docker/">
-        <h2 class="post-title">
-            基于 GlusterFS 实现 Docker 集群的分布式存储
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            企业中的应用场景理论和实践上分析，GlusterFS 目前主要适用于大文件存储场景，对于小文件尤其是海量小文件，存储效率和访问性能都表现不佳。海量小文件 LOSF 问题是工业界和学术界公认的难题，GlusterFS 作为通用的分布式文件系统，并没有对小文件作额外的优化措施，性能不好也是可以理解的。
-
-Media - 文档、图片、音频、视频
-Shared storage - 云存储、虚拟化存储......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-22
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nmap-penetration/">
-        <h2 class="post-title">
-            Nmap 渗透使用指南
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            介绍nmap是用来探测计算机网络上的主机和服务的一种安全扫描器。为了绘制网络拓扑图Nmap的发送特制的数据包到目标主机然后对返回数据包进行分析。Nmap是一款枚举和测试网络的强大工具。
-特点
-主机探测
-端口扫描
-版本检测
-支持探测脚本的编写
-
-安装官网:http://nmap.org 图形化:Zenmap
-基本操作基本快速扫描Nmap 默认发送一个arp的ping数据包来探测目标主机在1-1......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-21
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/python-deep-copy-and-shallow-copy/">
-        <h2 class="post-title">
-            Python中的深拷贝和浅拷贝
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            最近面试被问到python中深拷贝和浅拷贝的知识这里进行下总结，以便今后复习python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。首先，对赋值操作我们要有以下认识：
-
-赋值是将一个对象的地址赋值给一个变量，让变量指向该地址（ 旧瓶装旧酒 ）。
-修改不可变对象（str、tuple）需要开辟新的空间
-修改可变对象（list等）不......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-21
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/python-note/">
-        <h2 class="post-title">
-            Python学习笔记
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Python学习笔记基础基础
-语法
-
-
-#开头，注释
-缩进的语句视为代码块
-大小写敏感
-
-
-数据类型和变量
-
-True和False首字母大写
-and、or和not
-空值：None
-
-
-字符串格式化%
-
-%d整数
-
-%f浮点数
-
-%s字符串
-
-%x十六进制整数
-
-补位
-12345&gt;&gt;&gt; '%2d-%02d' % (3, 1)' 3-01'&gt;&gt;&gt; '%.2f'......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-20
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/iptables-for-anti-ddos/">
-        <h2 class="post-title">
-            配置 Sysctl 和 Iptables 防攻击
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            sysctl 可以显示和修改内核参数，包含一些 TCP/IP 堆栈和虚拟内存系统的高级选项，合理设置可以显著提高系统性能。iptables 是 Linux 下最常用的防火墙软件，也是很多 Linux 发行版自带的默认防火墙软件。通过设置 sysctl 和 iptables，可以有效防范中小程度的攻击。
-查看状态查看TCP连接状态12#netstat -nat |awk '&#123;prin......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-20
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -482,6 +446,28 @@ and、or和not
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
+                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
+                            
+                        
+                            
+                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
+                            
+                        
+                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -496,19 +482,27 @@ and、or和not
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
-                            
-                        
-                            
-                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
                         
                             
                         
+                            
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
                             
@@ -520,25 +514,7 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
-                            
                         
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
                             
@@ -548,11 +524,7 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#分布式" title="分布式" rel="2">分布式</a>
-                            
-                        
-                            
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -563,16 +535,6 @@ and、or和not
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -588,11 +550,21 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            
+                        
                             
                         
                             
@@ -602,15 +574,7 @@ and、or和not
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -634,6 +598,8 @@ and、or和not
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
                             
                         
@@ -641,6 +607,8 @@ and、or和not
                         
                             
                             <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                            
+                        
                             
                         
                             
@@ -666,15 +634,9 @@ and、or和not
                             
                         
                             
+                        
+                            
                             <a href="/tags/#python" title="python" rel="2">python</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
@@ -690,6 +652,10 @@ and、or和not
                             
                         
                             
+                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
+                            
                         
                             
                         
@@ -699,6 +665,10 @@ and、or和not
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             
