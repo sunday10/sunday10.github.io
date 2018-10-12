@@ -236,9 +236,9 @@
         <title>基于 GlusterFS 实现 Docker 集群的分布式存储</title>
         <pubTime>2018-08-22T04:05:51.000Z</pubTime>
         
-        <tag>分布式文件系统</tag>
-         
         <tag>glusterfs</tag>
+         
+        <tag>分布式文件系统</tag>
          
          
            
@@ -1929,7 +1929,7 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/elk-elasticsearch/</loc>
+    <loc>http://www.sundayle.com/elk-kafka-filebeat/</loc>
     <lastmod>2018-01-30T05:58:49.000Z</lastmod>
     <data>
         <display>
@@ -1938,7 +1938,7 @@
         
         <tag>elk</tag>
          
-        <tag>elasticsearch</tag>
+        <tag>kafka</tag>
          
          
            
@@ -1951,7 +1951,7 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/elk-kafka-filebeat/</loc>
+    <loc>http://www.sundayle.com/elk-elasticsearch/</loc>
     <lastmod>2018-01-30T05:58:49.000Z</lastmod>
     <data>
         <display>
@@ -1960,7 +1960,7 @@
         
         <tag>elk</tag>
          
-        <tag>kafka</tag>
+        <tag>elasticsearch</tag>
          
          
            
