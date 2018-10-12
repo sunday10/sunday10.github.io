@@ -13,11 +13,11 @@
 
     <title>
         
-          Ubuntu 16.04 KVM 安装 Windows Server 2012 - Sunday博客 | Sunday Blog
+          Linux 查看进程启动时间 - Sunday博客 | Sunday Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.sundayle.com/kvm-windows-server-2012/">
+    <link rel="canonical" href="http://www.sundayle.com/process-startup-time/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,14 +165,16 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#kvm" title="kvm">kvm</a>
+                          <a class="tag" href="/tags/#进程" title="进程">进程</a>
+                        
+                          <a class="tag" href="/tags/#启动时间" title="启动时间">启动时间</a>
                         
                     </div>
-                    <h1>Ubuntu 16.04 KVM 安装 Windows Server 2012</h1>
+                    <h1>Linux 查看进程启动时间</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sunday on
-                        2018-10-12
+                        2018-08-16
                     </span>
                 </div>
             </div>
@@ -191,17 +193,9 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <img src="http://owsi2j3f8.bkt.clouddn.com/static/images/2524607-18a93b2bfbe02fd7.webp">
-<h1 id="安装KVM"><a href="#安装KVM" class="headerlink" title="安装KVM"></a>安装KVM</h1><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">sudo</span> apt-<span class="meta">get</span> install qemu-kvm libvirt-<span class="keyword">bin </span>virtinst <span class="keyword">bridge-utils </span>cpu-checker</span><br></pre></td></tr></table></figure>
-<h1 id="验证KVM"><a href="#验证KVM" class="headerlink" title="验证KVM"></a>验证KVM</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$kvm</span>-ok</span><br><span class="line"></span><br><span class="line">INFO: <span class="regexp">/dev/</span>kvm exists</span><br><span class="line">KVM acceleration can be used</span><br></pre></td></tr></table></figure>
-<h1 id="配置网桥"><a href="#配置网桥" class="headerlink" title="配置网桥"></a>配置网桥</h1><p>cp /etc/network/interfaces /etc/network/interfaces.bak<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/network/interfaces </span><br><span class="line"></span><br><span class="line">auto br0</span><br><span class="line">iface br0 inet static</span><br><span class="line">  bridge_ports enp0s25</span><br><span class="line">  bridge_stp off</span><br><span class="line">  bridge_fd 0</span><br><span class="line">  bridge_maxwait 0</span><br><span class="line">   <span class="built_in"> address </span>192.168.10.21</span><br><span class="line">    netmask 255.255.255.0</span><br><span class="line">   <span class="built_in"> network </span>192.168.10.0</span><br><span class="line">    broadcast 192.168.10.255</span><br><span class="line">    gateway 192.168.10.1</span><br><span class="line">    # dns-* options are implemented by the resolvconf package, <span class="keyword">if</span> installed</span><br><span class="line">    dns-nameservers 192.168.10.1</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip<span class="built_in"> route </span>delete 192.168.10.0/24 dev enp0s25 &amp;&amp;<span class="built_in"> ip route </span>delete<span class="built_in"> default </span>&amp;&amp; /etc/init.d/networking restart</span><br></pre></td></tr></table></figure>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brctl show</span><br><span class="line">bridge name<span class="built_in"> bridge </span>id       STP enabled interfaces</span><br><span class="line">br0     8000.00238b774434   <span class="literal">no</span>      eth0</span><br><span class="line">virbr0      8000.525400ab10c3   <span class="literal">yes</span>     virbr0-nic</span><br></pre></td></tr></table></figure>
-<h1 id="创建虚拟主机"><a href="#创建虚拟主机" class="headerlink" title="创建虚拟主机"></a>创建虚拟主机</h1><p>在开始之前，我们要准备以下：</p>
-<p>Windows 安装镜像<br>VNC 客户端<br><a href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.126-2/" target="_blank" rel="noopener">Virtio  0.1.126-2 版本 ISO 和软盘镜像</a></p>
-<p>基础信息：双核 4G 40G<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">virt-install \</span><br><span class="line">-<span class="ruby">-name win2012 \</span></span><br><span class="line"><span class="ruby">--memory <span class="number">4096</span> \</span></span><br><span class="line"><span class="ruby">--vcpus sockets=<span class="number">1</span>,cores=<span class="number">1</span>,threads=<span class="number">2</span> \</span></span><br><span class="line"><span class="ruby">--cdrom=<span class="regexp">/data/kvm</span><span class="regexp">/win_2012_r2.iso \</span></span></span><br><span class="line"><span class="ruby">--os-variant=win8.<span class="number">1</span> \</span></span><br><span class="line"><span class="ruby">--disk /data/kvm/win2012.qcow2,bus=virtio,size=<span class="number">40</span> \</span></span><br><span class="line"><span class="ruby">--disk /data/kvm/virtio-win-<span class="number">0</span>.<span class="number">1.126_</span>amd64.vfd,device=floppy \</span></span><br><span class="line"><span class="ruby">--network bridge=br<span class="number">0</span>,model=virtio \</span></span><br><span class="line"><span class="ruby">--graphics vnc,listen=<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>,password=sunday,port=<span class="number">5910</span> \</span></span><br><span class="line"><span class="ruby">--hvm \</span></span><br><span class="line"><span class="ruby">--virt-type kvm</span></span><br></pre></td></tr></table></figure></p>
-<p>如果你的命令输入的正确，应该会得到类似的反馈信息：<br><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">Starting</span></span> install...</span><br><span class="line"><span class="function"><span class="title">Creating</span></span> domain...</span><br><span class="line">Domain installation still in progress. Waiting <span class="keyword">for</span> installation to complete.</span><br></pre></td></tr></table></figure></p>
-<p>使用VNC 客户端连接 IP:5910 安装系统 </p>
+                <p>按进程名查看<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ps</span> <span class="selector-tag">axo</span> <span class="selector-tag">comm</span>,<span class="selector-tag">lstart</span>| <span class="selector-tag">grep</span> <span class="selector-tag">nginx</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">nginx</span>           <span class="selector-tag">Tue</span> <span class="selector-tag">Aug</span> <span class="selector-tag">14</span> <span class="selector-tag">16</span><span class="selector-pseudo">:06</span><span class="selector-pseudo">:18</span> <span class="selector-tag">2018</span></span><br><span class="line"><span class="selector-tag">nginx</span>           <span class="selector-tag">Tue</span> <span class="selector-tag">Aug</span> <span class="selector-tag">14</span> <span class="selector-tag">16</span><span class="selector-pseudo">:06</span><span class="selector-pseudo">:18</span> <span class="selector-tag">2018</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps axo pid,ppid,comm,pmem,lstart | grep nginx</span><br><span class="line"></span><br><span class="line"><span class="number"> 1159 </span>   <span class="number"> 1 </span>nginx            0.1 Tue Aug<span class="number"> 14 </span>16:06:18 2018</span><br><span class="line"><span class="number"> 1160 </span><span class="number"> 1159 </span>nginx            0.2 Tue Aug<span class="number"> 14 </span>16:06:18 2018</span><br></pre></td></tr></table></figure>
+<p>按pid查看<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ps</span> <span class="selector-tag">-p</span> 1159 <span class="selector-tag">-o</span> <span class="selector-tag">lstart</span></span><br><span class="line"></span><br><span class="line">                 <span class="selector-tag">STARTED</span></span><br><span class="line"><span class="selector-tag">Tue</span> <span class="selector-tag">Aug</span> 14 16<span class="selector-pseudo">:06</span><span class="selector-pseudo">:18</span> 2018</span><br></pre></td></tr></table></figure></p>
 
 
                 <hr>
@@ -211,12 +205,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/nginx-smooth-upgrade/" data-toggle="tooltip" data-placement="top" title="Nginx 平滑升级">&larr; Previous Post</a>
+                            <a href="/nginx-domain-judgment/" data-toggle="tooltip" data-placement="top" title="Nginx 域名判断">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/codis-redis-cluster/" data-toggle="tooltip" data-placement="top" title="Codis Redis 集群">Next Post &rarr;</a>
+                            <a href="/haproxy-tutorial/" data-toggle="tooltip" data-placement="top" title="HAProxy 反向代理的使用">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -227,20 +221,6 @@
 
             </div>
     <!-- Side Catalog Container -->
-        
-            <div class="
-                col-lg-2 col-lg-offset-0
-                visible-lg-block
-                sidebar-container
-                catalog-container">
-                <div class="side-catalog">
-                    <hr class="hidden-sm hidden-xs">
-                    <h5>
-                        <a class="catalog-toggle" href="#">CATALOG</a>
-                    </h5>
-                    <ul class="catalog-body"></ul>
-                </div>
-            </div>
         
 
     <!-- Sidebar Container -->
@@ -257,7 +237,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#kvm" title="kvm">kvm</a>
+                          <a class="tag" href="/tags/#进程" title="进程">进程</a>
+                        
+                          <a class="tag" href="/tags/#启动时间" title="启动时间">启动时间</a>
                         
                     </div>
                 </section>
@@ -464,50 +446,6 @@
 
 
 <!-- Side Catalog -->
-
-<script type="text/javascript">
-    function generateCatalog (selector) {
-        var P = $('div.post-container'),a,n,t,l,i,c;
-        a = P.find('h1,h2,h3,h4,h5,h6');
-        a.each(function () {
-            n = $(this).prop('tagName').toLowerCase();
-            i = "#"+$(this).prop('id');
-            t = $(this).text();
-            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
-            l = $('<li class="'+n+'_nav"></li>').append(c);
-            $(selector).append(l);
-        });
-        return true;    
-    }
-
-    generateCatalog(".catalog-body");
-
-    // toggle side catalog
-    $(".catalog-toggle").click((function(e){
-        e.preventDefault();
-        $('.side-catalog').toggleClass("fold")
-    }))
-
-    /*
-     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
-     * Fork by Hux to support padding
-     */
-    async("/js/jquery.nav.js", function () {
-        $('.catalog-body').onePageNav({
-            currentClass: "active",
-            changeHash: !1,
-            easing: "swing",
-            filter: "",
-            scrollSpeed: 700,
-            scrollOffset: 0,
-            scrollThreshold: .2,
-            begin: null,
-            end: null,
-            scrollChange: null,
-            padding: 80
-        });
-    });
-</script>
 
 
 

@@ -184,6 +184,27 @@
 
 <div class="post-preview">
 
+    <a href="/haproxy-optimization/">
+        <h2 class="post-title">
+            使用 HAProxy 负载均衡300k并发tcp连接
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            我最近正在尝试建立一个推送系统。为了提高系统的可扩展性，最佳做法是使每个连接尽可能无状态。因此，当出现瓶颈时，通过添加更多机器可以轻松扩展整个系统的容量。说到负载平衡和反向代理，Nginx可能是最着名和最公认的。但是，TCP代理是一个相当新的事情。 Nginx从v1.9引入了TCP负载均衡和反向代理，v1.9于今年5月下旬发布，具有大量缺失功能。另一方面，HAProxy作为TCP加载bala......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-02
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/opcache/">
         <h2 class="post-title">
             PHP 7 启用opcache及缓存清除
@@ -392,27 +413,6 @@ Super PI
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/openstack/">
-        <h2 class="post-title">
-            OpenStack 入门实践
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            OpenStack 概述OpenStack项目是一个开源云计算平台，支持所有类型的云环境。该项目旨在实现简单，大规模的可扩展性和丰富的功能。OpenStack通过各种补充服务提供基础架构即服务（IaaS）解决方案。每项服务都提供了一个应用程序编程接口（API），以促进这种集成。本文涵盖了使用适用于具有足够Linux经验的OpenStack新用户的功能性示例体系结构，逐步部署主要OpenSta......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-12
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -452,16 +452,6 @@ Super PI
                     <div class="tags">
                         
                             
-                        
-                            
-                        
-                            
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -469,6 +459,10 @@ Super PI
                         
                             
                         
+                            
+                        
+                            
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -500,19 +494,17 @@ Super PI
                             
                         
                             
-                            <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
-                            
                         
                             
-                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
-                            
                         
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
                             <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                            
+                        
+                            
+                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -530,7 +522,11 @@ Super PI
                             
                         
                             
+                            <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
+                            
                         
+                            
+                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
                             
                         
                             
@@ -540,21 +536,9 @@ Super PI
                             
                         
                             
+                        
+                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
-                            
-                        
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -566,7 +550,9 @@ Super PI
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
                             
                         
                             
@@ -574,13 +560,13 @@ Super PI
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="11">nginx</a>
-                            
                         
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -593,6 +579,16 @@ Super PI
                         
                             
                         
+                            
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -614,9 +610,9 @@ Super PI
                             
                         
                             
-                        
-                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
                             
                         
                             
@@ -630,9 +626,13 @@ Super PI
                             
                         
                             
+                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                        
+                            
+                        
                             
                         
                             
@@ -658,17 +658,13 @@ Super PI
                             
                         
                             
+                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
                             
                         
                             
@@ -683,6 +679,10 @@ Super PI
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

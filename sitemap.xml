@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/process-startup-time/</loc>
+    
+    <lastmod>2018-10-12T10:13:37.693Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/fastdfs-cluster/</loc>
+    
+    <lastmod>2018-10-12T10:08:51.801Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/nginx-smooth-upgrade/</loc>
+    
+    <lastmod>2018-10-12T09:59:22.306Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/kvm-windows-server-2012/</loc>
     
     <lastmod>2018-10-12T06:52:11.260Z</lastmod>
@@ -12,13 +33,6 @@
     <loc>http://www.sundayle.com/glusterfs/</loc>
     
     <lastmod>2018-10-12T06:19:00.598Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/fastdfs-cluster/</loc>
-    
-    <lastmod>2018-10-12T06:18:05.586Z</lastmod>
     
   </url>
   
@@ -208,13 +222,6 @@
     <loc>http://www.sundayle.com/nginx-domain-judgment/</loc>
     
     <lastmod>2018-08-16T06:09:15.089Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/hexo-new-process-startup-time/</loc>
-    
-    <lastmod>2018-08-16T05:17:46.320Z</lastmod>
     
   </url>
   
@@ -709,14 +716,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/elk-kafka-filebeat/</loc>
+    <loc>http://www.sundayle.com/elk-elasticsearch/</loc>
     
     <lastmod>2018-01-30T05:58:49.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/elk-elasticsearch/</loc>
+    <loc>http://www.sundayle.com/elk-kafka-filebeat/</loc>
     
     <lastmod>2018-01-30T05:58:49.000Z</lastmod>
     

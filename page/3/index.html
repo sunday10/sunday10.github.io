@@ -184,6 +184,28 @@
 
 <div class="post-preview">
 
+    <a href="/process-startup-time/">
+        <h2 class="post-title">
+            Linux 查看进程启动时间
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            按进程名查看1234ps axo comm,lstart| grep nginxnginx           Tue Aug 14 16:06:18 2018nginx           Tue Aug 14 16:06:18 2018
+1234ps axo pid,ppid,comm,pmem,lstart | grep nginx 1159     1 nginx          ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/haproxy-tutorial/">
         <h2 class="post-title">
             HAProxy 反向代理的使用
@@ -383,27 +405,6 @@
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/haproxy-optimization/">
-        <h2 class="post-title">
-            使用 HAProxy 负载均衡300k并发tcp连接
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            我最近正在尝试建立一个推送系统。为了提高系统的可扩展性，最佳做法是使每个连接尽可能无状态。因此，当出现瓶颈时，通过添加更多机器可以轻松扩展整个系统的容量。说到负载平衡和反向代理，Nginx可能是最着名和最公认的。但是，TCP代理是一个相当新的事情。 Nginx从v1.9引入了TCP负载均衡和反向代理，v1.9于今年5月下旬发布，具有大量缺失功能。另一方面，HAProxy作为TCP加载bala......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-02
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -443,16 +444,6 @@
                     <div class="tags">
                         
                             
-                        
-                            
-                        
-                            
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -460,6 +451,10 @@
                         
                             
                         
+                            
+                        
+                            
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -491,19 +486,17 @@
                             
                         
                             
-                            <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
-                            
                         
                             
-                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
-                            
                         
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
                             <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                            
+                        
+                            
+                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -521,7 +514,11 @@
                             
                         
                             
+                            <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
+                            
                         
+                            
+                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
                             
                         
                             
@@ -531,21 +528,9 @@
                             
                         
                             
+                        
+                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
-                            
-                        
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -557,7 +542,9 @@
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
                             
                         
                             
@@ -565,13 +552,13 @@
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="11">nginx</a>
-                            
                         
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -584,6 +571,16 @@
                         
                             
                         
+                            
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -605,9 +602,9 @@
                             
                         
                             
-                        
-                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
                             
                         
                             
@@ -621,9 +618,13 @@
                             
                         
                             
+                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                        
+                            
+                        
                             
                         
                             
@@ -649,17 +650,13 @@
                             
                         
                             
+                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
                             
                         
                             
@@ -674,6 +671,10 @@
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             
