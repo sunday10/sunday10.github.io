@@ -184,6 +184,31 @@
 
 <div class="post-preview">
 
+    <a href="/haproxy-tutorial/">
+        <h2 class="post-title">
+            HAProxy 反向代理的使用
+        </h2>
+        <h3 class="post-subtitle">
+            High availability
+        </h3>
+        <div class="post-content-preview">
+            简介HAProxy 是一款高性能的反向代理软件，它可以基于四层或七层进行反向代理，尤其适合于高负载且需要进行七层处理的 Web 站点。
+相较与 Nginx，HAProxy 更专注与反向代理，因此它可以支持更多的选项，更精细的控制，更多的健康状态检测机制和负载均衡算法。
+性能HAproxy 主要借助于现代操作系统上几种常见的技术来实现性能的最大化。
+
+单进程、事件驱动模型，降低了上下文切换和内......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-15
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/linux-process-management/">
         <h2 class="post-title">
             Linux 进程的管理与监控
@@ -379,28 +404,6 @@
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/opcache/">
-        <h2 class="post-title">
-            PHP 7 启用opcache及缓存清除
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            opcache 简介Zend opcache通过opcode缓存和优化提供更快的PHP执行过程。它将预编译的脚本文件存储在共享内存中供以后使用，从而避免了从磁盘读取代码并进行编译的时间消耗。同时，它还应用了一些代码优化模式，使得代码执行更快。（php &gt;= 5.5）
-启用opcache12345678910zend_extension=opcache.soopcache.enable=......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-01
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -558,6 +561,8 @@
                             
                         
                             
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
                         
                             
                         
@@ -665,6 +670,8 @@
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
                             
                         
                             
@@ -852,7 +859,7 @@
 
 <!--fastClick.js -->
 <script>
-    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
         var $nav = document.querySelector("nav");
         if($nav) FastClick.attach($nav);
     })
@@ -862,23 +869,25 @@
 <!-- Google Analytics -->
 
 
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
 
 
 <!-- Baidu Tongji -->
-
-<script>
-    // dynamic User by Hux
-    var _baId = 'e5a8fe97a11d3eaa24842213e1d7d092';
-
-    // Originial
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
 
 
 <!-- Side Catalog -->
