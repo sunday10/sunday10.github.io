@@ -4,6 +4,125 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/linux-oom-killer/</loc>
+    <lastmod>2018-10-16T11:52:04.916Z</lastmod>
+    <data>
+        <display>
+        <title>Linux  overcommit 及 oom-killer 机制</title>
+        <pubTime>2018-10-15T06:11:23.000Z</pubTime>
+        
+        <tag>overcomit</tag>
+         
+        <tag>oom-killer</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/redis-install/</loc>
+    <lastmod>2018-10-16T11:41:45.803Z</lastmod>
+    <data>
+        <display>
+        <title>Redis 3.2 安装及主从复制详细配置</title>
+        <pubTime>2018-09-28T02:27:19.000Z</pubTime>
+        
+        <tag>redis</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/dockerfile/</loc>
+    <lastmod>2018-10-16T09:51:55.313Z</lastmod>
+    <data>
+        <display>
+        <title>DockerFile</title>
+        <pubTime>2018-10-15T16:12:44.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/drop_caches/</loc>
+    <lastmod>2018-10-16T09:27:32.274Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 手动清除缓存 drop_cahces</title>
+        <pubTime>2018-10-16T04:02:10.000Z</pubTime>
+        
+        <tag>cache</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/linux-system-io/</loc>
+    <lastmod>2018-10-16T03:03:00.712Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 性能优化之 IO 子系统</title>
+        <pubTime>2017-08-08T03:05:21.000Z</pubTime>
+        
+        <tag>性能优化</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/apache-bench/</loc>
+    <lastmod>2018-10-16T03:01:57.715Z</lastmod>
+    <data>
+        <display>
+        <title>Apache Benchmark ab wrk 压力测试工具使用</title>
+        <pubTime>2017-05-19T09:47:20.000Z</pubTime>
+        
+        <tag>压力测试</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/docker/</loc>
+    <lastmod>2018-10-16T01:44:18.708Z</lastmod>
+    <data>
+        <display>
+        <title>Docker(一)：Docker入门</title>
+        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
+        
+        <tag>docker</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/process-startup-time/</loc>
     <lastmod>2018-10-12T10:13:37.693Z</lastmod>
     <data>
@@ -163,23 +282,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/redis-install/</loc>
-    <lastmod>2018-10-09T04:37:49.840Z</lastmod>
-    <data>
-        <display>
-        <title>Redis 3.2 安装及主从复制详细配置</title>
-        <pubTime>2018-09-28T02:27:19.000Z</pubTime>
-        
-        <tag>redis</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/dd-simple-test/</loc>
     <lastmod>2018-10-08T10:31:25.580Z</lastmod>
     <data>
@@ -318,27 +420,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/apache-bench/</loc>
-    <lastmod>2018-08-22T03:32:30.353Z</lastmod>
-    <data>
-        <display>
-        <title>Apache Benchmark wrk 压力测试工具使用</title>
-        <pubTime>2017-05-19T09:47:20.000Z</pubTime>
-        
-        <tag>压力测试</tag>
-         
-        <tag>ab</tag>
-         
-        <tag>wrk</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/webbench/</loc>
     <lastmod>2018-08-22T03:28:31.052Z</lastmod>
     <data>
@@ -436,9 +517,9 @@
         
         <tag>防火墙</tag>
          
-        <tag>ufw</tag>
-         
         <tag>iptables</tag>
+         
+        <tag>ufw</tag>
          
          
            
@@ -718,25 +799,6 @@
              
               <breadCrumb title="shadowsocks" url="http://www.sundayle.com/categories/shadowsocks/"/>
           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/linux-system-io/</loc>
-    <lastmod>2018-08-09T02:03:53.164Z</lastmod>
-    <data>
-        <display>
-        <title>Linux 性能优化之 IO 子系统</title>
-        <pubTime>2017-08-08T03:05:21.000Z</pubTime>
-        
-        <tag>性能优化</tag>
-         
-        <tag>io</tag>
-         
-         
-           
         </display>
     </data>
     </url>
@@ -1076,9 +1138,9 @@
         
         <tag>持续集成</tag>
          
-        <tag>maven</tag>
-         
         <tag>nexus</tag>
+         
+        <tag>maven</tag>
          
          
            
@@ -1871,7 +1933,7 @@
     <lastmod>2018-02-27T09:30:51.000Z</lastmod>
     <data>
         <display>
-        <title>Linux Core Dump</title>
+        <title>Linux 开启 core dump</title>
         <pubTime>2018-02-27T09:30:51.000Z</pubTime>
         
         <tag>coredump</tag>
@@ -1939,28 +2001,6 @@
            
              
               <breadCrumb title="java" url="http://www.sundayle.com/categories/java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/elk-elasticsearch/</loc>
-    <lastmod>2018-01-30T05:58:49.000Z</lastmod>
-    <data>
-        <display>
-        <title>ELK+Filebeat+Kafka 日志分析</title>
-        <pubTime>2018-01-30T05:58:49.000Z</pubTime>
-        
-        <tag>elk</tag>
-         
-        <tag>elasticsearch</tag>
-         
-         
-           
-             
-              <breadCrumb title="elk" url="http://www.sundayle.com/categories/elk/"/>
           
         </display>
     </data>
@@ -2123,8 +2163,6 @@
         
         <tag>nginx</tag>
          
-        <tag>log</tag>
-         
         <tag>日志切割</tag>
          
          
@@ -2267,8 +2305,6 @@
         <title>使用acme.sh申请Let's Encrypt 泛域名野卡</title>
         <pubTime>2017-10-17T02:12:34.000Z</pubTime>
         
-        <tag>acme</tag>
-         
         <tag>https</tag>
          
          

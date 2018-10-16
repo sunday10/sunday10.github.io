@@ -2,6 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/linux-oom-killer/</loc>
+    
+    <lastmod>2018-10-16T11:52:04.916Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/redis-install/</loc>
+    
+    <lastmod>2018-10-16T11:41:45.803Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/dockerfile/</loc>
+    
+    <lastmod>2018-10-16T09:51:55.313Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/drop_caches/</loc>
+    
+    <lastmod>2018-10-16T09:27:32.274Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/linux-system-io/</loc>
+    
+    <lastmod>2018-10-16T03:03:00.712Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/apache-bench/</loc>
+    
+    <lastmod>2018-10-16T03:01:57.715Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/docker/</loc>
+    
+    <lastmod>2018-10-16T01:44:18.708Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/process-startup-time/</loc>
     
     <lastmod>2018-10-12T10:13:37.693Z</lastmod>
@@ -65,13 +114,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/redis-install/</loc>
-    
-    <lastmod>2018-10-09T04:37:49.840Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/dd-simple-test/</loc>
     
     <lastmod>2018-10-08T10:31:25.580Z</lastmod>
@@ -124,13 +166,6 @@
     <loc>http://www.sundayle.com/python-deep-copy-and-shallow-copy/</loc>
     
     <lastmod>2018-08-23T02:22:30.330Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/apache-bench/</loc>
-    
-    <lastmod>2018-08-22T03:32:30.353Z</lastmod>
     
   </url>
   
@@ -278,13 +313,6 @@
     <loc>http://www.sundayle.com/google-bbr/</loc>
     
     <lastmod>2018-08-12T15:04:55.034Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/linux-system-io/</loc>
-    
-    <lastmod>2018-08-09T02:03:53.164Z</lastmod>
     
   </url>
   
@@ -712,13 +740,6 @@
     <loc>http://www.sundayle.com/java/</loc>
     
     <lastmod>2018-01-30T06:03:41.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/elk-elasticsearch/</loc>
-    
-    <lastmod>2018-01-30T05:58:49.000Z</lastmod>
     
   </url>
   

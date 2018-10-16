@@ -184,6 +184,74 @@
 
 <div class="post-preview">
 
+    <a href="/java/">
+        <h2 class="post-title">
+            CentOS 7 安装 Java
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            两种方式安装JDK
+1. yum安装12345yum install -y javajava -versionopenjdk version "1.8.0_171"OpenJDK Runtime Environment (build 1.8.0_171-b14)OpenJDK 64-Bit Server VM (build 25.171-b14, mixed mode
+2. 源码安装http......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kernel-sysctl/">
+        <h2 class="post-title">
+            Linux 内核优化参数
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境系统：CentOS 7
+Linux 内核优化参数sudo vim /etc/sysctl.conf123456789101112131415161718192021222324252627282930313233343536net.ipv4.ip_forward = 0net.ipv4.conf.default.rp_filter = 1net.ipv4.conf.default.acc......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/iptables/">
+        <h2 class="post-title">
+            CentOS 7 启用 iptables 防火墙
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言在大企业中防火墙角色主要交给硬件来支持，效果自然没话说只是需要增加一点点成本，但对于大多数个人或者互联网公司来说选择系统自带的iptables或者第三方云防火墙似乎是更加合适的选择，通过一些合理的优化和灵活的配置，我们也可以很轻松实现硬件防火墙的部分功能，够用就好。
+
+CentOS7默认的防火墙不是iptables,而是firewalle. 不过之前用开iptables，so…  ipt......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-12-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/iptables-detailed/">
         <h2 class="post-title">
             Linux 防火墙 iptables详解
@@ -337,75 +405,6 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/git-base/">
-        <h2 class="post-title">
-            Git 简易教程
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 创建新仓库创建新文件夹，打开，然后执行git init以创建新的 git 仓库。
-2. 检出仓库执行如下命令以创建一个本地仓库的克隆版本：git clone /path/to/repository如果是远端服务器上的仓库，你的命令会是这个样子：git clone username@host:/path/to/repository
-3. 工作流你的本地仓库由 git 维护的三棵“树”组成......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-21
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/gitlab/">
-        <h2 class="post-title">
-            Ubuntu 安装GitLab服务器
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境操作系统：Ubuntu 16.04应用服务：Gitlab 10.1.4-ce.0防火墙状态：关闭
-安装并配置必要的依赖关系1sudo apt-get install -y curl openssh-server ca-certificates
-添加 GitLab 镜像源并安装12curl -sS http://packages.gitlab.com.cn/install/gitlab-c......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/rsync-delete/">
-        <h2 class="post-title">
-            Linux 使用Rsync最快删除海量文件
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            摘要在Linux Web维护过程中，Web服务会生成海量（万级）缓存文件。这些小文件会消耗大量的inode。使用我们最常用的删除命令rm -fr * 就不好用了，非常吃力，等待的时间太长了。有时会报错。-bash: /bin/rm: Argument list too long。这时，我们可以使用rsync来实现快速删除大量文件。
-新建空目录1mkdir /tmp/empty
-Rsync删除......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-18
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -445,6 +444,10 @@ Rsync删除......
                     <div class="tags">
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -455,11 +458,9 @@ Rsync删除......
                             
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
                         
                             
-                        
+                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
                             
@@ -473,17 +474,7 @@ Rsync删除......
                             
                         
                             
-                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
-                            
-                        
-                            
-                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -513,25 +504,25 @@ Rsync删除......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
                             
                         
                             
-                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
+                        
                             
                         
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
@@ -543,7 +534,15 @@ Rsync删除......
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -553,13 +552,7 @@ Rsync删除......
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -573,9 +566,43 @@ Rsync删除......
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                        
                             
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
+                            <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
+                            
+                            <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
                             
                         
                             
@@ -593,39 +620,7 @@ Rsync删除......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
-                            
-                        
-                            
-                            <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -651,10 +646,6 @@ Rsync删除......
                             
                         
                             
-                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
@@ -663,7 +654,7 @@ Rsync删除......
                             
                         
                             
-                        
+                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
                             
                         
                             
@@ -672,6 +663,10 @@ Rsync删除......
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

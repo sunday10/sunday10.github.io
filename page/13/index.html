@@ -17,7 +17,7 @@
         
     </title>
 
-    <link rel="canonical" href="http://www.sundayle.com/">
+    <link rel="canonical" href="http://www.sundayle.com/page/13/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -184,21 +184,21 @@
 
 <div class="post-preview">
 
-    <a href="/drop_caches/">
+    <a href="/nginx-configuration-optimization/">
         <h2 class="post-title">
-            Linux 手动清除缓存 drop_cahces
+            Nginx 配置优化
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            为了提高磁盘存取效率，Linux做了一些精心的设计，除了对dentry进行缓存（用于VFS，加速文件路径名到inode的转换），还采取了两种主要Cache方式：Buffer Cache和Page Cache。前者针对磁盘块的读写，后者针对文件inode的读写。这些Cache有效缩短了 I/O系统调用（比如read，write，getdents）的时间。
-1234# free -h      ......
+            1. 隐藏版本信息1234vim /usr/local/nginx/conf/nginx.confhttp&#123;server_tokens off;&#125;
+2. 更改Nginx默认用户1234root@Debian:~# useradd nginx -s /sbin/nologin -Mroot@Debian:~# grep "user" /usr/local/nginx/con......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
-        2018-10-16
+        2017-04-14
     </p>
 
 </div>
@@ -206,205 +206,22 @@
 
 <div class="post-preview">
 
-    <a href="/dockerfile/">
+    <a href="/shell/">
         <h2 class="post-title">
-            DockerFile
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            使用 Dockerfile 定制镜像Dockfile参数说明FROM 镜像来源MAINTAINER 维护者信息RUN 运行命令ADD 添加文件（copy文件会自动解压）WORKDIR 当前工作目录VOLUME 目录挂载EXPOSE 端口
-还以之前定制 nginx 镜像为例，这次我们使用 Dockerfile 来定制。
-在一个空白目录中，建立一个文本文件，并命名为 Dockerfile：
-$ ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/docker/">
-        <h2 class="post-title">
-            Docker(一)：Docker入门
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            如今Docker的使用已经非常普遍，特别在一线互联网公司。使用Docker技术可以帮助企业快速水平扩展服务，从而到达弹性部署业务的能力。在云服务概念兴起之后，Docker的使用场景和范围进一步发展，如今在微服务架构越来越流行的情况下，微服务+Docker的完美组合，更加方便微服务架构运维部署落地。
-什么是Docker?
-Docker 是世界领先的软件容器平台。开发人员利用 Docker 可以......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-15
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/linux-oom-killer/">
-        <h2 class="post-title">
-            Linux  overcommit 及 oom-killer 机制
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            通常是因为某时刻应用程序大量请求内存导致系统内存不足造成的，这通常会触发 Linux 内核里的 Out of Memory (OOM) killer，OOM killer 会杀掉某个进程(用户态进程，不是内核线程)以腾出内存留给系统用，不致于让系统立刻崩溃。
-overcommitLinux 内核根据应用程序的要求分配内存，通常来说应用程序分配了内存但是并没有实际全部使用，为了提高性能，这部分......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-15
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-smooth-upgrade/">
-        <h2 class="post-title">
-            Nginx 平滑升级
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            有时候，我们需要对服务器进行编译添加模块或升级更高版本，此时我们将强制停止服务器，然后在原来基础上升级，这样会关闭之前正在运行的进程。
-平滑升级正是解决这个问题的，平滑升级时，不会停掉在运行着的进程，这些进程会继续处理请求，但是不会再接收新的请求，在这些老进程处理完还在处理的请求后，停止。此平滑升级的过程中，新开的进程会被处理。他不会影响我们的进程处理。
-123456789101112131......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-12
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kvm-windows-server-2012/">
-        <h2 class="post-title">
-            Ubuntu 16.04 KVM 安装 Windows Server 2012
+            常用shell查询命令
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
             
-安装KVM1sudo apt-get install qemu-kvm libvirt-bin virtinst bridge-utils cpu-checker
-验证KVM1234$kvm-okINFO: /dev/kvm existsKVM acceleration can be used
-配置网桥cp /etc/network/interfaces /etc/network/inte......
+查看TCP连接状态
+1234567netstat -nat |awk '&#123;print $6&#125;'|sort|uniq -c|sort -rnnetstat -n | awk '/^tcp/ &#123;++S[$NF]&#125;;END &#123;for(a in S) print a, S[a]&#125;' 或netstat -n | awk '/^tcp/ &#......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
-        2018-10-12
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/codis-redis-cluster/">
-        <h2 class="post-title">
-            Codis Redis 集群
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            https://www.jianshu.com/p/10c68da215bahttps://github.com/CodisLabs/codis
-...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-12
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/dd-simple-test/">
-        <h2 class="post-title">
-            Linux 使用dd 简单测试 读写速度
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            注：要正确测试磁盘读写能力，建议测试文件的大小要远远大于内存的容量！10G 文件 
-测试 写入速度time dd if=/dev/zero of=./test.img bs=160k count=64k conv=fsync
-测试 读取速度time dd if=./test.img of=/dev/null bs=160k count=64k
-hdparm -t /dev/sda1
-...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-08
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/iis-8-5-configure-high-concurrency/">
-        <h2 class="post-title">
-            IIS 8.5 高并发配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 调整IIS的应用程序池队列长度在【应用程序池】列表中，选择你相应网站所使用的应用程序池，将原来的队列长度由1000改为65535。当然这里的队列长度你可以根据自己的访问用户*1.5来设置，例如：你有2000用户，你此处就可以设置为3000(3000=2000用户数*1.5)
-2. 调整IIS的appConcurrentRequestLimit值12cd %windir%\system3......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-30
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/redis-install/">
-        <h2 class="post-title">
-            Redis 3.2 安装及主从复制详细配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            编译安装1234567891011121314151617cd /usr/local/srcwget http://download.redis.io/releases/redis-3.2.12.tar.gztar xf redis-3.2.10.tar.gzcd redis-3.2.10make PREFIX=/usr/local/redis installuseradd -s /bin/......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-28
+        2017-04-11
     </p>
 
 </div>
@@ -416,10 +233,10 @@ hdparm -t /dev/sda1
 
 <ul class="pager">
     
-    
-        <li class="next">
-            <a href="/page/2/">Older Posts &rarr;</a>
+        <li class="previous">
+            <a href="/page/12/">&larr; Newer Posts</a>
         </li>
+    
     
 </ul>
 

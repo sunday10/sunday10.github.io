@@ -13,11 +13,11 @@
 
     <title>
         
-          Sunday博客 | Sunday Blog
+          Linux 手动清除缓存 drop_cahces - Sunday博客 | Sunday Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.sundayle.com/tags/log/">
+    <link rel="canonical" href="http://www.sundayle.com/drop_caches/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -147,7 +147,162 @@
 
 
     <!-- Main Content -->
-    <!-- Default Archive layout, we use archives instead. -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#cache" title="cache">cache</a>
+                        
+                    </div>
+                    <h1>Linux 手动清除缓存 drop_cahces</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-10-16
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>为了提高磁盘存取效率，Linux做了一些精心的设计，除了对dentry进行缓存（用于VFS，加速文件路径名到inode的转换），还采取了两种主要Cache方式：Buffer Cache和Page Cache。前者针对磁盘块的读写，后者针对文件inode的读写。这些Cache有效缩短了 I/O系统调用（比如read，write，getdents）的时间。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># free -h</span></span><br><span class="line">              total        used        free      <span class="keyword">shared </span> <span class="keyword">buff/cache </span>  available</span><br><span class="line"><span class="symbol">Mem:</span>            <span class="number">15</span>G        <span class="number">5</span>.<span class="number">6</span>G        <span class="number">721</span>M         <span class="number">31</span>M        <span class="number">9</span>.<span class="number">3</span>G        <span class="number">8</span>.<span class="number">7</span>G</span><br><span class="line"><span class="keyword">Swap: </span>          <span class="number">15</span>G        <span class="number">3</span>.<span class="number">5</span>G         <span class="number">12</span>G</span><br></pre></td></tr></table></figure>
+<p>一般来说使用者是不需要去管这些缓存何时会被清除的。但如有需求使用<code>/proc/sys/vm/drop_caches</code>可以强制内核清理缓存。</p>
+<p>/proc是一个虚拟文件系统，我们可以通过对它的读写操作做为与kernel实体间进行通信的一种手段。也就是说可以通过修改/proc中的文件，来对当前kernel的行为做出调整。</p>
+<p><strong>写入1，清除 pagecache</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> sync;<span class="built_in">echo</span> 1 &gt; /proc/sys/vm/drop_caches</span></span><br></pre></td></tr></table></figure></p>
+<p><strong> 写入2，清除 dentries 与 inodes</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> sync;<span class="built_in">echo</span> 2 &gt; /proc/sys/vm/drop_caches</span></span><br></pre></td></tr></table></figure></p>
+<p><strong> 写入3，清除 dentries 与 inodes 及 inodes (危险)</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> sync;<span class="built_in">echo</span> 3 &gt; /proc/sys/vm/drop_caches</span></span><br></pre></td></tr></table></figure></p>
+<p>基本上执行这个指令没有什么好处，所以除非你很明确知道你想干嘛（例如这边是为了避免缓存影响实验结果），否则建议不要随便手动清除快取记忆体。另外，也建议在做这个 动作前先执行sync让档案写入操作先完成，否则可能会造成意想不到的结果。</p>
+<p><code>/proc/sys/vm/drop_caches</code> 预设的值是0，只有<code>echo 1 &gt; /proc/sys/vm/drop_caches</code> 才会触发对应的清理工作,仅执行一次而已。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sync;echo 1 &gt; /proc/sys/vm/drop_caches </span></span><br><span class="line"><span class="comment"># free -h</span></span><br><span class="line">              total        used        free      <span class="keyword">shared </span> <span class="keyword">buff/cache </span>  available</span><br><span class="line"><span class="symbol">Mem:</span>            <span class="number">15</span>G        <span class="number">5</span>.<span class="number">6</span>G        <span class="number">5</span>.<span class="number">4</span>G         <span class="number">31</span>M        <span class="number">4</span>.<span class="number">6</span>G        <span class="number">9</span>.<span class="number">0</span>G</span><br><span class="line"><span class="keyword">Swap: </span>          <span class="number">15</span>G        <span class="number">3</span>.<span class="number">5</span>G         <span class="number">12</span>G</span><br></pre></td></tr></table></figure>
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/dockerfile/" data-toggle="tooltip" data-placement="top" title="DockerFile">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#cache" title="cache">cache</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
 
     <!-- Footer -->
     <!-- Footer -->

@@ -184,6 +184,95 @@
 
 <div class="post-preview">
 
+    <a href="/sql-server-replication/">
+        <h2 class="post-title">
+            Windows SQL Server 主从复制
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            注：只有设置主键的表才能同步
+SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLISHDBGOCREATE　TABLE　TEST(ID　VARCHAR(10) PRIMARY KEY NOT NULL,NAME VARCHAR(10))GOINSERT INTO TEST VALUES ('1','A')I......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/remove-iis-server-info/">
+        <h2 class="post-title">
+            IIS 8.5 隐藏 X-Powered-By 及 X-Powered-By 信息
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Before12345678910curl -I net.sundayle.comHTTP/1.1 200 OKContent-Length: 206Content-Type: text/htmlLast-Modified: Tue, 26 Dec 2017 07:15:34 GMTAccept-Ranges: bytesETag: "b3754052197ed31:0"Server: Mi......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/fastdfs-cluster/">
+        <h2 class="post-title">
+            FastDFS 分布式存储集群部署
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            FastDFS是一个开源的轻量级分布式文件系统，它对文件进行管理，功能包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了大容量存储和负载均衡的问题。特别适合以文件为载体的在线服务，如相册网站、视频网站等等。
+FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、线性扩容等机制，并注重高可用、高性能等指标，使用FastDFS很容易搭建一套高性能的文件服务器集群提供文件上......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-10
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/distributed-file-system-fastdfs/">
+        <h2 class="post-title">
+            分布式文件系统FastDFS详解
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            为什么要使用分布式文件系统呢？
+嗯，这个问题问的好，使用了它对我们有哪些好处？带着这个问题我们来往下看：
+单机时代初创时期由于时间紧迫，在各种资源有限的情况下，通常就直接在项目目录下建立静态文件夹，用于用户存放项目中的文件资源。如果按不同类型再细分，可以在项目目录下再建立不同的子目录来区分。例如：resources\static\file、resources\static\img等。
+优点：......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-10
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/mogilefs/">
         <h2 class="post-title">
             MogileFS 分布式存储
@@ -328,125 +417,6 @@ Shared storage - 云存储、虚拟化存储......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/python-note/">
-        <h2 class="post-title">
-            Python学习笔记
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Python学习笔记基础基础
-语法
-
-
-#开头，注释
-缩进的语句视为代码块
-大小写敏感
-
-
-数据类型和变量
-
-True和False首字母大写
-and、or和not
-空值：None
-
-
-字符串格式化%
-
-%d整数
-
-%f浮点数
-
-%s字符串
-
-%x十六进制整数
-
-补位
-12345&gt;&gt;&gt; '%2d-%02d' % (3, 1)' 3-01'&gt;&gt;&gt; '%.2f'......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-20
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/iptables-for-anti-ddos/">
-        <h2 class="post-title">
-            配置 Sysctl 和 Iptables 防攻击
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            sysctl 可以显示和修改内核参数，包含一些 TCP/IP 堆栈和虚拟内存系统的高级选项，合理设置可以显著提高系统性能。iptables 是 Linux 下最常用的防火墙软件，也是很多 Linux 发行版自带的默认防火墙软件。通过设置 sysctl 和 iptables，可以有效防范中小程度的攻击。
-查看状态查看TCP连接状态12#netstat -nat |awk '&#123;prin......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-20
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/">
-        <h2 class="post-title">
-            我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-仔细看上图，我们可以发现两个信息：
-
-1.该机器建立了238万个TCP连接；2.此时内存使用量大约在48G左右。
-
-看上去很赞吧？如果有人能够提供配置，并且在单台部署HAProxy的服务器上完成这样规模的调优，是不是更赞？本文将详细描述这个过程;
-本文是一系列关于HAProxy压力测试文章的最后一篇。如果有时间，建议读者能够先阅读本系列的其余两部分。这样能够更好的帮助我们了解本文所提及的内......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-domain-judgment/">
-        <h2 class="post-title">
-            Nginx 域名判断
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            判断 HTTP 请求的 HOST 首部，如果不是 sundayle.com 或者 www.sundayle.com , 则进行重定向到 sundayle.com
-通过设置变量到达条件组合的效果。1234567891011121314151617181920212223server &#123;    listen 80;    server_name sundayle.com www.sun......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-16
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -486,6 +456,10 @@ and、or和not
                     <div class="tags">
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -496,11 +470,9 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
                         
                             
-                        
+                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
                             
@@ -514,17 +486,7 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
-                            
-                        
-                            
-                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -554,25 +516,25 @@ and、or和not
                             
                         
                             
-                        
-                            
                             <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
                             
                         
                             
-                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
+                        
                             
                         
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
@@ -584,7 +546,15 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -594,13 +564,7 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -614,9 +578,43 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                        
                             
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
+                            <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
+                            
+                            <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
                             
                         
                             
@@ -634,39 +632,7 @@ and、or和not
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
-                            
-                        
-                            
-                            <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -692,10 +658,6 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
@@ -704,7 +666,7 @@ and、or和not
                             
                         
                             
-                        
+                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
                             
                         
                             
@@ -713,6 +675,10 @@ and、or和not
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

@@ -184,6 +184,125 @@
 
 <div class="post-preview">
 
+    <a href="/python-note/">
+        <h2 class="post-title">
+            Python学习笔记
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Python学习笔记基础基础
+语法
+
+
+#开头，注释
+缩进的语句视为代码块
+大小写敏感
+
+
+数据类型和变量
+
+True和False首字母大写
+and、or和not
+空值：None
+
+
+字符串格式化%
+
+%d整数
+
+%f浮点数
+
+%s字符串
+
+%x十六进制整数
+
+补位
+12345&gt;&gt;&gt; '%2d-%02d' % (3, 1)' 3-01'&gt;&gt;&gt; '%.2f'......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-20
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/iptables-for-anti-ddos/">
+        <h2 class="post-title">
+            配置 Sysctl 和 Iptables 防攻击
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            sysctl 可以显示和修改内核参数，包含一些 TCP/IP 堆栈和虚拟内存系统的高级选项，合理设置可以显著提高系统性能。iptables 是 Linux 下最常用的防火墙软件，也是很多 Linux 发行版自带的默认防火墙软件。通过设置 sysctl 和 iptables，可以有效防范中小程度的攻击。
+查看状态查看TCP连接状态12#netstat -nat |awk '&#123;prin......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-20
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/">
+        <h2 class="post-title">
+            我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+仔细看上图，我们可以发现两个信息：
+
+1.该机器建立了238万个TCP连接；2.此时内存使用量大约在48G左右。
+
+看上去很赞吧？如果有人能够提供配置，并且在单台部署HAProxy的服务器上完成这样规模的调优，是不是更赞？本文将详细描述这个过程;
+本文是一系列关于HAProxy压力测试文章的最后一篇。如果有时间，建议读者能够先阅读本系列的其余两部分。这样能够更好的帮助我们了解本文所提及的内......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-domain-judgment/">
+        <h2 class="post-title">
+            Nginx 域名判断
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            判断 HTTP 请求的 HOST 首部，如果不是 sundayle.com 或者 www.sundayle.com , 则进行重定向到 sundayle.com
+通过设置变量到达条件组合的效果。1234567891011121314151617181920212223server &#123;    listen 80;    server_name sundayle.com www.sun......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/process-startup-time/">
         <h2 class="post-title">
             Linux 查看进程启动时间
@@ -316,95 +435,6 @@
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/keepalived/">
-        <h2 class="post-title">
-            Keepavlied 编译及配置文件详解
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Keepalived简介Keepalived是一个基于vrrp来实现的服务器高可用解决方案，可以利用其实现避免IP单点故障，类似的工具还有heartbeat、corosync。不过其不会单独出现，而是搭配着 LVS、Nginx、HAproxy，一起协同工作达到高可用的目的。
-具体来说，其作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，KeepAlived将会检测到，并将有......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-09
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/high-availability/">
-        <h2 class="post-title">
-            高可用集群基本概念
-        </h2>
-        <h3 class="post-subtitle">
-            High availability
-        </h3>
-        <div class="post-content-preview">
-            什么是高可用可用性如何定义
-
-可用性（availability）是关于系统可供使用时间的表述，以不可用的时间为衡量指标。不可用时间越短，可用性越高。通常用 n 个 9 来描述。比如 4 个 9 的可用性（99.99%），是指一年中不可用时间在 52 分钟内，平均每周不可用时间在 1 分钟。
-可靠性（reliability）是关于系统无故障时间间隔的描述，以发生故障的次数为衡量指标，故障次数越......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-07
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/lvs/">
-        <h2 class="post-title">
-            负载均衡集群 LVS 详解
-        </h2>
-        <h3 class="post-subtitle">
-            Loadbalancer & LVS
-        </h3>
-        <div class="post-content-preview">
-            负载均衡集群负载均衡集群指使用多台提供相同服务的服务器组成集群系统，提高服务的并发处理能力。负载均衡集群的前端使用一个调度器，将客户端请求平均分配到后端的服务器中，同时调度器可能还具有后端服务器状态检测的功能，将故障的服务器自动下线，使得集群具有一定的容错能力。
-使用负载均衡集群能够有效的扩展服务的并发能力，负载均衡集群中的主机间应该尽量的「低耦合」，最好是「无状态」的，这样就能够方便的增加......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-07
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/firewalld/">
-        <h2 class="post-title">
-            CentOS 7  Firewalld防火墙管理工具
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            firewalld 简介firewalld 提供了支持网络 / 防火墙区域 (zone) 定义网络链接以及接口安全等级的动态防火墙管理工具。它支持 IPv4, IPv6 防火墙设置以及以太网桥接，并且拥有运行时配置和永久配置选项。它也支持允许服务或者应用程序直接添加防火墙规则的接口。以前的 iptables 防火墙是静态的，每次修改都要求防火墙完全重启。这个过程包括内核 netfilter ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-07
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -444,6 +474,10 @@
                     <div class="tags">
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -454,11 +488,9 @@
                             
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
                         
                             
-                        
+                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
                             
@@ -472,17 +504,7 @@
                             
                         
                             
-                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
-                            
-                        
-                            
-                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -512,25 +534,25 @@
                             
                         
                             
-                        
-                            
                             <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
                             
                         
                             
-                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
+                        
                             
                         
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
@@ -542,7 +564,15 @@
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -552,13 +582,7 @@
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -572,9 +596,43 @@
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                        
                             
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
+                            <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
+                            
+                            <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
                             
                         
                             
@@ -592,39 +650,7 @@
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
-                            
-                        
-                            
-                            <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -650,10 +676,6 @@
                             
                         
                             
-                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
@@ -662,7 +684,7 @@
                             
                         
                             
-                        
+                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
                             
                         
                             
@@ -671,6 +693,10 @@
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

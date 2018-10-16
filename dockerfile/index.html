@@ -13,11 +13,11 @@
 
     <title>
         
-          Linux 查看进程启动时间 - Sunday博客 | Sunday Blog
+          DockerFile - Sunday博客 | Sunday Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.sundayle.com/hexo-new-process-startup-time/">
+    <link rel="canonical" href="http://www.sundayle.com/dockerfile/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,16 +165,12 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#进程" title="进程">进程</a>
-                        
-                          <a class="tag" href="/tags/#启动时间" title="启动时间">启动时间</a>
-                        
                     </div>
-                    <h1>Linux 查看进程启动时间</h1>
+                    <h1>DockerFile</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sunday on
-                        2018-08-16
+                        2018-10-16
                     </span>
                 </div>
             </div>
@@ -193,9 +189,11 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>按进程名查看<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="selector-tag">ps</span> <span class="selector-tag">axo</span> <span class="selector-tag">comm</span>,<span class="selector-tag">lstart</span>| <span class="selector-tag">grep</span> <span class="selector-tag">nginx</span></span><br><span class="line"><span class="selector-tag">nginx</span>           <span class="selector-tag">Tue</span> <span class="selector-tag">Aug</span> <span class="selector-tag">14</span> <span class="selector-tag">16</span><span class="selector-pseudo">:06</span><span class="selector-pseudo">:18</span> <span class="selector-tag">2018</span></span><br><span class="line"><span class="selector-tag">nginx</span>           <span class="selector-tag">Tue</span> <span class="selector-tag">Aug</span> <span class="selector-tag">14</span> <span class="selector-tag">16</span><span class="selector-pseudo">:06</span><span class="selector-pseudo">:18</span> <span class="selector-tag">2018</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps axo pid,ppid,comm,pmem,lstart | grep nginx</span><br><span class="line"></span><br><span class="line"><span class="number"> 1159 </span>   <span class="number"> 1 </span>nginx            0.1 Tue Aug<span class="number"> 14 </span>16:06:18 2018</span><br><span class="line"><span class="number"> 1160 </span><span class="number"> 1159 </span>nginx            0.2 Tue Aug<span class="number"> 14 </span>16:06:18 2018</span><br></pre></td></tr></table></figure>
-<p>按pid查看<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ps</span> <span class="selector-tag">-p</span> 1159 <span class="selector-tag">-o</span> <span class="selector-tag">lstart</span></span><br><span class="line"></span><br><span class="line">                 <span class="selector-tag">STARTED</span></span><br><span class="line"><span class="selector-tag">Tue</span> <span class="selector-tag">Aug</span> 14 16<span class="selector-pseudo">:06</span><span class="selector-pseudo">:18</span> 2018</span><br></pre></td></tr></table></figure></p>
+                <h1 id="使用-Dockerfile-定制镜像"><a href="#使用-Dockerfile-定制镜像" class="headerlink" title="使用 Dockerfile 定制镜像"></a>使用 Dockerfile 定制镜像</h1><p>Dockfile参数说明<br>FROM 镜像来源<br>MAINTAINER 维护者信息<br>RUN 运行命令<br>ADD 添加文件（copy文件会自动解压）<br>WORKDIR 当前工作目录<br>VOLUME 目录挂载<br>EXPOSE 端口</p>
+<p>还以之前定制 nginx 镜像为例，这次我们使用 Dockerfile 来定制。</p>
+<p>在一个空白目录中，建立一个文本文件，并命名为 Dockerfile：</p>
+<p>$ mkdir mynginx<br>$ cd mynginx<br>$ touch Dockerfile</p>
+<p>其内容为：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> nginx</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">'&lt;h1&gt;Hello, Docker!&lt;/h1&gt;'</span> &gt; /usr/share/nginx/html/index.html</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">制作镜像</span></span><br><span class="line"><span class="bash">docker build -t nginx:v3 .</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">容器操作</span></span><br><span class="line"><span class="bash">启动</span></span><br><span class="line"><span class="bash">docker run ubuntu:14.04 /bin/<span class="built_in">echo</span> <span class="string">'Hello world'</span></span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">后台运行</span></span><br><span class="line"><span class="bash">docker run -d -p 80:80 --name webserver nginx</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">查看容器</span></span><br><span class="line"><span class="bash">docker container ls -a</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">终止</span></span><br><span class="line"><span class="bash">docker container stop xx</span></span><br></pre></td></tr></table></figure></p>
 
 
                 <hr>
@@ -205,12 +203,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/nginx-domain-judgment/" data-toggle="tooltip" data-placement="top" title="Nginx 域名判断">&larr; Previous Post</a>
+                            <a href="/drop_caches/" data-toggle="tooltip" data-placement="top" title="Linux 手动清除缓存 drop_cahces">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/haproxy-tutorial/" data-toggle="tooltip" data-placement="top" title="HAProxy 反向代理的使用">Next Post &rarr;</a>
+                            <a href="/docker/" data-toggle="tooltip" data-placement="top" title="Docker(一)：Docker入门">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -237,10 +235,6 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#进程" title="进程">进程</a>
-                        
-                          <a class="tag" href="/tags/#启动时间" title="启动时间">启动时间</a>
-                        
                     </div>
                 </section>
                 

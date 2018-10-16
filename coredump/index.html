@@ -13,7 +13,7 @@
 
     <title>
         
-          Linux Core Dump - Sunday博客 | Sunday Blog
+          Linux 开启 core dump - Sunday博客 | Sunday Blog
         
     </title>
 
@@ -168,7 +168,7 @@
                           <a class="tag" href="/tags/#coredump" title="coredump">coredump</a>
                         
                     </div>
-                    <h1>Linux Core Dump</h1>
+                    <h1>Linux 开启 core dump</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sunday on
@@ -196,7 +196,7 @@
 <h2 id="2-设置core文件名称和路径"><a href="#2-设置core文件名称和路径" class="headerlink" title="2. 设置core文件名称和路径"></a>2. 设置core文件名称和路径</h2><h3 id="a-设置pid作为扩展名"><a href="#a-设置pid作为扩展名" class="headerlink" title="a.设置pid作为扩展名"></a>a.设置pid作为扩展名</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">1</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/kernel/</span>core_uses_pid</span><br></pre></td></tr></table></figure>
 <p>0：不添加pid作为扩展名，生成的文件名称为core,新的core会覆盖已存在的core。<br>1：可以将进程的pid作为作为扩展名，生成的core文件格式为core.xxx，其中xxx即为pid</p>
 <h3 id="b-设置core文件保存位置和格式"><a href="#b-设置core文件保存位置和格式" class="headerlink" title="b.设置core文件保存位置和格式"></a>b.设置core文件保存位置和格式</h3><p>默认：|/usr/share/apport/apport %p %s %c %P<br>修改 将所有的core文件生成到/data/logs/core/目录下，文件名的格式为core-命令名-pid-时间戳.<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"/data/logs/core-%e-%p-%t"</span> &gt; <span class="regexp">/proc/sys</span><span class="regexp">/kernel/core</span>_pattern</span><br></pre></td></tr></table></figure></p>
-<h3 id="c-永久生效"><a href="#c-永久生效" class="headerlink" title="c.永久生效"></a>c.永久生效</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"ulimit -c unlimited"</span> &gt;／etc/profile</span><br><span class="line">echo <span class="string">"kernel.core_uses_pid = 1"</span> &gt; /etc/sysctl.conf</span><br><span class="line">echo <span class="string">"kernel.core_pattern = /data/logs/core/core_%e_%p"</span> &gt; /etc/sysctl.conf</span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+<h3 id="c-永久生效"><a href="#c-永久生效" class="headerlink" title="c.永久生效"></a>c.永久生效</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"ulimit -c unlimited"</span> &gt; /etc/profile</span><br><span class="line">echo <span class="string">"kernel.core_uses_pid = 1"</span> &gt; /etc/sysctl.conf</span><br><span class="line">echo <span class="string">"kernel.core_pattern = /data/logs/core/core_%e_%p"</span> &gt; /etc/sysctl.conf</span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
 <h1 id="3-测试是否能生成core文件"><a href="#3-测试是否能生成core文件" class="headerlink" title="3. 测试是否能生成core文件"></a>3. 测试是否能生成core文件</h1><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -s SIGSEGV <span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
 <p>查看/data/logs/core/目录下是否生成了core文件</p>
 <h1 id="4-调试core文件"><a href="#4-调试core文件" class="headerlink" title="4.调试core文件"></a>4.调试core文件</h1><p>Eg. test.c<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">      <span class="keyword">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">      *p = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>

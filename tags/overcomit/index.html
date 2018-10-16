@@ -13,11 +13,11 @@
 
     <title>
         
-          Nginx 平滑升级 - Sunday博客 | Sunday Blog
+          Sunday博客 | Sunday Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.sundayle.com/nginx-smooth-upgrade/">
+    <link rel="canonical" href="http://www.sundayle.com/tags/overcomit/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -147,160 +147,7 @@
 
 
     <!-- Main Content -->
-    
-<!-- Image to hack wechat -->
-<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
-
-<!-- Post Header -->
-<style type="text/css">
-    header.intro-header{
-        background-image: url('/img/home-bg.jpg')
-    }
-</style>
-<header class="intro-header" >
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <div class="tags">
-                        
-                          <a class="tag" href="/tags/#nginx" title="nginx">nginx</a>
-                        
-                    </div>
-                    <h1>Nginx 平滑升级</h1>
-                    <h2 class="subheading"></h2>
-                    <span class="meta">
-                        Posted by Sunday on
-                        2018-10-12
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-    <!-- Post Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
-                <p>有时候，我们需要对服务器进行编译添加模块或升级更高版本，此时我们将强制停止服务器，然后在原来基础上升级，这样会关闭之前正在运行的进程。</p>
-<p>平滑升级正是解决这个问题的，平滑升级时，不会停掉在运行着的进程，这些进程会继续处理请求，但是不会再接收新的请求，在这些老进程处理完还在处理的请求后，停止。此平滑升级的过程中，新开的进程会被处理。他不会影响我们的进程处理。</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">wget http:<span class="string">//nginx.org/download/nginx-1.12.2.tar.gz</span></span><br><span class="line">tar xf nginx-1.12.2.tar.gz</span><br><span class="line"><span class="keyword">cd</span> nginx-1.12.2</span><br><span class="line"><span class="string">./configure</span> <span class="params">--prefix=/usr/local/nginx</span> <span class="params">--with-file-aio</span> <span class="params">--with-poll_module</span> \</span><br><span class="line"><span class="params">--with-http_realip_module</span> <span class="params">--with-http_image_filter_module</span> \</span><br><span class="line"><span class="params">--with-http_gzip_static_module</span> <span class="params">--with-http_addition_module</span> \</span><br><span class="line"><span class="params">--with-http_sub_module</span> <span class="params">--with-http_dav_module</span> \</span><br><span class="line"><span class="params">--with-http_flv_module</span> <span class="params">--with-http_slice_module</span> \</span><br><span class="line"><span class="params">--with-http_mp4_module</span> <span class="params">--with-http_random_index_module</span> \</span><br><span class="line"><span class="params">--with-http_secure_link_module</span> <span class="params">--with-http_degradation_module</span> \</span><br><span class="line"><span class="params">--with-http_ssl_module</span> <span class="params">--with-http_stub_status_module</span> \</span><br><span class="line"><span class="params">--with-http_v2_module</span> \</span><br><span class="line"><span class="params">--add-module=</span><span class="string">../ngx_cache_purge-2.3/</span></span><br><span class="line">make <span class="comment">#注意不要make install</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cp <span class="regexp">/usr/</span>local<span class="regexp">/nginx/</span>sbin/nginx&#123;,.bak1012&#125;</span><br><span class="line">cp objs<span class="regexp">/nginx /</span>usr<span class="regexp">/local/</span>nginx<span class="regexp">/sbin/</span></span><br><span class="line">nginx -t</span><br><span class="line">nginx -v</span><br><span class="line"></span><br><span class="line">kill -USR2 `cat <span class="regexp">/usr/</span>local<span class="regexp">/nginx/</span>logs/nginx.pid`</span><br><span class="line">kill -QUIT `cat <span class="regexp">/usr/</span>local<span class="regexp">/nginx/</span>logs/nginx.pid.oldbin`</span><br></pre></td></tr></table></figure>
-
-                <hr>
-
-                
-
-                <ul class="pager">
-                    
-                        <li class="previous">
-                            <a href="/linux-oom-killer/" data-toggle="tooltip" data-placement="top" title="Linux  overcommit 及 oom-killer 机制">&larr; Previous Post</a>
-                        </li>
-                    
-                    
-                        <li class="next">
-                            <a href="/kvm-windows-server-2012/" data-toggle="tooltip" data-placement="top" title="Ubuntu 16.04 KVM 安装 Windows Server 2012">Next Post &rarr;</a>
-                        </li>
-                    
-                </ul>
-
-                
-
-                
-
-            </div>
-    <!-- Side Catalog Container -->
-        
-
-    <!-- Sidebar Container -->
-
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-                <!-- Featured Tags -->
-                
-                <section>
-                    <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                       
-                          <a class="tag" href="/tags/#nginx" title="nginx">nginx</a>
-                        
-                    </div>
-                </section>
-                
-
-                <!-- Friends Blog -->
-                
-                <hr>
-                <h5>FRIENDS</h5>
-                <ul class="list-inline">
-
-                    
-                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
-                    
-                        <li><a href="#" target="_blank">It helps SEO</a></li>
-                    
-                </ul>
-                
-            </div>
-
-        </div>
-    </div>
-</article>
-
-
-
-
-
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'always',
-          placement: 'right',
-          icon: '#'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
-
-
+    <!-- Default Archive layout, we use archives instead. -->
 
     <!-- Footer -->
     <!-- Footer -->

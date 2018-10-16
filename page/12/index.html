@@ -184,6 +184,74 @@
 
 <div class="post-preview">
 
+    <a href="/shadowsocksr-mudbjson/">
+        <h2 class="post-title">
+            CentOS 7 配置Shadowsocksr单服务器多用户 mudbjson模式
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            mudbjson模式相当建立本地数据库，数据记录在~/shadowsocksr/mudb.json中。mudbjson主要用于单服务器多用户环境，支持流量限制、网速限制、端口限制。
+服务器端安装获取源码Centos:12yum -y install git gcc python-setuptools  &amp;&amp; easy_install pip &amp;&amp; pip in......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/iptables-forward/">
+        <h2 class="post-title">
+            配置iptables、ufw端口转发
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本地网络 &gt;&gt; 中转IP:183.60.100.8 &gt;&gt; 目标IP:103.79.78.76
+温馨提示如果是远程操作的话，请做好定时防火墙失效，防止自己连接不上。
+每10分钟关闭防火墙12$ crontab -e#*/10 * * * * /data/shell/stop_ufw.sh
+非常简单的代码123456$ cat /data/shell/stop_ufw.s......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/ubuntu-ufw/">
+        <h2 class="post-title">
+            Ubuntu 开启ufw防火墙的一些命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            UFW，即Uncomplicated Firewall，是基于iptables实现的防火墙管理工具，旨在简化配置防火墙的过程，所以实际上UFW修改的是iptables的规则。虽然iptables是一个坚实而灵活的工具，但初学者很难学习如何使用它来正确配置防火墙。如果您希望开始保护您的网络，并且您不确定使用哪种工具，UFW可能是您的正确选择。
+本文测试环境为Ubuntu 16.04，其他系统可......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/linux-system-io/">
         <h2 class="post-title">
             Linux 性能优化之 IO 子系统
@@ -298,30 +366,9 @@ SMP 即 Symmetr......
 
 <div class="post-preview">
 
-    <a href="/webbench/">
-        <h2 class="post-title">
-            Web 压力测试工具 Webbench
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            简介在软件测试工作中，压力测试是一项很重要的工作。比如在一个网站上线之前，能承受多大访问量、在大访问量情况下软件性能怎么样？这些数据指标好坏将会直接影响到用户体验。但是，在压力测试中存在一个共性，那就是压力测试的结果与实际负载结果不会完全相同，就算压力测试工作做的再好，也不能保证100%和线上性能指标相同。面对这些问题，我们只能尽量去想方设法去模拟。所以，压力测试非常有必要，有了这些数据，我......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-05-19
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
     <a href="/apache-bench/">
         <h2 class="post-title">
-            Apache Benchmark wrk 压力测试工具使用
+            Apache Benchmark ab wrk 压力测试工具使用
         </h2>
         <h3 class="post-subtitle">
             
@@ -341,44 +388,20 @@ SMP 即 Symmetr......
 
 <div class="post-preview">
 
-    <a href="/nginx-configuration-optimization/">
+    <a href="/webbench/">
         <h2 class="post-title">
-            Nginx 配置优化
+            Web 压力测试工具 Webbench
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            1. 隐藏版本信息1234vim /usr/local/nginx/conf/nginx.confhttp&#123;server_tokens off;&#125;
-2. 更改Nginx默认用户1234root@Debian:~# useradd nginx -s /sbin/nologin -Mroot@Debian:~# grep "user" /usr/local/nginx/con......
+            简介在软件测试工作中，压力测试是一项很重要的工作。比如在一个网站上线之前，能承受多大访问量、在大访问量情况下软件性能怎么样？这些数据指标好坏将会直接影响到用户体验。但是，在压力测试中存在一个共性，那就是压力测试的结果与实际负载结果不会完全相同，就算压力测试工作做的再好，也不能保证100%和线上性能指标相同。面对这些问题，我们只能尽量去想方设法去模拟。所以，压力测试非常有必要，有了这些数据，我......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
-        2017-04-14
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/shell/">
-        <h2 class="post-title">
-            常用shell查询命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-查看TCP连接状态
-1234567netstat -nat |awk '&#123;print $6&#125;'|sort|uniq -c|sort -rnnetstat -n | awk '/^tcp/ &#123;++S[$NF]&#125;;END &#123;for(a in S) print a, S[a]&#125;' 或netstat -n | awk '/^tcp/ &#......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-04-11
+        2017-05-19
     </p>
 
 </div>
@@ -394,6 +417,10 @@ SMP 即 Symmetr......
             <a href="/page/11/">&larr; Newer Posts</a>
         </li>
     
+    
+        <li class="next">
+            <a href="/page/13/">Older Posts &rarr;</a>
+        </li>
     
 </ul>
 
@@ -419,6 +446,10 @@ SMP 即 Symmetr......
                     <div class="tags">
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -429,11 +460,9 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
                         
                             
-                        
+                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
                             
@@ -447,17 +476,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#elk" title="elk" rel="3">elk</a>
-                            
-                        
-                            
-                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -487,25 +506,25 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
                             
                         
                             
-                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
+                        
                             
                         
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
@@ -517,7 +536,15 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -527,13 +554,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -547,9 +568,43 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                        
                             
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
+                            <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
+                            
+                            <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
                             
                         
                             
@@ -567,39 +622,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
-                            
-                        
-                            
-                            <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -625,10 +648,6 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
@@ -637,7 +656,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
+                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
                             
                         
                             
@@ -646,6 +665,10 @@ SMP 即 Symmetr......
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             
