@@ -1136,11 +1136,11 @@
         <title>Maven私服Nexus3.x环境配置</title>
         <pubTime>2018-07-31T10:36:25.000Z</pubTime>
         
+        <tag>maven</tag>
+         
         <tag>持续集成</tag>
          
         <tag>nexus</tag>
-         
-        <tag>maven</tag>
          
          
            
@@ -1162,9 +1162,9 @@
         
         <tag>jenkins</tag>
          
-        <tag>持续集成</tag>
-         
         <tag>maven</tag>
+         
+        <tag>持续集成</tag>
          
          
            
@@ -1712,9 +1712,9 @@
         
         <tag>mysql</tag>
          
-        <tag>1062</tag>
-         
         <tag>gtid</tag>
+         
+        <tag>1062</tag>
          
          
            
@@ -2283,9 +2283,9 @@
         <title>Nginx  缓存与过期</title>
         <pubTime>2017-10-25T10:03:05.000Z</pubTime>
         
-        <tag>nginx</tag>
-         
         <tag>cache</tag>
+         
+        <tag>nginx</tag>
          
          
            
