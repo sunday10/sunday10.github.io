@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/drop_caches/</loc>
+    <lastmod>2018-10-17T02:39:19.351Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 手动清除缓存 drop_cahces</title>
+        <pubTime>2018-10-15T04:02:10.000Z</pubTime>
+        
+        <tag>cache</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/dockerfile/</loc>
     <lastmod>2018-10-17T02:35:12.064Z</lastmod>
     <data>
@@ -46,23 +63,6 @@
         <pubTime>2018-09-28T02:27:19.000Z</pubTime>
         
         <tag>redis</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/drop_caches/</loc>
-    <lastmod>2018-10-17T02:31:43.477Z</lastmod>
-    <data>
-        <display>
-        <title>Linux 手动清除缓存 drop_cahces</title>
-        <pubTime>2018-10-12T04:02:10.000Z</pubTime>
-        
-        <tag>cache</tag>
          
          
            
@@ -517,9 +517,9 @@
         <title>配置iptables、ufw端口转发</title>
         <pubTime>2017-10-11T07:33:16.000Z</pubTime>
         
-        <tag>防火墙</tag>
-         
         <tag>iptables</tag>
+         
+        <tag>防火墙</tag>
          
         <tag>ufw</tag>
          
@@ -1714,9 +1714,9 @@
         
         <tag>mysql</tag>
          
-        <tag>1062</tag>
-         
         <tag>gtid</tag>
+         
+        <tag>1062</tag>
          
          
            
@@ -2079,9 +2079,9 @@
         <title>Linux 防火墙 iptables详解</title>
         <pubTime>2017-12-29T06:31:35.000Z</pubTime>
         
-        <tag>防火墙</tag>
-         
         <tag>iptables</tag>
+         
+        <tag>防火墙</tag>
          
          
            
