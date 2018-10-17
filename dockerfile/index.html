@@ -13,7 +13,7 @@
 
     <title>
         
-          DockerFile - Sunday博客 | Sunday Blog
+          Docker(二)：Dockerfile 使用介绍 - Sunday博客 | Sunday Blog
         
     </title>
 
@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -165,8 +165,10 @@
                 <div class="post-heading">
                     <div class="tags">
                         
+                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                        
                     </div>
-                    <h1>DockerFile</h1>
+                    <h1>Docker(二)：Dockerfile 使用介绍</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sunday on
@@ -189,11 +191,66 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="使用-Dockerfile-定制镜像"><a href="#使用-Dockerfile-定制镜像" class="headerlink" title="使用 Dockerfile 定制镜像"></a>使用 Dockerfile 定制镜像</h1><p>Dockfile参数说明<br>FROM 镜像来源<br>MAINTAINER 维护者信息<br>RUN 运行命令<br>ADD 添加文件（copy文件会自动解压）<br>WORKDIR 当前工作目录<br>VOLUME 目录挂载<br>EXPOSE 端口</p>
+                <h1 id="Dockerfile-概念"><a href="#Dockerfile-概念" class="headerlink" title="Dockerfile 概念"></a>Dockerfile 概念</h1><hr>
+<p>Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。</p>
+<p>镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么之前提及的无法重复的问题、镜像构建透明性的问题、体积的问题就都会解决。这个脚本就是 Dockerfile。</p>
+<p>Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。有了 Dockerfile，当我们需要定制自己额外的需求时，只需在 Dockerfile 上添加或者修改指令，重新生成 image 即可，省去了敲命令的麻烦。</p>
+<h1 id="Dockerfile-文件格式"><a href="#Dockerfile-文件格式" class="headerlink" title="Dockerfile 文件格式"></a>Dockerfile 文件格式</h1><hr>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This dockerfile uses the ubuntu image</span></span><br><span class="line"><span class="comment"># VERSION 2 - EDITION 1</span></span><br><span class="line"><span class="comment"># Author: docker_user</span></span><br><span class="line"><span class="comment"># Command format: Instruction [arguments / command] ..</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 1、第一行必须指定 基础镜像信息</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 2、维护者信息</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> docker_user docker_user@email.com</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 3、镜像操作指令</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"deb http://archive.ubuntu.com/ubuntu/ raring main universe"</span> &gt;&gt; /etc/apt/sources.list</span></span><br><span class="line"><span class="bash">RUN apt-get update &amp;&amp; apt-get install -y nginx</span></span><br><span class="line"><span class="bash">RUN <span class="built_in">echo</span> <span class="string">"\ndaemon off;"</span> &gt;&gt; /etc/nginx/nginx.conf</span></span><br><span class="line"><span class="bash"> </span></span><br><span class="line"><span class="bash"><span class="comment"># 4、容器启动执行指令</span></span></span><br><span class="line"><span class="bash">CMD /usr/sbin/nginx</span></span><br></pre></td></tr></table></figure>
+<p>Dockerfile 分为四部分：基础镜像信息、维护者信息、镜像操作指令、容器启动执行指令。一开始必须要指明所基于的镜像名称，接下来一般会说明维护者信息；后面则是镜像操作指令，例如 RUN 指令。每执行一条RUN 指令，镜像添加新的一层，并提交；最后是 CMD 指令，来指明运行容器时的操作命令。</p>
+<h1 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h1><hr>
+<p>docker build 命令会根据 Dockerfile 文件及上下文构建新 Docker 镜像。构建上下文是指 Dockerfile 所在的本地路径或一个URL（Git仓库地址）。构建上下文环境会被递归处理，所以构建所指定的路径还包括了子目录，而URL还包括了其中指定的子模块。</p>
+<p>将当前目录做为构建上下文时，可以像下面这样使用docker build命令构建镜像：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">build </span>.</span><br><span class="line">Sending <span class="keyword">build </span><span class="built_in">context</span> to Docker daemon  <span class="number">6</span>.<span class="number">51</span> MB</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>说明：构建会在 Docker 后台守护进程（daemon）中执行，而不是CLI中。构建前，构建进程会将全部内容（递归）发送到守护进程。大多情况下，应该将一个空目录作为构建上下文环境，并将 Dockerfile 文件放在该目录下。</p>
+<p>在构建上下文中使用的 Dockerfile 文件，是一个构建指令文件。为了提高构建性能，可以通过.dockerignore文件排除上下文目录下不需要的文件和目录。</p>
+<p>在 Docker 构建镜像的第一步，docker CLI 会先在上下文目录中寻找.dockerignore文件，根据.dockerignore 文件排除上下文目录中的部分文件和目录，然后把剩下的文件和目录传递给 Docker 服务。</p>
+<p>Dockerfile 一般位于构建上下文的根目录下，也可以通过-f指定该文件的位置：<br><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">build</span> -f /<span class="keyword">path</span>/<span class="keyword">to</span>/a/Dockerfile .</span><br></pre></td></tr></table></figure></p>
+<p>构建时，还可以通过-t参数指定构建成镜像的仓库、标签。</p>
+<h1 id="镜像标签"><a href="#镜像标签" class="headerlink" title="镜像标签"></a>镜像标签</h1><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">docker</span> <span class="keyword">build </span>-t nginx/<span class="built_in">v3</span> .</span><br></pre></td></tr></table></figure>
+<p>如果存在多个仓库下，或使用多个镜像标签，就可以使用多个-t参数：<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">docker</span> <span class="keyword">build </span>-t nginx/<span class="built_in">v3</span>:<span class="number">1</span>.<span class="number">0</span>.<span class="number">2</span> -t nginx/<span class="built_in">v3</span>:latest .</span><br></pre></td></tr></table></figure></p>
+<p>在 Docker 守护进程执行 Dockerfile 中的指令前，首先会对 Dockerfile 进行语法检查，有语法错误时会返回：<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker build -t nginx/v3 .</span><br><span class="line">Sending build context to Docker daemon 2.048 kB</span><br><span class="line"><span class="keyword">Error </span>response from daemon: Unknown instruction: RUNCMD</span><br></pre></td></tr></table></figure></p>
+<h1 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h1><hr>
+<p>Docker 守护进程会一条一条的执行 Dockerfile 中的指令，而且会在每一步提交并生成一个新镜像，最后会输出最终镜像的ID。生成完成后，Docker 守护进程会自动清理你发送的上下文。 Dockerfile文件中的每条指令会被独立执行，并会创建一个新镜像，RUN cd /tmp等命令不会对下条指令产生影响。 Docker 会重用已生成的中间镜像，以加速docker build的构建速度。以下是一个使用了缓存镜像的执行过程：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker build -t svendowideit/ambassador .</span></span><br><span class="line">Sending build context to Docker daemon 15.36 kB</span><br><span class="line">Step 1/4 : FROM alpine:3.2</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 31f630c65071</span></span><br><span class="line">Step 2/4 : MAINTAINER SvenDowideit@home.org.au</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> Using cache</span></span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 2a1c91448f5f</span></span><br><span class="line">Step 3/4 : RUN apk update &amp;&amp;      apk add socat &amp;&amp;        rm -r /var/cache/</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> Using cache</span></span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 21ed6e7fbb73</span></span><br><span class="line">Step 4/4 : CMD env | grep _TCP= | (sed 's/.*_PORT_\([0-9]*\)_TCP=tcp:\/\/\(.*\):\(.*\)/socat -t 100000000 TCP4-LISTEN:\1,fork,reuseaddr TCP4:\2:\3 \&amp;/' &amp;&amp; echo wait) | sh</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> Using cache</span></span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 7ea8aef582cc</span></span><br><span class="line">Successfully built 7ea8aef582cc</span><br></pre></td></tr></table></figure></p>
+<p>构建缓存仅会使用本地父生成链上的镜像，如果不想使用本地缓存的镜像，也可以通过–cache-from指定缓存。指定后将不再使用本地生成的镜像链，而是从镜像仓库中下载。</p>
+<h1 id="寻找缓存的逻辑"><a href="#寻找缓存的逻辑" class="headerlink" title="寻找缓存的逻辑"></a>寻找缓存的逻辑</h1><p>Docker 寻找缓存的逻辑其实就是树型结构根据 Dockerfile 指令遍历子节点的过程。下图可以说明这个逻辑。<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">     <span class="keyword">FROM</span> base_image:version           Dockerfile:</span><br><span class="line">           +----------+                <span class="keyword">FROM</span> base_image:version</span><br><span class="line">           |base image|                <span class="keyword">RUN</span><span class="bash"> cmd1  --&gt; use cache because we found base image</span></span><br><span class="line"><span class="bash">           +-----X----+                RUN cmd11 --&gt; use cache because we found cmd1</span></span><br><span class="line"><span class="bash">                / \</span></span><br><span class="line"><span class="bash">               /   \</span></span><br><span class="line"><span class="bash">       RUN cmd1     RUN cmd2           Dockerfile:</span></span><br><span class="line"><span class="bash">       +------+     +------+           FROM base_image:version</span></span><br><span class="line"><span class="bash">       |image1|     |image2|           RUN cmd2  --&gt; use cache because we found base image</span></span><br><span class="line"><span class="bash">       +---X--+     +------+           RUN cmd21 --&gt; not use cache because there<span class="string">'s no child node</span></span></span><br><span class="line"><span class="bash">          / \                                        running cmd21, so we build a new image here</span></span><br><span class="line"><span class="bash">         /   \</span></span><br><span class="line"><span class="bash">RUN cmd11     RUN cmd12</span></span><br><span class="line"><span class="bash">+-------+     +-------+</span></span><br><span class="line"><span class="bash">|image11|     |image12|</span></span><br><span class="line"><span class="bash">+-------+     +-------+</span></span><br></pre></td></tr></table></figure></p>
+<p>大部分指令可以根据上述逻辑去寻找缓存，除了 ADD 和 COPY 。这两个指令会复制文件内容到镜像内，除了指令相同以外，Docker 还会检查每个文件内容校验(不包括最后修改时间和最后访问时间)，如果校验不一致，则不会使用缓存。</p>
+<p>除了这两个命令，Docker 并不会去检查容器内的文件内容，比如 RUN apt-get -y update，每次执行时文件可能都不一样，但是 Docker 认为命令一致，会继续使用缓存。这样一来，以后构建时都不会再重新运行apt-get -y update。</p>
+<p>如果 Docker 没有找到当前指令的缓存，则会构建一个新的镜像，并且之后的所有指令都不会再去寻找缓存。</p>
+<h1 id="简单示例"><a href="#简单示例" class="headerlink" title="简单示例"></a>简单示例</h1><p>接下来用一个简单的示例来感受一下 Dockerfile 是如何用来构建镜像启动容器。我们以定制 nginx 镜像为例，在一个空白目录中，建立一个文本文件，并命名为 Dockerfile：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> mynginx</span><br><span class="line"><span class="keyword">cd</span> mynginx</span><br><span class="line"><span class="keyword">vi</span> Dockerfile</span><br></pre></td></tr></table></figure></p>
+<p>构建一个 Dockerfile 文件内容为：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> nginx</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">'&lt;h1&gt;Hello, Docker!&lt;/h1&gt;'</span> &gt; /usr/share/nginx/html/index.html</span></span><br><span class="line"><span class="bash">vi Dockerfile</span></span><br></pre></td></tr></table></figure></p>
+<p>这个 Dockerfile 很简单，一共就两行涉及到了两条指令：FROM 和 RUN，FROM 表示获取指定基础镜像，RUN 执行命令，在执行的过程中重写了 nginx 的默认页面信息，将信息替换为：Hello, Docker!。</p>
+<p>在 Dockerfile 文件所在目录执行：<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">docker</span> <span class="keyword">build </span>-t nginx:<span class="built_in">v1</span> .</span><br></pre></td></tr></table></figure></p>
+<p>命令最后有一个. 表示当前目录</p>
+<p>构建完成之后，使用 docker images 命令查看所有镜像，如果存在 REPOSITORY 为 nginx 和 TAG 是 v1 的信息，就表示构建成功。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br><span class="line">REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">nginx                           v1                  8c92471de2cc        6 minutes ago       108.6 MB</span><br></pre></td></tr></table></figure></p>
+<p>接下来使用 docker run 命令来启动容器<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span>  <span class="comment">--name docker_nginx_v1   -d -p 80:80 nginx:v1</span></span><br></pre></td></tr></table></figure></p>
+<p>这条命令会用 nginx 镜像启动一个容器，命名为docker_nginx_v1，并且映射了 80 端口，这样我们可以用浏览器去访问这个 nginx 服务器：<a href="http://192.168.0.54/，页面返回信息" target="_blank" rel="noopener">http://192.168.0.54/，页面返回信息</a><br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">http:</span><span class="comment">//192.168.0.54/</span></span><br><span class="line">Hello,Docker!</span><br></pre></td></tr></table></figure></p>
+<p>这样一个简单使用 Dockerfile 构建镜像，运行容器的示例就完成了！</p>
+<h1 id="修改容器内容"><a href="#修改容器内容" class="headerlink" title="修改容器内容"></a>修改容器内容</h1><p>容器启动后，需要对容器内的文件进行进一步的完善，可以使用docker exec -it xx bash命令再次进行修改，以上面的示例为基础，修改 nginx 启动页面内容：<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it docker_nginx_v1   bash</span><br><span class="line">root<span class="symbol">@3729b97e8226</span>:/<span class="meta"># echo <span class="string">'&lt;h1&gt;Hello, Docker neo!&lt;/h1&gt;'</span> &gt; /usr/share/nginx/html/index.html</span></span><br><span class="line">root<span class="symbol">@3729b97e8226</span>:/<span class="meta"># exit</span></span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure></p>
+<p>以交互式终端方式进入 docker_nginx_v1 容器，并执行了 bash 命令，也就是获得一个可操作的 Shell。然后，我们用</p><h1>Hello, Docker neo!</h1>覆盖了 /usr/share/nginx/html/index.html 的内容。<p></p>
+<p>再次刷新浏览器，会发现内容被改变。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">http:</span><span class="comment">//192.168.0.54/</span></span><br><span class="line">Hello,Docker neo!</span><br></pre></td></tr></table></figure>
+<p>修改了容器的文件，也就是改动了容器的存储层，可以通过 docker diff 命令看到具体的改动。<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker diff docker_nginx_v1 </span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>这样 Dockerfile 使用方式就为大家介绍完了，下期为大家介绍 Dockerfile 命令的详细使用。</p>
+<p><a href="http://www.ityouknow.com/docker/2018/03/12/docker-use-dockerfile.html" target="_blank" rel="noopener">http://www.ityouknow.com/docker/2018/03/12/docker-use-dockerfile.html</a></p>
+<p>(<a href="https://docs.docker.com/engine/reference/builder/#usage" target="_blank" rel="noopener">Dockerfile reference</a><br>(<a href="https://www.jianshu.com/p/cbce69c7a52f" target="_blank" rel="noopener">使用Dockerfile构建Docker镜像</a><br>(<a href="https://itbilu.com/linux/docker/VyhM5wPuz.html" target="_blank" rel="noopener">Docker镜像构建文件Dockerfile及相关命令介绍</a><br>(<a href="https://github.com/qianlei90/Blog/issues/35" target="_blank" rel="noopener">深入Dockerfile（一）: 语法指南</a><br>(<a href="https://yeasy.gitbooks.io/docker_practice/content/" target="_blank" rel="noopener">Docker — 从入门到实践</a></p>
+<h1 id="使用-Dockerfile-定制镜像"><a href="#使用-Dockerfile-定制镜像" class="headerlink" title="使用 Dockerfile 定制镜像"></a>使用 Dockerfile 定制镜像</h1><p>Dockfile参数说明<br>FROM 镜像来源<br>MAINTAINER 维护者信息<br>RUN 运行命令<br>ADD 添加文件（copy文件会自动解压）<br>WORKDIR 当前工作目录<br>VOLUME 目录挂载<br>EXPOSE 端口</p>
 <p>还以之前定制 nginx 镜像为例，这次我们使用 Dockerfile 来定制。</p>
 <p>在一个空白目录中，建立一个文本文件，并命名为 Dockerfile：</p>
 <p>$ mkdir mynginx<br>$ cd mynginx<br>$ touch Dockerfile</p>
 <p>其内容为：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> nginx</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">'&lt;h1&gt;Hello, Docker!&lt;/h1&gt;'</span> &gt; /usr/share/nginx/html/index.html</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">制作镜像</span></span><br><span class="line"><span class="bash">docker build -t nginx:v3 .</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">容器操作</span></span><br><span class="line"><span class="bash">启动</span></span><br><span class="line"><span class="bash">docker run ubuntu:14.04 /bin/<span class="built_in">echo</span> <span class="string">'Hello world'</span></span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">后台运行</span></span><br><span class="line"><span class="bash">docker run -d -p 80:80 --name webserver nginx</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">查看容器</span></span><br><span class="line"><span class="bash">docker container ls -a</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">终止</span></span><br><span class="line"><span class="bash">docker container stop xx</span></span><br></pre></td></tr></table></figure></p>
+<p>docker run -d -p 80:80 –name webserver nginx<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>docker exec -it webserver bash</span><br><span class="line">root<span class="variable">@3729b97e8226</span><span class="symbol">:/</span><span class="comment"># echo '&lt;h1&gt;Hello, Docker!&lt;/h1&gt;' &gt; /usr/share/nginx/html/index.html</span></span><br><span class="line">root<span class="variable">@3729b97e8226</span><span class="symbol">:/</span><span class="comment"># exit</span></span><br><span class="line">exit</span><br></pre></td></tr></table></figure></p>
+<p>保存下来形成镜像<br>docker commit –author “sunday” –message “chmod nginx index.html” webserver nginx:v2<br>docker run –name web2 -d -p 81:80 nginx:v2<br>不建议使用docker commit 制作镜像</p>
+<h1 id="导出与导入"><a href="#导出与导入" class="headerlink" title="导出与导入"></a>导出与导入</h1><p>导出容器<br>如果要导出本地某个容器，可以使用 docker export 命令。</p>
+<p>$ docker container ls -a<br>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                    PORTS               NAMES<br>7691a814370e        ubuntu:14.04        “/bin/bash”         36 hours ago        Exited (0) 21 hours ago                       test<br>$ docker export 7691a814370e &gt; ubuntu.tar<br>这样将导出容器快照到本地文件。</p>
+<p>导入容器快照<br>可以使用 docker import 从容器快照文件中再导入为镜像，例如</p>
+<p>$ cat ubuntu.tar | docker import - test/ubuntu:v1.0<br>$ docker image ls<br>REPOSITORY          TAG                 IMAGE ID            CREATED              VIRTUAL SIZE<br>test/ubuntu         v1.0                9d37a6082e97        About a minute ago   171.3 MB<br>此外，也可以通过指定 URL 或者某个目录来导入，例如</p>
+<p>$ docker import <a href="http://example.com/exampleimage.tgz" target="_blank" rel="noopener">http://example.com/exampleimage.tgz</a> example/imagerepo</p>
+<p>进入容器<br>docker run -it ubuntu</p>
+<p>删除容器<br>可以使用 docker container rm 来删除一个处于终止状态的容器。例如</p>
+<p>$ docker container rm  trusting_newton<br>trusting_newton<br>如果要删除一个运行中的容器，可以添加 -f 参数。Docker 会发送 SIGKILL 信号给容器。</p>
+<p>清理所有处于终止状态的容器<br><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用 docker <span class="keyword">container</span> <span class="keyword">ls</span> -a</span><br></pre></td></tr></table></figure></p>
+<p>清理掉所有处于终止状态的容器。<br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">container</span> prune</span><br></pre></td></tr></table></figure></p>
+<p>私有仓库<br>docker run -d -p 5000:5000 registry<br>curl 192.168.77.100:5000/v1/search<br>docker tag  nginx:v3 192.168.77.100:5000/nginx:latest<br>docker push <a href="https://192.168.77.100:5000/nginx:latest" target="_blank" rel="noopener">https://192.168.77.100:5000/nginx:latest</a></p>
 
 
                 <hr>
@@ -201,10 +258,6 @@
                 
 
                 <ul class="pager">
-                    
-                        <li class="previous">
-                            <a href="/drop_caches/" data-toggle="tooltip" data-placement="top" title="Linux 手动清除缓存 drop_cahces">&larr; Previous Post</a>
-                        </li>
                     
                     
                         <li class="next">
@@ -219,6 +272,20 @@
 
             </div>
     <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
         
 
     <!-- Sidebar Container -->
@@ -235,6 +302,8 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
+                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                        
                     </div>
                 </section>
                 
@@ -440,6 +509,50 @@
 
 
 <!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
 
 
 

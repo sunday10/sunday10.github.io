@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -184,40 +184,17 @@
 
 <div class="post-preview">
 
-    <a href="/drop_caches/">
-        <h2 class="post-title">
-            Linux 手动清除缓存 drop_cahces
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            为了提高磁盘存取效率，Linux做了一些精心的设计，除了对dentry进行缓存（用于VFS，加速文件路径名到inode的转换），还采取了两种主要Cache方式：Buffer Cache和Page Cache。前者针对磁盘块的读写，后者针对文件inode的读写。这些Cache有效缩短了 I/O系统调用（比如read，write，getdents）的时间。
-1234# free -h      ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
     <a href="/dockerfile/">
         <h2 class="post-title">
-            DockerFile
+            Docker(二)：Dockerfile 使用介绍
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            使用 Dockerfile 定制镜像Dockfile参数说明FROM 镜像来源MAINTAINER 维护者信息RUN 运行命令ADD 添加文件（copy文件会自动解压）WORKDIR 当前工作目录VOLUME 目录挂载EXPOSE 端口
-还以之前定制 nginx 镜像为例，这次我们使用 Dockerfile 来定制。
-在一个空白目录中，建立一个文本文件，并命名为 Dockerfile：
-$ ......
+            Dockerfile 概念
+Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。
+镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么......
         </div>
     </a>
     <p class="post-meta">
@@ -344,6 +321,28 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
 
 <div class="post-preview">
 
+    <a href="/drop_caches/">
+        <h2 class="post-title">
+            Linux 手动清除缓存 drop_cahces
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            为了提高磁盘存取效率，Linux做了一些精心的设计，除了对dentry进行缓存（用于VFS，加速文件路径名到inode的转换），还采取了两种主要Cache方式：Buffer Cache和Page Cache。前者针对磁盘块的读写，后者针对文件inode的读写。这些Cache有效缩短了 I/O系统调用（比如read，write，getdents）的时间。
+1234# free -h      ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/dd-simple-test/">
         <h2 class="post-title">
             Linux 使用dd 简单测试 读写速度
@@ -455,21 +454,19 @@ hdparm -t /dev/sda1
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
                             
                         
                             
                             <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="2">docker</a>
+                            
+                        
+                            
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
@@ -479,17 +476,13 @@ hdparm -t /dev/sda1
                             
                         
                             
-                        
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
                         
                             
-                            <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
-                            
                         
-                            
-                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
                             
                         
                             
@@ -507,8 +500,6 @@ hdparm -t /dev/sda1
                             
                         
                             
-                        
-                            
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
@@ -517,15 +508,17 @@ hdparm -t /dev/sda1
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                        
+                            
+                            <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
                             
                         
                             
-                            <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
-                            
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
+                            
+                        
                             
                         
                             
@@ -534,10 +527,6 @@ hdparm -t /dev/sda1
                         
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -551,15 +540,17 @@ hdparm -t /dev/sda1
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
+                            <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
                             
                         
                             
                             <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
-                            
-                        
-                            
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -568,6 +559,14 @@ hdparm -t /dev/sda1
                         
                             
                         
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -582,6 +581,8 @@ hdparm -t /dev/sda1
                         
                             
                         
+                            
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -598,6 +599,8 @@ hdparm -t /dev/sda1
                         
                             
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
                             
                         
                             
@@ -631,12 +634,6 @@ hdparm -t /dev/sda1
                             
                         
                             
-                            <a href="/tags/#python" title="python" rel="2">python</a>
-                            
-                        
-                            
-                        
-                            
                         
                             
                         
@@ -653,9 +650,11 @@ hdparm -t /dev/sda1
                             
                         
                             
+                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
                         
                             
-                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            <a href="/tags/#python" title="python" rel="2">python</a>
                             
                         
                             
@@ -670,6 +669,8 @@ hdparm -t /dev/sda1
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
                             
                         
                             

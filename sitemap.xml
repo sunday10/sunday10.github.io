@@ -2,30 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.sundayle.com/linux-overcommit-oom-killer/</loc>
+    <loc>http://www.sundayle.com/dockerfile/</loc>
     
-    <lastmod>2018-10-16T12:23:28.923Z</lastmod>
+    <lastmod>2018-10-17T02:35:12.064Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/docker/</loc>
+    
+    <lastmod>2018-10-17T02:35:12.062Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.sundayle.com/redis-install/</loc>
     
-    <lastmod>2018-10-16T11:41:45.803Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/dockerfile/</loc>
-    
-    <lastmod>2018-10-16T09:51:55.313Z</lastmod>
+    <lastmod>2018-10-17T02:32:11.873Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.sundayle.com/drop_caches/</loc>
     
-    <lastmod>2018-10-16T09:27:32.274Z</lastmod>
+    <lastmod>2018-10-17T02:31:43.477Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/linux-overcommit-oom-killer/</loc>
+    
+    <lastmod>2018-10-16T12:23:28.923Z</lastmod>
     
   </url>
   
@@ -40,13 +47,6 @@
     <loc>http://www.sundayle.com/apache-bench/</loc>
     
     <lastmod>2018-10-16T03:01:57.715Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/docker/</loc>
-    
-    <lastmod>2018-10-16T01:44:18.708Z</lastmod>
     
   </url>
   

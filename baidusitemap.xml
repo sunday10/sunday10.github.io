@@ -4,16 +4,31 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/linux-overcommit-oom-killer/</loc>
-    <lastmod>2018-10-16T12:23:28.923Z</lastmod>
+    <loc>http://www.sundayle.com/dockerfile/</loc>
+    <lastmod>2018-10-17T02:35:12.064Z</lastmod>
     <data>
         <display>
-        <title>Linux  overcommit 及 oom-killer 机制</title>
-        <pubTime>2018-10-15T06:11:23.000Z</pubTime>
+        <title>Docker(二)：Dockerfile 使用介绍</title>
+        <pubTime>2018-10-15T16:12:44.000Z</pubTime>
         
-        <tag>overcommit</tag>
+        <tag>docker</tag>
          
-        <tag>oom-killer</tag>
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/docker/</loc>
+    <lastmod>2018-10-17T02:35:12.062Z</lastmod>
+    <data>
+        <display>
+        <title>Docker(一)：Docker入门</title>
+        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
+        
+        <tag>docker</tag>
          
          
            
@@ -24,7 +39,7 @@
     
   <url>
     <loc>http://www.sundayle.com/redis-install/</loc>
-    <lastmod>2018-10-16T11:41:45.803Z</lastmod>
+    <lastmod>2018-10-17T02:32:11.873Z</lastmod>
     <data>
         <display>
         <title>Redis 3.2 安装及主从复制详细配置</title>
@@ -40,13 +55,15 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/dockerfile/</loc>
-    <lastmod>2018-10-16T09:51:55.313Z</lastmod>
+    <loc>http://www.sundayle.com/drop_caches/</loc>
+    <lastmod>2018-10-17T02:31:43.477Z</lastmod>
     <data>
         <display>
-        <title>DockerFile</title>
-        <pubTime>2018-10-15T16:12:44.000Z</pubTime>
+        <title>Linux 手动清除缓存 drop_cahces</title>
+        <pubTime>2018-10-12T04:02:10.000Z</pubTime>
         
+        <tag>cache</tag>
+         
          
            
         </display>
@@ -55,14 +72,16 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/drop_caches/</loc>
-    <lastmod>2018-10-16T09:27:32.274Z</lastmod>
+    <loc>http://www.sundayle.com/linux-overcommit-oom-killer/</loc>
+    <lastmod>2018-10-16T12:23:28.923Z</lastmod>
     <data>
         <display>
-        <title>Linux 手动清除缓存 drop_cahces</title>
-        <pubTime>2018-10-16T04:02:10.000Z</pubTime>
+        <title>Linux  overcommit 及 oom-killer 机制</title>
+        <pubTime>2018-10-15T06:11:23.000Z</pubTime>
         
-        <tag>cache</tag>
+        <tag>overcommit</tag>
+         
+        <tag>oom-killer</tag>
          
          
            
@@ -97,23 +116,6 @@
         <pubTime>2017-05-19T09:47:20.000Z</pubTime>
         
         <tag>压力测试</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/docker/</loc>
-    <lastmod>2018-10-16T01:44:18.708Z</lastmod>
-    <data>
-        <display>
-        <title>Docker(一)：Docker入门</title>
-        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
-        
-        <tag>docker</tag>
          
          
            
