@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Linux  overcommit 及 oom-killer 机制 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/linux-overcommit-oom-killer/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#overcommit" title="overcommit">overcommit</a>
+                        
+                          <a class="tag" href="/tags/#oom-killer" title="oom-killer">oom-killer</a>
+                        
+                    </div>
+                    <h1>Linux  overcommit 及 oom-killer 机制</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-10-15
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>通常是因为某时刻应用程序大量请求内存导致系统内存不足造成的，这通常会触发 Linux 内核里的 Out of Memory (OOM) killer，OOM killer 会杀掉某个进程(用户态进程，不是内核线程)以腾出内存留给系统用，不致于让系统立刻崩溃。</p>
+<h1 id="overcommit"><a href="#overcommit" class="headerlink" title="overcommit"></a>overcommit</h1><p>Linux 内核根据应用程序的要求分配内存，通常来说应用程序分配了内存但是并没有实际全部使用，为了提高性能，这部分没用的内存可以留作它用，这部分内存是属于每个进程的，内核直接回收利用的话比较麻烦，所以内核采用一种过度分配内存（over-commit memory）的办法来间接利用这部分 “空闲” 的内存，提高整体内存的使用效率。一般来说这样做没有问题，但当大多数应用程序都消耗完自己的内存的时候麻烦就来了，因为这些应用程序的内存需求加起来超出了物理内存（包括 swap）的容量，内核（OOM killer）必须杀掉一些进程才能腾出空间保障系统正常运行。</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/vm/overcommit_memory 取值为[<span class="number">0</span>-<span class="number">2</span>],默认值为<span class="number">0</span>:</span><br><span class="line"></span><br><span class="line"><span class="number">0</span>: 启发式过度使用处理，显而易见的过度使用地址空间被拒绝。它在允许的情况下确保 严重分配失败、过度使用以减少交换使用。</span><br><span class="line"><span class="number">1</span>: 始终过度使用内存,表示kernel永远不会检查是否有足够的内存可用，总是返回<span class="literal">true</span>.</span><br><span class="line"><span class="number">2</span>: 禁止过度使用,表示kernel拒绝 &gt;= 可用的swap+物理内存 * overcommit_ratio(默认为<span class="number">50</span>)的内存分配请求.</span><br><span class="line">在大多数情况下，这意味着访问页面时不会终止进程，但会在适当时收到内存分配错误。</span><br></pre></td></tr></table></figure>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#16 GB Swap, 16 GB RAM, overcommit_memory=2 内存请求上限及计算方法</span></span><br><span class="line"><span class="comment"># free</span></span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:      <span class="number"> 16311328 </span>   <span class="number"> 6048244 </span>    <span class="number"> 573316 </span>     <span class="number"> 42992 </span>   <span class="number"> 9689768 </span>    8963032</span><br><span class="line">Swap:     <span class="number"> 16601084 </span>   <span class="number"> 3580760 </span>   13020324</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算方法</span></span><br><span class="line">cat /proc/sys/vm/overcommit_ratio <span class="comment">#默认50</span></span><br><span class="line">Mem * overcommit_ratio (50%) + swap=<span class="number"> 8155664 </span>+<span class="number"> 16601084 </span>=<span class="number"> 24756748 </span>kB</span><br><span class="line"></span><br><span class="line">16G+16G*50%/100=24G （overcommit_memory = 2）</span><br><span class="line">若修改vm.overcommit_raito为100，则请求内存16G+16G*100%/100=32G</span><br><span class="line"></span><br><span class="line"><span class="comment"># grep -i commit /proc/meminfo</span></span><br><span class="line">CommitLimit:   <span class="number"> 24756748 </span>kB</span><br><span class="line">Committed_AS:  <span class="number"> 14178044 </span>kB</span><br></pre></td></tr></table></figure>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat <span class="params">&lt;&lt; EOF &gt;</span>&gt; <span class="meta-keyword">/etc/</span>sysctl.conf</span><br><span class="line">vm.overcommit_memory=<span class="number">1</span> <span class="meta">#redis</span></span><br><span class="line">vm.overcommit_ratio=<span class="number">50</span> <span class="meta"># 默认</span></span><br><span class="line">EOF</span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+<h1 id="oom-killer"><a href="#oom-killer" class="headerlink" title="oom killer"></a>oom killer</h1><p>查看oom killer 日志,最常见的就是MySQL 无缘无故挂掉，<code>Out of memory: Kill process</code>信息：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">grep -i <span class="string">"kill"</span> /var/log/messages #CentOS</span><br><span class="line"><span class="comment">#grep -i "kill" /var/log/kern.log #Ubuntu</span></span><br><span class="line"><span class="built_in">..</span>.</span><br><span class="line">Out of memory: Kill process 9682 (mysqld) score 9 <span class="keyword">or</span> sacrifice child</span><br><span class="line">Killed process 9682, UID 27, (mysqld) total-vm:47388kB, anon-rss:3744kB, file-rss:80kB</span><br><span class="line">httpd invoked oom-killer: <span class="attribute">gfp_mask</span>=0x201da, <span class="attribute">order</span>=0, <span class="attribute">oom_adj</span>=0, <span class="attribute">oom_score_adj</span>=0</span><br><span class="line">httpd <span class="attribute">cpuset</span>=/ <span class="attribute">mems_allowed</span>=0</span><br><span class="line">Pid: 8911, comm: httpd <span class="keyword">Not</span> tainted 2.6.32-279.1.1.el6.i686 #1</span><br><span class="line"><span class="built_in">..</span>.</span><br></pre></td></tr></table></figure></p>
+<p>内核检测到系统内存不足、挑选并杀掉某个进程的过程可以参考内核源代码 <a href="https://github.com/torvalds/linux/blob/master/mm/oom_kill.c" target="_blank" rel="noopener">linux/mm/oom_kill.c</a>，该函数会计算每个进程的点数(0~1000)。点数越高，这个进程越有可能被杀死。每个进程的点数跟oom_score_adj有关，而且oom_score_adj可以被设置(-1000最低，1000最高)。</p>
+<p>out_of_memory() 被触发，然后调用 select_bad_process() 选择一个 “bad” 进程杀掉，挑选的过程由 oom_badness() 决定，挑选的算法和想法都很简单很朴实：最 bad 的那个进程就是那个最占用内存的进程。</p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * oom_badness - heuristic function to determine which candidate task to kill</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@p</span>: task struct of which task we should calculate</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@totalpages</span>: total present RAM allowed for page allocation</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * The heuristic for determining which task to kill is made to be as simple and</span></span><br><span class="line"><span class="comment"> * predictable as possible.  The goal is to return the highest value for the</span></span><br><span class="line"><span class="comment"> * task consuming the most memory to avoid subsequent oom failures.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">unsigned <span class="keyword">long</span> oom_badness(struct task_struct *p, struct mem_cgroup *memcg,</span><br><span class="line">              <span class="keyword">const</span> nodemask_t *nodemask, unsigned <span class="keyword">long</span> totalpages)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">long</span> points;</span><br><span class="line">    <span class="keyword">long</span> adj;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (oom_unkillable_task(p, memcg, nodemask))</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    p = find_lock_task_mm(p);</span><br><span class="line">    <span class="keyword">if</span> (!p)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    adj = (<span class="keyword">long</span>)p-&gt;signal-&gt;oom_score_adj;</span><br><span class="line">    <span class="keyword">if</span> (adj == OOM_SCORE_ADJ_MIN) &#123;</span><br><span class="line">        task_unlock(p);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * The baseline for the badness score is the proportion of RAM that each</span></span><br><span class="line"><span class="comment">     * task's rss, pagetable and swap space use.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    points = get_mm_rss(p-&gt;mm) + p-&gt;mm-&gt;nr_ptes +</span><br><span class="line">         get_mm_counter(p-&gt;mm, MM_SWAPENTS);</span><br><span class="line">    task_unlock(p);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Root processes get 3% bonus, just like the __vm_enough_memory()</span></span><br><span class="line"><span class="comment">     * implementation used by LSMs.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">if</span> (has_capability_noaudit(p, CAP_SYS_ADMIN))</span><br><span class="line">        adj -= <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Normalize to oom_score_adj units */</span></span><br><span class="line">    adj *= totalpages / <span class="number">1000</span>;</span><br><span class="line">    points += adj;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Never return 0 for an eligible task regardless of the root bonus and</span></span><br><span class="line"><span class="comment">     * oom_score_adj (oom_score_adj can't be OOM_SCORE_ADJ_MIN here).</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">return</span> points &gt; <span class="number">0</span> ? points : <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码里的注释写的很明白，理解了这个算法我们就理解了为啥 MySQL 躺着也能中枪了，因为它的体积总是最大（一般来说它在系统上占用内存最多），所以如果 Out of Memeory (OOM) 的话总是不幸第一个被 kill 掉。解决这个问题最简单的办法就是增加内存，或者想办法优化 MySQL 使其占用更少的内存，除了优化 MySQL 外还可以优化系统，让系统尽可能使用少的内存以便应用程序（如 MySQL) 能使用更多的内存，还有一个临时的办法就是调整内核参数，让 MySQL 进程不容易被 OOM killer 发现。</p>
+<h1 id="找出最有可能被-OOM-Killer-杀掉的进程"><a href="#找出最有可能被-OOM-Killer-杀掉的进程" class="headerlink" title="找出最有可能被 OOM Killer 杀掉的进程"></a>找出最有可能被 OOM Killer 杀掉的进程</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat /data/shell/oomscore.sh </span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="keyword">for</span> proc <span class="keyword">in</span> $(find /proc -maxdepth 1 -regex <span class="string">'/proc/[0-9]+'</span>); <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">printf</span> <span class="string">"%2d %5d %s\n"</span> \</span><br><span class="line">        <span class="string">"<span class="variable">$(cat $proc/oom_score)</span>"</span> \</span><br><span class="line">        <span class="string">"<span class="variable">$(basename $proc)</span>"</span> \</span><br><span class="line">        <span class="string">"<span class="variable">$(cat $proc/cmdline | tr '\0' ' ' | head -c 50)</span>"</span></span><br><span class="line"><span class="keyword">done</span> 2&gt;/dev/null | sort -nr | head -n 10</span><br></pre></td></tr></table></figure>
+<h1 id="调整oom-adj"><a href="#调整oom-adj" class="headerlink" title="调整oom_adj"></a>调整oom_adj</h1><p><code>/proc/&lt;pid&gt;/oom_adj</code> ​值范围是[-17, 15]，oom_score 值越高越容易被oom kill掉。设为 <code>-17</code>则该进程禁用 oom_killer。</p>
+<p>比如查看进程号为187418的 omm_score，这个分数被上面提到的 omm_score_adj 参数调整后(-15)，就变成了3：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pidof mysqld</span><br><span class="line"><span class="number">187418</span></span><br><span class="line"></span><br><span class="line"># cat /proc/<span class="number">187418</span>/oom_score</span><br><span class="line"><span class="number">18</span></span><br><span class="line"></span><br><span class="line"># echo <span class="number">-15</span> &gt; /proc/<span class="number">187418</span>/oom_score_adj</span><br><span class="line"># cat /proc/<span class="number">981</span>/oom_score</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h1 id="配置oom-killer"><a href="#配置oom-killer" class="headerlink" title="配置oom killer"></a>配置oom killer</h1><p>我们可以通过一些内核参数来调整 OOM killer 的行为，避免系统在那里不停的杀进程。比如我们可以在触发 OOM 后立刻触发 kernel panic，kernel panic 10秒后自动重启系统。</p>
+<blockquote>
+<p>修改panic_on_oom值为1，表示请求内存不足时10秒后重启系统</p>
+</blockquote>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; <span class="literal">EOF</span> &gt;&gt; /etc/sysctl.conf</span><br><span class="line">vm.panic_on_oom=<span class="number">1</span></span><br><span class="line">kernel.panic=<span class="number">10</span> # 表示<span class="number">10</span>s后重启</span><br><span class="line"><span class="literal">EOF</span></span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+<h1 id="内核参数"><a href="#内核参数" class="headerlink" title="内核参数"></a>内核参数</h1><figure class="highlight ldif"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/vm/panic_on_oom 取值为[0-2],默认值为0:</span><br><span class="line"></span><br><span class="line"><span class="attribute">0</span>: OOM时系统执行OOM Killer</span><br><span class="line"><span class="attribute">1</span>: OOM时系统会panic(恐慌)</span><br><span class="line"><span class="attribute">2</span>: OOM时系统一定会触发panic(恐慌)</span><br><span class="line"></span><br><span class="line">/proc/sys/vm/oom_kill_allocating_task 取值为[0-1],默认值为0:</span><br><span class="line"></span><br><span class="line"><span class="attribute">0</span>: 内核将检查每个进程的分数，分数最高的进程将被kill掉</span><br><span class="line"><span class="attribute">1</span>: 那么内核将kill掉当前申请内存的进程</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.vpsee.com/2013/10/how-to-configure-the-linux-oom-killer/" target="_blank" rel="noopener">理解和配置 Linux 下的 OOM Killer</a><br><a href="https://www.kernel.org/doc/Documentation/vm/overcommit-accounting" target="_blank" rel="noopener">kernel overcommit accounting</a><br><a href="http://engineering.pivotal.io/post/virtual_memory_settings_in_linux_-_the_problem_with_overcommit/" target="_blank" rel="noopener">Virtual memory settings in Linux - The Problem with Overcommit</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/docker/" data-toggle="tooltip" data-placement="top" title="Docker(一)：Docker入门">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/drop_caches/" data-toggle="tooltip" data-placement="top" title="Linux 手动清除缓存 drop_cahces">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#overcommit" title="overcommit">overcommit</a>
+                        
+                          <a class="tag" href="/tags/#oom-killer" title="oom-killer">oom-killer</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

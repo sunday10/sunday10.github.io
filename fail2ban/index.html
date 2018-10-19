@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          使用 fail2ban 防范暴力破解ssh vsftp 与CC攻击 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/fail2ban/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#fail2ban" title="fail2ban">fail2ban</a>
+                        
+                    </div>
+                    <h1>使用 fail2ban 防范暴力破解ssh vsftp 与CC攻击</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-06-11
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Fail2ban是入侵防御框架，与服务器上防火墙iptables配合使用，通常用于在尝试失败后阻止连接尝试。它通过监视特定类型条目的日志文件来运行，并根据其结果运行预定的操作。</p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>系统：Ubuntu 16.04<br>软件：fail2ban 0.11</p>
+<h1 id="防火墙设置"><a href="#防火墙设置" class="headerlink" title="防火墙设置"></a>防火墙设置</h1><p><strong>ubuntu</strong><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ufw allow <span class="number">80</span>/tcp</span><br><span class="line">ufw allow <span class="number">443</span>/tcp</span><br><span class="line">ufw allow <span class="number">22</span>/tcp</span><br><span class="line">ufw allow <span class="number">21</span>/tcp</span><br></pre></td></tr></table></figure></p>
+<p><strong>centos</strong><br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A INPUT -<span class="built_in">i</span> lo -<span class="built_in">j</span> ACCEPT</span><br><span class="line">sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -<span class="built_in">j</span> ACCEPT</span><br><span class="line">sudo iptables -A INPUT -p tcp --dport <span class="number">22</span> -<span class="built_in">j</span> ACCEPT</span><br><span class="line">sudo iptables -A INPUT -p tcp -m multiport --dports <span class="number">80</span>,<span class="number">443</span> -<span class="built_in">j</span> ACCEPT</span><br><span class="line">sudo iptables -A INPUT -<span class="built_in">j</span> DROP</span><br></pre></td></tr></table></figure></p>
+<h1 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h1><p>#<a href="https://github.com/fail2ban/fail2ban" target="_blank" rel="noopener">https://github.com/fail2ban/fail2ban</a>  注: 官网版本已过时，最新在github下载<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github<span class="selector-class">.com</span>:fail2ban/fail2ban.git</span><br><span class="line">cd fail2ban</span><br><span class="line">sudo python setup<span class="selector-class">.py</span> install</span><br><span class="line">cp files/debian-initd /etc/init.d/fail2ban</span><br><span class="line">update-rc<span class="selector-class">.d</span> fail2ban defaults</span><br><span class="line">update-rc<span class="selector-class">.d</span> fail2ban enable</span><br><span class="line">/etc/init.d/fail2ban start</span><br><span class="line">#/etc/init.d/fail2ban reload</span><br></pre></td></tr></table></figure></p>
+<h1 id="jail-conf"><a href="#jail-conf" class="headerlink" title="jail.conf"></a>jail.conf</h1><p>默认规则<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cat</span> /etc/fail2ban/jail.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[INCLUDES]</span><br><span class="line">before = paths-debian.conf</span><br><span class="line"></span><br><span class="line">[DEFAULT]</span><br><span class="line">ignoreip = 127.0.0.1/8 110.165.17.232/29 <span class="comment">#忽略IP，用空格隔开不同IP</span></span><br><span class="line">ignorecommand =</span><br><span class="line">bantime  = 1800 <span class="comment">#封锁时间，单位：秒：600=10分钟，以为-1表示永久封锁</span></span><br><span class="line">findtime  = 600 <span class="comment">#在多久的时间内：单位：秒</span></span><br><span class="line">maxretry = 3 <span class="comment">#登陆失败次数封锁</span></span><br></pre></td></tr></table></figure>
+<h1 id="ssh-vsftp配置"><a href="#ssh-vsftp配置" class="headerlink" title="ssh vsftp配置"></a>ssh vsftp配置</h1><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cat</span> /etc/fail2ban/jail.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[sshd]</span><br><span class="line">enabled =  <span class="literal">true</span></span><br><span class="line">port    = ssh</span><br><span class="line">action = %(action_mwl)s</span><br><span class="line">logpath = %(sshd_log)s</span><br><span class="line">backend = %(sshd_backend)s</span><br><span class="line">bantime  = 86400 #封锁24小时</span><br><span class="line"></span><br><span class="line">[vsftpd]</span><br><span class="line">port     = ftp,ftp-data,ftps,ftps-data</span><br><span class="line">enabled = <span class="literal">true</span></span><br><span class="line">filter = vsftpd</span><br><span class="line">action = %(action_mwl)s</span><br><span class="line">logpath  = %(vsftpd_log)s #路径在paths.debian.conf include paths.common.conf定义了</span><br><span class="line"><span class="comment">#logpath = /var/log/vsftpd.log</span></span><br><span class="line">maxretry = 7 # 登陆失败5次封锁</span><br><span class="line">bantime  = 3600 # 封锁时间1小时</span><br></pre></td></tr></table></figure>
+<ul>
+<li>[vsftp]：名称，可以随便填写</li>
+<li>filter：规则名称，必须填写位于filter.d目录里面的规则，vsftpd是fail2ban内置规则</li>
+<li>port：对应的端口</li>
+<li>action：采取的行动,如发送邮件</li>
+<li>logpath：需要监视的日志路径</li>
+<li>maxretry： 登陆失败几次封锁</li>
+<li>bantime： 封锁时间多久</li>
+</ul>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="keyword">reload</span> fail2ban</span><br></pre></td></tr></table></figure>
+<h1 id="匹配测试"><a href="#匹配测试" class="headerlink" title="匹配测试"></a>匹配测试</h1><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#fail2ban-regex /<span class="keyword">var</span>/<span class="keyword">log</span>/auth.<span class="keyword">log</span> /etc/fail2ban/filter.<span class="keyword">d</span>/sshd.<span class="keyword">conf</span></span><br><span class="line">fail2ban-regex /<span class="keyword">var</span>/<span class="keyword">log</span>/vsftpd.<span class="keyword">log</span> /etc/fail2ban/filter.<span class="keyword">d</span>/vsftpd.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Running tests</span><br><span class="line">=============</span><br><span class="line"></span><br><span class="line">Use   failregex<span class="built_in"> filter </span>file : vsftpd, basedir: /etc/fail2ban</span><br><span class="line">Use      datepattern :<span class="built_in"> Default </span>Detectors</span><br><span class="line">Use         log file : /var/log/vsftpd.log</span><br><span class="line">Use         encoding : UTF-8</span><br><span class="line"></span><br><span class="line">Results</span><br><span class="line">=======</span><br><span class="line"></span><br><span class="line">Failregex: 18 total</span><br><span class="line">|-  #) [# of hits] regular expression</span><br><span class="line">|   2) [18] ^ \[pid \d+\] \[[^\]]+\] FAIL LOGIN:<span class="built_in"> Client </span><span class="string">"&lt;HOST&gt;"</span>(?:\s*$|,)</span><br><span class="line">`-</span><br><span class="line"></span><br><span class="line">Ignoreregex: 0 total</span><br><span class="line"></span><br><span class="line">Date template hits:</span><br><span class="line">|- [# of hits] date format</span><br><span class="line">|  [73] &#123;^LN-BEG&#125;(?:DAY )?MON Day %k:Minute:Second(?:\.Microseconds)?(?: ExYear)?</span><br><span class="line">`-</span><br><span class="line"></span><br><span class="line">Lines: 73 lines, 0 ignored, 18 matched, 55 missed</span><br><span class="line">[processed <span class="keyword">in</span> 0.01 sec]</span><br><span class="line"></span><br><span class="line">Missed line(s): too many <span class="keyword">to</span> print.  Use --print-all-missed <span class="keyword">to</span> <span class="builtin-name">print</span> all 55 lines</span><br></pre></td></tr></table></figure>
+<h1 id="查看封锁状态"><a href="#查看封锁状态" class="headerlink" title="查看封锁状态"></a>查看封锁状态</h1><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fail2ban-<span class="keyword">client</span> status vsftpd</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Status <span class="keyword">for</span> the jail: vsftpd</span><br><span class="line">|- Filter</span><br><span class="line">|  |- Currently failed: 0</span><br><span class="line">|  |- Total failed: 6</span><br><span class="line">|  `- File list:    /var/log/vsftpd.log</span><br><span class="line">`- Actions</span><br><span class="line">   |- Currently banned: 1</span><br><span class="line">   |- Total banned: 1</span><br><span class="line">   `- Banned<span class="built_in"> IP </span>list:   112.96.115.148</span><br></pre></td></tr></table></figure>
+<p>或<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables --<span class="keyword">list</span> | <span class="keyword">grep</span> REJECT</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">REJECT</span>     <span class="keyword">all</span>  <span class="comment">--  112.96.115.148       anywhere             reject-with icmp-port-unreachable</span></span><br><span class="line"><span class="keyword">REJECT</span>     <span class="keyword">all</span>  <span class="comment">--  anywhere             anywhere             reject-with icmp-port-unreachable</span></span><br></pre></td></tr></table></figure>
+<h1 id="解锁IP"><a href="#解锁IP" class="headerlink" title="解锁IP"></a>解锁IP</h1><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo fail2ban-client set &lt;jail&gt; banip/unbanip &lt;ip address&gt;</span><br><span class="line"># For example</span><br><span class="line">sudo fail2ban-client set vsftpd unbanip <span class="number">112.96</span><span class="number">.115</span><span class="number">.148</span></span><br><span class="line">或</span><br><span class="line">sudo iptables -D fail2ban-SSH -s <span class="number">112.96</span><span class="number">.115</span><span class="number">.148</span> -j DROP</span><br></pre></td></tr></table></figure>
+<h1 id="防止CC攻击"><a href="#防止CC攻击" class="headerlink" title="防止CC攻击"></a>防止CC攻击</h1><p>这里仅以Nginx为例，使用fail2ban来监视nginx日志，匹配短时间内频繁请求的IP，并使用firewalld将其IP屏蔽，达到CC防护的作用。</p>
+<p>#需要先新建一个nginx日志匹配规则<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vi</span> /etc/fail2ban/<span class="built_in">filter</span>.d/nginx-<span class="keyword">cc</span>.<span class="keyword">conf</span></span><br><span class="line"></span><br><span class="line">[Definition]</span><br><span class="line">failregex = <span class="symbol">&lt;HOST&gt;</span> -.*- .*HTTP/<span class="number">1</span>.* .* .*$</span><br><span class="line">ignoreregex =</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/fail2ban/jail.local</span><br><span class="line"></span><br><span class="line">[nginx-cc]</span><br><span class="line">enabled = true</span><br><span class="line">port = http,https</span><br><span class="line">filter = nginx-cc</span><br><span class="line">action = %(action_mwl)s</span><br><span class="line">maxretry = 120</span><br><span class="line">findtime = 60</span><br><span class="line">bantime = 3600</span><br><span class="line">logpath = /data/logs/nginx/*.log</span><br></pre></td></tr></table></figure>
+<p>上面的配置意思是如果在60s内，同一IP达到120次请求，则将其IP 封锁1小时，可以将maxretry修改为10进行测试。刷新网页10次就会封锁。</p>
+<h1 id="防止Wordpress爆破"><a href="#防止Wordpress爆破" class="headerlink" title="防止Wordpress爆破"></a>防止Wordpress爆破</h1><p>如果您经常分析日志会发现有大量机器人在扫描wordpress登录页面wp-login.php，虽然对方可能没成功，但是为了避免万一还是将他IP干掉为好。<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span> /etc/fail2ban/<span class="built_in">filter</span>.d/wordpress.<span class="keyword">conf</span></span><br><span class="line"></span><br><span class="line">[Definition]</span><br><span class="line">failregex = ^<span class="symbol">&lt;HOST&gt;</span> -.* /<span class="keyword">wp</span>-login.php.* HTTP/<span class="number">1</span>\..<span class="comment">"</span></span><br><span class="line">ignoreregex =</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/fail2ban/jail.local</span><br><span class="line"></span><br><span class="line">[wordpress]</span><br><span class="line">enabled = true</span><br><span class="line">port = http,https</span><br><span class="line">filter = wordpress</span><br><span class="line">action = %(action_mwl)s</span><br><span class="line">maxretry = 20</span><br><span class="line">findtime = 60</span><br><span class="line">bantime = 3600</span><br><span class="line">logpath = /data/logs/nginx/*.log</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.vixual.net/blog/archives/252" target="_blank" rel="noopener">http://www.vixual.net/blog/archives/252</a><br><a href="https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-ubuntu-14-04" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-ubuntu-14-04</a><br><a href="https://hacpai.com/article/1486914848288" target="_blank" rel="noopener">使用 NGINX 流控和 fail2ban 防止 CC 攻击</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/pt-table-checksum/" data-toggle="tooltip" data-placement="top" title="使用 pt-table-sync 修复MySQL主从数据不一致">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/nginx-output-log/" data-toggle="tooltip" data-placement="top" title="Nginx 输出在线日志">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#fail2ban" title="fail2ban">fail2ban</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

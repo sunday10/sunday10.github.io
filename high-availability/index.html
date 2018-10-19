@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          高可用集群基本概念 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/high-availability/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#高可用" title="高可用">高可用</a>
+                        
+                    </div>
+                    <h1>高可用集群基本概念</h1>
+                    <h2 class="subheading">High availability</h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-08-07
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="什么是高可用"><a href="#什么是高可用" class="headerlink" title="什么是高可用"></a>什么是高可用</h1><p><strong>可用性如何定义</strong></p>
+<ul>
+<li>可用性（availability）是关于系统可供使用时间的表述，以不可用的时间为衡量指标。不可用时间越短，可用性越高。通常用 n 个 9 来描述。比如 4 个 9 的可用性（99.99%），是指一年中不可用时间在 52 分钟内，平均每周不可用时间在 1 分钟。</li>
+<li>可靠性（reliability）是关于系统无故障时间间隔的描述，以发生故障的次数为衡量指标，故障次数越少，可靠性越高。</li>
+<li>可维护性（maintainability）是指系统发生故障后，恢复的时间来描述。时间越短，可维护性越高。</li>
+</ul>
+<p><strong>高可用的实现</strong></p>
+<p>不同的应用场景对可用性的要求不同，对于银行、电信企业来说，一般都要求达到 5 个 9，然而 5 个 9 的服务可用性需要付出的代价和挑战是相当巨大的。例如，在基础设施方面，必须多路电源介入，必须支持蓄电设备，必须有独立的发电设备，所有设备和线路冗余备份，整个系统无单点故障。</p>
+<p>对于软件服务，也必须做到无单点故障。因此，需要使用多台对外提供相同服务的服务器进行冗余，这些服务器之间需要保持实时通信，在主节点出现故障时，备用节点将主节点上的资源「抢夺」过来，由自己充当新的主节点对外提供服务。</p>
+<h1 id="高可用集群架构"><a href="#高可用集群架构" class="headerlink" title="高可用集群架构"></a>高可用集群架构</h1><p>通常，一个高可用集群的架构如下：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_cluster_components_arch.png"></p>
+<h2 id="Messaging-and-Infrastructure-Layer"><a href="#Messaging-and-Infrastructure-Layer" class="headerlink" title="Messaging and Infrastructure Layer"></a>Messaging and Infrastructure Layer</h2><p>最下面一层被称作集群事务信息层，这一层的主要作用是启动某个服务监听在某个套接字上，各个节点之间相互传递集群的状态信息，所有的高可用组件都运行在集群事务信息层之上。</p>
+<h2 id="Resource-Allocation-Layer"><a href="#Resource-Allocation-Layer" class="headerlink" title="Resource Allocation Layer"></a>Resource Allocation Layer</h2><p>这一层建立在 Messaging Layer之上，主要负责集群资源的分配。集群的资源指提供一个集群服务所需要的所有组件（如 IP 地址，挂载的文件系统，服务进程等等）。这一层中由 CRM（Cluster Resource Manager）服务负责管理和分配集群资源。</p>
+<p><strong>Cluster Resource Manager</strong></p>
+<p>也称为 CRM，它接受通过 Messaging Layer 收集的集群事务信息，根据信息的状态完成运算和决策之后，采取相应的动作 —— 例如对集群资源的分配，对故障节点的处理，新的主节点的选举等等。它有两个子组件，PE（Policy Engne） 和 TE）Transaction Engine）。</p>
+<p><strong>Designated Coordinator</strong></p>
+<p>为了防止冲突，并不是所有节点的 CRM 都在进行决策的，集群中所有的决策动作应该在某一个节点上完成，这个节点被称为 DC（Designated Coordinator），即指派的事务协调员，只有 DC 上 CRM 真正的在进行集群事务决策和处理，DC 负责在集群级别进行事务的决策，并通知其他节点。</p>
+<p><strong>Policy Engine</strong></p>
+<p>策略引擎，它是 CRM 的子组件，负责对集群事务信息的状态变化做出响应的决策。</p>
+<p><strong>Transaction Engine</strong></p>
+<p>事务引擎，负责 Policy Engine 产生的决策的具体执行。</p>
+<p><strong>Cluster Information Base</strong></p>
+<p>CIB，集群信息库，其中存放了集群资源的配置信息，每一个节点中都有一份且完全相同。策略引擎会根据 CIB 中的定义来进行相应的决策。</p>
+<p>Local Resource Manager 本地资源管理器，负责在每个节点上管理本地资源，接收由 TE 传递的指挥，并在本机执行。</p>
+<h2 id="Resource"><a href="#Resource" class="headerlink" title="Resource"></a>Resource</h2><p><strong> Resource Agent </strong></p>
+<p>资源代理，负责某个集体资源的管理，它接受 LRM 的指令，完成对应资源的控制和管理，负责集群资源的状态监控，启动，停止和重启。通常是一个脚本程序。</p>
+<p><strong>资源类型</strong></p>
+<p>资源通常有这几种类型：</p>
+<ul>
+<li>primitive：只能运行在一个节点上</li>
+<li>clone：运行在所有节点上，如管理 STONITH 设备的进出呢个</li>
+<li>group：组资源，它是一个容器，包含一个或多个资源，这些资源可以通过资源组进行统一调度</li>
+<li>master/slava：运行在主/从两个节点上，如 DRBD</li>
+</ul>
+<p><strong>资源约束</strong></p>
+<p>定义资源间的约束关系：</p>
+<ul>
+<li>位置约束：资源对节点的倾向程度</li>
+<li>排列约束：资源间的依赖性和互斥性</li>
+<li>顺序约束：资源启动或关闭时的顺序</li>
+</ul>
+<h2 id="RA-的类型"><a href="#RA-的类型" class="headerlink" title="RA 的类型"></a>RA 的类型</h2><p>RA 通常是一个脚本，负责对一个具体的资源进行管理。它有下面几种类型：</p>
+<ul>
+<li>LSB（Linux Standard Base），符合Linux标准库的脚本，能够提供start(启动)，restart(重启)，stop(停止)，status(状态监测)，CentOS 系统中 /etc/rc.d/init.d 下的脚本都是 LSB RA</li>
+<li>OCF （Open Cluster Framwork），由某种 CRM 提供的遵照 OCF 规定的脚本，通常能够接受更多的参数，使用更加灵活。</li>
+<li>STONITH：用于管理 STONISH 设备的脚本。</li>
+</ul>
+<h1 id="节点失效策略"><a href="#节点失效策略" class="headerlink" title="节点失效策略"></a>节点失效策略</h1><p>一个高可用集群可能有多台主机，如果一个节点失效，那么集群该如何处理？如果只是网络故障导致，节点间无法通信，那么多个节点间可能发生「脑裂」，即多个节点都认为自己是主节点，从而发生资源的互相抢占，如果对某个共享存储进行抢占甚至可能造成文件系统损坏。</p>
+<p><strong>仲裁设备</strong></p>
+<p>所有集群节点与仲裁设备连接，如果集群节点之间相互通信出现故障，那么节点会尝试与仲裁设备进行通信（如 ping，或向仲裁磁盘中写数据）。如果与仲裁设备的通信也失败，那么表示此节点已经失效，节点应该自行放弃资源的使用，从而避免资源的抢占。</p>
+<p><strong>资源隔离</strong></p>
+<p>为了杜绝资源抢占的发生，还可以对失效节点进行资源隔离，如使用 STONITH（Shoot The Other In The Head）设备，STONITH 设备可以直接切断失效节点的电源，使其彻底的失效，避免「半死不活」的状态。</p>
+<h1 id="投票系统"><a href="#投票系统" class="headerlink" title="投票系统"></a>投票系统</h1><p>节点失效后，其他节点需要使用投票系统选举出新的主节点，通常票数超过半数的节点集群组成新的高可用集群。票数少于半数的节点则被认为失效，也即低于「法定票数」（without quorum）。</p>
+<h1 id="常用的高可用软件"><a href="#常用的高可用软件" class="headerlink" title="常用的高可用软件"></a>常用的高可用软件</h1><h2 id="常用的-Messaging-Layer"><a href="#常用的-Messaging-Layer" class="headerlink" title="常用的 Messaging Layer"></a>常用的 Messaging Layer</h2><ul>
+<li>heartbeat（v1, v2, v3）</li>
+<li>corosync</li>
+<li>cman</li>
+<li>keepalived<h2 id="常用的-CRM"><a href="#常用的-CRM" class="headerlink" title="常用的 CRM"></a>常用的 CRM</h2></li>
+<li>haresources（由 heartbeat v1 和 v2 提供）</li>
+<li>crm （heartbeat v2 提供）</li>
+<li>pacemaker （heartbeat v3 提供）</li>
+<li>rgmanager （cman）</li>
+</ul>
+<p>转载来源：<a href="http://liaoph.com/high-availability/" target="_blank" rel="noopener">http://liaoph.com/high-availability/</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/keepalived/" data-toggle="tooltip" data-placement="top" title="Keepavlied 编译及配置文件详解">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/lvs/" data-toggle="tooltip" data-placement="top" title="负载均衡集群 LVS 详解">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#高可用" title="高可用">高可用</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

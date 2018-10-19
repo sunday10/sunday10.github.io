@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Linux 防火墙 iptables详解 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/iptables-detailed/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#防火墙" title="防火墙">防火墙</a>
+                        
+                          <a class="tag" href="/tags/#iptables" title="iptables">iptables</a>
+                        
+                    </div>
+                    <h1>Linux 防火墙 iptables详解</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2017-12-29
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Netfilter-与-iptables-的关系"><a href="#Netfilter-与-iptables-的关系" class="headerlink" title="Netfilter 与 iptables 的关系"></a>Netfilter 与 iptables 的关系</h1><p>Linux 系统在内核中提供了对报文数据包过滤和修改的官方项目名为 Netfilter，它指的是 Linux 内核中的一个框架，它可以用于在不同阶段将某些钩子函数（hook）作用域网络协议栈。Netfilter 本身并不对数据包进行过滤，它只是允许可以过滤数据包或修改数据包的函数挂接到内核网络协议栈中的适当位置。这些函数是可以自定义的。</p>
+<p>iptables 是用户层的工具，它提供命令行接口，能够向 Netfilter 中添加规则策略，从而实现报文过滤，修改等功能。Linux 系统中并不止有 iptables 能够生成防火墙规则，其他的工具如 firewalld 等也能实现类似的功能。</p>
+<h1 id="使用-iptables-进行包过滤"><a href="#使用-iptables-进行包过滤" class="headerlink" title="使用 iptables 进行包过滤"></a>使用 iptables 进行包过滤</h1><p>iptables 策略是由一组有序的规则建立的，它告诉内核应该如何处理某些类别的数据包。每一个 iptables 规则应用于一个表中的一个链。一个 iptables 链就是一个规则集，这些规则按序与包含某种特征的数据包进行比较匹配。</p>
+<h1 id="表"><a href="#表" class="headerlink" title="表"></a>表</h1><p>iptables 根据功能分类，iptables 的内建有多个表，如包过滤（filter）或者网络地址转换（NAT）。iptables 中共有 4 个表：filter，nat，mangle 和 raw。</p>
+<ul>
+<li>filter 表：主要实现过滤功能</li>
+<li>nat 表：实现 NAT 功能（端口映射，地址映射等）</li>
+<li>mangle 表：用于对特定数据包的修改</li>
+<li>raw 表：有限级最高，设置raw时一般是为了不再让iptables做数据包的链接跟踪处理，提高性能<br>注：表的处理优先级：raw &gt; mangle &gt; nat &gt; filter</li>
+</ul>
+<h1 id="链"><a href="#链" class="headerlink" title="链"></a>链</h1><p>每个表都有一组内置链，用户还可以添加自定义的链。最重要的内置链是 filter 表中的 INPUT、OUTPUT 和 FORWARD 链。</p>
+<p><strong> CHAIN ：</strong></p>
+<ul>
+<li>PREROUTING 链：报文到达本机，进行路由决策之前</li>
+<li>INPUT 链：发往本机的报文</li>
+<li>FORWARD 链：经由本机转发的报文</li>
+<li>OUTPUT 链：由本机发出的报文</li>
+<li>POSTROUTING 链：报文由本机发出，进行路由决策之后</li>
+</ul>
+<p>下图展现了一个数据包是如何通过内核中的 net 和 filter 表的：</p>
+<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/iptables.png">
+<h1 id="管理类命令"><a href="#管理类命令" class="headerlink" title="管理类命令"></a>管理类命令</h1><p>管理规则<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">A：             附加一条规则，添加在链的尾部</span></span><br><span class="line"><span class="ruby">-I CHAIN [n]：   插入一条规则，插入对应 CHAIN 上的第 n 条，默认插到第一条</span></span><br><span class="line"><span class="ruby">-D CHAIN [n]：   删除指定链中的第 n 条规则</span></span><br><span class="line"><span class="ruby">-R CHAIN [num]: 替换指定的规则</span></span><br></pre></td></tr></table></figure></p>
+<p>管理链<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">F [CHAIN]：     清空指定规则链，如果省略 CHAIN，则清空对应表中的所有链</span></span><br><span class="line"><span class="ruby">-P CHAIN TARGE： 设定指定链的默认策略</span></span><br><span class="line"><span class="ruby">-N：             自定义一个新的空链</span></span><br><span class="line"><span class="ruby">-X：             删除一个自定义的空链</span></span><br></pre></td></tr></table></figure></p>
+<p>查看规则：<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">L：             显式指定表中的规则</span></span><br><span class="line"><span class="ruby">-n：             以数字格式显式主机地址和端口号</span></span><br><span class="line"><span class="ruby">-v：             显式链及规则的详细信息</span></span><br><span class="line"><span class="ruby">--line-numbers： 显式规则号码</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="匹配"><a href="#匹配" class="headerlink" title="匹配"></a>匹配</h1><p>每个 iptables 规则都包含一组匹配和一个目标动作，后者定义了复合规则的数据包应该采取什么处理行为。iptables 匹配指定是数据包必须匹配的条件，只有当数据包满足所有的匹配条件时，iptables 才能根据规则的目标所指定的动作来处理该数据包。</p>
+<h2 id="常用的基本匹配"><a href="#常用的基本匹配" class="headerlink" title="常用的基本匹配"></a>常用的基本匹配</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-s                  匹配源<span class="built_in"> IP </span>地址或网络</span><br><span class="line">-d                  匹配目标<span class="built_in"> IP </span>地址或网络</span><br><span class="line">-p                  匹配协议类型（如 tcp，udp，icmp）</span><br><span class="line">-i                  流入接口（如 eth0）</span><br><span class="line">-o                  流出接口</span><br></pre></td></tr></table></figure>
+<p>在使用 <code>-p {tcp|udp|icmp}</code> 进行匹配时，还可以使用隐含的扩展匹配，这些功能是由 iptables 的模块提供的，但是这里可以省去指明模块：<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">p tcp</span></span><br><span class="line"><span class="ruby">    --sport [!] port[<span class="symbol">:port</span>]     匹配源端口</span></span><br><span class="line"><span class="ruby">    --dport [!] port[<span class="symbol">:port</span>]     匹配目标端口</span></span><br><span class="line"><span class="ruby">    --tcp-flags [!] mask comp</span></span><br><span class="line"><span class="ruby">        检查 TCP 标志位，各标志以逗号分隔，comp 中指定的标记必须为 <span class="number">1</span>，comp 中没出现，而 mask 中出现的，必须为 <span class="number">0</span></span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">-p icmp</span></span><br><span class="line"><span class="ruby">    --icmp-type [!] TYPENAME    匹配 ICMP 类型</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">-p udp</span></span><br><span class="line"><span class="ruby">    --sport [!] port[<span class="symbol">:port</span>]     匹配源端口</span></span><br><span class="line"><span class="ruby">    --dport [!] port[<span class="symbol">:port</span>]     匹配目标端口</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="使用扩展模块进行匹配"><a href="#使用扩展模块进行匹配" class="headerlink" title="使用扩展模块进行匹配"></a>使用扩展模块进行匹配</h2><p>使用模块扩展进行匹配时，必须使用 -m 指明由哪个模块进行的扩展</p>
+<p>多端口匹配<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-m multiport</span><br><span class="line">    --sports [!] <span class="keyword">port</span>[,<span class="keyword">port</span>[,<span class="keyword">port</span>:<span class="keyword">port</span>...]] 匹配多个源端口</span><br><span class="line">    --dports [!] <span class="keyword">port</span>[,<span class="keyword">port</span>[,<span class="keyword">port</span>:<span class="keyword">port</span>...]] 匹配多个目标端口</span><br><span class="line">    --ports 匹配多个端口（无论源还是目标端口）</span><br></pre></td></tr></table></figure></p>
+<p>范围 IP 地址匹配<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-m iprange</span><br><span class="line">    [!] --src-range IPADDR-IPADDR   匹配一个范围的源<span class="built_in"> IP </span>地址</span><br><span class="line">    [!] --dst-range IPADDR-IPADDR   匹配一个范围的目标<span class="built_in"> IP </span>地址</span><br></pre></td></tr></table></figure></p>
+<p>连接数限制<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">m connlimit</span></span><br><span class="line"><span class="ruby">    [!] --connlimit-above N     限制同时连接数量</span></span><br></pre></td></tr></table></figure></p>
+<p>连接速率限制<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">m limit</span></span><br><span class="line"><span class="ruby">    --limit RATE        单位时间连接控制，使用 <span class="string">'/second'</span>，<span class="string">'/minute'</span>，<span class="string">'/hour'</span>，<span class="string">'/day'</span> 等单位为后缀，默认是 <span class="number">3</span>/hour</span></span><br><span class="line"><span class="ruby">    --limit-burst N     同一时间的连接的并发连接控制，默认为 <span class="number">5</span></span></span><br></pre></td></tr></table></figure></p>
+<p>报文内容字符串匹配<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-m <span class="keyword">string</span></span><br><span class="line"><span class="keyword"> </span>   --algo &#123;<span class="keyword">bm|kmp&#125; </span>    字符串匹配算法，可以选择 <span class="keyword">bm </span>或 kmp</span><br><span class="line">    --<span class="keyword">string </span><span class="string">"STRING"</span>   匹配的字符串</span><br><span class="line">    --hex-<span class="keyword">string </span><span class="string">"STRING"</span>   十六进制格式的字符串</span><br></pre></td></tr></table></figure></p>
+<p>基于时间的控制<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">m time</span></span><br><span class="line"><span class="ruby">    --datestart YYYY[-MM[[-DD[Thh[<span class="symbol">:mm</span>[<span class="symbol">:ss</span>]]]]]</span></span><br><span class="line"><span class="ruby">    --datestop YYYY[-MM[-DD[Thh[<span class="symbol">:mm</span>[<span class="symbol">:ss</span>]]]]]</span></span><br><span class="line"><span class="ruby">        匹配起始时间与结束时间</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">    --timestart <span class="symbol">hh:</span>mm[<span class="symbol">:ss</span>]</span></span><br><span class="line"><span class="ruby">    --timestop <span class="symbol">hh:</span>mm[<span class="symbol">:ss</span>]</span></span><br><span class="line"><span class="ruby">        [!] --monthdays day[,day...]</span></span><br><span class="line"><span class="ruby">        [!] --weekdays day[,day...]</span></span><br><span class="line"><span class="ruby">    根据时间和星期几来匹配</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="目标动作"><a href="#目标动作" class="headerlink" title="目标动作"></a>目标动作</h1><p>iptables 对匹配的数据包执行一个目标动作，目标动作由 -j 来指定<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># -j ACCEPT</span><br><span class="line">ACCEPT：     放行</span><br><span class="line">DROP：       丢弃报文</span><br><span class="line">REJECT：     发送一个 ICMP 报文拒绝</span><br><span class="line">DNAT：       目标地址转换（即修改报文的目标地址）</span><br><span class="line">    -<span class="ruby">-to-destination ipaddr[<span class="symbol">:port</span>]  </span></span><br><span class="line"><span class="ruby">    指定修改的目标地址和端口</span></span><br><span class="line"><span class="ruby">SNAT：       源地址转换（修改报文的源地址）</span></span><br><span class="line"><span class="ruby">    --to-source ipaddr[-ipaddr][<span class="symbol">:port-port</span>]</span></span><br><span class="line"><span class="ruby">    指定修改的源地址和端口</span></span><br><span class="line"><span class="ruby">REDIRECT：   端口重定向</span></span><br><span class="line"><span class="ruby">MASQUERADE： 地址伪装</span></span><br><span class="line"><span class="ruby">LOG：        记录日志</span></span><br><span class="line"><span class="ruby">    --log-prefix <span class="string">"STRING"</span></span></span><br><span class="line"><span class="ruby">    记录日志的前缀</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="范例"><a href="#范例" class="headerlink" title="范例"></a>范例</h1><ol start="0">
+<li><p>配置默认规则</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -P INPUT <span class="keyword">DROP</span></span><br><span class="line">iptables -P <span class="keyword">OUTPUT</span> <span class="keyword">ACCEPT</span></span><br><span class="line">iptables -P FORWARD <span class="keyword">DROP</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置 filter 表 INPUT 链的默认策略为 DROP</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -P <span class="keyword">INPUT</span> <span class="keyword">DROP</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>允许源地址为 172.16.0.0/16 网段的主机连接本机 SSH</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -s <span class="number">172.16</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">16</span> -p tcp --dport <span class="number">22</span> -j ACCEPT</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>允许 ICMP 请求报文</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p <span class="keyword">icmp</span> --<span class="keyword">icmp</span>-<span class="keyword">type</span> <span class="number">8</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>允许 80 的 443 端口的访问（使用离散端口扩展模块）</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">iptables</span> -<span class="type">A</span> <span class="type">INPUT</span> -p tcp -m multi<span class="keyword">port</span> <span class="comment">--dports 80,443 -j ACCEPT</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>允许 Telnet 的 23 端口访问，并限制同时只能有 5 个连接</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">iptables</span> <span class="literal">-</span><span class="comment">A</span> <span class="comment">INPUT</span> <span class="literal">-</span><span class="comment">p</span> <span class="comment">tcp</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">dport</span> <span class="comment">23</span> <span class="literal">-</span><span class="comment">m</span> <span class="comment">connlimit</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">connlimit</span><span class="literal">-</span><span class="comment">above</span> <span class="comment">5</span> <span class="literal">-</span><span class="comment">j</span> <span class="comment">REJECT</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>拒绝本地端口 80 发出的，含有 “communist” 关键字的响应报文的发出</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A <span class="keyword">OUTPUT</span> -p tcp --sport <span class="number">80</span> -m <span class="keyword">string</span> --algo kmp --<span class="keyword">string</span> <span class="string">"communist"</span> -j <span class="built_in">DROP</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>仅允许工作日的工作时间访问本机 UDP 53 端口</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">iptables</span> <span class="literal">-</span><span class="comment">A</span> <span class="comment">INPUT</span> <span class="literal">-</span><span class="comment">p</span> <span class="comment">udp</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">dport</span> <span class="comment">53</span> <span class="literal">-</span><span class="comment">m</span> <span class="comment">time</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">timestart</span> <span class="comment">08:00</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">timestop</span> <span class="comment">18:00</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">weekdays</span> <span class="comment">Mon</span><span class="string">,</span><span class="comment">Tue</span><span class="string">,</span><span class="comment">Wen</span><span class="string">,</span><span class="comment">Thu</span><span class="string">,</span><span class="comment">Fri</span> <span class="literal">-</span><span class="comment">j</span> <span class="comment">ACCEPT</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>允许 172.16.0.1 ~ 172.16.0.100 的主机访问本机 TCP 3306 端口</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport <span class="number">3306</span> -m iprange --src-range <span class="number">172.16</span><span class="number">.0</span><span class="number">.1</span><span class="number">-172.16</span><span class="number">.0</span><span class="number">.100</span> -j ACCEPT</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>目的地址转换，映射内部地址</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t<span class="built_in"> nat </span>-A PREROUTING -i ppp0 -p tcp --dprot 81 -j DNAT --to 192.168.0.2:80</span><br><span class="line">iptables -t<span class="built_in"> nat </span>-A PREROUTING -i ppp0 -p tcp --dprot 81 -j DNAT --to 192.168.0.1-192.168.0.10</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>源地址转换，隐藏内部地址</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 192.168.0.0/24 -j SNAT --to 1.1.1.1</span><br><span class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 192.168.0.0/24 -j SNAT --to 1.1.1.1-1.1.1.10</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>地址伪装，动态ip的NAT</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>让其他私有IP的服务器连接公网<br>masquerade和snat的主要区别在于，snat是把源地址转换为固定的IP地址或者是地址池，而masquerade在adsl等方式拨号上网时候非常有用，因为是拨号上网所以网卡的外网IP经常变化，这样在进行地址转换的时候就要在每次都要修改转换策略里面的ip，使用masquerade就很好的解决了这个问题，他会自己去探测外网卡获得的ip地址然后自动进行地址转换，这样就算外网获得的ip经常变化也不用人工干预了。</p>
+<ol start="12">
+<li><p>开启转发功能</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A FORWARD -i eth1 -o eth0 -<span class="keyword">j </span>ACCEPT <span class="comment">#允许对外转发</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>过滤某个MAC</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A FORWARD -<span class="keyword">m</span> <span class="keyword">mac</span> --<span class="keyword">mac</span> -source <span class="keyword">MAC</span>地址 -j <span class="keyword">DROP</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>报文经过路由后，数据包中原有的MAC信息会被替换，所以在路由后的iptables中使用mac匹配没有意义。</p>
+<ol start="14">
+<li><p>数据包限流</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A FORWARD -d <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span> -m limit --limit <span class="number">50</span>/s -j ACCEPT</span><br><span class="line">iptables -A FORWARD -d <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span> -j DROP</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多端口匹配</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp -m muliport --dport s <span class="number">21</span>,<span class="number">22</span>,<span class="number">25</span>,<span class="number">80</span>,<span class="number">110</span> -j ACCEPT</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>丢弃非法连接</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT   -m <span class="keyword">state</span> --state INVALID -j DROP</span><br><span class="line">iptables -A OUTPUT -m <span class="keyword">state</span> --state INVALID -j DROP</span><br><span class="line">iptables-A FORWARD -m <span class="keyword">state</span> --state INVALID -j DROP</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="iptables-的状态追踪"><a href="#iptables-的状态追踪" class="headerlink" title="iptables 的状态追踪"></a>iptables 的状态追踪</h1><p>iptables中连接追踪的功能叫做 <code>ip_conntrack</code>，<code>ip_conntrack</code> 是个内核模块，能够实时记录当前主机上客户端和服务器端彼此正在建立的连接关系，<br>并且能够追踪到连接所处的状态和连接之间的关系</p>
+<p>查看状态追踪模块是否启用：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> lsmod | grep <span class="string">"ip_conntrack"</span></span></span><br></pre></td></tr></table></figure></p>
+<p>ip_conntrack是根据ip报文实现的追踪，能够根据客户端来源随时追踪连接会话处于什么过程。</p>
+<p><code>/proc/net/ip_conntrack</code> 保存了当前系统上每一个客户端和当前主机建立的tcp和udp连接关系，一个条目记录一个连接的两个会话通道以及<br>连接的状态</p>
+<p><code>/proc/sys/net/ipv4/ip_conntrack_max</code> 记录了最多可以记录的连接条目数，一旦超出后续的连接将会被丢弃。<br>在非常繁忙的服务器上，尽量不要启用ip_conntrack模块</p>
+<p>显式当前系统的所有连接<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ipstate -t</span></span><br></pre></td></tr></table></figure></p>
+<p>ip_conntrack 模块被 iptable_nat 和 ip_nat 模块所依赖，ip_nat 和 iptable_nat 是被 nat 表所使用的，因此即使停止 iptables 服务，<br>一旦查看了 nat 表，就会自动激活 ip_conntrack 模块</p>
+<p>使用状态扩展模块进行匹配：<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-m <span class="keyword">state</span></span><br><span class="line">    --state STATE       根据连接状态进行匹配</span><br><span class="line">        NEW：            新连接请求</span><br><span class="line">        ESTABLISHED：    已建立的连接</span><br><span class="line">        INVALID：        非法连接报文</span><br><span class="line">        RELATED：        向关联的裂解（如 FTP 的命令连接和数据连接）， 当一个连接和某个已处于 ESTABLISHED 状态的连接有关系时，</span><br><span class="line">        就被认为是 RELATED 的了。换句话说，一个连接要想 是RELATED的，首先要有一个 ESTABLISHED 的连接。</span><br></pre></td></tr></table></figure></p>
+<p>例子</p>
+<p>允许本机的 TCP 21 端口被访问，且允许任何 RELATED 和 ESTABLISHED 的报文访问本机<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport <span class="number">21</span> -j ACCEPT</span><br><span class="line">iptables -A INPUT -m <span class="keyword">state</span> --state ESTABLISHED,RELATED -j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<h1 id="保存规则"><a href="#保存规则" class="headerlink" title="保存规则"></a>保存规则</h1><p>可以使用 iptables 服务保存规则<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> service iptables save</span></span><br><span class="line">    规则将被保存至  /etc/sysconfig/iptables</span><br><span class="line">使用 iptables-save 和 iptables-restore 来保存规则和还原规则</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> iptables-save &gt; /etc/sysconfig/iptables.20150520</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> iptables-restore &lt; /etc/sysconfig/iptables.20150520</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="iptables-的错误恢复"><a href="#iptables-的错误恢复" class="headerlink" title="iptables 的错误恢复"></a>iptables 的错误恢复</h1><p>定制 iptables 规则是非常危险的，尤其是在服务器位于异地的情况下，iptables 规则写入的失误就可能造成服务器无法访问，因此在定制iptables规则之前，先做好测试，并使用 at 启动计划任务，在错误情况下恢复iptables 规则。</p>
+<p>一、 在修改iptables规则之前，备份原有的规则<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> iptables-save &gt; /etc/sysconfig/iptables.bak</span></span><br></pre></td></tr></table></figure></p>
+<p>二、将要修改的规则写入脚本文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> vim ~/iptables.sh</span></span><br></pre></td></tr></table></figure></p>
+<p>三、添加计划任务，防止 iptables 的错误规则导致服务器无法访问<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> at now + 2 minite</span></span><br><span class="line"><span class="meta">at&gt;</span><span class="bash"> /sbin/iptables-restore &lt; /etc/sysconfig/iptables.bak          </span></span><br><span class="line"><span class="meta">at&gt;</span><span class="bash"> &lt;EOT&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>四、使用预定义的脚本修改防火墙规则<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> sh ~/iptables.sh</span></span><br></pre></td></tr></table></figure></p>
+<p>五、如果规则没问题，则取消掉定时任务<br><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># atrm <span class="built_in">N</span>（<span class="built_in">N</span>表示at队列号）</span><br></pre></td></tr></table></figure></p>
+<p>Nginx iptables 优化<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -m state --state ESTABLISHED,RELATED,UNTRACKED -j ACCEPT</span><br><span class="line">iptables -t<span class="built_in"> raw </span>-A PREROUTING -p tcp -m tcp -m multiport --dports 80,81,443 -j NOTRACK</span><br><span class="line">iptables -t<span class="built_in"> raw </span>-A OUTPUT -p tcp -m tcp -m multiport --sports 80,81,443 -j NOTRACK</span><br></pre></td></tr></table></figure></p>
+<p>转载自：<a href="http://liaoph.com/iptables/" target="_blank" rel="noopener">http://liaoph.com/iptables/</a></p>
+<p><a href="http://www.ha97.com/4095.html" target="_blank" rel="noopener">iptables/netfilter详解中文手册</a><br><a href="http://www.ha97.com/3928.html" target="_blank" rel="noopener">Linux的iptables常用配置范例</a><br><a href="https://www.cnblogs.com/clsn/p/8308678.html" target="_blank" rel="noopener">https://www.cnblogs.com/clsn/p/8308678.html</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/iptables/" data-toggle="tooltip" data-placement="top" title="CentOS 7 启用 iptables 防火墙">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/percona-mysql/" data-toggle="tooltip" data-placement="top" title="Percona MySQL 编译">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#防火墙" title="防火墙">防火墙</a>
+                        
+                          <a class="tag" href="/tags/#iptables" title="iptables">iptables</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          负载均衡集群 LVS 详解 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/lvs/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#高性能" title="高性能">高性能</a>
+                        
+                          <a class="tag" href="/tags/#lvs" title="lvs">lvs</a>
+                        
+                    </div>
+                    <h1>负载均衡集群 LVS 详解</h1>
+                    <h2 class="subheading">Loadbalancer &amp; LVS</h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-08-07
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="负载均衡集群"><a href="#负载均衡集群" class="headerlink" title="负载均衡集群"></a>负载均衡集群</h1><p>负载均衡集群指使用多台提供相同服务的服务器组成集群系统，提高服务的并发处理能力。负载均衡集群的前端使用一个调度器，将客户端请求平均分配到后端的服务器中，同时调度器可能还具有后端服务器状态检测的功能，将故障的服务器自动下线，使得集群具有一定的容错能力。</p>
+<p>使用负载均衡集群能够有效的扩展服务的并发能力，负载均衡集群中的主机间应该尽量的「低耦合」，最好是「无状态」的，这样就能够方便的增加主机实现扩展。</p>
+<h1 id="常见的负载均衡器"><a href="#常见的负载均衡器" class="headerlink" title="常见的负载均衡器"></a>常见的负载均衡器</h1><p>根据工作在的协议层划分可划分为：</p>
+<ul>
+<li>四层负载均衡：根据请求报文中的目标地址和端口进行调度</li>
+<li>七层负载均衡：根据请求报文的内容进行调度，这种调度属于「代理」的方式<br>根据软硬件划分：</li>
+</ul>
+<p>硬件负载均衡：</p>
+<ul>
+<li>F5 的 BIG-IP</li>
+<li>Citrix 的 NetScaler</li>
+<li>这类硬件负载均衡器通常能同时提供四层和七层负载均衡，但同时也价格不菲<br>软件负载均衡：</li>
+<li>TCP 层：LVS，Haproxy，Nginx</li>
+<li>基于 HTTP 协议：Haproxy，Nginx，ATS（Apache Traffic Server），squid，varnish</li>
+<li>基于 MySQL 协议：mysql-proxy</li>
+</ul>
+<h1 id="LVS"><a href="#LVS" class="headerlink" title="LVS"></a>LVS</h1><p>LVS 是一个工作在四层的负载均衡器，它的实现和 iptables/netfilter 类似，工作在内核空间的 TCP/IP 协议栈上，LVS 工作在 INPUT Hook Funtion 上，并在 INPUT 设置附加规则，一旦客户端请求的是集群服务，LVS 会强行修改请求报文，将报文发往 POSTROUTING，转发至后端的主机。</p>
+<p>和 iptables/netfilter 类似，LVS 也是两段式的：</p>
+<ul>
+<li>ipvsadm：工作在用户空间，负责定义和管理集群服务的规则</li>
+<li>ipvs：工作在内核中，在 2.4.23 之前，必须向内核打补丁，并重新编译内核。在 2.4.23 和 2.6 之后的版本，ipvs 直接内置在内核中。</li>
+</ul>
+<p><strong>LVS 集群的设备地址命名</strong></p>
+<ul>
+<li>VIP：Virtual IP，LVS 面向用户请求的 IP 地址</li>
+<li>RIP：Real server IP，后端服务器用于和 LVS 通信的 IP 地址</li>
+<li>DIP：Director IP，LVS 用户和后端服务器通信的 IP 地址</li>
+<li>CIP：Client IP，客户端 IP 地址</li>
+</ul>
+<h1 id="LVS-的工作模型"><a href="#LVS-的工作模型" class="headerlink" title="LVS 的工作模型"></a>LVS 的工作模型</h1><h2 id="LVS-NAT"><a href="#LVS-NAT" class="headerlink" title="LVS-NAT"></a>LVS-NAT</h2><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/lvs-nat.png">
+<p>LVS-NAT 模型类似于 DNAT，工作机制与 DNAT 一样，当客户端请求的是集群服务时，LVS 修改请求报文的目标地址为 RIP，转发至后端的 RealServer，并修改后端响应报文的源地址为 VIP，响应至客户端。</p>
+<p>在 LVS-NAT 模型下，Director 进出请求报文都经过 Director，因此 Director 的压力是比较大的。</p>
+<p>LVS-NAT 的特性：</p>
+<ul>
+<li>集群节点跟 Director 必须在同一个 IP 网络中</li>
+<li>RIP 通常是私有地址，仅用于各集群节点间的通信</li>
+<li>Director 位于 client 和 Realserver 之间，负责处理进出的所有报文</li>
+<li>Realserver 必须将网关指向 DIP</li>
+<li>支持端口映射</li>
+<li>较大规模应用场景中，Director 易成为系统瓶颈（bottleneck）,扩展有限最多20台</li>
+</ul>
+<h2 id="LVS-DR"><a href="#LVS-DR" class="headerlink" title="LVS-DR"></a>LVS-DR</h2><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/lvs-dr.png">
+<p>DR 值 Direct Routing，直接路由，DR 模型中，Director 和 Realserver 处在同一网络中，对于 Director，VIP 用于接受客户端请求，DIP 用于和 Realserver 通信。对于 Realserver，每个 Realserver 都配有和 Director 相同的 VIP（此 VIP 隐藏，关闭对 ARP 请求的响应），仅用户响应客户端的请求，RIP 用于和 Director 通信。</p>
+<p>当客户端请求集群服务时，请求报文发送至 Director 的 VIP（Realserver的 VIP 不会响应 ARP 请求），Director 将客户端报文的源和目标 MAC 地址进行重新封装，将报文转发至 Realserver，Realserver 接收转发的报文。此时报文的源 IP 和目标 IP 都没有被修改，因此 Realserver 接受到的请求报文的目标 IP 地址为本机配置的 VIP，它将使用自己的 VIP 直接响应客户端。</p>
+<p>LVS-DR 模型中，客户端的响应报文不会经过 Director，因此 Director 的并发能力有很大提升。</p>
+<p>LVS-DR 模型的特性：</p>
+<ul>
+<li>保证前端路由器将目标地址为 VIP 的报文通过 ARP 解析后送往 Director。</li>
+<li>静态绑定：在前端路由将 VIP 对应的目标 MAC 地址静态配置为Director VIP 接口的 MAC 地址。</li>
+<li>arptables：在各 Realserver 上，通过 arptables 规则拒绝其响应对 VIP 的 ARP 广播请求</li>
+<li>修改内核参数：在 Realserver 上修改内核参数，并结合地址的配置方式实现拒绝响应对 VIP 的 ARP 广播请求</li>
+<li>各RIP 必须与 DIP 在同一个物理网络中</li>
+<li>RS 的 RIP 可以使用私有地址，也可以使用公网地址，以方便配置</li>
+<li>Director 仅负责处理入站请求，响应报文由 Realserver 直接发往客户端</li>
+<li>Realserver 不能将网关指向 DIP，而直接使用前端网关</li>
+<li>不支持端口映射<br>由于数据返回不走director ，而是直接由 realserver返回给用户。所认其承载能力比较强，单台lvs dr模式下后端负载的realserver 数量可以达到100台。不过也因为其比较简单，只有四层处理能力，所以其无法对后端server 的健康状态做检查。</li>
+</ul>
+<h2 id="LVS-TUN"><a href="#LVS-TUN" class="headerlink" title="LVS-TUN"></a>LVS-TUN</h2><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/lvs-tun.png">
+<p>和 DR 模型类似，Realserver 都配有不可见的 VIP，Realserver 的 RIP 是公网地址，且可能和 DIP 不再同一网络中。当请求到达 Director 后，Director 不修改请求报文的源 IP 和目标 IP 地址，而是使用 IP 隧道技术，使用 DIP 作为源 IP，RIP 作为目标 IP 再次封装此请求报文，转发至 RIP 的 Realserver 上，Realserver 解析报文后仍然使用 VIP 作为源地址响应客户端。</p>
+<p>LVS-TUN 的特性：</p>
+<ul>
+<li>集群节点和可以跨越 Internet</li>
+<li>RIP，DIP，VIP 都是公网地址</li>
+<li>Director 仅负责处理入站请求，响应报文由 Realserver 直接发往客户端</li>
+<li>Realserver 使用自己的网关而不是 Director</li>
+<li>Realserver 只能使用支持隧道功能的操作系统</li>
+<li>不支持端口映射</li>
+</ul>
+<p>LVS-FULLNAT</p>
+<p>FULLNAT 由淘宝研发，目前还没有加入至 CentOS 可用的内核中，使用时需要向内核打补丁。<br>类似于 DNAT，它修改请求报文的源地址为 DIP，目标地址为 RIP 来实现转发。对于响应报文，源地址修改为 VIP，目标地址修改为 CIP 来实现转发。</p>
+<p>特点：</p>
+<ul>
+<li>RIP，DIP 可以使用私有地址</li>
+<li>RIP 和 DIP 可以不再同一网络中，且 RIP 的网关不需要指向 DIP</li>
+<li>支持端口映射</li>
+<li>请求和响应报文都经由 Director</li>
+</ul>
+<h1 id="LVS-的调度算法"><a href="#LVS-的调度算法" class="headerlink" title="LVS 的调度算法"></a>LVS 的调度算法</h1><p>当 LVS 接受到一个客户端对集群服务的请求后，它需要进行决策将请求调度至某一台后端主机进行响应。LVS 的调度算法共有 10 种，按类别可以分为动态和静态两种类型。</p>
+<h2 id="静态调度算法"><a href="#静态调度算法" class="headerlink" title="静态调度算法"></a>静态调度算法</h2><p>静态调度算法调度时不会考虑后端服务器的状态</p>
+<ul>
+<li>rr：round robin，轮询，即简单在各主机间轮流调度</li>
+<li>wrr：weighted round robin，加权轮询，根据各主机的权重进行轮询</li>
+<li>sh：source hash，源地址哈希，对客户端地址进行哈希计算，保存在 Director 的哈希表中，在一段时间内，同一个客户端 IP 地址的请求会被调度至相同的 Realserver。sh 算法的目的是实现 session affinity（会话绑定），但是它也在一定程度上损害了负载均衡的效果。如果集群本身有 session sharing 机制或者没有 session 信息，那么不需要使用 sh 算法</li>
+<li>dh：destination hash，和 sh 类似，dh 将请求的目标地址进行哈希，将相同 IP 的请求发送至同一主机，dh 机制的目的是，当 Realserver 为透明代理缓存服务器时，提高缓存的命中率。</li>
+</ul>
+<h2 id="动态调度算法"><a href="#动态调度算法" class="headerlink" title="动态调度算法"></a>动态调度算法</h2><p>动态调度算法在调度时，会根据后端 Realserver 的负载状态来决定调度选择，Realserver 的负载状态通常由活动链接（active），非活动链接（inactive）和权重来计算。</p>
+<ul>
+<li>lc：least connted，最少连接，LVS 根据 overhead = active*256 + inactive 计算服务器的负载状态，每次选择 overhead 最小的服务器</li>
+<li>wlc：weighted lc，加权最少连接，LVS 根据 overhead = (active*256+inactive)/weight 来计算服务器负载，每次选择 overhead 最小的服务器，它是 LVS 的默认调度算法</li>
+<li>sed：shortest expected delay，最短期望延迟，它不对 inactive 状态的连接进行计算，根据 overhead = (active+1)*256/weight 计算服务器负载，选择 overhead 最小的服务器进行调度</li>
+<li>nq：never queue，当有空闲服务器时，直接调度至空闲服务器，当没有空闲服务器时，使用 SED 算法进行调度</li>
+<li>LBLC：locality based least connection，基于本地的最少连接，相当于 dh + wlc，正常请求下使用 dh 算法进行调度，如果服务器超载，则使用 wlc 算法调度至其他服务器</li>
+<li>LBLCR：locality based least connection with replication，基于本地的带复制功能的最少连接，与 LBLC 不同的是 LVS 将请求 IP 映射至一个服务池中，使用 dh 算法调度请求至对应的服务池中，使用 lc 算法选择服务池中的节点，当服务池中的所有节点超载，使用 lc 算法从所有后端 Realserver 中</li>
+</ul>
+<h1 id="IPVSADM"><a href="#IPVSADM" class="headerlink" title="IPVSADM"></a>IPVSADM</h1><p>ipvsadm 用于配置 LVS 的调度规则，管理集群服务和 Realserver </p>
+<h2 id="管理集群服务"><a href="#管理集群服务" class="headerlink" title="管理集群服务"></a>管理集群服务</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">添加：-A</span> <span class="bullet">-t|u|f</span> <span class="string">service-address</span> <span class="string">[-s</span> <span class="string">scheduler]</span></span><br><span class="line"><span class="attr">     -t:</span> <span class="string">TCP协议的集群</span></span><br><span class="line"><span class="attr">     -u:</span> <span class="string">UDP协议的集群</span></span><br><span class="line"><span class="attr">        service-address:</span>     <span class="attr">IP:PORT</span></span><br><span class="line"><span class="attr">     -f:</span> <span class="attr">FWM:</span> <span class="string">防火墙标记</span></span><br><span class="line"><span class="attr">        service-address:</span> <span class="string">Mark</span> <span class="string">Number</span></span><br><span class="line"><span class="string">修改：-E</span></span><br><span class="line"><span class="string">删除：-D</span> <span class="bullet">-t|u|f</span> <span class="string">service-address</span></span><br><span class="line"></span><br><span class="line"><span class="string">例如：</span></span><br><span class="line"><span class="comment"># ipvsadm -A -t 10.10.0.1:80 -s rr</span></span><br></pre></td></tr></table></figure>
+<h2 id="管理集群服务中的-RS"><a href="#管理集群服务中的-RS" class="headerlink" title="管理集群服务中的 RS"></a>管理集群服务中的 RS</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">添加：-a -t|u|f service-address -r server-address [-g|i|m] [-w weight]</span><br><span class="line">    -t|u|f service-address：事先定义好的某集群服务</span><br><span class="line">    -r server-address: 某RS的地址，在NAT模型中，可使用IP：PORT实现端口映射；</span><br><span class="line">    [-g|i|m]: LVS类型</span><br><span class="line">        -g: DR</span><br><span class="line">        -i: TUN</span><br><span class="line">        -m: NAT</span><br><span class="line">    [-w weight]: 定义服务器权重</span><br><span class="line">修改：-e</span><br><span class="line">删除：-d -t|u|f service-address -r server-address</span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line"><span class="comment"># ipvsadm -a -t 10.10.0.2:80 -r 192.168.10.8 -m</span></span><br><span class="line"><span class="comment"># ipvsadm -a -t 10.10.0.3:80 -r 192.168.10.9 -m</span></span><br></pre></td></tr></table></figure>
+<h2 id="查看规则"><a href="#查看规则" class="headerlink" title="查看规则"></a>查看规则</h2><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">L<span class="params">|-l</span></span></span><br><span class="line"><span class="ruby">-n：数字格式显式主机地址和端口</span></span><br><span class="line"><span class="ruby">--stats：统计数据</span></span><br><span class="line"><span class="ruby">--<span class="symbol">rate:</span> 速率</span></span><br><span class="line"><span class="ruby">--<span class="symbol">timeout:</span> 显示tcp、tcpfin和udp的会话超时时长</span></span><br><span class="line"><span class="ruby">-<span class="symbol">c:</span> 显示当前的ipvs连接状况</span></span><br></pre></td></tr></table></figure>
+<h2 id="删除所有集群服务"><a href="#删除所有集群服务" class="headerlink" title="删除所有集群服务"></a>删除所有集群服务</h2><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">-C：清空 ipvs 规则</span></span><br></pre></td></tr></table></figure>
+<h2 id="保存规则"><a href="#保存规则" class="headerlink" title="保存规则"></a>保存规则</h2><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">S</span></span><br><span class="line"><span class="ruby">如：</span></span><br><span class="line"><span class="ruby"><span class="comment"># ipvsadm -S &gt; /path/to/somefile</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="载入保存的规则"><a href="#载入保存的规则" class="headerlink" title="载入保存的规则"></a>载入保存的规则</h2><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-R</span><br><span class="line">如：</span><br><span class="line"># ipvsadm -R &lt; /path/<span class="keyword">from</span>/somefile</span><br></pre></td></tr></table></figure>
+<h1 id="DR-模型的配置"><a href="#DR-模型的配置" class="headerlink" title="DR 模型的配置"></a>DR 模型的配置</h1><p><strong>DR 模型的 Realserver 禁止 ARP 响应</strong></p>
+<p>对于 Linux 来说，地址是属于主机的，Linux 主机在开机时会通告连接所有网络内的所有其他主机自己的所有 ip 地址和 mac 地址。<br>可以利用 Linux 的特性，将VIP配置在 Realserver 的本地回环接口上作为别名，并使用 arp_ignore 和 arp_annouce 内核参数。</p>
+<p><strong>禁止 ARP 响应的方式</strong></p>
+<p>arptables：红帽系类系统上提供的程序</p>
+<p>修改内核参数：<br>arp_ignore：定义接收到 ARP 请i去时的响应级别</p>
+<ul>
+<li>0：只要本地配置有响应地址，就给与响应</li>
+<li>1：仅在请求的目标地址配置请i去到达的接口上的时候，才进行响应</li>
+</ul>
+<p>arp_announce：定义主机将自己的地址想外通告时的通告级别</p>
+<ul>
+<li>0：将本地任何接口上的任何地址向外通告</li>
+<li>1：向目标网络通告与其网络匹配的地址</li>
+<li>2：仅向本地接口上匹配的网络进行通告<br>添加特殊的路由条目 Linux 主机在使用某一接口发出报文时，默认会使用此接口的 IP 作为源 IP 地址。</li>
+</ul>
+<p>当请求 Realserver 时，Realserver 的 VIP 是 lo 接口的别名，而 VIP 对外的通信实际需要使用的却是 eth0 接口，因此需要添加路由条目，让主机在使用 VIP 向外通信时，强制使用 lo 端口，因而它会使用 lo 端口的地址作为源 IP 进行响应，并最终由 lo 接口转发至 eth0 接口发出报文。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> /sbin/route add -host <span class="variable">$VIP</span> dev lo:0</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="持久连接"><a href="#持久连接" class="headerlink" title="持久连接"></a>持久连接</h1><p>添加一个集群服务为192.168.10.10:80，使用的调度算法为wrr，持久连接的保持时间是3600秒。当超过3600秒都没有请求时，则清空LVS的持久连接模板。这里我们可以在上面的策略后面加其他服务，指向其他realserver服务器 。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ipvsadm</span> <span class="selector-tag">-A</span> <span class="selector-tag">-t</span> 192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.10</span><span class="selector-pseudo">:80</span> <span class="selector-tag">-s</span> <span class="selector-tag">wrr</span> <span class="selector-tag">-p</span> 3600</span><br></pre></td></tr></table></figure></p>
+<h1 id="LVS-NAT配置"><a href="#LVS-NAT配置" class="headerlink" title="LVS_NAT配置"></a>LVS_NAT配置</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>时间同步</p>
+<blockquote>
+<p>director服务器：VIP 192.168.10.10 DIP 192.168.10.100<br>RS1服务器：RIP 192.168.10.101 GATEWAY 192.168.10.100<br>RS2服务器：RIP 192.168.10.102 GATEWAY 192.168.10.100<br>客户端主机：CIP 192.168.10.251</p>
+</blockquote>
+<h2 id="director服务器操作"><a href="#director服务器操作" class="headerlink" title="director服务器操作"></a>director服务器操作</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> ipvsadm -y</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment"># description: start LVS of Nat</span></span><br><span class="line">VIP=192.168.10.10</span><br><span class="line">DIP=192.168.10.100</span><br><span class="line">RS1=192.168.10.101</span><br><span class="line">RS2=192.168.10.102</span><br><span class="line">. /etc/rc.d/init.d/<span class="built_in">functions</span></span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></span><br><span class="line"> start)</span><br><span class="line">     <span class="built_in">echo</span> <span class="string">" start LVS of NAtServer"</span></span><br><span class="line">     <span class="comment"># 开启路由转发</span></span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"1"</span> &gt;/proc/sys/net/ipv4/ip_forward</span><br><span class="line">     <span class="comment"># 禁用发送ICMP IPv4重定向消息，默认是开启，值为1</span></span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"0"</span> &gt;/proc/sys/net/ipv4/conf/all/send_redirects</span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"0"</span> &gt;/proc/sys/net/ipv4/conf/default/send_redirects</span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"0"</span> &gt;/proc/sys/net/ipv4/conf/eth0/send_redirects</span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"0"</span> &gt;/proc/sys/net/ipv4/conf/eth1/send_redirects</span><br><span class="line">     <span class="comment">#Clear IPVS table</span></span><br><span class="line">     ipvsadm -C</span><br><span class="line">     <span class="comment">#set LVS</span></span><br><span class="line">     ipvsadm -A -t <span class="variable">$VIP</span>:80 -s rr</span><br><span class="line">     ipvsadm -a -t VIP:80 -r <span class="variable">$RS1</span>:80 -m -w 5</span><br><span class="line">     ipvsadm -a -t VIP:80 -r <span class="variable">$RS2</span>:80 -m -w 10</span><br><span class="line">     <span class="comment">#Run LVS</span></span><br><span class="line">     ipvsadm</span><br><span class="line"> ;;</span><br><span class="line"> stop)</span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"close LVS Nat server"</span></span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"0"</span> &gt;/proc/sys/net/ipv4/ip_forward</span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"1"</span> &gt;/proc/sys/net/ipv4/conf/all/send_redirects</span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"1"</span> &gt;/proc/sys/net/ipv4/conf/default/send_redirects</span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"1"</span> &gt;/proc/sys/net/ipv4/conf/eth0/send_redirects</span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"1"</span> &gt;/proc/sys/net/ipv4/conf/eth1/send_redirects</span><br><span class="line">     ipvsadm -C</span><br><span class="line"> ;;</span><br><span class="line"> *)</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Usage: <span class="variable">$0</span> &#123;start|stop&#125;"</span></span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>防火墙的一些操作<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 192.168.10.0/24 -o eth0 -j MASQUERADE</span><br></pre></td></tr></table></figure></p>
+<p>注：<br>1、使用NAT模式必须要开启路由转发；<br>2、禁用发送ICMP ipv4重定向消息主要是出于安全考虑，并不影响ping检测；<br>3、ipvsadm 这里使用的是Round Robin轮询算法，-m 参数是指定使用的masquerading nat模式，-w 参数是指定权重，在 rr算法下，指定权重是没意义的，因为两台主机的的权重是一样的，每台主机都是公平平均轮询的。-p 3600 持久连接</p>
+<h2 id="RS1服务器操作"><a href="#RS1服务器操作" class="headerlink" title="RS1服务器操作"></a>RS1服务器操作</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install -y nginx</span><br><span class="line">echo <span class="string">"RS1 101"</span> &gt; /usr/share/nginx/html/index.html</span><br><span class="line">systemctl start nginx</span><br><span class="line">route del<span class="built_in"> default </span>gw 192.168.10.1 &amp;&amp;<span class="built_in"> route </span><span class="builtin-name">add</span><span class="built_in"> default </span>gw 192.168.10.100</span><br></pre></td></tr></table></figure>
+<p>注：需将在两台 RS 上设置网关的 IP 为 director 的内网 IP。</p>
+<h2 id="RS2服务器操作"><a href="#RS2服务器操作" class="headerlink" title="RS2服务器操作"></a>RS2服务器操作</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install -y nginx</span><br><span class="line">echo <span class="string">"RS2 102"</span> &gt; /usr/share/nginx/html/index.html</span><br><span class="line">systemctl start nginx</span><br><span class="line">route del<span class="built_in"> default </span>gw 192.168.10.1 &amp;&amp;<span class="built_in"> route </span><span class="builtin-name">add</span><span class="built_in"> default </span>gw 192.168.10.100</span><br></pre></td></tr></table></figure>
+<h2 id="客户端操作"><a href="#客户端操作" class="headerlink" title="客户端操作"></a>客户端操作</h2><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@sunday <span class="symbol">~]# curl http</span>:<span class="comment">//192.168.10.10</span></span><br><span class="line">RS1 <span class="number">101</span></span><br><span class="line">[root@sunday <span class="symbol">~]# curl http</span>:<span class="comment">//192.168.10.10</span></span><br><span class="line">RS2 <span class="number">102</span></span><br><span class="line">[root@sunday <span class="symbol">~]# curl http</span>:<span class="comment">//192.168.10.10</span></span><br><span class="line">RS1 <span class="number">101</span></span><br><span class="line">[root@sunday <span class="symbol">~]# curl http</span>:<span class="comment">//192.168.10.10</span></span><br><span class="line">RS2 <span class="number">102</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">director操作</span><br><span class="line">查看连接</span><br><span class="line">ipvsadm -ln</span><br><span class="line"></span><br><span class="line">IP Virtual<span class="built_in"> Server </span>version 1.2.1 (<span class="attribute">size</span>=4096)</span><br><span class="line">Prot LocalAddress:Port<span class="built_in"> Scheduler </span>Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  192.168.10.10:80 rr</span><br><span class="line">  -&gt; 192.168.10.101:80           <span class="built_in"> Route </span>  1      0          0         </span><br><span class="line">  -&gt; 192.168.10.102:80           <span class="built_in"> Route </span>  1      0          0 </span><br><span class="line"></span><br><span class="line">修改算法</span><br><span class="line">ipvsadm -E -t 192.168.10.10:80 -s wrr</span><br><span class="line"></span><br><span class="line">保存配置</span><br><span class="line">ipvsadm-save</span><br></pre></td></tr></table></figure>
+<h1 id="LVS-DR配置"><a href="#LVS-DR配置" class="headerlink" title="LVS_DR配置"></a>LVS_DR配置</h1><h2 id="director操作"><a href="#director操作" class="headerlink" title="director操作"></a>director操作</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> ipvsadm -y</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#！/bin/sh</span></span><br><span class="line"><span class="attribute">VIP</span>=192.168.10.10</span><br><span class="line"><span class="attribute">RIP1</span>=192.168.10.101</span><br><span class="line"><span class="attribute">RIP2</span>=192.168.10.102</span><br><span class="line">case <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></span><br><span class="line">  start)</span><br><span class="line">     echo <span class="string">"start LVS of DirectorServer"</span></span><br><span class="line">     /sbin/ifconfig eth0:0 <span class="variable">$VIP</span> netmask 255.255.255.255 broadcast <span class="variable">$VIP</span> up</span><br><span class="line">     /sbin<span class="built_in">/route </span><span class="builtin-name">add</span> -host <span class="variable">$VIP</span> dev eth0:0</span><br><span class="line">     #Clear IPVS Table</span><br><span class="line">     ipvsadm -C</span><br><span class="line">     #<span class="builtin-name">Set</span> Lvs</span><br><span class="line">     ipvsadm -A -t <span class="variable">$VIP</span>:80 -s rr</span><br><span class="line">     ipvsadm -a -t <span class="variable">$VIP</span>:80 -r <span class="variable">$RIP1</span>:80 -g</span><br><span class="line">     ipvsadm -a -t <span class="variable">$VIP</span>:80 -r <span class="variable">$RIP2</span>:80 -g</span><br><span class="line">     #<span class="builtin-name">Run</span> Lvs</span><br><span class="line">     ipvsadm</span><br><span class="line">     ;;</span><br><span class="line">  stop)</span><br><span class="line">     echo <span class="string">"close LVS Directorserver"</span></span><br><span class="line">     ipvsadm -C</span><br><span class="line">     /sbin/ifconfig eth0:0 down</span><br><span class="line">     ;;</span><br><span class="line">  *)</span><br><span class="line">     echo <span class="string">"Usage： <span class="variable">$0</span> &#123;start|stop&#125;"</span></span><br><span class="line">     exit 1</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<h2 id="rs1-rs2操作"><a href="#rs1-rs2操作" class="headerlink" title="rs1 rs2操作"></a>rs1 rs2操作</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">VIP=192.168.10.10</span><br><span class="line">BROADCAST=192.168.10.255  <span class="comment">#vip's broadcast</span></span><br><span class="line">. /etc/rc.d/init.d/<span class="built_in">functions</span></span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></span><br><span class="line"> start)</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"reparing for Real Server"</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"1"</span> &gt;/proc/sys/net/ipv4/conf/lo/arp_ignore</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"2"</span> &gt;/proc/sys/net/ipv4/conf/lo/arp_announce</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"1"</span> &gt;/proc/sys/net/ipv4/conf/all/arp_ignore</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"2"</span> &gt;/proc/sys/net/ipv4/conf/all/arp_announce</span><br><span class="line">    ifconfig lo:0 <span class="variable">$VIP</span> netmask 255.255.255.255 broadcast <span class="variable">$BROADCAST</span> up</span><br><span class="line">    /sbin/route add -host <span class="variable">$VIP</span> dev lo:0</span><br><span class="line">     ;;</span><br><span class="line"> stop)</span><br><span class="line">     ifconfig lo:0 down</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"0"</span> &gt;/proc/sys/net/ipv4/conf/lo/arp_ignore</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"0"</span> &gt;/proc/sys/net/ipv4/conf/lo/arp_announce</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"0"</span> &gt;/proc/sys/net/ipv4/conf/all/arp_ignore</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"0"</span> &gt;/proc/sys/net/ipv4/conf/all/arp_announce</span><br><span class="line">     ;;</span><br><span class="line"> *)</span><br><span class="line">     <span class="built_in">echo</span> <span class="string">"Usage: lvs &#123;start|stop&#125;"</span></span><br><span class="line">     <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<h1 id="LVS-TUN-1"><a href="#LVS-TUN-1" class="headerlink" title="LVS_TUN"></a>LVS_TUN</h1><h2 id="director主机"><a href="#director主机" class="headerlink" title="director主机"></a>director主机</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"><span class="comment"># description: start LVS of Directorserver</span></span><br><span class="line"><span class="attribute">VIP</span>=192.168.10.10</span><br><span class="line"><span class="attribute">RS1</span>=192.168.1.101</span><br><span class="line"><span class="attribute">RS2</span>=192.168.1.102</span><br><span class="line"><span class="attribute">RS3</span>=192.168.0.100</span><br><span class="line">. /etc/rc.d/init.d/functions</span><br><span class="line">case <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></span><br><span class="line">    start)</span><br><span class="line">        echo <span class="string">" start LVS of DirectorServer"</span></span><br><span class="line">        # <span class="builtin-name">set</span> the Virtual<span class="built_in"> IP </span>Address</span><br><span class="line">        /sbin/ifconfig tunl0 <span class="variable">$VIP</span> broadcast <span class="variable">$VIP</span> netmask 255.255.255.0 up</span><br><span class="line">        /sbin<span class="built_in">/route </span><span class="builtin-name">add</span> -host <span class="variable">$VIP</span> dev tunl0</span><br><span class="line">        #Clear IPVS table</span><br><span class="line">        ipvsadm -C</span><br><span class="line">        #<span class="builtin-name">set</span> LVS</span><br><span class="line">        ipvsadm -A -t <span class="variable">$VIP</span>:80 -s rr</span><br><span class="line">        ipvsadm -a -t <span class="variable">$VIP</span>:80 -r <span class="variable">$RS1</span>:80 -i</span><br><span class="line">        ipvsadm -a -t <span class="variable">$VIP</span>:80 -r <span class="variable">$RS2</span>:80 -i</span><br><span class="line">        ipvsadm -a -t <span class="variable">$VIP</span>:80 -r <span class="variable">$RS3</span>:80 -i</span><br><span class="line">        #<span class="builtin-name">Run</span> LVS</span><br><span class="line">        ipvsadm</span><br><span class="line">        #end</span><br><span class="line">    ;;</span><br><span class="line">    stop)</span><br><span class="line">        echo <span class="string">"close LVS Directorserver"</span></span><br><span class="line">        ifconfig tunl0 down</span><br><span class="line">        /sbin/ipvsadm -C</span><br><span class="line">    ;;</span><br><span class="line">    *)</span><br><span class="line">        echo <span class="string">"Usage: <span class="variable">$0</span> &#123;start|stop&#125;"</span></span><br><span class="line">        exit 1</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<h2 id="RS1-3主机"><a href="#RS1-3主机" class="headerlink" title="RS1-3主机"></a>RS1-3主机</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment"># description: Config realserver tunl port and apply arp patch</span></span><br><span class="line">VIP=192.168.10.10</span><br><span class="line">. /etc/rc.d/init.d/<span class="built_in">functions</span></span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></span><br><span class="line">    start)</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"Tunl port starting"</span></span><br><span class="line">        ifconfig tunl0 <span class="variable">$VIP</span> netmask 255.255.255.0 broadcast <span class="variable">$VIP</span> up</span><br><span class="line">        /sbin/route add -host <span class="variable">$VIP</span> dev tunl0</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"1"</span> &gt;/proc/sys/net/ipv4/conf/tunl0/arp_ignore</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"2"</span> &gt;/proc/sys/net/ipv4/conf/tunl0/arp_announce</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"1"</span> &gt;/proc/sys/net/ipv4/conf/all/arp_ignore</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"2"</span> &gt;/proc/sys/net/ipv4/conf/all/arp_announce</span><br><span class="line">        sysctl -p</span><br><span class="line">        ;;</span><br><span class="line">    stop)</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"Tunl port closing"</span></span><br><span class="line">        ifconfig tunl0 down</span><br><span class="line">        <span class="built_in">echo</span> 1 &gt; /proc/sys/net/ipv4/ip_forward</span><br><span class="line">        <span class="built_in">echo</span> 0 &gt; /proc/sys/net/ipv4/conf/all/arp_announce</span><br><span class="line">        ;;</span><br><span class="line">    *)</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"Usage: <span class="variable">$0</span> &#123;start|stop&#125;"</span></span><br><span class="line">        <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<h1 id="健康检测"><a href="#健康检测" class="headerlink" title="健康检测"></a>健康检测</h1><p>在LVS模型中，director不负责检查RS的健康状况，这就使得当有的RS出故障了，director还会将服务请求派发至此服务器 。为实现像F5这样专业的LB设备的功能，LVS可以与ldirectord工具结合，自动屏蔽后端异常的服务器。也可以通过简单的脚本来实现后端健康检查，当curl获取后端某服务器的状态发现不对时，自动通过ipvsadm命令将该服务器删除。正常时同样通过ipvsadm命令加入。由于本篇暂时还未跳出LVS工具本身，所以这里通过脚本实现后端健康检查。脚本内容如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">VIP=192.168.10.100 </span><br><span class="line">CPORT=80</span><br><span class="line">BACKUP=127.0.0.1</span><br><span class="line">STATUS=(<span class="string">"1"</span><span class="string">"1"</span>)</span><br><span class="line">RS=(<span class="string">"192.168.10.101"</span> <span class="string">"192.168.10.101"</span>)</span><br><span class="line">RW=(<span class="string">"2"</span> <span class="string">"1"</span>)</span><br><span class="line">RPORT=80</span><br><span class="line">TYPE=g</span><br><span class="line"><span class="keyword">while</span>:; <span class="keyword">do</span></span><br><span class="line">    letCOUNT=0</span><br><span class="line">    <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">       ipvsadm -a -t <span class="variable">$VIP</span>:<span class="variable">$CPORT</span> -r <span class="variable">$1</span>:<span class="variable">$RPORT</span> -<span class="variable">$TYPE</span> -w <span class="variable">$2</span></span><br><span class="line">       [ $? -eq0 ] &amp;&amp; return0 || return1</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">del</span></span>() &#123;</span><br><span class="line">       ipvsadm -d -t <span class="variable">$VIP</span>:<span class="variable">$CPORT</span> -r <span class="variable">$1</span>:<span class="variable">$RPORT</span></span><br><span class="line">       [ $? -eq0 ] &amp;&amp; return0 || return1</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> I <span class="keyword">in</span><span class="variable">$&#123;RS[*]&#125;</span>; <span class="keyword">do</span></span><br><span class="line">       <span class="keyword">if</span> curl --connect-timeout 1 http://<span class="variable">$I</span> &amp;&gt; /dev/null; <span class="keyword">then</span></span><br><span class="line">          <span class="keyword">if</span>[ <span class="variable">$&#123;STATUS[$COUNT]&#125;</span> -eq 0 ]; <span class="keyword">then</span></span><br><span class="line">             add <span class="variable">$I</span> <span class="variable">$&#123;RW[$COUNT]&#125;</span></span><br><span class="line">         [ $? -eq 0 ] &amp;&amp; STATUS[<span class="variable">$COUNT</span>]=1</span><br><span class="line">          <span class="keyword">fi</span></span><br><span class="line">       <span class="keyword">else</span></span><br><span class="line">          <span class="keyword">if</span>[ <span class="variable">$&#123;STATUS[$COUNT]&#125;</span> -eq 1 ]; <span class="keyword">then</span></span><br><span class="line">             del <span class="variable">$I</span></span><br><span class="line">         [ $? -eq0 ] &amp;&amp; STATUS[COUNT]=0</span><br><span class="line">          <span class="keyword">fi</span></span><br><span class="line">       <span class="keyword">fi</span></span><br><span class="line">       letCOUNT++</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line">    sleep 5</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></p>
+<p><a href="http://www.361way.com/lvs-nat/5187.html" target="_blank" rel="noopener">http://www.361way.com/lvs-nat/5187.html</a><br><a href="http://www.361way.com/lvs-dr/5192.html" target="_blank" rel="noopener">http://www.361way.com/lvs-dr/5192.html</a><br><a href="http://www.361way.com/lvs-persistent-healthy-check/5204.html" target="_blank" rel="noopener">http://www.361way.com/lvs-persistent-healthy-check/5204.html</a><br><a href="http://liaoph.com/lvs/" target="_blank" rel="noopener">http://liaoph.com/lvs/</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/high-availability/" data-toggle="tooltip" data-placement="top" title="高可用集群基本概念">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/firewalld/" data-toggle="tooltip" data-placement="top" title="CentOS 7  Firewalld防火墙管理工具">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#高性能" title="高性能">高性能</a>
+                        
+                          <a class="tag" href="/tags/#lvs" title="lvs">lvs</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

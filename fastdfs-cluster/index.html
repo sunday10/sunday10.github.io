@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          FastDFS 分布式存储集群部署 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/fastdfs-cluster/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#fastdfs" title="fastdfs">fastdfs</a>
+                        
+                          <a class="tag" href="/tags/#分布式" title="分布式">分布式</a>
+                        
+                    </div>
+                    <h1>FastDFS 分布式存储集群部署</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-09-10
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>FastDFS是一个开源的轻量级分布式文件系统，它对文件进行管理，功能包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了大容量存储和负载均衡的问题。特别适合以文件为载体的在线服务，如相册网站、视频网站等等。</p>
+<p>FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、线性扩容等机制，并注重高可用、高性能等指标，使用FastDFS很容易搭建一套高性能的文件服务器集群提供文件上传、下载等服务。</p>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><blockquote>
+<p>系统系统 centos7.4<br>六台服务器：<br>tracker：192.168.53.85-86<br>storage：192.168.53.72-75 </p>
+</blockquote>
+<h1 id="架构图"><a href="#架构图" class="headerlink" title="架构图"></a>架构图</h1><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/install.png">
+<h1 id="安装Fastdfs"><a href="#安装Fastdfs" class="headerlink" title="安装Fastdfs"></a>安装Fastdfs</h1><figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">yum</span> <span class="literal">-</span><span class="comment">y</span> <span class="comment">install</span> <span class="comment">gcc</span> <span class="comment">gcc</span><span class="literal">-</span><span class="comment">c</span><span class="literal">+</span><span class="literal">+</span> <span class="comment">libstdc</span><span class="literal">+</span><span class="literal">+</span><span class="literal">-</span><span class="comment">devel</span> <span class="comment">pcre</span><span class="literal">-</span><span class="comment">devel</span> <span class="comment">zlib</span><span class="literal">-</span><span class="comment">devel</span> <span class="comment">wget</span> <span class="comment">make</span></span><br><span class="line"><span class="comment">yum</span> <span class="literal">-</span><span class="comment">y</span> <span class="comment">groupinstall</span> <span class="comment">'Development</span> <span class="comment">Tools'</span></span><br></pre></td></tr></table></figure>
+<p><strong> 下载解压 </strong><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget -O libfastcommon-<span class="number">1.0</span>.<span class="number">39</span>.zip https:<span class="regexp">//gi</span>thub.com<span class="regexp">/happyfish100/</span>libfastcommon<span class="regexp">/archive/</span>V1.<span class="number">0.39</span>.zip</span><br><span class="line">wget -O <span class="regexp">/usr/</span>local<span class="regexp">/src/</span>fastdfs-<span class="number">5.11</span>.zip https:<span class="regexp">//gi</span>thub.com<span class="regexp">/happyfish100/</span>fastdfs<span class="regexp">/archive/</span>V5.<span class="number">11</span>.zip</span><br><span class="line">unzip libfastcommon-<span class="number">1.0</span>.<span class="number">39</span>.zip</span><br><span class="line">unzip fastdfs-<span class="number">5.11</span>.zip</span><br></pre></td></tr></table></figure></p>
+<p><strong>安装</strong><br>安装FastDFS必须先安装libfastcommon类库，否则会导致报错<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> /usr/local/src/libfastcommon-<span class="number">1.0</span>.<span class="number">39</span></span><br><span class="line">./<span class="keyword">make</span>.<span class="keyword">sh</span> &amp;&amp; ./<span class="keyword">make</span>.<span class="keyword">sh</span> install</span><br><span class="line"></span><br><span class="line"><span class="keyword">cd</span> ../fastdfs-<span class="number">5.11</span></span><br><span class="line">./<span class="keyword">make</span>.<span class="keyword">sh</span> &amp;&amp; ./<span class="keyword">make</span>.<span class="keyword">sh</span> install</span><br></pre></td></tr></table></figure></p>
+<p>安装好之后，在/usr/bin目录下，可以看fdfs开头的命令工具</p>
+<blockquote>
+<p>FastDFS安装完成之后，所有配置文件在/etc/fdfs目录下，tracker需要tracker.conf配置文件，storage需要storage.conf配置文件。</p>
+</blockquote>
+<h1 id="配置tracker（85-86）"><a href="#配置tracker（85-86）" class="headerlink" title="配置tracker（85/86）"></a>配置tracker（85/86）</h1><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">mkdir -pv /data/fastdfs</span><br><span class="line">chown -R fastdfs.fastdfs /data/fastdfs/</span><br><span class="line"></span><br><span class="line">cd /etc/fdfs</span><br><span class="line">cp tracker.conf.sample tracker.conf</span><br><span class="line"></span><br><span class="line">vi tracker.conf</span><br><span class="line"></span><br><span class="line">disabled=false    <span class="comment">#启用配置文件</span></span><br><span class="line">port=22122        <span class="comment">#设置tracker的端口号</span></span><br><span class="line">base_path=/data/fastdfs <span class="comment">#设置tracker的数据文件和日志目录（需手动创建）</span></span><br><span class="line"></span><br><span class="line">connect_timeout=30      <span class="comment">#连接超时时间30S</span></span><br><span class="line">network_timeout=60      <span class="comment">#网络超时时间60S </span></span><br><span class="line">max_connections=256     <span class="comment">#最大并发连接数</span></span><br><span class="line">work_threads=4          <span class="comment">#工作线程数，最好和cpu核数保持一致</span></span><br><span class="line">store_lookup=0          <span class="comment">#选择上传文件模式 0代表group轮询 1指定特定group 2选择空间最大的group</span></span><br><span class="line"><span class="comment">#store_group=           #上传文件组，如果模式为1，则必须设置成核特定group一致的组名</span></span><br><span class="line">store_server=0          <span class="comment">#选择存储服务器上传文件 0代表轮询，1根据通过IP第的顺序 2通过优先级</span></span><br><span class="line">store_path=0            <span class="comment">#选择哪块存储盘上传文件 0代表轮询，2代表优先最大存储空间盘(路径)</span></span><br><span class="line">download_server=0       <span class="comment">#选择哪台存储服务器下载文件0代表轮询，1代表当前文件上传的源服务器</span></span><br><span class="line">reserved_storage_space = 10% <span class="comment">#系统保留存储空间10%</span></span><br></pre></td></tr></table></figure>
+<p>启动tracker<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/etc/i</span>nit.d<span class="regexp">/fdfs_trackerd start</span></span><br></pre></td></tr></table></figure></p>
+<p>没有报错，查看端口22122是否开始监听，确认启动是否成功。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ss -tunlp | grep fdfs</span><br><span class="line">tcp    LISTEN     0      128       *:22122                 *:*                   users:((<span class="string">"fdfs_trackerd"</span>,<span class="attribute">pid</span>=3678,fd=5))</span><br></pre></td></tr></table></figure></p>
+<p>查看tracker日志<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tail /data/fastdfs/logs/trackerd.log</span><br><span class="line"><span class="comment">#内容</span></span><br><span class="line">2018-10-11 19:04:28] <span class="builtin-name">INFO</span> - FastDFS v5.11, <span class="attribute">base_path</span>=/data/fastdfs, <span class="attribute">run_by_group</span>=fastdfs, <span class="attribute">run_by_user</span>=fastdfs <span class="built_in">..</span>.</span><br><span class="line"><span class="built_in">..</span>.</span><br></pre></td></tr></table></figure></p>
+<h1 id="配置storage（72-73-74-75）"><a href="#配置storage（72-73-74-75）" class="headerlink" title="配置storage（72/73/74/75）"></a>配置storage（72/73/74/75）</h1><p>将存储节点分为两个组<br>group1 （72、73）<br>group2 （74、75）</p>
+<p>创建存储目录和配置文件<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mkdir -pv /data/fastdfs</span><br><span class="line">chown -R fastdfs.fastdfs /data/fastdfs</span><br><span class="line"></span><br><span class="line">cd /etc/fdfs</span><br><span class="line">cp storage.conf.sample storage.conf</span><br><span class="line"></span><br><span class="line">vi /etc/fdfs/storage.conf</span><br><span class="line"></span><br><span class="line">group_name=group1                <span class="comment"># 组名（第一组为group1，第二组为group2，依次类推...）</span></span><br><span class="line">base_path=/data/fastdfs          <span class="comment"># 数据和日志文件存储根目录</span></span><br><span class="line">store_path0=/data/fastdfs        <span class="comment">#第一个存储目录，第二个存储目录起名为：store_path1=xxx，其它存储目录名依次类推...</span></span><br><span class="line">store_path_count=1               <span class="comment"># 存储路径个数，需要和store_path个数匹配</span></span><br><span class="line">tracker_server=192.168.53.85:22122       <span class="comment"># tracker服务器IP和端口</span></span><br><span class="line">tracker_server=192.168.53.86:22122       <span class="comment"># tracker服务器IP和端口</span></span><br></pre></td></tr></table></figure></p>
+<p>启动Storage</p>
+<blockquote>
+<p>启动storage，会根据配置文件的设置自动创建多级存储目录，查看端口23000是否开始监听，确认启动是否成功。</p>
+</blockquote>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fdfs_storaged /etc/fdfs/storage.conf start </span><br><span class="line">netstat -unltp | grep fdfs</span><br><span class="line">tcp        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0</span><span class="meta">.0</span><span class="meta">.0</span>:<span class="number">23000</span>           <span class="number">0.0</span><span class="meta">.0</span><span class="meta">.0</span>:*               LISTEN      <span class="number">8753</span>/fdfs_storaged</span><br></pre></td></tr></table></figure>
+<p>也可以查看storage的日志是否启动成功。<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail <span class="regexp">/data/</span>fastdfs<span class="regexp">/logs/</span>storaged.log</span><br></pre></td></tr></table></figure></p>
+<p>验证storage是否登记到tracker服务器</p>
+<blockquote>
+<p>可以在任一存储节点上使用如下命令查看集群的状态信息</p>
+</blockquote>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdfs_monitor <span class="regexp">/etc/</span>fdfs<span class="regexp">/storage.conf</span></span><br></pre></td></tr></table></figure>
+<p>如果出现ip_addr = Active, 则表明storage服务器已经登记到tracker服务器，如下：<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Storage <span class="number">1</span>:</span><br><span class="line">        id = <span class="number">192.168</span><span class="meta">.53</span><span class="meta">.72</span></span><br><span class="line">        ip_addr = <span class="number">192.168</span><span class="meta">.53</span><span class="meta">.72</span> (localhost)  ACTIVE</span><br></pre></td></tr></table></figure></p>
+<h1 id="在storage上安装nginx"><a href="#在storage上安装nginx" class="headerlink" title="在storage上安装nginx"></a>在storage上安装nginx</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote>
+<p>注意：fastdfs-nginx-module模块需要安装到每台storage上。</p>
+</blockquote>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/src</span><br><span class="line">wget http:<span class="comment">//nginx.org/download/nginx-1.14.0.tar.gz</span></span><br><span class="line">wget -O fastdfs-nginx-module_v1.<span class="number">20</span><span class="selector-class">.zip</span> https:<span class="comment">//github.com/happyfish100/fastdfs-nginx-module/archive/V1.20.zip</span></span><br><span class="line">unzip fastdfs-nginx-module_v1.<span class="number">20</span><span class="selector-class">.zip</span> </span><br><span class="line">tar xf nginx-<span class="number">1.14</span>.<span class="number">0</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>安装nginx的时候，添加 fastdfs-nginx-module-master模块，如： ./configure --add-module=../fastdfs-nginx-module/src/</p>
+</blockquote>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local/src/nginx-1.14.0</span></span><br><span class="line"><span class="string">./configure</span> <span class="params">--prefix=/usr/local/nginx</span> <span class="params">--add-module=</span><span class="string">../fastdfs-nginx-module-1.20/src</span></span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>解决报错<br><a href="https://github.com/happyfish100/fastdfs-nginx-module/issues/31" target="_blank" rel="noopener">https://github.com/happyfish100/fastdfs-nginx-module/issues/31</a><br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/usr/</span>include<span class="regexp">/fastdfs/</span>fdfs_define.<span class="string">h:</span><span class="number">15</span>:<span class="number">27</span>: fatal <span class="string">error:</span> common_define.<span class="string">h:</span> No such file or directory</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">修改fastdfs-nginx-<span class="keyword">module</span><span class="number">-1.20</span>/src/<span class="built_in">config</span>文件，修改如下：</span><br><span class="line">ngx_module_incs=<span class="string">"/usr/include/fastdfs /usr/include/fastcommon/"</span></span><br><span class="line">CORE_INCS=<span class="string">"$CORE_INCS /usr/include/fastdfs /usr/include/fastcommon/"</span></span><br><span class="line">然后重新configure make make install，就可以了</span><br><span class="line"></span><br><span class="line">快速脚本：</span><br><span class="line">sed -i <span class="string">'s#ngx_module_incs=.*#ngx_module_incs="/usr/include/fastdfs /usr/include/fastcommon/"#'</span> ../fastdfs-nginx-<span class="keyword">module</span><span class="number">-1.20</span>/src/<span class="built_in">config</span> </span><br><span class="line">sed -i <span class="string">'s#CORE_INCS=.*#CORE_INCS="$CORE_INCS /usr/include/fastdfs /usr/include/fastcommon/"#'</span> ../fastdfs-nginx-<span class="keyword">module</span><span class="number">-1.20</span>/src/<span class="built_in">config</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p><strong>配置fastdfs-nginx-module</strong></p>
+<p>进入fastdfs-nginx-module的src目录，将md_fastdfs.conf配置文件拷贝到/etc/fdfs/目录中<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="regexp">/usr/</span>local<span class="regexp">/src/</span>fastdfs-nginx-module-<span class="number">1.20</span><span class="regexp">/src/</span></span><br><span class="line">cp mod_fastdfs.conf <span class="regexp">/etc/</span>fdfs<span class="regexp">/</span></span><br></pre></td></tr></table></figure></p>
+<p>配置 mod_fastdfs.conf<br>一般只需改动以下几个参数即可：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/fdfs/mod_fastdfs.conf</span><br><span class="line"></span><br><span class="line">base_path=/data/fastdfs           <span class="comment">#保存日志目录</span></span><br><span class="line">tracker_server=192.168.53.85:22122</span><br><span class="line">tracker_server=192.168.53.86:22122 </span><br><span class="line">storage_server_port=23000         <span class="comment">#storage服务器的端口号</span></span><br><span class="line">group_name=group1                 <span class="comment">#当前服务器的group名 第一组group1、第二组group2</span></span><br><span class="line">url_have_group_name = true        <span class="comment">#文件url中是否有group名</span></span><br><span class="line">store_path_count=1                <span class="comment">#存储路径个数，需要和store_path个数匹配</span></span><br><span class="line">store_path0=/data/fastdfs         <span class="comment">#存储路径</span></span><br><span class="line">group_count = 2                   <span class="comment">#设置组的个数</span></span><br></pre></td></tr></table></figure></p>
+<p>在末尾增加3个组的具体信息：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[group1]</span></span><br><span class="line"><span class="attr">group_name</span>=group1</span><br><span class="line"><span class="attr">storage_server_port</span>=<span class="number">23000</span></span><br><span class="line"><span class="attr">store_path_count</span>=<span class="number">1</span></span><br><span class="line"><span class="attr">store_path0</span>=/data/fastdfs</span><br><span class="line"></span><br><span class="line"><span class="section">[group2]</span></span><br><span class="line"><span class="attr">group_name</span>=group2</span><br><span class="line"><span class="attr">storage_server_port</span>=<span class="number">23000</span></span><br><span class="line"><span class="attr">store_path_count</span>=<span class="number">1</span></span><br><span class="line"><span class="attr">store_path0</span>=/data/fastdfs</span><br></pre></td></tr></table></figure>
+<p>建立M00至存储目录的符号连接。<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">ln</span> -sv /<span class="class"><span class="keyword">data</span>/fastdfs/<span class="keyword">data</span> /<span class="keyword">data</span>/fastdfs/<span class="keyword">data</span>/<span class="type">M00</span></span></span><br></pre></td></tr></table></figure></p>
+<p><strong> 配置nginx </strong><br>编辑/usr/local/nginx/conf配置文件目录下的nginx.conf，设置添加storage信息并保存。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/nginx/conf/nginx.conf</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 8080;  #与/etc/fdfs/storage.conf 中的 http.<span class="attribute">server_port</span>=8888 相对应</span><br><span class="line">    server_name _;</span><br><span class="line"></span><br><span class="line">    location ~/group[0-9]/M00 &#123;</span><br><span class="line">        root /data/fastdfs/data;</span><br><span class="line">        ngx_fastdfs_module;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>复制fastdfs中的http.conf、mime.types文件到/etc/fdfs<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp <span class="regexp">/usr/</span>local<span class="regexp">/src/</span>fastdfs-<span class="number">5.11</span><span class="regexp">/conf/</span>&#123;http.conf,mime.types&#125; <span class="regexp">/etc/</span>fdfs<span class="regexp">/</span></span><br></pre></td></tr></table></figure></p>
+<p>至此，nginx以及FastDFS插件模块设置完成。</p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>运行nginx之前，先要把防火墙中对应的端口打开（本例中为8080）。<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -p tcp -m <span class="keyword">state</span> --state NEW -m tcp --dport <span class="number">8080</span> -j ACCEPT</span><br><span class="line">/etc/init.d/iptables save</span><br></pre></td></tr></table></figure></p>
+<p>启动nginx，确认启动是否成功。（查看是否对应端口8080是否开始监听）</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx</span><br><span class="line">  ngx_http_fastdfs_set pid=<span class="number">12768</span></span><br><span class="line"></span><br><span class="line">netstat -unltp | grep nginx</span><br><span class="line">  tcp        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0</span><span class="meta">.0</span><span class="meta">.0</span>:<span class="number">8080</span>                <span class="number">0.0</span><span class="meta">.0</span><span class="meta">.0</span>:*                   LISTEN      <span class="number">12769</span>/nginx</span><br></pre></td></tr></table></figure>
+<p>也可查看nginx的日志是否启动成功或是否有错误。</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail /usr/<span class="keyword">local</span>/nginx/logs/<span class="keyword">error</span>.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<p>在error.log中没有错误，既启动成功。可以打开浏览器，直接访问<br><a href="http://192.168.53.72:8080" target="_blank" rel="noopener">http://192.168.53.72:8080</a><br>查看到欢迎页则说明，nginx运行成功。之后依次在其它storage上全部安装上nginx并确认运行正常。</p>
+<p>将nginx设置为开机启动：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rc.d/rc.<span class="keyword">local</span></span><br></pre></td></tr></table></figure></p>
+<p>将运行命令行添加进文件：/usr/local/nginx/sbin/nginx</p>
+<h1 id="在tracker上安装nginx"><a href="#在tracker上安装nginx" class="headerlink" title="在tracker上安装nginx"></a>在tracker上安装nginx</h1><p>在tracker上安装的nginx主要为了提供http访问的反向代理、负载均衡以及缓存服务。</p>
+<h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget https:<span class="regexp">//gi</span>thub.com<span class="regexp">/FRiCKLE/</span>ngx_cache_purge<span class="regexp">/archive/</span><span class="number">2.3</span>.tar.gz</span><br><span class="line"></span><br><span class="line">tar xf nginx-<span class="number">1.14</span>.<span class="number">0</span>.tar.gz</span><br><span class="line">cd <span class="regexp">/usr/</span>local<span class="regexp">/src/</span>nginx-<span class="number">1.14</span>.<span class="number">0</span> </span><br><span class="line">.<span class="regexp">/configure --prefix=/u</span>sr<span class="regexp">/local/</span>nginx --add-module=..<span class="regexp">/ngx_cache_purge-2.3/</span></span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<h2 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h2><p>编辑/usr/local/nginx/conf配置文件目录下的nginx.conf，设置负载均衡<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">vim</span> /usr/local/nginx/conf/nginx.conf</span><br><span class="line"></span><br><span class="line">user  root;   <span class="comment">#root防止404错误</span></span><br><span class="line"><span class="attribute">worker_processes</span>  <span class="number">4</span>;    <span class="comment">#根据CPU核心数而定</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#error_log  logs/error.log;</span></span><br><span class="line"><span class="comment">#error_log  logs/error.log  notice;</span></span><br><span class="line"><span class="comment">#error_log  logs/error.log  info;</span></span><br><span class="line"><span class="comment">#pid        logs/nginx.pid;</span></span><br><span class="line"></span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">65535</span>;        <span class="comment">#最大链接数</span></span><br><span class="line">    <span class="attribute">use</span> <span class="literal">epoll</span>;                        <span class="comment">#新版本的Linux可使用epoll加快处理性能</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="attribute">include</span>       mime.types;</span><br><span class="line">    <span class="attribute">default_type</span>  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '</span></span><br><span class="line">    <span class="comment">#                  '$status $body_bytes_sent "$http_referer" '</span></span><br><span class="line">    <span class="comment">#                  '"$http_user_agent" "$http_x_forwarded_for"';</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#access_log  logs/access.log  main;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">sendfile</span>        <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">tcp_nopush</span>     <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#keepalive_timeout  0;</span></span><br><span class="line">    <span class="attribute">keepalive_timeout</span>  <span class="number">65</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">gzip</span>  <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设置缓存</span></span><br><span class="line">    <span class="attribute">server_names_hash_bucket_size</span> <span class="number">128</span>;</span><br><span class="line">    <span class="attribute">client_header_buffer_size</span> <span class="number">32k</span>;</span><br><span class="line">    <span class="attribute">large_client_header_buffers</span> <span class="number">4</span> <span class="number">32k</span>;</span><br><span class="line">    <span class="attribute">client_max_body_size</span> <span class="number">300m</span>;</span><br><span class="line">    <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>; </span><br><span class="line">    <span class="attribute">proxy_connect_timeout</span> <span class="number">90</span>;</span><br><span class="line">    <span class="attribute">proxy_send_timeout</span> <span class="number">90</span>;</span><br><span class="line">    <span class="attribute">proxy_read_timeout</span> <span class="number">90</span>;</span><br><span class="line">    <span class="attribute">proxy_buffer_size</span> <span class="number">16k</span>;</span><br><span class="line">    <span class="attribute">proxy_buffers</span> <span class="number">4</span> <span class="number">64k</span>;</span><br><span class="line">    <span class="attribute">proxy_busy_buffers_size</span> <span class="number">128k</span>;</span><br><span class="line">    <span class="attribute">proxy_temp_file_write_size</span> <span class="number">128k</span>; <span class="comment">#设置缓存存储路径、存储方式、分配内存大小、磁盘最大空间、缓存期限 </span></span><br><span class="line">    <span class="attribute">proxy_temp_path</span> /data/fastdfs/cache/nginx/proxy_cache/tmp;</span><br><span class="line">    <span class="attribute">proxy_cache_path</span> /data/fastdfs/cache/nginx/proxy_cache levels=<span class="number">1</span>:<span class="number">2</span> keys_zone=http-cache:<span class="number">200m</span> inactive=<span class="number">1d</span> max_size=<span class="number">30g</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设置group1的服务器</span></span><br><span class="line">    <span class="attribute">upstream</span> fdfs_group1 &#123;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.53.72:8080</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30s</span>;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.53.73:8080</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30s</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">#设置group2的服务器</span></span><br><span class="line">    <span class="attribute">upstream</span> fdfs_group2 &#123;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.53.74:8080</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30s</span>;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.53.75:8080</span> weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30s</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> localhost;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   html;</span><br><span class="line">        <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#error_page  404              /404.html;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># redirect server error pages to the static page /50x.html</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">    <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">#设置group1的负载均衡参数</span></span><br><span class="line">    <span class="attribute">location</span> /group1/M00 &#123;</span><br><span class="line">        <span class="attribute">proxy_next_upstream</span> http_502 http_504 <span class="literal">error</span> timeout invalid_header;</span><br><span class="line">        <span class="attribute">proxy_cache</span> http-cache;</span><br><span class="line">        <span class="attribute">proxy_cache_key</span> <span class="variable">$uri</span><span class="variable">$is_args</span><span class="variable">$args</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_valid</span>  <span class="number">200</span> <span class="number">304</span> <span class="number">12h</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://fdfs_group1;</span><br><span class="line">        <span class="attribute">expires</span> <span class="number">30d</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设置group2的负载均衡参数</span></span><br><span class="line">    <span class="attribute">location</span> /group2/M00 &#123;</span><br><span class="line">        <span class="attribute">proxy_next_upstream</span> http_502 http_504 <span class="literal">error</span> timeout invalid_header;</span><br><span class="line">        <span class="attribute">proxy_cache</span> http-cache;</span><br><span class="line">        <span class="attribute">proxy_cache_key</span> <span class="variable">$uri</span><span class="variable">$is_args</span><span class="variable">$args</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_valid</span>  <span class="number">200</span> <span class="number">304</span> <span class="number">12h</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://fdfs_group2;</span><br><span class="line">        <span class="attribute">expires</span> <span class="number">30d</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置清除缓存的访问权限</span></span><br><span class="line">    <span class="attribute">location</span> ~/purge(/.*) &#123;</span><br><span class="line">        <span class="attribute">allow</span> <span class="number">127.0.0.1</span>;</span><br><span class="line">        <span class="attribute">deny</span> all;</span><br><span class="line">        <span class="attribute">proxy_cache_purge</span> http-cache <span class="variable">$1</span><span class="variable">$is_args</span><span class="variable">$args</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>建立缓存目录<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/data/</span>fastdfs<span class="regexp">/cache/</span>nginx<span class="regexp">/proxy_cache/</span>tmp</span><br></pre></td></tr></table></figure></p>
+<p>至此，nginx设置完成。</p>
+<h2 id="运行-1"><a href="#运行-1" class="headerlink" title="运行"></a>运行</h2><p>运行nginx之前，先要把防火墙中对应的端口打开（本例中为8080）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT</span><br><span class="line">/etc/init.d/iptables save</span><br></pre></td></tr></table></figure></p>
+<p>启动nginx，确认启动是否成功。（查看是否对应端口8080是否开始监听）</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx</span><br><span class="line">  ngx_http_fastdfs_set pid=<span class="number">12768</span></span><br><span class="line"></span><br><span class="line">[root@localhost ~]# netstat -unltp | grep nginx</span><br><span class="line">  tcp        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0</span><span class="meta">.0</span><span class="meta">.0</span>:<span class="number">8080</span>                <span class="number">0.0</span><span class="meta">.0</span><span class="meta">.0</span>:*                   LISTEN      <span class="number">12769</span>/nginx</span><br></pre></td></tr></table></figure>
+<p>也可查看nginx的日志是否启动成功或是否有错误。<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail /usr/<span class="keyword">local</span>/nginx/logs/<span class="keyword">error</span>.<span class="built_in">log</span></span><br></pre></td></tr></table></figure></p>
+<p>配置client.conf文件。尝试上传一个文件到FastDFS，然后访问试试。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp client<span class="selector-class">.conf</span><span class="selector-class">.sample</span>  client.conf</span><br><span class="line">vim /etc/fdfs/client.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改以下参数：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">base_path</span>=/data/fastdfs                   #日志存放路径</span><br><span class="line"><span class="attribute">tracker_server</span>=192.168.53.85:22122         </span><br><span class="line"><span class="attribute">tracker_server</span>=192.168.53.86:22122 </span><br><span class="line">http.<span class="attribute">tracker_server_port</span>=8080</span><br></pre></td></tr></table></figure></p>
+<p>使用/usr/local/bin/fdfs_upload_file上传一个文件，程序会自动返回文件的URL。<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fdfs_upload_file <span class="regexp">/etc/</span>fdfs<span class="regexp">/client.conf /</span>root/clara.jpg</span><br><span class="line">  group1<span class="regexp">/M00/</span><span class="number">00</span><span class="regexp">/00/</span>wKgKZVu_SraAMC-GAALOpyUcETI804.jpg</span><br></pre></td></tr></table></figure></p>
+<p>然后使用浏览器访问:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="regexp">//</span><span class="number">192.168</span>.<span class="number">53.85</span><span class="regexp">/group1/</span>M00<span class="regexp">/00/</span><span class="number">00</span><span class="regexp">/wKgKZVu_SraAMC-GAALOpyUcETI804.jpg</span></span><br></pre></td></tr></table></figure></p>
+<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-12_09-55-59.jpg">
+<p>看有查看到图片,说明集群搭建成功！</p>
+<h1 id="报错解决"><a href="#报错解决" class="headerlink" title="报错解决"></a>报错解决</h1><p><strong> nginx日志报错 </strong><br>在storage上配置nginx相关信息后启动nginx，查看日志发现报错：<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tail /usr/<span class="keyword">local</span>/nginx/logs/<span class="keyword">error</span>.<span class="built_in">log</span></span><br><span class="line">ngx_http_fastdfs_process_init pid=7526</span><br><span class="line">[2018-10-12 09:47:12] <span class="keyword">ERROR</span> - <span class="keyword">file</span>: ini_file_reader.c, <span class="keyword">line</span>: 824, <span class="keyword">include</span> <span class="keyword">file</span> <span class="string">"http.conf"</span> not exists, <span class="keyword">line</span>: <span class="string">"#include http.conf"</span></span><br><span class="line">[2018-10-12 09:47:12] <span class="keyword">ERROR</span> - <span class="keyword">file</span>: ../fastdfs-nginx-module-1.20/src/common.c, <span class="keyword">line</span>: 163, load <span class="keyword">conf</span> <span class="keyword">file</span> <span class="string">"/etc/fdfs/mod_fastdfs.conf"</span> fail, <span class="keyword">ret</span> code: 2</span><br><span class="line">2018/10/12 09:47:12 [alert] 7525#0: worker process 7526 exited with fatal code 2 and cannot be respawned</span><br></pre></td></tr></table></figure></p>
+<p>解决:<br>复制fastdfs中的http.conf、mime.types文件到/etc/fdfs<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp <span class="regexp">/usr/</span>local<span class="regexp">/src/</span>fastdfs-<span class="number">5.11</span><span class="regexp">/conf/</span>&#123;http.conf,mime.types&#125; <span class="regexp">/etc/</span>fdfs<span class="regexp">/</span></span><br></pre></td></tr></table></figure></p>
+<p><strong> 查看日志，还报错 </strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat /usr/local/nginx/logs/error.log</span><br><span class="line">ngx_http_fastdfs_process_init <span class="attribute">pid</span>=12813</span><br><span class="line">[2018-10-12 14:05:33] <span class="builtin-name">ERROR</span> - file: /usr/local/fastdfs-nginx-module/src/common.c, line: 180,<span class="built_in"> config </span>file: /etc/fdfs/mod_fastdfs.conf, you must <span class="builtin-name">set</span> url_have_group_name <span class="keyword">to</span> <span class="literal">true</span> <span class="keyword">to</span> support multi-group!</span><br><span class="line">2018-10-12 14:05:33 [alert] 12812#0: worker process 12813 exited with fatal code 2 <span class="keyword">and</span> cannot be respawned</span><br></pre></td></tr></table></figure></p>
+<p>解决<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim  <span class="string">/etc/fdfs/mod_fastdfs.conf</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#url_have_group_name=false</span></span><br><span class="line">url_have_group_name=<span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p>重启正常</p>
+<p><strong> 测试图片无法访问 </strong><br>搭建完成之后，访问<a href="http://192.168.53.85/group2/M00/00/00/wKg26VncfamAEqZ0AAu-4Kcs3QI677.jpg" target="_blank" rel="noopener">http://192.168.53.85/group2/M00/00/00/wKg26VncfamAEqZ0AAu-4Kcs3QI677.jpg</a> 地址图片总是报404无法找到，跟踪到storage服务器，查看nginx的error日志发现如下；<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ERROR </span>- file: /usr/local/fastdfs-nginx-module/src/common.c, line: 877, stat file: /root/fastdfs/data/00/00/wKg1Wlnchn2AOo0kAAu<span class="string">-4</span>Kcs3QI239.jpg fail, errno: 13, error info: Permission denied</span><br></pre></td></tr></table></figure></p>
+<p>原因是nginx启动的时候默认会以nobody用户来启动，这样的话就权限访问/root/fastdfs/data的权限</p>
+<p>修改这个问题有两个版本，第一个方案设置nginx以root身份启动，或者设置nobody用户权限可以访问/root/fastdfs/data地址。这里只展示第一种方案的修改<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/nginx/conf/nginx.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改nobody为root</span></span><br><span class="line">user root</span><br></pre></td></tr></table></figure></p>
+<p>重启nginx后问题解决</p>
+<p>转载自： <a href="http://www.ityouknow.com/fastdfs/2017/10/10/cluster-building-fastdfs.html" target="_blank" rel="noopener">http://www.ityouknow.com/fastdfs/2017/10/10/cluster-building-fastdfs.html</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/remove-iis-server-info/" data-toggle="tooltip" data-placement="top" title="IIS 8.5 隐藏 X-Powered-By 及 X-Powered-By 信息">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/distributed-file-system-fastdfs/" data-toggle="tooltip" data-placement="top" title="分布式文件系统FastDFS详解">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#fastdfs" title="fastdfs">fastdfs</a>
+                        
+                          <a class="tag" href="/tags/#分布式" title="分布式">分布式</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

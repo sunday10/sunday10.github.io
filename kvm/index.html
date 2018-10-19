@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          KVM 虚拟化 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/kvm/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#kvm" title="kvm">kvm</a>
+                        
+                          <a class="tag" href="/tags/#虚拟化" title="虚拟化">虚拟化</a>
+                        
+                    </div>
+                    <h1>KVM 虚拟化</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-04-18
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>云计算指的是资源使用和交互的一种模式<br>虚拟化指的是技术，可以将物理计算机虚拟成多个逻辑计算机（如VMware）他们彼此独立，互不影响，但是云计算又需要使用虚拟化技术。</p>
+<h1 id="1-操作环境"><a href="#1-操作环境" class="headerlink" title="1. 操作环境"></a>1. 操作环境</h1><blockquote>
+<p>系统: Centos 7<br>母机IP:192.168.77.11 (KVM-S1)<br>KVM IP:192.168.77.111<br>防火墙状态: 关闭<br>selinux状态: 关闭<br>NetworkManager: 关闭</p>
+</blockquote>
+<h1 id="2-检测是否支持虚拟化"><a href="#2-检测是否支持虚拟化" class="headerlink" title="2. 检测是否支持虚拟化"></a>2. 检测是否支持虚拟化</h1><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">grep -E -o <span class="string">'vmx|svm'</span> /<span class="keyword">proc</span>/cpuinfo </span><br><span class="line"></span><br><span class="line">vmx</span><br><span class="line">vmx</span><br><span class="line">vmx</span><br><span class="line">vmx</span><br></pre></td></tr></table></figure>
+<h1 id="3-安装kvm基础包和管理工具"><a href="#3-安装kvm基础包和管理工具" class="headerlink" title="3. 安装kvm基础包和管理工具"></a>3. 安装kvm基础包和管理工具</h1><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum -y install qemu-kvm python-virtinst libvirt libvirt-python virt-manager libguestfs-tools bridge-utils virt-install</span></span><br><span class="line">yum <span class="keyword">install </span>qemu-kvm qemu-kvm-tools libvirt virt-<span class="keyword">install </span><span class="keyword">bridge-utils </span>-y</span><br></pre></td></tr></table></figure>
+<p>kvm相关安装包及其作用:</p>
+<ul>
+<li>qemu-kvm 主要的KVM程序包</li>
+<li>python-virtinst 创建虚拟机所需要的命令行工具和程序库</li>
+<li>virt-manager GUI虚拟机管理工具</li>
+<li>virt-top 虚拟机统计命令</li>
+<li>virt-viewer GUI连接程序，连接到已配置好的虚拟机</li>
+<li>libvirt C语言工具包，提供libvirt服务</li>
+<li>libvirt-client 为虚拟客户机提供的C语言工具包</li>
+<li>virt-install 基于libvirt服务的虚拟机创建命令</li>
+<li>bridge-utils 创建和管理桥接设备的工具</li>
+</ul>
+<p><strong>确保模块已加载</strong><br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@KVM-S7 ~]<span class="comment"># lsmod | grep kvm</span></span><br><span class="line">kvm_intel            <span class="number"> 170086 </span><span class="number"> 4 </span></span><br><span class="line">kvm                  <span class="number"> 566340 </span><span class="number"> 1 </span>kvm_intel</span><br><span class="line">irqbypass             <span class="number"> 13503 </span><span class="number"> 3 </span>kvm</span><br></pre></td></tr></table></figure></p>
+<h1 id="4-启动kvm服务"><a href="#4-启动kvm服务" class="headerlink" title="4. 启动kvm服务"></a>4. 启动kvm服务</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start libvirtd </span><br><span class="line">systemctl <span class="builtin-name">enable</span> libvirtd</span><br></pre></td></tr></table></figure>
+<h1 id="5-上传系统镜像"><a href="#5-上传系统镜像" class="headerlink" title="5. 上传系统镜像"></a>5. 上传系统镜像</h1><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sundays-MacBook-<span class="symbol">Pro:</span>Downloads sunday<span class="variable">$ </span>scp web-s1-Minimal-<span class="number">1708</span>.iso root<span class="variable">@192</span>.<span class="number">168.77</span>.<span class="number">11</span><span class="symbol">:/opt</span></span><br><span class="line">root<span class="variable">@192</span>.<span class="number">168.77</span>.<span class="number">11</span><span class="string">'s password: </span></span><br><span class="line"><span class="string">web-s1-Minimal-1708.iso                                                                                    33%  266MB  12.3MB/s   00:42 ETA</span></span><br></pre></td></tr></table></figure>
+<p>或虚拟机光驱挂载系统镜像<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dd if=/dev/cdrom of=/opt/web-s1-DVD<span class="number">-1708.</span>iso</span><br><span class="line"><span class="number">8830976</span>+<span class="number">0</span> records in</span><br><span class="line"><span class="number">8830976</span>+<span class="number">0</span> records out</span><br><span class="line"><span class="number">4521459712</span> bytes (<span class="number">4.5</span> GB) copied, <span class="number">54.0024</span> s, <span class="number">83.7</span> MB/s</span><br></pre></td></tr></table></figure></p>
+<h1 id="6-配置桥接网络"><a href="#6-配置桥接网络" class="headerlink" title="6. 配置桥接网络"></a>6. 配置桥接网络</h1><p><strong> Bridge桥接原理 </strong><br>Bridge方式即虚拟网桥的网络连接方式，是客户机和子网里面的机器能够互相通信。可以使虚拟机成为网络中具有独立IP的主机。<br>桥接网络（也叫物理设备共享）被用作把一个物理设备复制到一台虚拟机。网桥多用作高级设置，特别是主机多个网络接口的情况。</p>
+<pre><code>┌─────────────────────────┐      ┌─────────────────┐
+│          HOST           │      │Virtual Machine 1│
+│ ┌──────┐      ┌───────┐ │      │    ┌──────┐     │
+│ │ br0  │──┬───│ vnet0 │─│─ ─ ─ │    │ eth0 │     │
+│ └──────┘  │   └───────┘ │      │    └──────┘     │
+│     │     │             │      └─────────────────┘
+│     │     │   ┌───────┐ │      ┌─────────────────┐
+│ ┌──────┐  └───│ vnet1 │─│─     │Virtual Machine 2│
+│ │ eth0 │      └───────┘ │ │    │    ┌──────┐     │
+│ └──────┘                │  ─ ─ │    │ eth0 │     │
+│ ┌──────┐                │      │    └──────┘     │
+│ │ eth1 │                │      └─────────────────┘
+│ └──────┘                │
+└─────────────────────────┘
+</code></pre><p>如上图，网桥的基本原理就是创建一个桥接接口br0，在物理网卡和虚拟网络接口之间传递数据。</p>
+<p><strong> 配置桥接网卡br0 </strong><br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-br0 </span><br><span class="line"></span><br><span class="line">TYPE=Bridge</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">DEVICE=br0</span><br><span class="line">IPADDR=192.168.77.11</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.77.1</span><br><span class="line">DNS1=119.29.29.29</span><br><span class="line">ONBOOT=yes</span><br></pre></td></tr></table></figure></p>
+<p><strong> 配置物理网卡eth0 </strong><br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"></span><br><span class="line">TYPE=Ethernet</span><br><span class="line">BOOTPROTO=none</span><br><span class="line">NAME=eth0</span><br><span class="line">DEVICE=eth0</span><br><span class="line">ONBOOT=yes</span><br><span class="line">BRIDGE=br0</span><br></pre></td></tr></table></figure></p>
+<p><strong> 开启IP转发 </strong><br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"net.ipv4.ip_forward = 1"</span> <span class="meta">&gt;&gt; </span>/etc/sysctl.conf</span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure></p>
+<p><strong> 重启网络 </strong><br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">systemctl restart network</span></span><br></pre></td></tr></table></figure></p>
+<p><strong> 查看桥接网络 </strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">brctl show</span><br><span class="line"></span><br><span class="line">bridge name<span class="built_in">	bridge </span>id		STP enabled	interfaces</span><br><span class="line">br0		8000.000c29f023de	<span class="literal">no</span>		eth0</span><br><span class="line">virbr0		8000.5254005d0ab0	<span class="literal">yes</span>		virbr0-nic</span><br><span class="line"></span><br><span class="line">ping www.sina.com.cn</span><br><span class="line">PING spool.grid.sinaedge.com (183.232.24.222) 56(84) bytes of data.</span><br><span class="line">64 bytes <span class="keyword">from</span> 183.232.24.222 (183.232.24.222): <span class="attribute">icmp_seq</span>=1 <span class="attribute">ttl</span>=56 <span class="attribute">time</span>=9.23 ms</span><br><span class="line">64 bytes <span class="keyword">from</span> 183.232.24.222 (183.232.24.222): <span class="attribute">icmp_seq</span>=2 <span class="attribute">ttl</span>=56 <span class="attribute">time</span>=9.83 ms</span><br></pre></td></tr></table></figure></p>
+<h1 id="7-创建虚拟机"><a href="#7-创建虚拟机" class="headerlink" title="7. 创建虚拟机"></a>7. 创建虚拟机</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">virt-install <span class="attribute">--virt-type</span>=kvm <span class="attribute">--name</span>=web-s1 <span class="attribute">--vcpus</span>=2 <span class="attribute">--memory</span>=4096 \</span><br><span class="line"><span class="attribute">--location</span>=/opt/web-s1-Minimal-1708.iso --disk <span class="attribute">path</span>=/kvm/vm/web-s1.qcow2, \</span><br><span class="line"><span class="attribute">size</span>=40,format=qcow2 --network <span class="attribute">bridge</span>=br0  --graphics vnc,<span class="attribute">listen</span>=0.0.0.0 \</span><br><span class="line">--noautoconsole</span><br></pre></td></tr></table></figure>
+<p>常用参数说明<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">–<span class="built_in">name</span>指定虚拟机名称</span><br><span class="line">–memory分配内存大小。</span><br><span class="line">–vcpus分配CPU核心数，最大与实体机CPU核心数相同</span><br><span class="line">–disk指定虚拟机镜像，size指定分配大小单位为G。</span><br><span class="line">–network网络类型，此处用的是默认，一般用的应该是bridge桥接。</span><br><span class="line">–accelerate加速</span><br><span class="line">–cdrom指定安装镜像iso</span><br><span class="line">–vnc启用VNC远程管理，一般安装系统都要启用。</span><br><span class="line">–vncport指定VNC监控端口，默认端口为<span class="number">5900</span>，端口不能重复。</span><br><span class="line">–vnclisten指定VNC绑定IP，默认绑定<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>，这里改为<span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>。</span><br><span class="line">–os-type=linux,windows</span><br><span class="line">–os-variant=rhel6</span><br><span class="line"></span><br><span class="line"><span class="comment">--name      指定虚拟机名称</span></span><br><span class="line"><span class="comment">--ram       虚拟机内存大小，以 MB 为单位</span></span><br><span class="line"><span class="comment">--vcpus     分配CPU核心数，最大与实体机CPU核心数相同</span></span><br><span class="line">–-vnc       启用VNC远程管理，一般安装系统都要启用。</span><br><span class="line">–-vncport   指定VNC监控端口，默认端口为<span class="number">5900</span>，端口不能重复。</span><br><span class="line">–-vnclisten  指定VNC绑定IP，默认绑定<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>，这里改为<span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>。</span><br><span class="line"><span class="comment">--network   虚拟机网络配置</span></span><br><span class="line">  <span class="comment"># 其中子选项，bridge=br0 指定桥接网卡的名称。</span></span><br><span class="line"></span><br><span class="line">–os-type=linux,windows</span><br><span class="line">–os-variant=rhel7<span class="number">.2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--disk 指定虚拟机的磁盘存储位置</span></span><br><span class="line">  <span class="comment"># size，初始磁盘大小，以 GB 为单位。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--location 指定安装介质路径，如光盘镜像的文件路径。</span></span><br><span class="line"><span class="comment">--graphics 图形化显示配置</span></span><br><span class="line">  <span class="comment"># 全新安装虚拟机过程中可能会有很多交互操作，比如设置语言，初始化 root 密码等等。</span></span><br><span class="line">  <span class="comment"># graphics 选项的作用就是配置图形化的交互方式，可以使用 vnc（一种远程桌面软件）进行链接。</span></span><br><span class="line">  <span class="comment"># 我们这列使用命令行的方式安装，所以这里要设置为 none，但要通过 --extra-args 选项指定终端信息，</span></span><br><span class="line">  <span class="comment"># 这样才能将安装过程中的交互信息输出到当前控制台。</span></span><br><span class="line"><span class="comment">--extra-args 根据不同的安装方式设置不同的额外选项</span></span><br></pre></td></tr></table></figure></p>
+<p>创建第二台虚拟机，添加下vnc端口就可以了<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">virt-install <span class="attribute">--virt-type</span>=kvm <span class="attribute">--name</span>=web-s1 <span class="attribute">--vcpus</span>=2 <span class="attribute">--memory</span>=4096 \</span><br><span class="line"><span class="attribute">--location</span>=/opt/web-s1-Minimal-1708.iso --disk <span class="attribute">path</span>=/kvm/vm/web-s1.qcow2, \</span><br><span class="line"><span class="attribute">size</span>=40,format=qcow2 --network <span class="attribute">bridge</span>=br0  --graphics vnc,<span class="attribute">listen</span>=0.0.0.0,\</span><br><span class="line"><span class="attribute">port</span>=5901 --noautoconsole</span><br></pre></td></tr></table></figure></p>
+<h1 id="8-vnc-viewer连接"><a href="#8-vnc-viewer连接" class="headerlink" title="8. vnc viewer连接"></a>8. vnc viewer连接</h1><p><a href="https://www.realvnc.com/en/connect/download/viewer/" target="_blank" rel="noopener">https://www.realvnc.com/en/connect/download/viewer/</a><br>使用vnc连接IP 192.168.77.11<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/vnc-viewer.png"><br>安装系统<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/kvm-centos7-install.png"><br>系统安装会自动关闭的，我们需要启动下<br>重新启动虚拟机，再次vnc连接192.168.77.11,进入KVM子虚拟机中配置网络<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">virsh <span class="built_in">list</span> <span class="comment">--all</span></span><br><span class="line">virsh start web-s1</span><br></pre></td></tr></table></figure></p>
+<p><strong> 虚拟机配置IP </strong><br>激活网卡即可dhcp获取到IP<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ifup</span> eth0  <span class="comment">#注需ONBOOT=yes</span></span><br></pre></td></tr></table></figure></p>
+<p>也可配置静态ip<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/sysconfig/network-scripts/ifcfg-eth0 </span><br><span class="line">TYPE=Ethernet</span><br><span class="line"><span class="comment">#PROXY_METHOD=none</span></span><br><span class="line"><span class="comment">#BROWSER_ONLY=no</span></span><br><span class="line">BOOTPROTO=static</span><br><span class="line">IPADDR=192.168.77.111</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.77.1</span><br><span class="line">DNS1=192.168.77.1</span><br><span class="line">DNS2=119.29.29.29</span><br><span class="line">DEFROUTE=yes</span><br><span class="line">IPV4_FAILURE_FATAL=no</span><br><span class="line">IPV6INIT=no</span><br><span class="line"><span class="comment">#IPV6_AUTOCONF=yes</span></span><br><span class="line"><span class="comment">#IPV6_DEFROUTE=yes</span></span><br><span class="line"><span class="comment">#IPV6_FAILURE_FATAL=no</span></span><br><span class="line"><span class="comment">#IPV6_ADDR_GEN_MODE=stable-privacy</span></span><br><span class="line">NAME=eth0</span><br><span class="line"><span class="comment">#UUID=f0c7f001-4c31-4c3e-b6de-19419f62d20e</span></span><br><span class="line">DEVICE=eth0</span><br><span class="line">ONBOOT=yes</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart network</span><br><span class="line">ping www.baidu.com</span><br></pre></td></tr></table></figure>
+<h1 id="9-KVM管理命令"><a href="#9-KVM管理命令" class="headerlink" title="9. KVM管理命令"></a>9. KVM管理命令</h1><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">virt-install  				<span class="comment">#建立kvm虚拟机</span></span><br><span class="line">virsh <span class="built_in">list</span>  				<span class="comment">#查看正在运行的KVM虚拟机</span></span><br><span class="line">virsh <span class="built_in">list</span> <span class="comment">--all			#查看所有KVM虚拟机</span></span><br><span class="line">virsh start <span class="built_in">name</span> 			<span class="comment">#启动虚拟机</span></span><br><span class="line">virsh shutdown <span class="built_in">name</span> 			<span class="comment">#虚拟机关机</span></span><br><span class="line">virsh autostart <span class="built_in">name</span> <span class="comment"># 			#随物理机启动而启动（开机启动）</span></span><br><span class="line">virsh autostart <span class="comment">--disable name 		#取消标记为自动开始（取消开机启动）</span></span><br><span class="line">virsh destroy <span class="built_in">name</span> 			<span class="comment">#强制关闭KVM(强制断电)</span></span><br><span class="line">virsh suspend <span class="built_in">name</span> 			<span class="comment">#挂起KVM虚拟机</span></span><br><span class="line">virsh resume <span class="built_in">name</span>  			<span class="comment">#恢复挂起的KVM虚拟机</span></span><br><span class="line">virsh dumpxml <span class="built_in">name</span>  			<span class="comment">#查看KVM虚拟机配置文件</span></span><br><span class="line">virsh edit <span class="built_in">name</span>  			<span class="comment">#编辑KVM虚拟机的xml配置文件</span></span><br><span class="line">virsh define <span class="built_in">file</span>-<span class="built_in">name</span>.xml 			<span class="comment">#根据配置文件定义虚拟机</span></span><br><span class="line">virsh undefine <span class="built_in">name</span>  			<span class="comment">#彻底删除KVM虚拟机,不可逆,如果想找回来,需要备份/etc/libvirt/qemu的xml文件</span></span><br><span class="line">virsh snapshot-create <span class="built_in">name</span>  		<span class="comment">#创建快照 注：raw磁盘格式无法进行快照，需要修改为qcow2</span></span><br><span class="line">virsh snapshot-delete <span class="built_in">name</span>  		<span class="comment">#删除快照</span></span><br><span class="line">virsh snapshot-dumpxml <span class="built_in">name</span>    		<span class="comment">#导出XML</span></span><br><span class="line">virsh snapshot-<span class="built_in">list</span> <span class="built_in">name</span>     		<span class="comment">#查看快照</span></span><br></pre></td></tr></table></figure>
+<h1 id="10-克隆虚拟机"><a href="#10-克隆虚拟机" class="headerlink" title="10. 克隆虚拟机"></a>10. 克隆虚拟机</h1><p><strong> 暂停原始虚拟机 </strong><br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">virsh</span> shutdown web-<span class="built_in">s1</span></span><br><span class="line"><span class="symbol">virt</span>-clone -o web-<span class="built_in">s1</span> -n web-<span class="built_in">s2</span> -f /kvm/vm/web-<span class="built_in">s2</span>.qcow2 -m <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>:<span class="number">01</span></span><br><span class="line"><span class="symbol">virt</span>-clone -o web-<span class="built_in">s1</span> -n web-<span class="built_in">s3</span> --file /kvm/vm/web-<span class="built_in">s3</span>.qcow2 --nonsparse</span><br></pre></td></tr></table></figure></p>
+<p><strong> virt-clone 参数介绍 </strong><br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">--version 查看版本。</span><br><span class="line">-h，--help 查看帮助信息。</span><br><span class="line">--connect=URI 连接到虚拟机管理程序 libvirt 的URI。</span><br><span class="line">-o 原始虚拟机名称 原始虚拟机名称，必须为关闭或者暂停状态。</span><br><span class="line">-n 新虚拟机名称 --name 新虚拟机名称。</span><br><span class="line">--auto-clone 从原来的虚拟机配置自动生成克隆名称和存储路径。</span><br><span class="line">-u NEW_UUID, --uuid=NEW_UUID 克隆虚拟机的新的UUID，默认值是一个随机生成的UUID。</span><br><span class="line">-m NEW_MAC, --mac=NEW_MAC 设置一个新的mac地址，默认为随机生成 MAC。</span><br><span class="line">-f NEW_DISKFILE, --file=NEW_DISKFILE 为新客户机使用新的磁盘镜像文件地址。</span><br><span class="line">--force-copy=TARGET 强制复制设备。</span><br><span class="line">--nonsparse 不使用稀疏文件复制磁盘映像。</span><br></pre></td></tr></table></figure></p>
+<h1 id="11-通过镜像创建虚拟机"><a href="#11-通过镜像创建虚拟机" class="headerlink" title="11. 通过镜像创建虚拟机"></a>11. 通过镜像创建虚拟机</h1><p><strong> 创建虚拟机镜像文件 </strong><br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 复制第一次安装的干净系统镜像，作为基础镜像文件，</span></span><br><span class="line"><span class="comment"># 后面创建虚拟机使用这个基础镜像</span></span><br><span class="line">cp /kvm/vm/web-s1.qcow2 /kvm/system/centos7-base.qcow2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用基础镜像文件，创建新的虚拟机镜像</span></span><br><span class="line">cp /kvm/system/centos7-base.qcow2 /kvm/vm/web-s4.qcow2</span><br></pre></td></tr></table></figure></p>
+<p><strong> 创建虚拟机配置文件 </strong><br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 复制第一次安装的干净系统镜像，作为基础配置文件。</span></span><br><span class="line">virsh dumpxml web-s1 &gt; <span class="regexp">/kvm/vm</span><span class="regexp">/centos7-base.xml</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"># 使用基础虚拟机镜像配置文件，创建新的虚拟机配置文件</span></span><br><span class="line"><span class="regexp">cp /kvm</span><span class="regexp">/vm/centos</span>7-base.xml /etc/libvirt/qemu/web-s4.xml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑新虚拟机配置文件</span></span><br><span class="line">vi /etc/libvirt/qemu/web-s4.xml</span><br></pre></td></tr></table></figure></p>
+<p>主要是修改虚拟机文件名，UUID，镜像地址和网卡地址，其中 UUID 在 Linux 下可以使用 uuidgen 命令生成<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;domain type=<span class="string">'kvm'</span>&gt;</span><br><span class="line">  &lt;name&gt;web-s4&lt;<span class="regexp">/name&gt;</span></span><br><span class="line"><span class="regexp">  &lt;uuid&gt;66544fd4-a1dd-4afc-9113-e5990d33a3b6&lt;/uuid</span>&gt;</span><br><span class="line">  &lt;devices&gt;</span><br><span class="line">    &lt;disk type=<span class="string">'file'</span> device=<span class="string">'disk'</span>&gt;</span><br><span class="line">      &lt;source file=<span class="string">'/kvm/vm/web-s4.qcow2'</span>/&gt;</span><br><span class="line">    &lt;<span class="regexp">/disk&gt;</span></span><br><span class="line"><span class="regexp">    &lt;interface type='bridge'&gt;</span></span><br><span class="line"><span class="regexp">      &lt;mac address='52:54:00:3b:30:0e'/</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/interface&gt;    </span></span><br><span class="line"><span class="regexp">    &lt;/devices</span>&gt;</span><br><span class="line">&lt;<span class="regexp">/domain&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">virsh define /etc/libvirt/qemu/web-s4</span><br><span class="line"><span class="comment"># Domain web-s4 defined from /etc/libvirt/qemu/web-s4</span></span><br></pre></td></tr></table></figure>
+<h1 id="12-KVM虚拟机调整"><a href="#12-KVM虚拟机调整" class="headerlink" title="12. KVM虚拟机调整"></a>12. KVM虚拟机调整</h1><p><strong> CPU设置 </strong><br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">虚拟机关机修改配置文件,修改完再启动</span><br><span class="line">[root<span class="meta">@KVM-S7</span> ~]<span class="comment"># virsh shutdown web-s1</span></span><br><span class="line">[root<span class="meta">@KVM-S7</span> ~]<span class="comment"># virsh edit web-s1</span></span><br><span class="line">将<span class="variable">&lt;vcpu placement='static'&gt;</span>2<span class="variable">&lt;/vcpu&gt;</span></span><br><span class="line">修改成</span><br><span class="line"><span class="variable">&lt;vcpu placement='auto' current="2"&gt;</span>4<span class="variable">&lt;/vcpu&gt;</span></span><br><span class="line"></span><br><span class="line">[root<span class="meta">@KVM-S7</span> ~]<span class="comment"># virsh start web-s1</span></span><br></pre></td></tr></table></figure></p>
+<p>将静态模式调整为动态，当前双核cpu,最多四核cpu<br>实时升级到四核<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@KVM</span>-S7 ~]<span class="meta"># virsh setvcpus web-s1 4 --live</span></span><br><span class="line">[root<span class="symbol">@KVM</span>-S7 ~]<span class="meta"># virsh dominfo web-s1</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cpu的热添加（cpu只支持热添加，不支持热减少）</span><br><span class="line">kvm版本较高，并不需要echo <span class="string">"1"</span>到<span class="regexp">/sys/</span>devices<span class="regexp">/system/</span>cpu<span class="regexp">/cpu1/</span>online 进行激活，自动可以激活。</span><br><span class="line"></span><br><span class="line">[root@KVM-S7 ~]# cat <span class="regexp">/sys/</span>devices<span class="regexp">/system/</span>cpu<span class="regexp">/cpu1/</span>online</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>kvm子虚拟机使用lscpu查看<br><figure class="highlight ldif"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># lscpu</span></span><br><span class="line"><span class="attribute">Architecture</span>:          x86_64</span><br><span class="line"><span class="attribute">CPU op-mode(s)</span>:        32-bit, 64-bit</span><br><span class="line"><span class="attribute">Byte Order</span>:            Little Endian</span><br><span class="line"><span class="attribute">CPU(s)</span>:                4</span><br><span class="line"><span class="attribute">On-line CPU(s) list</span>:   0,1,2,3</span><br></pre></td></tr></table></figure></p>
+<p><strong> 内存设置 </strong><br>如果超过给虚拟机分配的最大内存，需要重启虚拟机。<br>缩小内存<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@KVM-<span class="built_in">S7</span> ~]<span class="comment"># virsh qemu-monitor-command web-s1 --hmp --cmd balloon 1024</span></span><br><span class="line">[root@KVM-<span class="built_in">S7</span> ~]<span class="comment"># virsh qemu-monitor-command web-s1 --hmp --cmd info balloon</span></span><br><span class="line"><span class="keyword">balloon: </span>actual=<span class="number">1024</span></span><br></pre></td></tr></table></figure></p>
+<p><strong> 硬盘设置 </strong><br>根分区扩展10G<br>方式一<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@KVM-<span class="built_in">S7</span> vm]<span class="comment"># virsh shutdown web-s1</span></span><br><span class="line">[root@KVM-<span class="built_in">S7</span> vm]<span class="comment"># qemu-img resize web-s1.qcow2 +10G</span></span><br><span class="line">Image resized.</span><br><span class="line"></span><br><span class="line">[root@KVM-<span class="built_in">S7</span> ~]<span class="comment"># qemu-img info web-s1.qcow2</span></span><br><span class="line"><span class="symbol">image:</span> web-<span class="built_in">s1</span>.qcow2</span><br><span class="line">file format: qcow2</span><br><span class="line">virtual size: <span class="number">4</span>.<span class="number">0</span>G (<span class="number">4294967296</span> <span class="keyword">bytes)</span></span><br><span class="line"><span class="keyword">disk </span>size: <span class="number">1</span>.<span class="number">3</span>G</span><br><span class="line"><span class="symbol">cluster_size:</span> <span class="number">65536</span></span><br><span class="line">Format specific information:</span><br><span class="line"><span class="symbol">    compat:</span> <span class="number">1</span>.<span class="number">1</span></span><br><span class="line">    lazy refcounts: true</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@KVM-<span class="built_in">S7</span> ~]<span class="comment"># virsh start web-s1</span></span><br></pre></td></tr></table></figure></p>
+<p>kvm虚拟机操作<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# fdisk -l</span><br><span class="line"></span><br><span class="line">Disk /dev/vda: 42 GB, 42949672960 bytes, 83886080 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk label type: dos</span><br><span class="line">Disk identifier: 0e0095</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/vda1   *        2048     2099199     1048576   83  Linux</span><br><span class="line">/dev/vda2        20992000   62914550     20961280   8e  Linux LVM</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# fdisk /dev/vda</span><br><span class="line">Welcome <span class="keyword">to</span> fdisk (util-linux 2.23.2).</span><br><span class="line"></span><br><span class="line">Changes will remain <span class="keyword">in</span> memory only, until you decide <span class="keyword">to</span> write them.</span><br><span class="line">Be careful before using the write command.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> help): n</span><br><span class="line">Partition type:</span><br><span class="line">   p   primary (2 primary, 0 extended, 2 free)</span><br><span class="line">   e   extended</span><br><span class="line">Select (default p): p</span><br><span class="line">Partition number (3,4,<span class="built_in"> default </span>3): 3</span><br><span class="line">First sector (62914560-83886070,<span class="built_in"> default </span>62914560): </span><br><span class="line">Using<span class="built_in"> default </span>value 62914560</span><br><span class="line">Last sector, +sectors <span class="keyword">or</span> +size&#123;K,M,G&#125; (62914560-83886070,<span class="built_in"> default </span>83886070): </span><br><span class="line">Using<span class="built_in"> default </span>value 8388607</span><br><span class="line">Partition 3 of<span class="built_in"> type </span>Linux <span class="keyword">and</span> of size 10 GiB is set</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> help): p</span><br><span class="line"></span><br><span class="line">Disk /dev/vda: 4294 MB, 4294967296 bytes, 8388608 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk label type: dos</span><br><span class="line">Disk identifier: 0e0095</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/vda1   *        2048     2099199     1048576   83  Linux</span><br><span class="line">/dev/vda2        20992000    62914550    20961280   8e  Linux LVM</span><br><span class="line">/dev/vda3        62914560    83886070    10485760   83  Linux</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> help): w</span><br><span class="line">The partition table has been altered!</span><br><span class="line"></span><br><span class="line">Calling ioctl() <span class="keyword">to</span> re-read partition table.</span><br><span class="line"></span><br><span class="line">WARNING: Re-reading the partition table failed with <span class="builtin-name">error</span> 16: Device <span class="keyword">or</span><span class="built_in"> resource </span>busy.</span><br><span class="line">The kernel still uses the old table. The new table will be used at</span><br><span class="line">the next reboot</span><br></pre></td></tr></table></figure></p>
+<p>lvm扩容<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# pvcreate /dev/vda3</span><br><span class="line">  Physical volume <span class="string">"/dev/vda3"</span> successfully created.</span><br><span class="line">[root@localhost ~]# pvs</span><br><span class="line">  PV         VG     Fmt  Attr PSize  PFree</span><br><span class="line">  /dev/vda2  centos lvm2 a--  &lt;<span class="number">20.00</span>g    <span class="number">0</span> </span><br><span class="line">  /dev/vda3         lvm2 ---   <span class="number">10.00</span>g <span class="number">10.00</span>g</span><br><span class="line">[root@localhost ~]# vgdisplay </span><br><span class="line">  --- Volume group ---</span><br><span class="line">  VG Name               centos</span><br><span class="line">  System ID             </span><br><span class="line">  Format                lvm2</span><br><span class="line">  Metadata Areas        <span class="number">1</span></span><br><span class="line">  Metadata Sequence No  <span class="number">3</span></span><br><span class="line">  VG Access             read/write</span><br><span class="line">  VG Status             resizable</span><br><span class="line">  MAX LV                <span class="number">0</span></span><br><span class="line">  Cur LV                <span class="number">2</span></span><br><span class="line">  Open LV               <span class="number">2</span></span><br><span class="line">  Max PV                <span class="number">0</span></span><br><span class="line">  Cur PV                <span class="number">1</span></span><br><span class="line">  Act PV                <span class="number">1</span></span><br><span class="line">  VG Size               &lt;<span class="number">20.00</span> GiB</span><br><span class="line">  PE Size               <span class="number">4.00</span> MiB</span><br><span class="line">  Total PE              <span class="number">511</span></span><br><span class="line">  Alloc PE / Size       <span class="number">511</span> / &lt;<span class="number">20.00</span> GiB</span><br><span class="line">  Free  PE / Size       <span class="number">0</span> / <span class="number">0</span>   </span><br><span class="line">  VG UUID               KFu3ne-pFHn-k7tZ-RCvO-mZBz-cOTp-QmkbGO</span><br><span class="line">   </span><br><span class="line">[root@localhost ~]# vgextend centos /dev/vda3</span><br><span class="line">  Volume group <span class="string">"centos"</span> successfully extended</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# pvs</span><br><span class="line">  PV         VG     Fmt  Attr PSize    PFree   </span><br><span class="line">  /dev/vda2  centos lvm2 a--    &lt;<span class="number">20.00</span>g       <span class="number">0</span> </span><br><span class="line">  /dev/vda3  centos lvm2 a--     <span class="number">10.00</span>g  <span class="number">10.00</span>g</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# vgs</span><br><span class="line">  VG     #PV #LV #SN Attr   VSize VFree   </span><br><span class="line">  centos   <span class="number">2</span>   <span class="number">2</span>   <span class="number">0</span> wz--n- <span class="number">20.99</span>g <span class="number">10.00</span>g</span><br><span class="line">[root@localhost ~]# lvextend -l +<span class="number">100</span>%FREE /dev/centos/root </span><br><span class="line"></span><br><span class="line">  Size of logical volume centos/root <span class="section">changed</span> from &lt;<span class="number">10.70</span> GiB (<span class="number">434</span> extents) to <span class="number">20.69</span> GiB (<span class="number">689</span> extents).</span><br><span class="line">  Logical volume centos/root successfully resized.</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# xfs_growfs /dev/centos/root </span><br><span class="line"></span><br><span class="line">[root@localhost ~]# df -h</span><br><span class="line">Filesystem               Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/mapper/centos-root  <span class="number">20.7</span>G  <span class="number">977</span>M  <span class="number">10.8</span>G  <span class="number">36</span>% /</span><br><span class="line">devtmpfs                 <span class="number">486</span>M     <span class="number">0</span>  <span class="number">486</span>M   <span class="number">0</span>% /dev</span><br><span class="line">tmpfs                    <span class="number">497</span>M     <span class="number">0</span>  <span class="number">497</span>M   <span class="number">0</span>% /dev/shm</span><br><span class="line">tmpfs                    <span class="number">497</span>M  <span class="number">6.6</span>M  <span class="number">490</span>M   <span class="number">2</span>% /run</span><br><span class="line">tmpfs                    <span class="number">497</span>M     <span class="number">0</span>  <span class="number">497</span>M   <span class="number">0</span>% /sys/fs/cgroup</span><br><span class="line">/dev/vda1               <span class="number">1014</span>M  <span class="number">125</span>M  <span class="number">890</span>M  <span class="number">13</span>% /boot</span><br><span class="line">tmpfs                     <span class="number">23</span>M     <span class="number">0</span>   <span class="number">23</span>M   <span class="number">0</span>% /run/user/<span class="number">0</span></span><br><span class="line"># ext 系统格式使用：</span><br><span class="line">resize2fs /dev/centos/root</span><br><span class="line"># xfs 系统格式使用下面命令</span><br><span class="line">xfs_growfs /dev/centos/root</span><br></pre></td></tr></table></figure></p>
+<p>添加一块硬盘<br>方式二<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@KVM-S7 vm]<span class="comment"># qemu-img create -f qcow2 /kvm/vm/web-s1_1.qcow2 5G</span></span><br><span class="line">Formatting <span class="string">'/kvm/vm/web-s1_1.qcow2'</span>, fmt=qcow2 size=<span class="number">5368709120</span> encryption=<span class="literal">off</span> cluster_size=<span class="number">65536</span> lazy_refcounts=<span class="literal">off</span> </span><br><span class="line">[root@KVM-S7 ~]<span class="comment"># virsh shutdown web-s1</span></span><br><span class="line">[root@KVM-S7 ~]<span class="comment"># virsh edit web-s1</span></span><br></pre></td></tr></table></figure></p>
+<p>修改配置文件<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">devices</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">emulator</span>&gt;</span>/usr/libexec/qemu-kvm<span class="tag">&lt;/<span class="name">emulator</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">disk</span> <span class="attr">type</span>=<span class="string">'file'</span> <span class="attr">device</span>=<span class="string">'disk'</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">driver</span> <span class="attr">name</span>=<span class="string">'qemu'</span> <span class="attr">type</span>=<span class="string">'qcow2'</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">source</span> <span class="attr">file</span>=<span class="string">'/kvm/vm/web-s1.qcow2'</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">target</span> <span class="attr">dev</span>=<span class="string">'vda'</span> <span class="attr">bus</span>=<span class="string">'virtio'</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">address</span> <span class="attr">type</span>=<span class="string">'pci'</span> <span class="attr">domain</span>=<span class="string">'00'</span> <span class="attr">bus</span>=<span class="string">''</span> <span class="attr">slot</span>=<span class="string">''</span> <span class="attr">function</span>=<span class="string">'0x0'</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">disk</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">disk</span> <span class="attr">type</span>=<span class="string">'file'</span> <span class="attr">device</span>=<span class="string">'disk'</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">driver</span> <span class="attr">name</span>=<span class="string">'qemu'</span> <span class="attr">type</span>=<span class="string">'qcow2'</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">source</span> <span class="attr">file</span>=<span class="string">'/kvm/vm/web-s1_1.qcow2'</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">target</span> <span class="attr">dev</span>=<span class="string">'vdb'</span> <span class="attr">bus</span>=<span class="string">'virtio'</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">address</span> <span class="attr">type</span>=<span class="string">'pci'</span> <span class="attr">domain</span>=<span class="string">'00'</span> <span class="attr">bus</span>=<span class="string">''</span> <span class="attr">slot</span>=<span class="string">''</span> <span class="attr">function</span>=<span class="string">'0x0'</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">disk</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">root@KVM-S7 ~</span>]<span class="meta"># virsh <span class="meta-keyword">define</span> /etc/libvirt/qemu/web-s1.xml </span></span><br><span class="line">[<span class="meta">root@KVM-S7 ~</span>]<span class="meta"># virsh start web-s1</span></span><br></pre></td></tr></table></figure>
+<p>kvm虚拟机操作<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">分区： fdisk <span class="string">/dev/vdb</span> </span><br><span class="line">格式化：mkfs.ext4 <span class="string">/dev/vdb</span></span><br><span class="line">挂载：vim <span class="string">/etc/fstab</span>，添加一行：<span class="string">/dev/vdb</span>  <span class="string">/mnt</span>  ext4   defaults    0 0</span><br><span class="line">mount -a 然后mnt就可以使用了</span><br><span class="line">也可以做lvm</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.abcdocker.com/abcdocker/1627" target="_blank" rel="noopener">https://www.abcdocker.com/abcdocker/1627</a><br><a href="https://github.com/jaywcjlove/handbook/blob/master/CentOS/CentOS7%E5%AE%89%E8%A3%85KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%AF%A6%E8%A7%A3.md#%E9%85%8D%E7%BD%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%BD%91%E7%BB%9C" target="_blank" rel="noopener">https://github.com/jaywcjlove/handbook/blob/master/CentOS/CentOS7%E5%AE%89%E8%A3%85KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%AF%A6%E8%A7%A3.md#%E9%85%8D%E7%BD%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%BD%91%E7%BB%9C</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/mysqld-multi/" data-toggle="tooltip" data-placement="top" title="MySQL 多实例配置">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/gitlab-webhook/" data-toggle="tooltip" data-placement="top" title="gitlab webhook 自动部署代码">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#kvm" title="kvm">kvm</a>
+                        
+                          <a class="tag" href="/tags/#虚拟化" title="虚拟化">虚拟化</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

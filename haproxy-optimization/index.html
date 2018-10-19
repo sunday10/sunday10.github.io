@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          使用 HAProxy 负载均衡300k并发tcp连接 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/haproxy-optimization/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#haproxy" title="haproxy">haproxy</a>
+                        
+                    </div>
+                    <h1>使用 HAProxy 负载均衡300k并发tcp连接</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-08-02
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>我最近正在尝试建立一个推送系统。为了提高系统的可扩展性，最佳做法是使每个连接尽可能无状态。因此，当出现瓶颈时，通过添加更多机器可以轻松扩展整个系统的容量。说到负载平衡和反向代理，Nginx可能是最着名和最公认的。但是，TCP代理是一个相当新的事情。 Nginx从v1.9引入了TCP负载均衡和反向代理，v1.9于今年5月下旬发布，具有大量缺失功能。另一方面，HAProxy作为TCP加载balacing的先驱，相当成熟和稳定。我选择使用HAProxy来构建系统，最终我达到了300k并发tcp套接字连接的结果。如果不是因为我过时的客户端PC，我本可以获得更高的数字。</p>
+<h1 id="调整Linux系统"><a href="#调整Linux系统" class="headerlink" title="调整Linux系统"></a>调整Linux系统</h1><p>即使是高端服务器PC，300k并发连接也不是一件容易的事。首先，我们需要调整linux内核配置以充分利用我们的服务器。</p>
+<h2 id="文件描述符"><a href="#文件描述符" class="headerlink" title="文件描述符"></a>文件描述符</h2><p>由于套接字被认为等同于系统透视图中的文件，因此对于我们的300k目标，默认文件描述符限制相当小。修改/etc/sysctl.conf以添加以下行：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fs<span class="selector-class">.file-max</span> = <span class="number">10000000</span> </span><br><span class="line">fs<span class="selector-class">.nr_open</span> = <span class="number">10000000</span></span><br></pre></td></tr></table></figure></p>
+<p>这些行将文件描述符的总数增加到100万。 接下来，修改/etc/security/limits.conf以添加以下行：<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* soft nofile <span class="number">10000000</span></span><br><span class="line">* hard nofile <span class="number">10000000</span></span><br><span class="line">root soft nofile <span class="number">10000000</span></span><br><span class="line">root hard nofile <span class="number">10000000</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="TCP-Buffer"><a href="#TCP-Buffer" class="headerlink" title="TCP Buffer"></a>TCP Buffer</h2><p>持有如此大量的连接会耗费大量内存。要减少内存使用，请修改/etc/sysctl.conf以添加以下行.<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.tcp_mem = <span class="number">786432</span> <span class="number">1697152</span> <span class="number">1945728</span></span><br><span class="line">net.ipv4.tcp_rmem = <span class="number">4096</span> <span class="number">4096</span> <span class="number">16777216</span></span><br><span class="line">net.ipv4.tcp_wmem = <span class="number">4096</span> <span class="number">4096</span> <span class="number">16777216</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="调整HAProxy"><a href="#调整HAProxy" class="headerlink" title="调整HAProxy"></a>调整HAProxy</h1><p>完成调整Linux内核后，我们需要调整HAProxy以更好地满足我们的要求。<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maxconn <span class="number">2000000</span></span><br></pre></td></tr></table></figure></p>
+<p>然后我们在后端范围添加相同的行，这使得我们的后端看起来像这样：<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">backend </span><span class="keyword">pushserver</span></span><br><span class="line"><span class="keyword"> </span>       mode tcp</span><br><span class="line">        <span class="keyword">balance </span>roundrobin</span><br><span class="line">        maxconn <span class="number">2000000</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="调整超时"><a href="#调整超时" class="headerlink" title="调整超时"></a>调整超时</h1><p>默认情况下，HAProxy将检测死连接并关闭不活动连接。但是，默认的keepalive阈值太低，并且适用于必须以长拉方式保持连接的情况。在我的客户端，我的长插槽连接到推送服务器始终由HAProxy关闭，因为我的客户端实现中的心跳是4分钟。太频繁的心跳对于客户端（实际上是Android设备）和服务器来说都是沉重的负担。要增加此限制，请将以下行添加到后端。默认情况下，这些数字都以毫秒为单位。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">timeout connect 5000</span><br><span class="line">timeout<span class="built_in"> client </span>50000</span><br><span class="line">timeout<span class="built_in"> server </span>50000</span><br></pre></td></tr></table></figure></p>
+<h1 id="配置多IP以解决端口耗尽问题"><a href="#配置多IP以解决端口耗尽问题" class="headerlink" title="配置多IP以解决端口耗尽问题"></a>配置多IP以解决端口耗尽问题</h1><p>您面临同时30k连接时，您将遇到“端口耗尽”的问题。这是因为每个反向代理连接将占用本地IP的可用端口。可用于传出连接的默认IP范围约为30k~60k。换句话说，我们只有一个IP可用的30k端口。这还不够。我们可以通过修改/etc/sysctl.conf来增加此范围，以添加以下行。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_local_port_range</span> = <span class="number">1000</span> <span class="number">65535</span></span><br></pre></td></tr></table></figure></p>
+<p>但这并没有解决根本问题，当达到60k上限时，我们仍然会耗尽端口。<br>此端口耗尽问题的最终解决方案是增加可用IP的数量。首先，我们将新IP绑定到新的虚拟网络接口。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ifconfig</span> <span class="selector-tag">eth0</span><span class="selector-pseudo">:1</span> 192<span class="selector-class">.168</span><span class="selector-class">.8</span><span class="selector-class">.1</span></span><br><span class="line"><span class="selector-tag">ifconfig</span> <span class="selector-tag">eth0</span><span class="selector-pseudo">:1</span> 192<span class="selector-class">.168</span><span class="selector-class">.8</span><span class="selector-class">.2</span></span><br><span class="line"><span class="selector-tag">ifconfig</span> <span class="selector-tag">eth0</span><span class="selector-pseudo">:1</span> 192<span class="selector-class">.168</span><span class="selector-class">.8</span><span class="selector-class">.3</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>此命令将Intranet地址绑定到其硬件接口为eth0的虚拟网络接口eth0：1。可以多次执行此命令以添加任意数量的虚拟网络接口。请记住，IP应该位于真实应用程序服务器的同一子网中。换句话说，您在HAProxy和应用程序服务器之间的链接中不能有任何类型的NAT服务。否则，这将无效。</p>
+<p>接下来，我们需要配置HAProxy以使用这些新IP。有一个源命令可以在后端作用域中使用，也可以作为服务器命令的参数使用。在我们的实验中，后端范围似乎不起作用，因此我们选择了参数1。这就是HAProxy配置文件的样子。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">backend mqtt</span><br><span class="line">        mode tcp</span><br><span class="line">        balance roundrobin</span><br><span class="line">        maxconn 2000000</span><br><span class="line">       <span class="built_in"> server </span>app1 127.0.0.1:1883 source 192.168.8.1</span><br><span class="line">       <span class="built_in"> server </span>app2 127.0.0.1:1883 source 192.168.8.2</span><br><span class="line">       <span class="built_in"> server </span>app3 127.0.0.1:1883 source 192.168.8.3</span><br><span class="line">       <span class="built_in"> server </span>app4 127.0.0.1:1884 source 192.168.8.4</span><br><span class="line">       <span class="built_in"> server </span>app5 127.0.0.1:1884 source 192.168.8.5</span><br><span class="line">       <span class="built_in"> server </span>app6 127.0.0.1:1884 source 192.168.8.6</span><br><span class="line">       <span class="built_in"> server </span>app6 127.0.0.1:1884 source 192.168.8.7:1025-65000</span><br></pre></td></tr></table></figure></p>
+<p>这是诀窍，您需要在多个条目中声明它们并为它们提供不同的应用程序名称。如果为所有四个条目设置相同的应用程序名称，则HAProxy将无效。如果您可以查看HAProxy状态报告的输出，您会看到即使这些条目具有相同的后端地址，HAProxy仍将它们视为不同的应用程序</p>
+<p>这就是配置！现在你的HAProxy应该能够处理超过300k的并发TCP连接，就像我的一样。</p>
+<h1 id="复用处于TIME-WAIT的端口"><a href="#复用处于TIME-WAIT的端口" class="headerlink" title="复用处于TIME_WAIT的端口"></a>复用处于TIME_WAIT的端口</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net<span class="selector-class">.ipv4</span><span class="selector-class">.tcp_tw_reuse</span> = <span class="number">1</span></span><br><span class="line">net<span class="selector-class">.ipv4</span><span class="selector-class">.tcp_tw_recycle</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>第一个参数很安全，可以不用过多关注。需要注意的是第二个参数，某些情况下会导致数据包被丢弃。</p>
+<p>例如：client通过NAT连接haproxy，并且haproxy端打开了tcp_tw_recycle,同时saw_tstamp也没有关闭，当第一个连接建立并关闭后，此端口(句柄)处于TIME_WAIT状态，在2*MSL时间内又一个client(相同IP，如果打开了xfrm还要相同PORT)发一个syn包，此时linux内核就会认为这个数据包异常，从而丢掉这个包,并发送rst包.</p>
+<p>不过通常情况下，client都是通过内网直接连接haproxy，所以可以认为tcp_tw_recycle是安全的，只是需要记住此坑。</p>
+<h1 id="缩短TIME-WAIT时间"><a href="#缩短TIME-WAIT时间" class="headerlink" title="缩短TIME_WAIT时间"></a>缩短TIME_WAIT时间</h1><p>Linux系统默认MSL为60秒，也就是正常情况下，120秒后处于TIME_WAIT的端口（句柄）才会释放，可以将MSL的时间缩小，缩短端口的释放周期。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> cat /proc/sys/net/ipv4/tcp_fin_timeout</span></span><br><span class="line">60</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">echo</span> 15 &gt; /proc/sys/net/ipv4/tcp_fin_timeout</span></span><br></pre></td></tr></table></figure></p>
+<p>这是一个折中的数值，太小也会导致其它问题</p>
+<p>本文转载自：<a href="https://www.linangran.com/?p=547" target="_blank" rel="noopener">Use HAProxy to load balance 300k concurrent tcp socket connections: Port Exhaustion, Keep-alive and others</a><br>谷歌翻译</p>
+<p><a href="https://blog.onefellow.com/post/82478335338/haproxy-mapping-process-to-cpu-core-for-maximum" target="_blank" rel="noopener">映射进程到CPU核心以获得最佳性能</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/firewalld/" data-toggle="tooltip" data-placement="top" title="CentOS 7  Firewalld防火墙管理工具">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/opcache/" data-toggle="tooltip" data-placement="top" title="PHP 7 启用opcache及缓存清除">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#haproxy" title="haproxy">haproxy</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
