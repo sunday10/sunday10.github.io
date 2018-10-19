@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Apache Tomcat 8.5 安全配置与高并发优化 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/tomcat-optimization">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#tomcat" title="tomcat">tomcat</a>
+                        
+                    </div>
+                    <h1>Apache Tomcat 8.5 安全配置与高并发优化</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-07-11
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Java的内存模型"><a href="#Java的内存模型" class="headerlink" title="Java的内存模型"></a>Java的内存模型</h1><ul>
+<li><p>Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和两个大小严格相同的 Survivor 区，其中 Survivor 区间中，某一时刻只有其中一个是被使用的，另外一个留做垃圾收集时复制对象用，在 Young 区间变满的时候，minor GC 就会将存活的对象移到空闲的Survivor 区间中，根据 JVM 的策略，在经过几次垃圾收集后，任然存活于 Survivor 的对象将被移动到 Tenured 区间。</p>
+</li>
+<li><p>Tenured，老年代。Tenured 区主要保存生命周期长的对象，一般是一些老的对象，当一些对象在 Young 复制转移一定的次数以后，对象就会被转移到 Tenured 区，一般如果系统中用了 application 级别的缓存，缓存中的对象往往会被转移到这一区间。</p>
+</li>
+<li><p>Perm，永久代。主要保存 class,method,filed 对象，这部门的空间一般不会溢出，除非一次性加载了很多的类，不过在涉及到热部署的应用服务器的时候，有时候会遇到 java.lang.OutOfMemoryError : PermGen space 的错误，造成这个错误的很大原因就有可能是每次都重新部署，但是重新部署后，类的 class 没有被卸载掉，这样就造成了大量的 class 对象保存在了 perm 中，这种情况下，一般重新启动应用服务器可以解决问题。</p>
+</li>
+</ul>
+<h1 id="JVM内存调整"><a href="#JVM内存调整" class="headerlink" title="JVM内存调整"></a>JVM内存调整</h1><blockquote>
+<p>vim /usr/local/tomcat/bin/catalina.sh<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">JAVA_OPTS="-Djava.awt.headless=true</span> -Dfile.<span class="attr">encoding=UTF-8</span> -server -Xms4096m -Xmx4096m -XX:<span class="attr">NewSize=512m</span> -XX:<span class="attr">MaxNewSize=512m</span> <span class="string">"</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>JVM 常用参数详解<br><code>-Dfile.encoding</code>：默认文件编码<br><code>server</code>：一定要作为第一个参数，在多个CPU时性能佳<br><code>-Xms</code>： JVM最小内存，此值可以设置与-Xmx相同，避免每次垃圾回收完成后JVM重新分配内存。<br><code>-Xmx</code>：JVM最大可用内存（堆内存）,一般不大于物理内存的80%<br><code>-Xmn</code>：设置JVM新生代大小（JDK1.4之后版本）。一般-Xmn的大小是-Xms的1/2左右，不要设置的过大或过小，过大导致老年代变小，频繁Full GC，过小导致minor GC频繁。如果不设置-Xmn，可以采用-XX:NewRatio=2来设置，也是一样的效果<br><code>-XX:NewSize</code> ：年轻代初始大小<br><code>-XX:MaxNewSize</code> ：年轻代占整个堆内存的最大值<br><del>-XX:PermSize</del>：永久代（非堆）初始大小,tomcat 8此参数已经移除<br><del>-XX:MaxPermSize</del>：永久代占整个堆内存的最大值,tomcat8 此参数已经移除<br><code>-XX:NewRatio</code>：设置年轻代（包括 Eden 和两个 Survivor 区）与终身代的比值（除去永久代）。设置为 4，则年轻代与老年代所占比值为 1：4，年轻代占整个堆栈的 1/5<br><code>-XX:MaxTenuringThreshold</code>：设置垃圾最大年龄，默认为：15。如果设置为 0 的话，则年轻代对象不经过 Survivor 区，直接进入年老代。对于年老代比较多的应用，可以提高效率。如果将此值设置为一个较大值，则年轻代对象会在 Survivor 区进行多次复制，这样可以增加对象再年轻代的存活时间，增加在年轻代即被回收的概论。<br><code>-XX:+DisableExplicitGC</code>：这个将会忽略手动调用 GC 的代码使得 System.gc() 的调用就会变成一个空调用，完全不会触发任何 GC</p>
+</blockquote>
+<p>如果服务器只运行一个 Tomcat<br>机子内存如果是 8G，一般 PermSize 配置是主要保证系统能稳定起来就行：<br><code>JAVA_OPTS=&quot;-Dfile.encoding=UTF-8 -server -Xms6144m -Xmx6144m -XX:NewSize=1024m -XX:MaxNewSize=2048m -XX:PermSize=512m -XX:MaxPermSize=512m -XX:MaxTenuringThreshold=10 -XX:NewRatio=2 -XX:+DisableExplicitGC&quot;</code></p>
+<p>机子内存如果是 16G，一般 PermSize 配置是主要保证系统能稳定起来就行：<br><code>JAVA_OPTS=&quot;-Dfile.encoding=UTF-8 -server -Xms13312m -Xmx13312m -XX:NewSize=3072m -XX:MaxNewSize=4096m -XX:PermSize=512m -XX:MaxPermSize=512m -XX:MaxTenuringThreshold=10 -XX:NewRatio=2 -XX:+DisableExplicitGC&quot;</code></p>
+<p>机子内存如果是 32G，一般 PermSize 配置是主要保证系统能稳定起来就行：<br><code>JAVA_OPTS=&quot;-Dfile.encoding=UTF-8 -server -Xms29696m -Xmx29696m -XX:NewSize=6144m -XX:MaxNewSize=9216m -XX:PermSize=1024m -XX:MaxPermSize=1024m -XX:MaxTenuringThreshold=10 -XX:NewRatio=2 -XX:+DisableExplicitGC&quot;</code></p>
+<p>如果是开发机<br><code>-Xms550m -Xmx1250m -XX:PermSize=550m -XX:MaxPermSize=1250m</code></p>
+<p><strong> 涉及堆(Heap)和非堆(Non-Heap) 内存知识 </strong><br>堆内存是存储对象，例如类实例、数组等，在JVM中堆之外的内存称为非堆内存。可以理解为非堆内存留给JVM 自己用。<br>堆中存的是对象，栈中存的是基本数据类型和堆中对象的引用。在栈中，一个对象对应一个4byte的引用。<br>栈是运行时的单位，而堆是存储的单位。</p>
+<h1 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h1><h2 id="垃圾回收（GC，Garbage-Collection-）算法："><a href="#垃圾回收（GC，Garbage-Collection-）算法：" class="headerlink" title="垃圾回收（GC，Garbage Collection ）算法："></a>垃圾回收（GC，Garbage Collection ）算法：</h2><p><strong> 1. 标记-清除算法(Mark-Sweep) </strong><br>分为两个阶段，标记和清除。收集器从根节点开始标记所有被引用对象，并标记可用对象，然后对未标记对象执行清除。回收后的空间是不连续的。缺点是暂停整个应用，同时，会产生碎片。</p>
+<p><strong> 2. 复制算法(copying) </strong><br>将内存分为两块，每次只使用其中一块，垃圾回收时，将标记的对象拷贝到另外一块中，然后完全清除原来使用的那块内存。复制后的空间是连续的。缺点是需要两块内存空间。</p>
+<p><strong>  3. 标记-整理算法(Mark-compact) </strong><br>结合标记-清除和复制两个算法优点。也分为两个阶段，第一个阶段从根节点开始标记所有被引用对象，第二个阶段遍历整个堆，清除未标记对象，并且把存活对象压缩到堆的其中一块，按顺序排放。此方法避免标记- 清除的碎片问题，同时也避免了复制算法的空间问题。</p>
+<h2 id="垃圾收集器技术"><a href="#垃圾收集器技术" class="headerlink" title="垃圾收集器技术"></a>垃圾收集器技术</h2><p><strong> 1. 串行收集 </strong><br>使用单线程处理所有垃圾回收工作，实现容易，效率高，但无法使用多处理器优势，所以这种适合单处理器服务器、数据量（100M左右）比较小和响应时间无要求的场景。</p>
+<p><strong> 2. 并行收集 </strong><br>使用多线程处理垃圾回收工作，速度快，效率高。理论上处理器越多，性能越好。适合数据量大，响应时间无要求场景。</p>
+<p><strong> 3. 并发收集（CMS）</strong><br>前面两个在垃圾回收工作时，需要暂停整个应用，暂停时间跟堆大小决定。先使用多线程来扫描堆内存，标记需要回收的对象，再清除被标记的，某些情况下也会暂停应用。适合数据量大，多处理器，响应时间有高要求的场景。</p>
+<p><strong> 4. G1 GC </strong><br>将多个内存分割成多个独立区域，然后并对他们进行垃圾回收。释放内存后，G1还可以压缩空闲的堆内存。</p>
+<p>选择哪种垃圾收集器，需要根据应用场景、硬件资源以及吞吐量来决定。一般采用CMS。</p>
+<h2 id="指定垃圾回收技术"><a href="#指定垃圾回收技术" class="headerlink" title="指定垃圾回收技术"></a>指定垃圾回收技术</h2><p>在catalina.sh中的JAVA_OPS指定<br>-XX:+UseSerialGC    串行垃圾回收器<br>-XX:+UseParallelGC 并行垃圾回收器<br>-XX:+UseConcMarkSweepGC  并发标记扫描垃圾回收器<br>-XX:ParallelCMSThreads=        并发标记扫描垃圾回收器 =为使用的线程数量</p>
+<p>打印垃圾回收信息：<br>-XX:+PrintGC<br>-XX:+PrintGCDetails<br>-XX:+PrintGCTimeStamps<br>-Xloggc:filename</p>
+<h1 id="maxThreads连接数"><a href="#maxThreads连接数" class="headerlink" title="maxThreads连接数"></a>maxThreads连接数</h1><blockquote>
+<p>默认值:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment"> &lt;Executor name="tomcatThreadPool" namePrefix="catalina-exec-"</span></span><br><span class="line"><span class="comment"> maxThreads="150" minSpareThreads="4"/&gt;</span></span><br><span class="line"><span class="comment"> --&gt;</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>修改为:<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;Executor</span><br><span class="line"> <span class="attribute">name</span>=<span class="string">"tomcatThreadPool"</span></span><br><span class="line"> <span class="attribute">namePrefix</span>=<span class="string">"catalina-exec-"</span></span><br><span class="line"> <span class="attribute">maxThreads</span>=<span class="string">"500"</span></span><br><span class="line"> <span class="attribute">minSpareThreads</span>=<span class="string">"100"</span></span><br><span class="line"> <span class="attribute">maxIdleTime</span>=<span class="string">"60000"</span></span><br><span class="line"> prestartminSpareThreads = <span class="string">"true"</span></span><br><span class="line"> maxQueueSize = <span class="string">"100"</span></span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p><strong> 参数解释：</strong><br><code>maxThreads</code>：最大并发数，默认设置 200，一般建议在 500 ~ 800，根据硬件设施和业务来判断<br><code>minSpareThreads</code>：Tomcat 初始化时创建的线程数，默认设置 25<br><code>maxIdleTime</code>：如果当前线程大于初始化线程，那空闲线程存活的时间，单位毫秒，默认60000=60秒=1分钟。<br><code>prestartminSpareThreads</code>：在 Tomcat 初始化的时候就初始化 minSpareThreads 的参数值，如果不等于 true，minSpareThreads 的值就没啥效果了<br><code>maxQueueSize</code>：最大的等待队列数，超过则拒绝请求<br><a href="http://tomcat.apache.org/tomcat-8.5-doc/config/executor.html" target="_blank" rel="noopener">http://tomcat.apache.org/tomcat-8.5-doc/config/executor.html</a> </p>
+</blockquote>
+<h1 id="Connector-参数优化"><a href="#Connector-参数优化" class="headerlink" title="Connector 参数优化"></a>Connector 参数优化</h1><blockquote>
+<p>vim /usr/local/tomcat/conf/server.xml<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=<span class="string">"8080"</span> protocol=<span class="string">"HTTP/1.1"</span></span><br><span class="line">           connectionTimeout=<span class="string">"20000"</span></span><br><span class="line">           redirectPort=<span class="string">"8443"</span> </span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>修改为：<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=<span class="string">"8080"</span> protocol=<span class="string">"org.apache.coyote.http11.Http11Nio2Protocol"</span></span><br><span class="line">           connectionTimeout=<span class="string">"20000"</span></span><br><span class="line">           maxConnections=<span class="string">"10000"</span></span><br><span class="line">           redirectPort=<span class="string">"8443"</span> </span><br><span class="line">           enableLookups=<span class="string">"false"</span></span><br><span class="line">           acceptCount=<span class="string">"100"</span></span><br><span class="line">           maxPostSize=<span class="string">"10485760"</span></span><br><span class="line">           maxHttpHeaderSize=<span class="string">"8192"</span></span><br><span class="line">           disableUploadTimeout=<span class="string">"true"</span></span><br><span class="line">           acceptorThreadCount=<span class="string">"2"</span></span><br><span class="line">           compression=<span class="string">"on"</span></span><br><span class="line">           compressionMinSize=<span class="string">"2048"</span></span><br><span class="line">           compressableMimeType=<span class="string">"text/html,text/xml,text/plain,text/css,text/javascript,application/javascript"</span></span><br><span class="line">           URIEncoding=<span class="string">"utf-8"</span></span><br><span class="line">           processorCache=<span class="string">"20000"</span></span><br><span class="line">           tcpNoDelay=<span class="string">"true"</span></span><br><span class="line">           connectionLinger=<span class="string">"5"</span></span><br><span class="line">           server=<span class="string">"Sun Server 7"</span></span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p><strong> 参数解释：</strong><br><code>connectionTimeout</code>：Connector接受一个连接后等待的时间(milliseconds)，默认值是60000。<br><code>maxConnections</code>：这个值表示最多可以有多少个socket连接到tomcat上<br><code>enableLookups</code>：禁用DNS查询<br><code>acceptCount</code>：当tomcat起动的线程数达到最大时，接受排队的请求个数，默认值为100。<br><code>maxPostSize</code>：设置由容器解析的URL参数的最大长度，-1(小于0)为禁用这个属性，默认为2097152(2M) 请注意， FailedRequestFilter 过滤器可以用来拒绝达到了极限值的请求。<br><code>maxHttpHeaderSize</code>：http请求头信息的最大程度，超过此长度的部分不予处理。一般8K。<br><code>disableUploadTimeout</code>：这个标志允许servlet容器使用一个不同的,通常长在数据上传连接超时。 如果不指定,这个属性被设置为true,表示禁用该时间超时。<br><code>acceptorThreadCount</code>：用于接受连接的线程数量。增加这个值在多CPU的机器上,尽管你永远不会真正需要超过2。 也有很多非维持连接,您可能希望增加这个值。默认值是1。<br><code>compression</code>：是否启用GZIP压缩 on为启用（文本数据压缩） off为不启用， force 压缩所有数据<br><code>compressionMinSize</code>：最小压缩大小，单位Byte<br><code>compressableMimeType</code>：压缩的数据类型<br><code>URIEncoding</code>：网站一般采用UTF-8作为默认编码。<br><code>processorCache</code>：协议处理器缓存的处理器对象来提高性能。 该设置决定多少这些对象的缓存。-1意味着无限的,默认是200。 如果不使用Servlet 3.0异步处理,默认是使用一样的maxThreads设置。 如果使用Servlet 3.0异步处理,默认是使用大maxThreads和预期的并发请求的最大数量(同步和异步)。<br><code>tcpNoDelay</code>：如果设置为true,TCP_NO_DELAY选项将被设置在服务器套接字,而在大多数情况下提高性能。这是默认设置为true。<br><code>connectionLinger</code>：秒数在这个连接器将持续使用的套接字时关闭。默认值是 -1,禁用socket 延迟时间。<br><code>server</code>：隐藏Tomcat版本信息，首先隐藏HTTP头中的版本信息</p>
+</blockquote>
+<blockquote>
+<p>Tomcat 6、7 设置 nio 更好：protocol：org.apache.coyote.http11.Http11NioProtocol<br>Tomcat 8 设置 nio2 好：protocol：org.apache.coyote.http11.Http11Nio2Protocol<br>Tomcat 8 设置 APR 性能更好：protocol：org.apache.coyote.http11.Http11AprProtocol<br>Tomcat 使用APR设置： <a href="http://www.sundayle.com/2018/07/12/tomcat-apr/">http://www.sundayle.com/2018/07/12/tomcat-apr/</a></p>
+</blockquote>
+<h1 id="Tomcat安全设置"><a href="#Tomcat安全设置" class="headerlink" title="Tomcat安全设置"></a>Tomcat安全设置</h1><h2 id="禁用8005端口"><a href="#禁用8005端口" class="headerlink" title="禁用8005端口"></a>禁用8005端口</h2><p>vim /usr/local/Tomcat/conf/server.xml</p>
+<blockquote>
+<p>默认值：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&lt;Server <span class="attribute">port</span>=<span class="string">"8005"</span> <span class="attribute">shutdown</span>=<span class="string">"SHUTDOWN"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>修改为：</p>
+</blockquote>
+<blockquote>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Server <span class="attribute">port</span>=<span class="string">"-1"</span> <span class="attribute">shutdown</span>=<span class="string">"SHUTDOWN"</span>&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>或修改为其他端口和shutdown<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Server <span class="attribute">port</span>=<span class="string">"8015"</span> <span class="attribute">shutdown</span>=<span class="string">"SHUTDOWNXXXX"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="修改AJP端口"><a href="#修改AJP端口" class="headerlink" title="修改AJP端口"></a>修改AJP端口</h2><blockquote>
+<p>默认值：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector <span class="attribute">port</span>=<span class="string">"8009"</span> <span class="attribute">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attribute">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>修改为：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector <span class="attribute">port</span>=<span class="string">"8019"</span> <span class="attribute">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attribute">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="使用普通用户启动tomcat"><a href="#使用普通用户启动tomcat" class="headerlink" title="使用普通用户启动tomcat"></a>使用普通用户启动tomcat</h2><blockquote>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -s <span class="regexp">/bin/</span>false tomcat</span><br><span class="line">sudo -u tomcat <span class="regexp">/bin/</span>bash <span class="variable">$TOMCAT_HOME</span><span class="regexp">/bin/</span>startup.sh</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="关闭自动部署"><a href="#关闭自动部署" class="headerlink" title="关闭自动部署"></a>关闭自动部署</h2><p>防止被植入木马等恶意程序</p>
+<blockquote>
+<p>默认值:<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;Host <span class="attribute">name</span>=<span class="string">"localhost"</span> <span class="attribute">appBase</span>=<span class="string">"webapps"</span></span><br><span class="line"> <span class="attribute">unpackWARs</span>=<span class="string">"true"</span> <span class="attribute">autoDeploy</span>=<span class="string">"true"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>修改为：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;Host <span class="attribute">name</span>=<span class="string">"localhost"</span> <span class="attribute">appBase</span>=<span class="string">"webapps"</span></span><br><span class="line"> <span class="attribute">unpackWARs</span>=<span class="string">"false"</span> <span class="attribute">autoDeploy</span>=<span class="string">"false"</span> <span class="attribute">reloadable</span>=<span class="string">"false"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="注释或删除tomcat-user-xml所有用户权限"><a href="#注释或删除tomcat-user-xml所有用户权限" class="headerlink" title="注释或删除tomcat-user.xml所有用户权限"></a>注释或删除tomcat-user.xml所有用户权限</h2><blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></span><br><span class="line"><span class="tag">&lt;<span class="name">tomcat-users</span> <span class="attr">xmlns</span>=<span class="string">"http://tomcat.apache.org/xml"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://tomcat.apache.org/xml tomcat-users.xsd"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tomcat-users</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="隐藏或修改tomcat版本号"><a href="#隐藏或修改tomcat版本号" class="headerlink" title="隐藏或修改tomcat版本号"></a>隐藏或修改tomcat版本号</h2><blockquote>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/tomcat/<span class="class"><span class="keyword">lib</span>/</span></span><br><span class="line">unzip catalina.jar</span><br><span class="line">cd org/apache/catalina/util</span><br><span class="line">vim ServerInfo.properties</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server.<span class="attribute">info</span>=Apache Tomcat/8.5.32</span><br><span class="line">server.<span class="attribute">number</span>=8.5.32.0</span><br><span class="line">server.<span class="attribute">built</span>=Jun 20 2018 19:50:35 UTC</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>将以上去掉或修改信息即可</p>
+</blockquote>
+<h1 id="APR-库性能优化"><a href="#APR-库性能优化" class="headerlink" title="APR 库性能优化"></a>APR 库性能优化</h1><p><a href="http://www.sundayle.com/2018/07/12/tomcat-apr/">http://www.sundayle.com/2018/07/12/tomcat-apr/</a></p>
+<h1 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h1><p>使用Apache与Tomcat整合，因为Tomcat 处理静态文件能力远不足Apache，因此让Apache来处理静态文件，Tomcat处理动态jsp 文件，可以有效提高处理速度。同时也会涉及到一个问题，怎么保存Session？</p>
+<p>TomcatSessionID持久化三种方法：</p>
+<p>Session粘性：通过浏览器Cookie绑定SessionID ，通过sticky模式将同一Session请求分配到同一Tomcat上。<br>Session复制：Tomcat通过广播形式将Session 同步到其他Tomcat节点，并且Linux下要手动开启开放广播地址。不易后端节点过多<br>Session保存数据库（memcache、redis ）：将SessionID保存在共享的数据库中。</p>
+<h1 id="Out-of-Memory"><a href="#Out-of-Memory" class="headerlink" title="Out of Memory"></a>Out of Memory</h1><p>OOM（Out of Memory）异常常见有以下几个原因：<br>老年代内存不足：java.lang.OutOfMemoryError:Javaheapspace<br>永久代内存不足：java.lang.OutOfMemoryError:PermGenspace<br>代码bug，占用内存无法及时回收。</p>
+<p>1）错误提示：java.lang.OutOfMemoryError:Java heap space</p>
+<p>Tomcat默认可以使用的内存为128MB，在较大型的应用项目中，这点内存是不够的，有可能导致系统无法运行。常见的问题是报Tomcat内存溢出错误，Outof Memory(系统内存不足)的异常，从而导致客户端显示500错误，一般调整Tomcat的-Xms和-Xmx即可解决问题，通常将-Xms和-Xmx设置成一样，堆的最大值设置为物理可用内存的最大值的80%。</p>
+<p>set JAVA_OPTS=-Xms512m-Xmx512m<br>2）错误提示：java.lang.OutOfMemoryError: PermGenspace</p>
+<p>PermGenspace的全称是Permanent Generationspace,是指内存的永久保存区域，这块内存主要是被JVM存放Class和Meta信息的,Class在被Loader时就会被放到PermGenspace中，它和存放类实例(Instance)的Heap区域不同,GC(Garbage Collection)不会在主程序运行期对PermGenspace进行清理，所以如果你的应用中有很CLASS的话,就很可能出现PermGen space错误，这种错误常见在web服务器对JSP进行precompile的时候。如果你的WEB APP下都用了大量的第三方jar, 其大小超过了jvm默认的大小(4M)那么就会产生此错误信息了。解决方法：</p>
+<p>setJAVA_OPTS=-XX:PermSize=128M<br>3）在使用-Xms和-Xmx调整tomcat的堆大小时，还需要考虑垃圾回收机制。如果系统花费很多的时间收集垃圾，请减小堆大小。一次完全的垃圾收集应该不超过3-5 秒。如果垃圾收集成为瓶颈，那么需要指定代的大小，检查垃圾收集的详细输出，研究垃圾收集参数对性能的影响。一般说来，你应该使用物理内存的 80% 作为堆大小。当增加处理器时，记得增加内存，因为分配可以并行进行，而垃圾收集不是并行的。</p>
+<p><a href="https://renwole.com/archives/357" target="_blank" rel="noopener">https://renwole.com/archives/357</a><br><a href="https://www.jianshu.com/p/c8613d17e5fe" target="_blank" rel="noopener">https://www.jianshu.com/p/c8613d17e5fe</a><br><a href="http://www.zyops.com/java-tomcat/" target="_blank" rel="noopener">http://www.zyops.com/java-tomcat/</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/tomcat-apr" data-toggle="tooltip" data-placement="top" title="Tomcat 8.5 基于APR库性能优化">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/tomcat" data-toggle="tooltip" data-placement="top" title="Linux Apache Tomcat 8.5 安装与配置">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#tomcat" title="tomcat">tomcat</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

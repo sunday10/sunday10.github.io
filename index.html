@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -184,17 +184,18 @@
 
 <div class="post-preview">
 
-    <a href="/dockerfile/">
+    <a href="/dockerfile">
         <h2 class="post-title">
-            Docker(二)：Dockerfile 使用介绍
+            Docker(二)：Dockerfile 使用详情
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
             Dockerfile 概念
-Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。
-镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么......
+Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。有了 Dockerfile，当我们需要定制自己额外的需求时，只需在 Dockerfile 上添加或者修改指令，重新生成 image 即可，省去了敲命令的麻烦。
+Dockerfile 文件格式
+123456789......
         </div>
     </a>
     <p class="post-meta">
@@ -207,7 +208,7 @@ Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需�
 
 <div class="post-preview">
 
-    <a href="/docker/">
+    <a href="/docker">
         <h2 class="post-title">
             Docker(一)：Docker入门
         </h2>
@@ -230,7 +231,7 @@ Docker 是世界领先的软件容器平台。开发人员利用 Docker 可以..
 
 <div class="post-preview">
 
-    <a href="/linux-overcommit-oom-killer/">
+    <a href="/linux-overcommit-oom-killer">
         <h2 class="post-title">
             Linux  overcommit 及 oom-killer 机制
         </h2>
@@ -252,7 +253,7 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
 
 <div class="post-preview">
 
-    <a href="/drop_caches/">
+    <a href="/drop_caches">
         <h2 class="post-title">
             Linux 手动清除缓存 drop_cahces
         </h2>
@@ -274,7 +275,7 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
 
 <div class="post-preview">
 
-    <a href="/nginx-smooth-upgrade/">
+    <a href="/nginx-smooth-upgrade">
         <h2 class="post-title">
             Nginx 平滑升级
         </h2>
@@ -297,7 +298,7 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
 
 <div class="post-preview">
 
-    <a href="/kvm-windows-server-2012/">
+    <a href="/kvm-windows-server-2012">
         <h2 class="post-title">
             Ubuntu 16.04 KVM 安装 Windows Server 2012
         </h2>
@@ -321,7 +322,7 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
 
 <div class="post-preview">
 
-    <a href="/codis-redis-cluster/">
+    <a href="/codis-redis-cluster">
         <h2 class="post-title">
             Codis Redis 集群
         </h2>
@@ -343,7 +344,7 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
 
 <div class="post-preview">
 
-    <a href="/dd-simple-test/">
+    <a href="/dd-simple-test">
         <h2 class="post-title">
             Linux 使用dd 简单测试 读写速度
         </h2>
@@ -368,7 +369,7 @@ hdparm -t /dev/sda1
 
 <div class="post-preview">
 
-    <a href="/iis-8-5-configure-high-concurrency/">
+    <a href="/iis-8-5-configure-high-concurrency">
         <h2 class="post-title">
             IIS 8.5 高并发配置
         </h2>
@@ -390,7 +391,7 @@ hdparm -t /dev/sda1
 
 <div class="post-preview">
 
-    <a href="/redis-install/">
+    <a href="/redis-install">
         <h2 class="post-title">
             Redis 3.2 安装及主从复制详细配置
         </h2>
@@ -450,8 +451,6 @@ hdparm -t /dev/sda1
                             
                         
                             
-                        
-                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -474,6 +473,8 @@ hdparm -t /dev/sda1
                             
                         
                             
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
                         
                             
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
@@ -483,6 +484,12 @@ hdparm -t /dev/sda1
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -496,11 +503,7 @@ hdparm -t /dev/sda1
                             
                         
                             
-                            <a href="/tags/#git" title="git" rel="2">git</a>
-                            
-                        
-                            
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -524,19 +527,21 @@ hdparm -t /dev/sda1
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
-                            
                         
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -545,12 +550,6 @@ hdparm -t /dev/sda1
                         
                             
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -570,9 +569,9 @@ hdparm -t /dev/sda1
                             
                         
                             
-                        
-                            
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
                             
                         
                             
@@ -607,6 +606,8 @@ hdparm -t /dev/sda1
                         
                             
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
                             
                         
                             
@@ -646,6 +647,8 @@ hdparm -t /dev/sda1
                             
                         
                             
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
@@ -654,11 +657,11 @@ hdparm -t /dev/sda1
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
                             
                         
                             

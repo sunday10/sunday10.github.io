@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -184,7 +184,29 @@
 
 <div class="post-preview">
 
-    <a href="/shadowsocksr-mudbjson/">
+    <a href="/nginx-rewrite">
+        <h2 class="post-title">
+            Nginx 重定向和重写
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            nginx 重定向、单个页面重定向、整个目录重定向以及全站重定向
+非www跳转到www1234567server &#123;    listen 80;    server_name domain.com www.domain.com;    if ($server_name != "www.domain.com") &#123;        rewrite ^/(.*)$ http:/......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-13
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/shadowsocksr-mudbjson">
         <h2 class="post-title">
             CentOS 7 配置Shadowsocksr单服务器多用户 mudbjson模式
         </h2>
@@ -206,7 +228,7 @@
 
 <div class="post-preview">
 
-    <a href="/iptables-forward/">
+    <a href="/iptables-forward">
         <h2 class="post-title">
             配置iptables、ufw端口转发
         </h2>
@@ -230,7 +252,7 @@
 
 <div class="post-preview">
 
-    <a href="/ubuntu-ufw/">
+    <a href="/ubuntu-ufw">
         <h2 class="post-title">
             Ubuntu 开启ufw防火墙的一些命令
         </h2>
@@ -252,7 +274,7 @@
 
 <div class="post-preview">
 
-    <a href="/linux-system-io/">
+    <a href="/linux-system-io">
         <h2 class="post-title">
             Linux 性能优化之 IO 子系统
         </h2>
@@ -275,7 +297,7 @@ FileSystemVFS(Virtual FileSystem) 虚拟文件系统文件系统是内核的功�
 
 <div class="post-preview">
 
-    <a href="/mysql-optimize-in-linux/">
+    <a href="/mysql-optimize-in-linux">
         <h2 class="post-title">
             Linux MySQL 优化
         </h2>
@@ -300,7 +322,7 @@ SMP 即 Symmetr......
 
 <div class="post-preview">
 
-    <a href="/linux-interrupt/">
+    <a href="/linux-interrupt">
         <h2 class="post-title">
             Linux 中断和中断处理
         </h2>
@@ -322,7 +344,7 @@ SMP 即 Symmetr......
 
 <div class="post-preview">
 
-    <a href="/vmstat/">
+    <a href="/vmstat">
         <h2 class="post-title">
             vmstat 命令
         </h2>
@@ -343,7 +365,7 @@ SMP 即 Symmetr......
 
 <div class="post-preview">
 
-    <a href="/linux-tcp/">
+    <a href="/linux-tcp">
         <h2 class="post-title">
             Linux下如何知道http并发和tcp连接数量
         </h2>
@@ -366,29 +388,7 @@ SMP 即 Symmetr......
 
 <div class="post-preview">
 
-    <a href="/apache-bench/">
-        <h2 class="post-title">
-            Apache Benchmark ab wrk 压力测试工具使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1[root@node1 ~]# ab -n 10000 -c 1000 http://www.sundayle.com/index.html
-其中－n表示请求数，－c表示并发数12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152This is Apach......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-05-19
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/webbench/">
+    <a href="/webbench">
         <h2 class="post-title">
             Web 压力测试工具 Webbench
         </h2>
@@ -452,8 +452,6 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -476,6 +474,8 @@ SMP 即 Symmetr......
                             
                         
                             
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
                         
                             
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
@@ -485,6 +485,12 @@ SMP 即 Symmetr......
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -498,11 +504,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#git" title="git" rel="2">git</a>
-                            
-                        
-                            
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -526,19 +528,21 @@ SMP 即 Symmetr......
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
-                            
                         
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -547,12 +551,6 @@ SMP 即 Symmetr......
                         
                             
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -572,9 +570,9 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
                             
                         
                             
@@ -609,6 +607,8 @@ SMP 即 Symmetr......
                         
                             
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
                             
                         
                             
@@ -648,6 +648,8 @@ SMP 即 Symmetr......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
@@ -656,11 +658,11 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
                             
                         
                             

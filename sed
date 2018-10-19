@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          文本处理工具 Sed - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/sed">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#sed" title="sed">sed</a>
+                        
+                    </div>
+                    <h1>文本处理工具 Sed</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-02-23
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="stream-editor-流式编辑器"><a href="#stream-editor-流式编辑器" class="headerlink" title="stream editor 流式编辑器"></a>stream editor 流式编辑器</h1><p>sed是Linux中的一个文件编辑工具，按行处理文件内容，可以实现插入，删除，替换等功能。更重要的是sed命令可以用script来处理文本文件，能够应对复杂的编辑需求。</p>
+<h1 id="sed命令语法"><a href="#sed命令语法" class="headerlink" title="sed命令语法"></a>sed命令语法</h1><p>基本格式 sed [option] [sed.txt]</p>
+<p>选项:</p>
+<ul>
+<li>-e &lt;script>: 按script编辑文本并输出到控制台，但不修改原文件内容</li>
+<li>-f : sed.txt 调用sed脚本文件</li>
+<li>-i : 直接修改读取的文件内容，而不输出到终端</li>
+<li>-n : 安静模式，只有经过sed处理的行才会被显示出来</li>
+<li>-r : 使用扩展正则表达式，默认是基础正则语法</li>
+</ul>
+<p>动作说明：</p>
+<ul>
+<li>a : 新增一行内容（在指定行的下一行）</li>
+<li>c : 取代内容，可取代n1,n2之间的行</li>
+<li>d : 删除行</li>
+<li>i : 插入一行内容（在指定行的上一行）</li>
+<li>p : 列印，将某个选择的资料印出，常与sed -n连用</li>
+<li>s : 替换，搭配正则表达式，替换文本中的内容</li>
+</ul>
+<p>sed元字符集<br><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">^ : 匹配行开始，如：/^sed/匹配所有以sed开头的行。</span><br><span class="line">$ : 匹配行结束，如：/sed$/匹配所有以sed结尾的行。</span><br><span class="line">. : 匹配一个非换行符的任意字符，如：/s.d/匹配s后接一个任意字符，最后是d。</span><br><span class="line">* : 匹配0个或多个字符，如：/*sed/匹配所有模板是一个或多个空格后紧跟sed的行。</span><br><span class="line">[] : 匹配一个指定范围内的字符，如/[ss]ed/匹配sed和Sed。  </span><br><span class="line">[^] : 匹配一个不在指定范围内的字符，如：/[^A-RT-Z]ed/匹配不包含A-R和T-Z的一个字母开头，紧跟ed的行。</span><br><span class="line"><span class="symbol">\(</span>..<span class="symbol">\)</span> : 匹配子串，保存匹配的字符，如s/<span class="symbol">\(</span>love<span class="symbol">\)</span>able/<span class="symbol">\1</span>rs，loveable被替换成lovers。</span><br><span class="line">&amp; : 保存搜索字符用来替换其他字符，如s/love/**&amp;**/，love这成**love**。</span><br><span class="line"><span class="symbol">\&lt;</span> : 匹配单词的开始，如:/<span class="symbol">\&lt;</span>love/匹配包含以love开头的单词的行。</span><br><span class="line"><span class="symbol">\&gt;</span> : 匹配单词的结束，如/love<span class="symbol">\&gt;</span>/匹配包含以love结尾的单词的行。</span><br><span class="line">x<span class="symbol">\&#123;</span>m<span class="symbol">\&#125;</span> : 重复字符x，m次，如：/0<span class="symbol">\&#123;</span>5<span class="symbol">\&#125;</span>/匹配包含5个0的行。</span><br><span class="line">x<span class="symbol">\&#123;</span>m,<span class="symbol">\&#125;</span> : 重复字符x，至少m次，如：/0<span class="symbol">\&#123;</span>5,<span class="symbol">\&#125;</span>/匹配至少有5个0的行。</span><br><span class="line">x<span class="symbol">\&#123;</span>m,n<span class="symbol">\&#125;</span> : 重复字符x，至少m次，不多于n次，如：/0<span class="symbol">\&#123;</span>5,10<span class="symbol">\&#125;</span>/匹配5~10个0的行。</span><br></pre></td></tr></table></figure></p>
+<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><p>1.在每一行中查找字串“foo”，并将找到的“foo”替换为“bar”<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sed</span> <span class="string">'s/foo/bar/'</span>     sed.txt            <span class="comment"># 只替换每一行中的第一个“foo”字串</span></span><br><span class="line">sed <span class="string">'s/foo/bar/4'</span>    sed.txt            <span class="comment"># 只替换每一行中的第四个“foo”字串</span></span><br><span class="line">sed <span class="string">'s/foo/bar/g'</span>    sed.txt            <span class="comment"># 将每一行中的所有“foo”都换成“bar”</span></span><br><span class="line">sed <span class="string">'s/\(.*\)foo\(.*foo\)/\1bar\2/'</span> <span class="comment"># 替换倒数第二个“foo”</span></span><br><span class="line">sed <span class="string">'s/\(.*\)foo/\1bar/'</span>            <span class="comment"># 替换最后一个“foo”</span></span><br></pre></td></tr></table></figure></p>
+<p>2.在每一行中查找字串“/foo”，并将找到的“/foo”替换为“/bar”<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sed</span> <span class="string">'s/\/foo/\/bar/'</span>  sed.txt        <span class="comment"># /foo 的'/'' 需要转义</span></span><br><span class="line">sed <span class="string">'s;foo;bar;'</span>      sed.txt        <span class="comment">#用 ‘;’ 作为定界符 不用转义更清晰</span></span><br></pre></td></tr></table></figure></p>
+<p>3.只在行中出现字串“baz”的情况下将“foo”替换成“bar”<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sed</span> <span class="string">'/baz/s/foo/bar/g'</span> sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>4.不管是“scarlet”“ruby”还是“puce”，一律换成“red”<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed 's/scarlet/<span class="built_in">red</span>/g;s/ruby/<span class="built_in">red</span>/g;s/puce/<span class="built_in">red</span>/g' sed.txt #对多数的sed都有效</span><br></pre></td></tr></table></figure></p>
+<p>5.删除文件中开头的10行<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed '<span class="number">1</span>,<span class="number">10</span>d' sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>6.删除文件中的最后一行<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sed</span> <span class="string">'<span class="variable">$d</span>'</span> sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>7.删除含有cc的行，显示其余内容。<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sed</span> <span class="string">'/cc/d'</span> sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>8.把含有连续3个数字的行删除<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed '/[<span class="number">0</span><span class="number">-9</span>]&#123;<span class="number">3</span>&#125;/' sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>9.删除空白行。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'/^$/d'</span> sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>10.删除行首的空格<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'s/^[ ]*//g'</span> sed.txt</span><br><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'s/^[[:space:]]*//g'</span> sed.txt</span><br><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'s/^ *//g'</span> sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>11.显示第45到50行<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -n '<span class="number">45</span>,<span class="number">50</span>p' sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>12.只显示匹配cc的行<br><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -n '/<span class="keyword">cc</span>/p' sed.txt  #p是显示命令。把匹配的行显示出来，！表示不匹配则执行命令。/<span class="keyword">cc</span>/<span class="title">!p</span></span><br></pre></td></tr></table></figure></p>
+<p>13.第一行添加hello<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'1 i\hello'</span> sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>14.最后行添加hello<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sed</span> -i <span class="string">'<span class="variable">$a</span>\hello'</span> sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>15.在This is 2 line行前插入 THIS IS 2 Line.<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'/This is 2 line/i THIS IS 2 LINE.'</span> sed.txt</span><br><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'/This is 2 line/i\THIS IS 2 LINE.'</span> sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>16.查看日志<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat <span class="regexp">/var/</span>log<span class="regexp">/secure | sed '/</span><span class="number">12</span>:<span class="number">12</span>:<span class="number">50</span><span class="regexp">/,/</span><span class="number">12</span>:<span class="number">48</span>:<span class="number">55</span><span class="regexp">/p'</span></span><br></pre></td></tr></table></figure></p>
+<p>17.显示ifconfig IP<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 | <span class="keyword">grep</span> <span class="string">'inet addr'</span> | sed <span class="string">'s/^.* addr://g'</span> | sed <span class="string">'s/Bcast.*$//g'</span></span><br><span class="line">ifconfig eth0 | <span class="keyword">grep</span> <span class="string">"inet addr:"</span> | awk -F[:<span class="string">" "</span>]+ <span class="string">'&#123;print $4&#125;'</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h1><h2 id="单文件替换"><a href="#单文件替换" class="headerlink" title="单文件替换"></a>单文件替换</h2><p>替换test1.dat文件中的”test”为”zcx”，将结果输出到result1.dat<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed ‘s<span class="regexp">/test/</span>zcx<span class="regexp">/g’ ./</span>test1.dat &gt; result1.dat</span><br></pre></td></tr></table></figure></p>
+<h2 id="多文件替换"><a href="#多文件替换" class="headerlink" title="多文件替换"></a>多文件替换</h2><p>grep搜索含有字符串”test”的文件，然后对每个文件执行sed命令。xargs存在的意义是避免因grep到的文件过多处理不了时造成溢出。sed -i 表示就地处理，将结果存回原文件。<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grep</span> -rl “test”  .<span class="regexp">/ | xargs sed -i ‘s/</span>test<span class="regexp">/zhaochaoxing/g</span>’</span><br></pre></td></tr></table></figure></p>
+<h2 id="amp-使用"><a href="#amp-使用" class="headerlink" title="&amp; 使用"></a>&amp; 使用</h2><p>&amp; 代表匹配内容<br>1.将aaa替换成空行加aaa<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'s/aaa/\n&amp;/g'</span> sed.txt</span><br></pre></td></tr></table></figure></p>
+<p>2.bbb后添加空行<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'s/bbb/&amp;\n/g'</span> sed.txt</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://sed.sourceforge.net/sed1line_zh-CN.html" target="_blank" rel="noopener">http://sed.sourceforge.net/sed1line_zh-CN.html</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/regex" data-toggle="tooltip" data-placement="top" title="正则表达式30分钟入门教程">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/grep" data-toggle="tooltip" data-placement="top" title="文本处理工具 Grep">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#sed" title="sed">sed</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

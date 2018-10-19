@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          使用 Ansible Playbooks - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/ansible-playbooks">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#ansible" title="ansible">ansible</a>
+                        
+                          <a class="tag" href="/tags/#自动化" title="自动化">自动化</a>
+                        
+                    </div>
+                    <h1>使用 Ansible Playbooks</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-05-18
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>ansible可以非常方便的控制多台机器,比如查看各台机器上的apache服务状态,<code>ansible all -a &quot;service apache status&quot; --sudo</code>,如果任务更复杂一点可以写成一个脚本，然后ansible会在每台机器上执行脚本。但是如果任务中子任务有有依赖那，任务判断任务的执行状态那，总之还是有一系列的问题，总结起来就是能不能做任务编排?当然能，如果没有任务编排就不能称之为配置管理工具，这个功能就叫playbook.</p>
+<p>playbooks正如名字一样”剧本集”，通过剧本来讲述一个复杂的故事。在这里playbooks是对tasks的编排，从而完成非常复杂的任务。所谓的配置管理，其实就是说任务编排。 既然playbooks能够实现对任务的编排，那么playbook必然会有自己的语法，幸运的是playbook使用了yaml，非常简单的一种文件格式，下面来简单学习一下如何编写playbook。</p>
+<h1 id="Playbook的构成"><a href="#Playbook的构成" class="headerlink" title="Playbook的构成"></a>Playbook的构成</h1><ul>
+<li>hosts,用于指定目标</li>
+<li>vars,使得任务更加灵活</li>
+<li>tasks,具体的行为动作</li>
+<li>Handler,用于通知</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- name:</span> <span class="string">setup</span> <span class="string">openstack</span> <span class="string">compent</span></span><br><span class="line"><span class="attr">  hosts:</span> <span class="string">all</span></span><br><span class="line"><span class="attr">  remote_user:</span> <span class="string">root</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  tasks:</span></span><br><span class="line"><span class="attr">  - name:</span> <span class="string">say</span> <span class="string">hello</span></span><br><span class="line"><span class="attr">    shell:</span> <span class="string">echo</span> <span class="string">Hello</span> <span class="string">World.</span></span><br></pre></td></tr></table></figure>
+<h1 id="如何在playbook中使用变量"><a href="#如何在playbook中使用变量" class="headerlink" title="如何在playbook中使用变量"></a>如何在playbook中使用变量</h1><h2 id="变量命名"><a href="#变量命名" class="headerlink" title="变量命名"></a>变量命名</h2><p>变量名可以为字母,数字以及下划线.</p>
+<h2 id="定义变量"><a href="#定义变量" class="headerlink" title="定义变量"></a>定义变量</h2><p><strong>在playbook中定义变量</strong><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- hosts:</span> <span class="string">webservers</span></span><br><span class="line"><span class="attr">  vars:</span></span><br><span class="line"><span class="attr">    http_port:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>在文件和role中定义变量</strong></p>
+<ol>
+<li><p>hosts文件中定义变量时使用</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[groupname:vars]</span></span><br><span class="line"><span class="attr">key</span> = value</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>group vars file</p>
+<figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat group_vars/groupname</span><br><span class="line"><span class="built_in">key</span>: <span class="built_in">value</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果是role的话，则在相应的defaults/main.yml或者vars/main.yml</p>
+</li>
+</ol>
+<h2 id="注册变量"><a href="#注册变量" class="headerlink" title="注册变量"></a>注册变量</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">register</span>: xxx</span><br></pre></td></tr></table></figure>
+<p>xxx.stdout.find(sdf)<br>xxx.stdout_lines</p>
+<h1 id="使用变量"><a href="#使用变量" class="headerlink" title="使用变量"></a>使用变量</h1><p>Ansible允许你使用Jinja2模板系统在playbook中引用变量.<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">My amp goes <span class="keyword">to</span> &#123;&#123; max_amp_value &#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>jinjia2过滤器<br><figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># <span class="keyword">default</span><span class="comment">(*value*, *default_value=u''*, *boolean=False*)</span></span><br></pre></td></tr></table></figure></p>
+<p><a href="http://jinja.pocoo.org/docs/dev/templates/#builtin-filters" target="_blank" rel="noopener">http://jinja.pocoo.org/docs/dev/templates/#builtin-filters</a><br><a href="http://ju.outofmemory.cn/entry/97893" target="_blank" rel="noopener">http://ju.outofmemory.cn/entry/97893</a></p>
+<p>使用Facts获取的信息<br><a href="https://ansible-tran.readthedocs.io/en/latest/docs/playbooks_variables.html#inventory" target="_blank" rel="noopener">https://ansible-tran.readthedocs.io/en/latest/docs/playbooks_variables.html#inventory</a><br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible hostname -m <span class="built_in">setup</span></span><br><span class="line">ansible all -m <span class="built_in">setup</span> -a <span class="string">"filter=ansible_distribution*"</span></span><br></pre></td></tr></table></figure></p>
+<p>如果没有使用fact变量时可以强制地关闭,这样执行速度会快一点.<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- hosts:</span> <span class="string">whatever</span></span><br><span class="line"><span class="attr">  gather_facts:</span> <span class="literal">no</span></span><br></pre></td></tr></table></figure></p>
+<p>魔法变量</p>
+<ul>
+<li>hostvars允许你访问另一个主机的变量，当然前提是ansible已经收集到这个主机的变量了</li>
+<li>group_names:是当前主机所在的group列表</li>
+<li>groups: 是所有inventory的group列表</li>
+<li>inventory_hostname: 是在inventory里定义的主机名</li>
+<li>play_hosts是当前的playbook范围内的主机列表</li>
+<li>inventory_dir和inventory_file是定义inventory的目录和文件</li>
+</ul>
+<h1 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h1><p>role defaults<br>inventory vars<br>inventory group_vars<br>inventory host_vars<br>playbook group_vars<br>playbook host_vars<br>host facts<br>registered vars<br>set_facts<br>play vars<br>play vars_prompt<br>play vars_files<br>role and include vars<br>block vars (only for tasks in block)<br>task vars (only for the task)<br>extra vars (always win precedence)</p>
+<blockquote>
+<p>从低到高.ansible中可以定义变量的地方太多了,没啥不一样的地方，就是优先级不同而已.</p>
+</blockquote>
+<p>一些常用的变量<br>inventory_hostname, 机器的hostname<br>inventory_address,ip地址 </p>
+<h2 id="条件选择"><a href="#条件选择" class="headerlink" title="条件选择"></a>条件选择</h2><p>when 可以各种条件组合, ==, &gt;=, not, and, is defined, is not defined.<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- hosts:</span> <span class="string">webservers</span></span><br><span class="line"><span class="attr">  roles:</span></span><br><span class="line"><span class="bullet">     -</span> <span class="string">&#123;</span> <span class="attr">role:</span> <span class="string">debian_stock_config,</span> <span class="attr">when:</span> <span class="string">ansible_os_family</span> <span class="string">==</span> <span class="string">'Debian'</span> <span class="string">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">tasks:</span></span><br><span class="line"><span class="attr">  - command:</span> <span class="string">/bin/false</span></span><br><span class="line"><span class="attr">    register:</span> <span class="string">result</span></span><br><span class="line"><span class="attr">    ignore_errors:</span> <span class="literal">True</span></span><br><span class="line"><span class="attr">  - command:</span> <span class="string">/bin/something</span></span><br><span class="line"><span class="attr">    when:</span> <span class="string">result|failed</span></span><br><span class="line"><span class="attr">  - command:</span> <span class="string">/bin/something_else</span></span><br><span class="line"><span class="attr">    when:</span> <span class="string">result|success</span></span><br><span class="line"><span class="attr">  - command:</span> <span class="string">/bin/still/something_else</span></span><br><span class="line"><span class="attr">    when:</span> <span class="string">result|skipped</span></span><br></pre></td></tr></table></figure></p>
+<p>when后面可以接Jinja2的表达式或者过滤器</p>
+<p>基于变量选择文件和模版<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby"> <span class="symbol">name:</span> template a file</span></span><br><span class="line"><span class="ruby">   <span class="symbol">template:</span> src= dest=<span class="regexp">/etc/myapp</span><span class="regexp">/foo.conf</span></span></span><br><span class="line"><span class="ruby">   <span class="symbol">with_first_found:</span></span></span><br><span class="line"><span class="ruby">     - <span class="symbol">files:</span></span></span><br><span class="line"><span class="ruby">        - .conf</span></span><br><span class="line"><span class="ruby">        - default.conf</span></span><br><span class="line"><span class="ruby">       <span class="symbol">paths:</span></span></span><br><span class="line"><span class="ruby">        - search_location_one/somedir/</span></span><br><span class="line"><span class="ruby">        - <span class="regexp">/opt/other</span>_location/somedir/</span></span><br></pre></td></tr></table></figure></p>
+<p>变量为空或者未定义的判断<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">when: varname <span class="keyword">is</span> <span class="literal">undefined</span></span><br><span class="line">      <span class="keyword">or</span></span><br><span class="line">      varname <span class="keyword">is</span> none</span><br><span class="line">      <span class="keyword">or</span></span><br><span class="line">      varname | trim == <span class="string">''</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h1><p>基本的循环结构 with_items<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 迭代列表</span><br><span class="line">-<span class="ruby"> <span class="symbol">name:</span> add several users</span></span><br><span class="line"><span class="ruby">  <span class="symbol">user:</span> name= state=present groups=wheel</span></span><br><span class="line"><span class="ruby">  <span class="symbol">with_items:</span></span></span><br><span class="line"><span class="ruby">     - testuser1</span></span><br><span class="line"><span class="ruby">     - testuser2</span></span><br><span class="line"><span class="ruby"><span class="comment"># 迭代哈希</span></span></span><br><span class="line"><span class="ruby">- <span class="symbol">name:</span> add several users</span></span><br><span class="line"><span class="ruby">  <span class="symbol">user:</span> name= state=present groups=</span></span><br><span class="line"><span class="ruby">  <span class="symbol">with_items:</span></span></span><br><span class="line"><span class="ruby">    - &#123; <span class="symbol">name:</span> <span class="string">'testuser1'</span>, <span class="symbol">groups:</span> <span class="string">'wheel'</span> &#125;</span></span><br><span class="line"><span class="ruby">    - &#123; <span class="symbol">name:</span> <span class="string">'testuser2'</span>, <span class="symbol">groups:</span> <span class="string">'root'</span> &#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>字典循环 with_dict<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">users:</span></span><br><span class="line"><span class="attr">  alice:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">Alice</span> <span class="string">Appleworth</span></span><br><span class="line"><span class="attr">    telephone:</span> <span class="number">123</span><span class="bullet">-456</span><span class="bullet">-7890</span></span><br><span class="line"><span class="attr">  bob:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">Bob</span> <span class="string">Bananarama</span></span><br><span class="line"><span class="attr">    telephone:</span> <span class="number">987</span><span class="bullet">-654</span><span class="bullet">-3210</span></span><br><span class="line"><span class="attr">tasks:</span></span><br><span class="line"><span class="attr">  - name:</span> <span class="string">Print</span> <span class="string">phone</span> <span class="string">records</span></span><br><span class="line"><span class="attr">    debug:</span> <span class="string">msg="User</span>  <span class="string">is</span>  <span class="string">()"</span></span><br><span class="line"><span class="attr">    with_dict:</span> <span class="string">""</span></span><br></pre></td></tr></table></figure></p>
+<p>文件循环 with_fileglob<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">- hosts:</span> <span class="string">all</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  tasks:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># first ensure our target directory exists</span></span><br><span class="line"><span class="attr">    - file:</span> <span class="string">dest=/etc/fooapp</span> <span class="string">state=directory</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># copy each file over that matches the given pattern</span></span><br><span class="line"><span class="attr">    - copy:</span> <span class="string">src=</span> <span class="string">dest=/etc/fooapp/</span> <span class="string">owner=root</span> <span class="string">mode=600</span></span><br><span class="line"><span class="attr">      with_fileglob:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">/playbooks/files/fooapp/*</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h1><p>通常情况下, 当出现失败时 Ansible 会停止在宿主机上执行.有时候,你会想要继续执行下去.为此 你需要像这样编写任务:<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- name: <span class="keyword">this</span> will <span class="keyword">not</span> be counted <span class="keyword">as</span> a failure</span><br><span class="line">  command: /bin/<span class="literal">false</span></span><br><span class="line">  ignore_errors: <span class="literal">yes</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="控制对失败的定义"><a href="#控制对失败的定义" class="headerlink" title="控制对失败的定义"></a>控制对失败的定义</h1><p>假设一条命令的错误码毫无意义只有它的输出结果能告诉你什么出了问题,比如说字符串 “FAILED” 出 现在输出结果中.<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- name: this command prints FAILED when it fails</span><br><span class="line"><span class="symbol">  command:</span> <span class="meta-keyword">/usr/</span>bin/example-command -x -y -z</span><br><span class="line"><span class="symbol">  register:</span> command_result</span><br><span class="line"><span class="symbol">  failed_when:</span> <span class="string">"'FAILED' in command_result.stderr"</span></span><br></pre></td></tr></table></figure></p>
+<p>当一个 shell或命令或其他模块运行时,它们往往都会在它们认为其影响机器状态时报告 “changed” 状态.有时你可以通过返回码或是输出结果来知道它们其实并没有做出任何更改.你希望覆写结果的, “changed” 状态使它不会出现在输出的报告或不会触发其他处理程序:<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tasks:</span><br><span class="line"></span><br><span class="line">  - <span class="keyword">shell</span><span class="bash">: /usr/bin/billybass --mode=<span class="string">"take me to the river"</span></span></span><br><span class="line"><span class="bash">    register: bass_result</span></span><br><span class="line"><span class="bash">    changed_when: <span class="string">"bass_result.rc != 2"</span></span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">  <span class="comment"># this will never report 'changed' status</span></span></span><br><span class="line"><span class="bash">  - shell: wall <span class="string">'beep'</span></span></span><br><span class="line"><span class="bash">    changed_when: False</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="如何调试"><a href="#如何调试" class="headerlink" title="如何调试"></a>如何调试</h1><p>1.当运行verbose模式时,会打印出所有模块运行后的变量.这对于你要使用register功能时候很重要.只需要在执行playbook命令时加上参数–verbose便可以.ansible-playbook –verbose playbook.yml</p>
+<ol start="2">
+<li>debug模块<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Example that prints the loopback address and gateway for each host</span></span><br><span class="line">- debug: <span class="attribute">msg</span>=<span class="string">"System  has uuid "</span></span><br><span class="line"></span><br><span class="line">- debug: <span class="attribute">msg</span>=<span class="string">"System  has gateway "</span></span><br><span class="line">  when: ansible_default_ipv4.gateway is defined</span><br><span class="line"></span><br><span class="line">- shell: /usr/bin/uptime</span><br><span class="line">  register: result</span><br><span class="line"></span><br><span class="line">- debug: <span class="attribute">var</span>=result <span class="attribute">verbosity</span>=2</span><br><span class="line"></span><br><span class="line">- name: Display all variables/facts known <span class="keyword">for</span> a host</span><br><span class="line">  debug: <span class="attribute">var</span>=hostvars[inventory_hostname] <span class="attribute">verbosity</span>=4</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="重复执行"><a href="#重复执行" class="headerlink" title="重复执行"></a>重复执行</h1><p>常常用于软件安装或者重启的场景.<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- name: Confirm<span class="built_in"> service </span>connectivity</span><br><span class="line">  command: <span class="string">"/usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf ping"</span></span><br><span class="line">  changed_when: _mysql_running.rc != 0</span><br><span class="line">  register: _mysql_running</span><br><span class="line">  until: _mysql_running == 0</span><br><span class="line">  retries: <span class="string">""</span></span><br><span class="line">  delay: <span class="string">""</span></span><br><span class="line">  failed_when: <span class="literal">false</span></span><br><span class="line">  changed_when: _mysql_running != 0</span><br><span class="line">  tags:</span><br><span class="line">    - galera-cluster-state-check</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://fishcried.com/2016-09-14/ansible-playbooks/" target="_blank" rel="noopener">http://fishcried.com/2016-09-14/ansible-playbooks/</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/s-nail" data-toggle="tooltip" data-placement="top" title="Ubuntu 配置S-nail 使用QQ邮箱服务器">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/ansible" data-toggle="tooltip" data-placement="top" title="Ansible 自动化工具使用">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ansible" title="ansible">ansible</a>
+                        
+                          <a class="tag" href="/tags/#自动化" title="自动化">自动化</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Linux 开启 core dump - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/coredump">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#coredump" title="coredump">coredump</a>
+                        
+                    </div>
+                    <h1>Linux 开启 core dump</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-02-27
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="1-什么是core文件"><a href="#1-什么是core文件" class="headerlink" title="1. 什么是core文件"></a>1. 什么是core文件</h1><p>某些信号的操作是导致进程终止并生成核心转储文件，包含终止时进程内存的映像。<br>主要用于程序崩溃时，调试找原因的。</p>
+<h1 id="2-配置系统生成-core-文件"><a href="#2-配置系统生成-core-文件" class="headerlink" title="2. 配置系统生成 core 文件"></a>2. 配置系统生成 core 文件</h1><h2 id="1-使用-ulimit-配置生成-core-文件大小"><a href="#1-使用-ulimit-配置生成-core-文件大小" class="headerlink" title="1. 使用 ulimit 配置生成 core 文件大小"></a>1. 使用 ulimit 配置生成 core 文件大小</h2><p>首先使用ulimit -c 确认系统是否生成 core 文件，若为 0，说明禁用了 core 文件生成，若要启用，根据需要配置 core 文件生成大小。 如不限制 core 文件大小，如下设置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -c unlimited</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-设置core文件名称和路径"><a href="#2-设置core文件名称和路径" class="headerlink" title="2. 设置core文件名称和路径"></a>2. 设置core文件名称和路径</h2><h3 id="a-设置pid作为扩展名"><a href="#a-设置pid作为扩展名" class="headerlink" title="a.设置pid作为扩展名"></a>a.设置pid作为扩展名</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">1</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/kernel/</span>core_uses_pid</span><br></pre></td></tr></table></figure>
+<p>0：不添加pid作为扩展名，生成的文件名称为core,新的core会覆盖已存在的core。<br>1：可以将进程的pid作为作为扩展名，生成的core文件格式为core.xxx，其中xxx即为pid</p>
+<h3 id="b-设置core文件保存位置和格式"><a href="#b-设置core文件保存位置和格式" class="headerlink" title="b.设置core文件保存位置和格式"></a>b.设置core文件保存位置和格式</h3><p>默认：|/usr/share/apport/apport %p %s %c %P<br>修改 将所有的core文件生成到/data/logs/core/目录下，文件名的格式为core-命令名-pid-时间戳.<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"/data/logs/core-%e-%p-%t"</span> &gt; <span class="regexp">/proc/sys</span><span class="regexp">/kernel/core</span>_pattern</span><br></pre></td></tr></table></figure></p>
+<h3 id="c-永久生效"><a href="#c-永久生效" class="headerlink" title="c.永久生效"></a>c.永久生效</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"ulimit -c unlimited"</span> &gt; /etc/profile</span><br><span class="line">echo <span class="string">"kernel.core_uses_pid = 1"</span> &gt; /etc/sysctl.conf</span><br><span class="line">echo <span class="string">"kernel.core_pattern = /data/logs/core/core_%e_%p"</span> &gt; /etc/sysctl.conf</span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+<h1 id="3-测试是否能生成core文件"><a href="#3-测试是否能生成core文件" class="headerlink" title="3. 测试是否能生成core文件"></a>3. 测试是否能生成core文件</h1><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -s SIGSEGV <span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>查看/data/logs/core/目录下是否生成了core文件</p>
+<h1 id="4-调试core文件"><a href="#4-调试core文件" class="headerlink" title="4.调试core文件"></a>4.调试core文件</h1><p>Eg. test.c<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">      <span class="keyword">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">      *p = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="comment"># gcc -o test test.c</span></span><br><span class="line">root<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="comment"># ./test</span></span><br><span class="line">Segmentation fault (core dumped)</span><br></pre></td></tr></table></figure>
+<p>bingo:这里出现段错误并生成core文件了<br>在/data/logs/core目录下发现core-test-31421-1476266571<br>开始调试<br>gdb ./test core_test_170871_1519869120<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Type</span> <span class="string">"apropos word"</span> to <span class="keyword">search</span> <span class="keyword">for</span> commands related to <span class="string">"word"</span>...</span><br><span class="line">Reading symbols from ./<span class="keyword">test</span>...(<span class="keyword">no</span> debugging symbols found)...done.</span><br><span class="line">[New LWP 170871]</span><br><span class="line">Core was generated <span class="keyword">by</span> `./<span class="keyword">test</span>'.</span><br><span class="line"><span class="keyword">Program</span> terminated with signal SIGSEGV, Segmentation fault.</span><br><span class="line">#0  000000004004e6 <span class="keyword">in</span> main ()</span><br></pre></td></tr></table></figure></p>
+<h1 id="5-系统没生成-core-文件的原因"><a href="#5-系统没生成-core-文件的原因" class="headerlink" title="5.系统没生成 core 文件的原因"></a>5.系统没生成 core 文件的原因</h1><p>可能的情况比较多。</p>
+<p>以下引用他人总结的：</p>
+<p>一、要保证存放 coredump 的目录存在且进程对该目录有写权限。存放 coredump 的目录即进程的当前目录，一般就是当初发出命令启动该进程时所在的目录。但如果是通过脚本启动，则脚本可能会修改当前目录，这时进程真正的当前目录就会与当初执行脚本所在目录不同。这时可以查看”/proc/&lt;进程pid&gt;/cwd”符号链接的目标来确定进程真正的当前目录地址。通过系统服务启动的进程也可通过这一方法查看。</p>
+<p>二、若程序调用了 seteuid()/setegid() 改变了进程的有效用户或组，则在默认情况下系统不会为这些进程生成 coredump。很多服务程序都会调用 seteuid()，如 MySQL，不论你用什么用户运行 mysqld_safe 启动 MySQL，mysqld 运行的有效用户始终是 msyql 用户。如果你当初是以用户 A 运行了某个程序，但在 ps 里看到的这个程序的运行用户却是 B 的话，那么这些进程就是调用了 seteuid 了。为了能够让这些进程生成 core dump，需要将 /proc/sys/fs/suid_dumpable 文件的内容改为 1（1或2都可以，ubuntu 16.04默认是2）<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">This value can be used <span class="keyword">to</span> query <span class="keyword">and</span> <span class="builtin-name">set</span> the core dump mode <span class="keyword">for</span> setuid</span><br><span class="line"><span class="keyword">or</span> otherwise protected/tainted binaries. The modes are</span><br><span class="line"></span><br><span class="line">0 - (default) - traditional behaviour. Any process which has changed</span><br><span class="line">   privilege levels <span class="keyword">or</span> is execute only will <span class="keyword">not</span> be dumped</span><br><span class="line">1 - (debug) - all processes dump core when possible. The core dump is</span><br><span class="line">   owned by the current<span class="built_in"> user </span><span class="keyword">and</span> <span class="literal">no</span> security is applied. This is</span><br><span class="line">   intended <span class="keyword">for</span><span class="built_in"> system </span>debugging situations only.</span><br><span class="line">2 - (suidsafe) - any binary which normally <span class="keyword">not</span> be dumped is dumped</span><br><span class="line">   readable by root only. This allows the end<span class="built_in"> user </span><span class="keyword">to</span> remove</span><br><span class="line">   such a dump but <span class="keyword">not</span> access it directly. <span class="keyword">For</span> security reasons</span><br><span class="line">   core dumps <span class="keyword">in</span> this mode will <span class="keyword">not</span> overwrite one another <span class="keyword">or</span> </span><br><span class="line">   other files. This mode is appropriate when adminstrators are</span><br><span class="line">   attempting <span class="keyword">to</span> <span class="builtin-name">debug</span> problems <span class="keyword">in</span> a normal environment.</span><br></pre></td></tr></table></figure></p>
+<p>三、要设置足够大的 coredump 文件大小限制。<br>程序崩溃时生成的 core 文件大小即为程序运行时占用的内存大小。但程序崩溃时的行为不可按平常时的行为来估计，比如缓冲区溢出等错误可能导致堆栈被破坏，因此经常会出现某个变量的值被修改成乱七八糟的，然后程序用这个大小去申请内存就可能导致程序比平常时多占用很多内存。因此无论程序正常运行时占用的内存多么少，要保证生成 core 文件还是将大小限制设为 unlimited 为好。</p>
+<p>以上情况的解决方法是设置<code>/proc/sys/fs/suid_dumpable</code>成 1</p>
+<p><a href="http://jaminzhang.github.io/linux/Linux-core-file/" target="_blank" rel="noopener">http://jaminzhang.github.io/linux/Linux-core-file/</a><br><a href="http://www.cnblogs.com/dongzhiquan/archive/2012/01/20/2328355.html" target="_blank" rel="noopener">Linux core 文件介绍</a><br><a href="http://blog.csdn.net/fengxinze/article/details/6800175" target="_blank" rel="noopener">Linux 下 core 文件产生的一些注意问题</a><br><a href="http://blog.csdn.net/star_xiong/article/details/43529637" target="_blank" rel="noopener">Linux 下如何产生 core 文件（core dump 设置）</a><br><a href="http://blog.csdn.net/wj_j2ee/article/details/7161586" target="_blank" rel="noopener">coredump 设置方法</a> </p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/mysql-utf8mb4" data-toggle="tooltip" data-placement="top" title="MySQL 修改字符集为utf8mb4">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/regex" data-toggle="tooltip" data-placement="top" title="正则表达式30分钟入门教程">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#coredump" title="coredump">coredump</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

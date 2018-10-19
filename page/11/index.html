@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -184,7 +184,7 @@
 
 <div class="post-preview">
 
-    <a href="/git-base/">
+    <a href="/git-base">
         <h2 class="post-title">
             Git 简易教程
         </h2>
@@ -207,7 +207,7 @@
 
 <div class="post-preview">
 
-    <a href="/gitlab/">
+    <a href="/gitlab">
         <h2 class="post-title">
             Ubuntu 安装GitLab服务器
         </h2>
@@ -230,7 +230,7 @@
 
 <div class="post-preview">
 
-    <a href="/rsync-delete/">
+    <a href="/rsync-delete">
         <h2 class="post-title">
             Linux 使用Rsync最快删除海量文件
         </h2>
@@ -253,7 +253,7 @@ Rsync删除......
 
 <div class="post-preview">
 
-    <a href="/nfs/">
+    <a href="/nfs">
         <h2 class="post-title">
             NFS服务器安装与配置
         </h2>
@@ -276,7 +276,7 @@ Rsync删除......
 
 <div class="post-preview">
 
-    <a href="/nginx-cache-expires/">
+    <a href="/nginx-cache-expires">
         <h2 class="post-title">
             Nginx  缓存与过期
         </h2>
@@ -298,7 +298,7 @@ Rsync删除......
 
 <div class="post-preview">
 
-    <a href="/google-bbr/">
+    <a href="/google-bbr">
         <h2 class="post-title">
             CentOS 7 部署Google BBR
         </h2>
@@ -322,7 +322,7 @@ Rsync删除......
 
 <div class="post-preview">
 
-    <a href="/shadowsocks-libev/">
+    <a href="/shadowsocks-libev">
         <h2 class="post-title">
             CentOS 7 配置Shadowsocks-libev + simple-obfs
         </h2>
@@ -345,7 +345,33 @@ Rsync删除......
 
 <div class="post-preview">
 
-    <a href="/acme-sh/">
+    <a href="/sar">
+        <h2 class="post-title">
+            Linux sar 命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            安装如果系统没有该命令请安装：
+12apt-get install sysstatyum install sysstat
+安装完毕：
+12vi /etc/default/sysstatENABLED="true"
+启动这个工具来收集系统性能数据：1/etc/init.d/sysstat start
+sar参数说明123456789101112131415161718-A    # 汇总所有的......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-19
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/acme-sh">
         <h2 class="post-title">
             使用acme.sh申请Let's Encrypt 泛域名野卡
         </h2>
@@ -369,7 +395,7 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
 
 <div class="post-preview">
 
-    <a href="/nginx-pitfalls-and-common-mistakes/">
+    <a href="/nginx-pitfalls-and-common-mistakes">
         <h2 class="post-title">
             Nginx 配置陷阱和常见错误
         </h2>
@@ -385,28 +411,6 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
 请阅读下面所有的内容！是所有的！
 
 不管是新手还是老用户，都可能会掉到一个陷阱中去。下面我们会列出一些我们经常看到，和 经常需要解释如何解决的问题。在 Freenode 的 Nginx IRC 频道中，我们频繁的看到这......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-13
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-rewrite/">
-        <h2 class="post-title">
-            Nginx 重定向和重写
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            nginx 重定向、单个页面重定向、整个目录重定向以及全站重定向
-非www跳转到www1234567server &#123;    listen 80;    server_name domain.com www.domain.com;    if ($server_name != "www.domain.com") &#123;        rewrite ^/(.*)$ http:/......
         </div>
     </a>
     <p class="post-meta">
@@ -462,8 +466,6 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                        
-                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -486,6 +488,8 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
                         
                             
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
@@ -495,6 +499,12 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -508,11 +518,7 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                            <a href="/tags/#git" title="git" rel="2">git</a>
-                            
-                        
-                            
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -536,19 +542,21 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
-                            
                         
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -557,12 +565,6 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                         
                             
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -582,9 +584,9 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                        
-                            
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
                             
                         
                             
@@ -619,6 +621,8 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                         
                             
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
                             
                         
                             
@@ -658,6 +662,8 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
@@ -666,11 +672,11 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
                             
                         
                             

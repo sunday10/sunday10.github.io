@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          ELK+Filebeat+Kafka 日志分析 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/elk-kafka-filebeat">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#elk" title="elk">elk</a>
+                        
+                          <a class="tag" href="/tags/#kafka" title="kafka">kafka</a>
+                        
+                    </div>
+                    <h1>ELK+Filebeat+Kafka 日志分析</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-01-30
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="为什么要用ELK"><a href="#为什么要用ELK" class="headerlink" title="为什么要用ELK"></a>为什么要用ELK</h1><p>日志主要包括系统日志、应用程序日志和安全日志。系统运维和开发人员可以通过日志了解服务器软硬件信息、检查配置过程中的错误及错误发生的原因。经常分析日志可以了解服务器的负荷，性能安全性，从而及时采取措施纠正错误。</p>
+<p>通常，日志被分散的储存不同的设备上。如果你管理数十上百台服务器，你还在使用依次登录每台机器的传统方法查阅日志。这样是不是感觉很繁琐和效率低下。日志的统计和检索又成为一件比较麻烦的事情，一般我们使用grep、awk和wc等Linux命令能实现检索和统计，但是对于要求更高的查询、排序和统计等要求和庞大的机器数量依然使用这样的方法难免有点力不从心。</p>
+<p>官网下载地址：<a href="https://www.elastic.co/downloads" target="_blank" rel="noopener">https://www.elastic.co/downloads</a></p>
+<ul>
+<li><p>Elasticsearch：是一个基于Apache Lucene(TM)的开源搜索引擎，它的特点有：分布式，零配置，自动发现，索引自动分片，索引副本机制，RESTful web风格接口，多数据源，自动搜索负载等。可以用于全文检索、结构化检索和分析。现在使用最广的开源搜索引擎之一，Wikipedia 、StackOverflow、Github 等都基于它来构建自己的搜索引擎。</p>
+</li>
+<li><p>Logstash：是一个用来搜集、分析、过滤日志的工具。它支持几乎任何类型的日志，包括系统日志、错误日志和自定义应用程序日志。它可以从许多来源接收日志，这些来源包括 syslog、消息传递（例如 RabbitMQ）和JMX，它能够以多种方式输出数据，包括电子邮件、websockets和 Elasticsearch。</p>
+</li>
+<li><p>Kibana：是一个基于Web的图形界面，用于搜索、分析和可视化存储在 Elasticsearch指标中的日志数据。使用它可以很方便的用图表、表格、地图展示和分析数据。</p>
+</li>
+<li><p>Filebeat：Filebeat是一个轻量级数据收集引擎，在你的服务器上安装客户端后，filebeat会监控日志目录或者指定的日志文件，追踪读取这些文件（追踪文件的变化，不停的读），并且可以转发这些信息到Elasticsearch、Logstash、File、Kafka、Redis 和 Console。</p>
+</li>
+<li><p>Kafka：是一种高吞吐量的分布式发布订阅消息系统。在实时数据量比较大的时候，使用kafka作为缓冲是一个不错的选择。</p>
+</li>
+<li><p>Nginx：是一个高性能的 Web 和反向代理服务器, 它具有有很多非常优越的特性:<br>作为 Web 服务器：相比 Apache，Nginx 使用更少的资源，支持更多的并发连接，体现更高的效率，这点使 Nginx 尤其受到虚拟主机提供商的欢迎。能够支持高达 50,000 个并发连接数的响应，感谢 Nginx 为我们选择了 epoll and kqueue 作为开发模型.<br>作为负载均衡服务器：Nginx 既可以在内部直接支持 Rails 和 PHP，也可以支持作为 HTTP代理服务器 对外进行服务。Nginx 用 C 编写, 不论是系统资源开销还是 CPU 使用效率都比 Perlbal 要好的多。</p>
+</li>
+</ul>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
+<li><p>系统：CentOS 7<br>es31  –&gt; Elasticsearch: 192.168.11.31<br>es32  –&gt; Elasticsearch: 192.168.11.32<br>log33 –&gt; Logstash: 192.168.11.33<br>log34 –&gt; Logstash: 192.168.11.34<br>ka35  –&gt; Kafka &amp; Zookeeper: 192.168.11.35<br>ka36  –&gt; Kafka &amp; Zookeeper: 192.168.11.36<br>web37–&gt; Kibana &amp; Nginx: 192.168.11.37</p>
+</li>
+<li><p>关闭防火墙</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld<span class="selector-class">.service</span> &amp;&amp; setenforce <span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>架构图：<br>nginx日志 &gt;&gt;  filebeat收集 &gt;&gt;  kafka队列 &gt;&gt; logstash过滤 &gt;&gt; elasticsearch<br>filebeat收集nginx日志写入kafka队列中，logstash接收kafka队列的filebeat nginx日志，将读取的日志解析后elasticsearch中。</p>
+</li>
+</ul>
+<h1 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install java </span><br><span class="line">java -versionopenjdk version <span class="string">"1.8.0_161"</span></span><br><span class="line">OpenJDK Runtime Environment (build 1.8.0_161-b14)</span><br><span class="line">OpenJDK 64-Bit<span class="built_in"> Server </span>VM (build 25.161-b14, mixed mode)</span><br></pre></td></tr></table></figure>
+<h1 id="ELK-YUM源"><a href="#ELK-YUM源" class="headerlink" title="ELK YUM源"></a>ELK YUM源</h1><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch</span><br><span class="line">cat &lt;&lt; EOF &gt;&gt; /etc/yum.repos.d/elk.repo</span><br><span class="line">[elasticsearch-5.x]</span><br><span class="line">name=Elasticsearch repository for 5.x packages</span><br><span class="line">baseurl=https://artifacts.elastic.co/packages/5.x/yum</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch</span><br><span class="line">enabled=1</span><br><span class="line">autorefresh=1</span><br><span class="line">type=rpm-md</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h1 id="Kafka配置"><a href="#Kafka配置" class="headerlink" title="Kafka配置"></a>Kafka配置</h1><p>下载解压<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.hust.edu.cn/apache/kafka/<span class="number">1.0</span><span class="meta">.1</span>/kafka_2<span class="meta">.11</span>-<span class="number">1.0</span><span class="meta">.1</span>.tgz</span><br><span class="line">tar -xzf kafka_2<span class="meta">.11</span>-<span class="number">1.0</span><span class="meta">.1</span>.tgz</span><br><span class="line">cd kafka_2<span class="meta">.11</span>-<span class="number">1.0</span><span class="meta">.1</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="zookeeper配置"><a href="#zookeeper配置" class="headerlink" title="zookeeper配置"></a>zookeeper配置</h2><p>#ka35、ka36都修改如下内容<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim config/zookeeper.processors   </span><br><span class="line"></span><br><span class="line"><span class="attribute">maxClientCnxns</span>=0</span><br><span class="line"><span class="attribute">clientPort</span>=2181</span><br><span class="line"><span class="attribute">maxClientCnxns</span>=0</span><br><span class="line"><span class="attribute">tickTime</span>=2000</span><br><span class="line"><span class="attribute">initLimit</span>=20</span><br><span class="line"><span class="attribute">syncLimit</span>=10</span><br><span class="line"><span class="attribute">dataDir</span>=/data/zookeeper/dataDir  </span><br><span class="line"><span class="attribute">dataLogDir</span>=/var/log/zookeeper</span><br><span class="line">server.<span class="attribute">1</span>=192.168.11.35:2888:3888  </span><br><span class="line">server.<span class="attribute">2</span>=192.168.11.36:2888:3888</span><br></pre></td></tr></table></figure></p>
+<p>配置目录及文件 #ka35、ka36都执行<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -<span class="keyword">p</span> /data/zookeeper</span><br><span class="line">sudo <span class="built_in">mkdir</span> -<span class="keyword">p</span> /var/<span class="built_in">log</span>/zookeeper</span><br><span class="line">sudo chown -R <span class="keyword">star</span>.<span class="keyword">star</span>/data/zookeeper # 这里的用户名使用你当前的用户名(替换掉<span class="keyword">star</span>)</span><br></pre></td></tr></table></figure></p>
+<p>在ka35执行<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">'1'</span> &gt;<span class="regexp">/data/</span>zookeeper<span class="regexp">/myid</span></span><br></pre></td></tr></table></figure></p>
+<p>在ka36执行<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">'2'</span> &gt;<span class="regexp">/data/</span>zookeeper<span class="regexp">/myid</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Kafka配置-1"><a href="#Kafka配置-1" class="headerlink" title="Kafka配置"></a>Kafka配置</h2><p>#ka35配置修改如下内容<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">vim config/server.properties</span><br><span class="line"></span><br><span class="line">broker.id=<span class="number">1</span></span><br><span class="line">delete<span class="selector-class">.topic</span><span class="selector-class">.enable</span>=true</span><br><span class="line">listeners=PLAINTEXT:<span class="comment">//192.168.11.35:9092</span></span><br><span class="line">num<span class="selector-class">.network</span><span class="selector-class">.threads</span>=<span class="number">3</span></span><br><span class="line">num<span class="selector-class">.io</span><span class="selector-class">.threads</span>=<span class="number">8</span></span><br><span class="line">socket<span class="selector-class">.send</span><span class="selector-class">.buffer</span><span class="selector-class">.bytes</span>=<span class="number">102400</span></span><br><span class="line">socket<span class="selector-class">.receive</span><span class="selector-class">.buffer</span><span class="selector-class">.bytes</span>=<span class="number">102400</span></span><br><span class="line">socket<span class="selector-class">.request</span><span class="selector-class">.max</span><span class="selector-class">.bytes</span>=<span class="number">104857600</span></span><br><span class="line">log.dirs=/data/kafka</span><br><span class="line">num.partitions=<span class="number">6</span></span><br><span class="line">replication.factor=<span class="number">2</span></span><br><span class="line">num<span class="selector-class">.recovery</span><span class="selector-class">.threads</span><span class="selector-class">.per</span><span class="selector-class">.data</span><span class="selector-class">.dir</span>=<span class="number">1</span></span><br><span class="line">log<span class="selector-class">.retention</span><span class="selector-class">.hours</span>=<span class="number">120</span></span><br><span class="line">log<span class="selector-class">.segment</span><span class="selector-class">.bytes</span>=<span class="number">1073741824</span></span><br><span class="line">log<span class="selector-class">.retention</span><span class="selector-class">.check</span><span class="selector-class">.interval</span><span class="selector-class">.ms</span>=<span class="number">300000</span></span><br><span class="line">zookeeper.connect=<span class="number">192.168</span>.<span class="number">11.35</span>:<span class="number">2181</span>,<span class="number">192.168</span>.<span class="number">11.36</span>:<span class="number">2181</span></span><br><span class="line">zookeeper<span class="selector-class">.connection</span><span class="selector-class">.timeout</span><span class="selector-class">.ms</span>=<span class="number">6000</span></span><br></pre></td></tr></table></figure></p>
+<p>#ka36配置修改如下内容<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">vim config/server.properties</span><br><span class="line"></span><br><span class="line">broker.id=<span class="number">2</span></span><br><span class="line">delete<span class="selector-class">.topic</span><span class="selector-class">.enable</span>=true</span><br><span class="line">listeners=PLAINTEXT:<span class="comment">//192.168.11.36:9092</span></span><br><span class="line">num<span class="selector-class">.network</span><span class="selector-class">.threads</span>=<span class="number">3</span></span><br><span class="line">num<span class="selector-class">.io</span><span class="selector-class">.threads</span>=<span class="number">8</span></span><br><span class="line">socket<span class="selector-class">.send</span><span class="selector-class">.buffer</span><span class="selector-class">.bytes</span>=<span class="number">102400</span></span><br><span class="line">socket<span class="selector-class">.receive</span><span class="selector-class">.buffer</span><span class="selector-class">.bytes</span>=<span class="number">102400</span></span><br><span class="line">socket<span class="selector-class">.request</span><span class="selector-class">.max</span><span class="selector-class">.bytes</span>=<span class="number">104857600</span></span><br><span class="line">log.dirs=/data/kafka</span><br><span class="line">num.partitions=<span class="number">6</span></span><br><span class="line">replication.factor=<span class="number">2</span></span><br><span class="line">num<span class="selector-class">.recovery</span><span class="selector-class">.threads</span><span class="selector-class">.per</span><span class="selector-class">.data</span><span class="selector-class">.dir</span>=<span class="number">1</span></span><br><span class="line">log<span class="selector-class">.retention</span><span class="selector-class">.hours</span>=<span class="number">120</span></span><br><span class="line">log<span class="selector-class">.segment</span><span class="selector-class">.bytes</span>=<span class="number">1073741824</span></span><br><span class="line">log<span class="selector-class">.retention</span><span class="selector-class">.check</span><span class="selector-class">.interval</span><span class="selector-class">.ms</span>=<span class="number">300000</span></span><br><span class="line">zookeeper.connect=<span class="number">192.168</span>.<span class="number">11.35</span>:<span class="number">2181</span>,<span class="number">192.168</span>.<span class="number">11.36</span>:<span class="number">2181</span></span><br><span class="line">zookeeper<span class="selector-class">.connection</span><span class="selector-class">.timeout</span><span class="selector-class">.ms</span>=<span class="number">6000</span></span><br></pre></td></tr></table></figure></p>
+<p>配置目录<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">mkdir</span> -p /<span class="class"><span class="keyword">data</span>/kafka</span></span><br></pre></td></tr></table></figure></p>
+<p>启动<br>ka35、ka36启动<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/zookeeper-server-start<span class="selector-class">.sh</span> -daemon config/zookeeper.properties</span><br><span class="line">bin/kafka-server-start<span class="selector-class">.sh</span> -daemon config/server.properties</span><br></pre></td></tr></table></figure></p>
+<p>kafka 简单操作：<br>创建topic(创建名为test的topic，只有一个分区和一个备份)<br><figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">bin/kafka</span><span class="literal">-</span><span class="comment">topics</span><span class="string">.</span><span class="comment">sh</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">create</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">zookeeper</span> <span class="comment">192</span><span class="string">.</span><span class="comment">168</span><span class="string">.</span><span class="comment">11</span><span class="string">.</span><span class="comment">35:2181</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">replication</span><span class="literal">-</span><span class="comment">factor</span> <span class="comment">1</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">partitions</span> <span class="comment">1</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">topic</span> <span class="comment">test</span></span><br></pre></td></tr></table></figure></p>
+<p>查看已创建的topic<br><figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">bin/kafka</span><span class="literal">-</span><span class="comment">topics</span><span class="string">.</span><span class="comment">sh</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">list</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">zookeeper</span> <span class="comment">192</span><span class="string">.</span><span class="comment">168</span><span class="string">.</span><span class="comment">11</span><span class="string">.</span><span class="comment">35:2181</span></span><br></pre></td></tr></table></figure></p>
+<p>手动模拟producer<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-producer.<span class="keyword">sh</span> --broker-<span class="keyword">list</span> 192.168.11.35:9092 --topic <span class="keyword">test</span></span><br></pre></td></tr></table></figure></p>
+<p>手动模拟consumer<br><figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">bin/kafka</span><span class="literal">-</span><span class="comment">console</span><span class="literal">-</span><span class="comment">consumer</span><span class="string">.</span><span class="comment">sh</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">zookeeper</span> <span class="comment">192</span><span class="string">.</span><span class="comment">168</span><span class="string">.</span><span class="comment">11</span><span class="string">.</span><span class="comment">35:2181</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">topic</span> <span class="comment">test</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">from</span><span class="literal">-</span><span class="comment">beginning</span></span><br></pre></td></tr></table></figure></p>
+<p>查看topic详细信息</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">bin/kafka</span><span class="literal">-</span><span class="comment">topics</span><span class="string">.</span><span class="comment">sh</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">describe</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">zookeeper</span> <span class="comment">192</span><span class="string">.</span><span class="comment">168</span><span class="string">.</span><span class="comment">11</span><span class="string">.</span><span class="comment">35:2181</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">topic</span> <span class="comment">test</span></span><br></pre></td></tr></table></figure>
+<p>查看group的lag等重要信息<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-consumer-groups.sh  <span class="attribute">--bootstrap-server</span>=kafka01:9092 --describe <span class="attribute">--group</span>=consumer_group01</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://kafka.apache.org/quickstart" target="_blank" rel="noopener">https://kafka.apache.org/quickstart</a><br>bin目录下还有很多的脚本工具，可以使用类似“bin/kafka-consumer-groups.sh –help”命令来查看用法</p>
+<h1 id="Elasticsearch安装"><a href="#Elasticsearch安装" class="headerlink" title="Elasticsearch安装"></a>Elasticsearch安装</h1><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="keyword">install</span> elasticsearch</span><br></pre></td></tr></table></figure>
+<h2 id="参数配置"><a href="#参数配置" class="headerlink" title="参数配置"></a>参数配置</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span> /etc/elasticsearch/elasticsearch.yml</span><br><span class="line"></span><br><span class="line">cluster.name: <span class="keyword">star</span>-es-cluster</span><br><span class="line">node.name: <span class="keyword">star</span>-es01</span><br><span class="line">path.dat<span class="variable">a:</span> /data/<span class="keyword">star</span>-es</span><br><span class="line">path.<span class="built_in">log</span><span class="variable">s:</span> /var/<span class="built_in">log</span>/elasticsearch</span><br><span class="line">bootstrap.memory_lock: true</span><br><span class="line">network.hos<span class="variable">t:</span> <span class="number">192.168</span>.<span class="number">11.31</span></span><br><span class="line">http.por<span class="variable">t:</span> <span class="number">9200</span></span><br><span class="line">discovery.zen.ping.unicast.host<span class="variable">s:</span> [<span class="string">"192.168.11.31"</span>, <span class="string">"192.168.11.32"</span>]<span class="comment">"]</span></span><br><span class="line"># bigdesk</span><br><span class="line">http.cors.enabled: true</span><br><span class="line">http.cors.allow-origin: <span class="string">"*"</span></span><br></pre></td></tr></table></figure>
+<p>创建数据目录、修改权限<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">mkdir</span> -pv /<span class="class"><span class="keyword">data</span>/star-es</span></span><br><span class="line"><span class="title">chown</span> -<span class="type">R</span> elasticsearch:elasticsearch /<span class="class"><span class="keyword">data</span>/star-es</span></span><br></pre></td></tr></table></figure></p>
+<p>重载配置 开机启动 启动<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">systemctl</span> <span class="selector-tag">daemon-reload</span></span><br><span class="line"><span class="selector-tag">systemctl</span> <span class="selector-tag">enable</span> <span class="selector-tag">elasticsearch</span><span class="selector-class">.service</span></span><br><span class="line"><span class="selector-tag">systemctl</span> <span class="selector-tag">start</span> <span class="selector-tag">elasticsearch</span><span class="selector-class">.service</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>curl <a href="http://192.168.11.31:9200" target="_blank" rel="noopener">http://192.168.11.31:9200</a><br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span> : <span class="string">"star-es01"</span>,</span><br><span class="line">  <span class="attr">"cluster_name"</span> : <span class="string">"star-es-cluster"</span>,</span><br><span class="line">  <span class="attr">"cluster_uuid"</span> : <span class="string">"_IdvNn6JQaWC6-68Y6ci8g"</span>,</span><br><span class="line">  <span class="attr">"version"</span> : &#123;</span><br><span class="line">    <span class="attr">"number"</span> : <span class="string">"5.6.8"</span>,</span><br><span class="line">    <span class="attr">"build_hash"</span> : <span class="string">"688ecce"</span>,</span><br><span class="line">    <span class="attr">"build_date"</span> : <span class="string">"2018-02-16T16:46:30.010Z"</span>,</span><br><span class="line">    <span class="attr">"build_snapshot"</span> : <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"lucene_version"</span> : <span class="string">"6.6.1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"tagline"</span> : <span class="string">"You Know, for Search"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="健康状态"><a href="#健康状态" class="headerlink" title="健康状态"></a>健康状态</h2><p>curl -XGET ‘<a href="http://192.168.11.31:9200/_cluster/health?pretty&#39;" target="_blank" rel="noopener">http://192.168.11.31:9200/_cluster/health?pretty&#39;</a><br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cluster_name"</span> : <span class="string">"star-es-cluster"</span>,</span><br><span class="line">  <span class="attr">"status"</span> : <span class="string">"green"</span>,</span><br><span class="line">  <span class="attr">"timed_out"</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"number_of_nodes"</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">"number_of_data_nodes"</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">"active_primary_shards"</span> : <span class="number">36</span>,</span><br><span class="line">  <span class="attr">"active_shards"</span> : <span class="number">72</span>,</span><br><span class="line">  <span class="attr">"relocating_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"initializing_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"unassigned_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"delayed_unassigned_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"number_of_pending_tasks"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"number_of_in_flight_fetch"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"task_max_waiting_in_queue_millis"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"active_shards_percent_as_number"</span> : <span class="number">100.0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="Filebeat安装"><a href="#Filebeat安装" class="headerlink" title="Filebeat安装"></a>Filebeat安装</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install filebeat</span><br><span class="line">systemctl <span class="builtin-name">enable</span> filebeat</span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">vim</span> <span class="string">/etc/filebeat/filebeat.yml</span> <span class="string">配置</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#=========================== Filebeat prospectors =============================</span></span><br><span class="line"><span class="string">filebeat.prospectors:</span></span><br><span class="line"><span class="attr">- input_type:</span> <span class="string">log</span></span><br><span class="line"><span class="attr">  enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  paths:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">/var/log/nginx/access.log</span></span><br><span class="line"><span class="attr">  document_type:</span> <span class="string">nginx_access</span></span><br><span class="line"><span class="attr">  encoding:</span> <span class="string">plain</span></span><br><span class="line"><span class="attr">  ignore_older:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">  tail_files:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#=============================== Processors ===============================</span></span><br><span class="line"><span class="attr">processors:</span></span><br><span class="line"><span class="comment"># 清除掉一些默认的不必要字段（@timestamp和type字段是不能清除的）</span></span><br><span class="line"><span class="attr">- drop_fields:</span></span><br><span class="line"><span class="attr">   fields:</span> <span class="string">["beat",</span> <span class="string">"input_type"</span><span class="string">,</span> <span class="string">"source"</span><span class="string">,</span> <span class="string">"offset"</span><span class="string">]</span></span><br><span class="line"></span><br><span class="line"><span class="string">output.kafka:</span></span><br><span class="line"><span class="attr">  enabled:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># initial brokers for reading cluster metadata</span></span><br><span class="line"><span class="attr">  hosts:</span> <span class="string">["192.168.11.35:9092","192.168.11.36:9092"]</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># message topic selection + partitioning</span></span><br><span class="line"><span class="attr">  topic:</span> <span class="string">'<span class="template-variable">%&#123;[type]&#125;</span>'</span></span><br><span class="line">  <span class="string">partition.round_robin:</span></span><br><span class="line"><span class="attr">    reachable_only:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># The number of concurrent load-balanced Kafka output workers(default 1) </span></span><br><span class="line"><span class="attr">  worker:</span> <span class="number">2</span></span><br><span class="line"><span class="attr">  required_acks:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">  compression:</span> <span class="string">gzip</span></span><br><span class="line"><span class="attr">  max_message_bytes:</span> <span class="number">1000000</span> <span class="comment"># 10MB</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#================================ Logging ======================================</span></span><br><span class="line"><span class="comment"># Available log levels are: critical, error, warning, info, debug</span></span><br><span class="line"><span class="string">logging.level:</span> <span class="string">info</span></span><br><span class="line"><span class="string">logging.to_files:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">logging.files:</span></span><br><span class="line"><span class="attr">  path:</span> <span class="string">/var/log/filebeat</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">filebeat</span></span><br><span class="line"><span class="attr">  rotateeverybytes:</span> <span class="number">52428800</span> <span class="comment"># 50MB</span></span><br><span class="line"><span class="attr">  keepfiles:</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<h1 id="Logstash安装"><a href="#Logstash安装" class="headerlink" title="Logstash安装"></a>Logstash安装</h1><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="keyword">install</span> logstash</span><br></pre></td></tr></table></figure>
+<p>参数配置<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/logstash/logstash.yml </span><br><span class="line"></span><br><span class="line">path.<span class="symbol">data:</span> /var/<span class="class"><span class="keyword">lib</span>/<span class="title">logstash</span></span></span><br><span class="line"><span class="comment"># 最好设置为跟cpu核心数量相同</span></span><br><span class="line">pipeline.<span class="symbol">workers:</span> <span class="number">2</span></span><br><span class="line">pipeline.output.<span class="symbol">workers:</span> <span class="number">2</span></span><br><span class="line"><span class="comment"># Logstash 会攒到 pipeline.batch.size 条数据才一次性发送出去（根据业务的量慎重考虑此值，一般在线上系统需要调整此值，实现最大的吞吐量）</span></span><br><span class="line">pipeline.batch.<span class="symbol">size:</span> <span class="number">20000</span></span><br><span class="line"><span class="comment"># 每个 Logstash pipeline 线程，在打包批量日志的时候，最多等待几毫秒。默认是 5 ms（此设置一般不需要更改）</span></span><br><span class="line">pipeline.batch.<span class="symbol">delay:</span> <span class="number">5</span></span><br><span class="line">path.<span class="symbol">config:</span> /etc/logstash/conf.d</span><br><span class="line">http.<span class="symbol">host:</span> <span class="string">"192.168.11.33"</span></span><br><span class="line">log.<span class="symbol">level:</span> info</span><br><span class="line">path.<span class="symbol">logs:</span> /var/log/logstash</span><br></pre></td></tr></table></figure></p>
+<p>权限设置<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setfacl -m <span class="symbol">u:</span><span class="symbol">logstash:</span>r /var/log/messages /var/log/dmesg</span><br><span class="line">getfacl /var/log/syslog</span><br><span class="line">chown -R logstash.logstash /var/<span class="class"><span class="keyword">lib</span>/<span class="title">logstashss</span></span></span><br></pre></td></tr></table></figure></p>
+<p>重载配置 开机启动 启动<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">systemctl</span> <span class="selector-tag">daemon-reload</span></span><br><span class="line"><span class="selector-tag">systemctl</span> <span class="selector-tag">enable</span> <span class="selector-tag">logstash</span><span class="selector-class">.service</span></span><br><span class="line"><span class="selector-tag">systemctl</span> <span class="selector-tag">start</span> <span class="selector-tag">logstash</span><span class="selector-class">.service</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/logstash/bin/logstash -e <span class="string">'input &#123; stdin&#123;&#125; &#125; output &#123; stdout&#123;&#125; &#125;'</span></span><br><span class="line">WARNING: Could <span class="keyword">not</span> <span class="built_in">find</span> logstash.yml which is typically located <span class="keyword">in</span> $LS_HOME/<span class="built_in">config</span> <span class="keyword">or</span> /etc/logstash. You can specify the <span class="built_in">path</span> using <span class="comment">--path.settings. Continuing using the defaults</span></span><br><span class="line">Could <span class="keyword">not</span> <span class="built_in">find</span> log4j2 configuration at <span class="built_in">path</span> /usr/share/logstash/<span class="built_in">config</span>/log4j2.properties. Using default <span class="built_in">config</span> which logs errors to the console</span><br><span class="line"></span><br><span class="line">解决：</span><br><span class="line">ln -sv /etc/logstash /usr/share/logstash/<span class="built_in">config</span></span><br><span class="line">chown -R logstash.logstash /usr/share/logstash/<span class="built_in">config</span>/</span><br></pre></td></tr></table></figure>
+<p>标准输入 输出信息，同时写入到ES中 （前台调试模式）<br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/logstash/bin/logstash -e 'input &#123; <span class="literal">stdin</span>&#123;&#125; &#125; output &#123; <span class="literal">stdout</span>&#123; codec =&gt; rubydebug &#125; elasticsearch &#123; hosts =&gt; [<span class="string">"192.168.11.31:9200"</span>] index =&gt; <span class="string">"logstash-%&#123;+YYYY.MM.dd&#125;"</span> &#125; &#125;'</span><br><span class="line"><span class="type">OpenJDK</span> <span class="number">64</span>-<span class="type">Bit</span> <span class="type">Server</span> <span class="type">VM</span> warning: <span class="type">If</span> the number <span class="keyword">of</span> processors <span class="keyword">is</span> expected to increase <span class="keyword">from</span> one, then you should configure the number <span class="keyword">of</span> parallel <span class="type">GC</span> threads appropriately <span class="keyword">using</span> -<span class="type">XX</span>:<span class="type">ParallelGCThreads</span>=N</span><br><span class="line"><span class="type">Sending</span> <span class="type">Logstash</span>'s logs to /<span class="keyword">var</span>/log/logstash which <span class="keyword">is</span> now configured via log4j2.properties</span><br><span class="line"><span class="type">The</span> <span class="literal">stdin</span> plugin <span class="keyword">is</span> now waiting <span class="keyword">for</span> input:</span><br><span class="line">www.sundayle.com （键盘输入）</span><br><span class="line">&#123;</span><br><span class="line">      <span class="string">"@version"</span> =&gt; <span class="string">"1"</span>,</span><br><span class="line">          <span class="string">"host"</span> =&gt; <span class="string">"star-log02"</span>,</span><br><span class="line">    <span class="string">"@timestamp"</span> =&gt; <span class="number">2018</span>-<span class="number">02</span>-<span class="number">01</span>T11:<span class="number">42</span>:<span class="number">28</span>.<span class="number">980</span>Z,</span><br><span class="line">       <span class="string">"message"</span> =&gt; <span class="string">"www.sundayle.com"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="配置收集nginx日志模式"><a href="#配置收集nginx日志模式" class="headerlink" title="配置收集nginx日志模式"></a>配置收集nginx日志模式</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">log_format</span> main <span class="string">'<span class="variable">$remote_addr</span> - <span class="variable">$remote_user</span> [<span class="variable">$time_local</span>] "<span class="variable">$request</span>" '</span></span><br><span class="line">                      <span class="string">'<span class="variable">$status</span> <span class="variable">$body_bytes_sent</span> "<span class="variable">$http_referer</span>" '</span></span><br><span class="line">                      <span class="string">'"<span class="variable">$http_user_agent</span>" "<span class="variable">$http_x_forwarded_for</span>" "<span class="variable">$request_time</span>" "<span class="variable">$host</span>" '</span></span><br><span class="line">                      <span class="string">'"<span class="variable">$upstream_status</span>" "<span class="variable">$upstream_addr</span>" "<span class="variable">$upstream_response_time</span>"'</span> ;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h1><h3 id="ulimit"><a href="#ulimit" class="headerlink" title="ulimit"></a>ulimit</h3><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; <span class="literal">EOF</span> &gt;&gt;  /etc/security/limits.conf </span><br><span class="line">* soft nproc <span class="number">65535</span></span><br><span class="line">* hard nproc <span class="number">65536</span></span><br><span class="line">* soft nofile <span class="number">102400</span></span><br><span class="line">* hard nofile <span class="number">102400</span></span><br><span class="line">elasticsearch soft memlock unlimited</span><br><span class="line">elasticsearch hard memlock unlimited</span><br><span class="line"><span class="literal">EOF</span></span><br></pre></td></tr></table></figure>
+<h3 id="控制JVM-heap-size-系统内存的（少于）一半给Luncene"><a href="#控制JVM-heap-size-系统内存的（少于）一半给Luncene" class="headerlink" title="控制JVM heap size : 系统内存的（少于）一半给Luncene"></a>控制JVM heap size : 系统内存的（少于）一半给Luncene</h3><p>假设你有一个 64 GB 内存的机器,标准的建议是把 50％ 的可用内存作为 Elasticsearch 的堆内存，保留剩下的 50％。当然它也不会被浪费，Lucene 会很乐意利用起余下的内存。<br>即便你有足够的内存，也尽量不要 超过 32 GB。因为它浪费了内存，降低了 CPU 的性能，还要让 GC 应对大内存。</p>
+<p>vim /etc/elasticsearch/jvm.options<br>vim /etc/logstash/jvm.options<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">Xms2g</span></span><br><span class="line"><span class="ruby">-Xmx2g</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="禁止或少用Swapping"><a href="#禁止或少用Swapping" class="headerlink" title="禁止或少用Swapping"></a>禁止或少用Swapping</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#swapoff</span> -a</span><br><span class="line">echo vm<span class="selector-class">.swappiness</span> =<span class="number">1</span> &gt;&gt; /etc/sysctl.conf</span><br><span class="line">sysctl -p</span><br><span class="line"></span><br><span class="line">或/etc/elasticsearch/elasticsearch<span class="selector-class">.yml</span> </span><br><span class="line">bootstrap<span class="selector-class">.memory_lock</span>: true</span><br><span class="line">#启动锁定足够的内存，防止数据写入swap，配合bootstrap<span class="selector-class">.memory_lock</span>: true使用</span><br><span class="line">vim /usr/lib/systemd/system/elasticsearch.service</span><br><span class="line">vim /etc/systemd/system/logstash.service</span><br><span class="line"></span><br><span class="line">LimitMEMLOCK=infinity</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/heap-sizing.html#compressed_oops" target="_blank" rel="noopener">https://www.elastic.co/guide/cn/elasticsearch/guide/current/heap-sizing.html#compressed_oops</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/elk-elasticsearch-plug" data-toggle="tooltip" data-placement="top" title="ELK实时日志分析 Elasticsearch 插件">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/java" data-toggle="tooltip" data-placement="top" title="CentOS 7 安装 Java">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#elk" title="elk">elk</a>
+                        
+                          <a class="tag" href="/tags/#kafka" title="kafka">kafka</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

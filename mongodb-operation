@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          mongodb集群监控和运维 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/mongodb-operation">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#mongodb" title="mongodb">mongodb</a>
+                        
+                    </div>
+                    <h1>mongodb集群监控和运维</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-05-18
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>本文转载自：<a href="http://www.mooooc.com/mongodb/2017/09/06/mongodb-operation.html" target="_blank" rel="noopener">http://www.mooooc.com/mongodb/2017/09/06/mongodb-operation.html</a><br>这篇文件介绍如何动态的添加、下架mongod分片和副本集，以及如何监控和运维mongodb。</p>
+<h2 id="添加节点"><a href="#添加节点" class="headerlink" title="添加节点"></a>添加节点</h2><h3 id="副本集-改为仲裁节点"><a href="#副本集-改为仲裁节点" class="headerlink" title="副本集 改为仲裁节点"></a>副本集 改为仲裁节点</h3><p><a href="https://docs.mongodb.com/manual/tutorial/convert-secondary-into-arbiter/" target="_blank" rel="noopener">convert-secondary-into-arbiter</a></p>
+<p>登录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mongo 192.168.0.35:27005</span><br><span class="line"><span class="comment">#使用admin数据库</span></span><br><span class="line">use admin</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看分区状态</span></span><br><span class="line">rs.status();</span><br></pre></td></tr></table></figure>
+<p>移除副本集</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.remove(<span class="string">"192.168.0.35:27005"</span>)</span><br></pre></td></tr></table></figure>
+<p>查看配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.conf()</span><br></pre></td></tr></table></figure>
+<p>删除shard5的数据目录，重启shard5</p>
+<p>重新添加仲裁节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.addArb(<span class="string">"192.168.0.35:27005"</span>)</span><br></pre></td></tr></table></figure>
+<p>查看配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.conf()</span><br></pre></td></tr></table></figure>
+<h3 id="仲裁节点改成副本集"><a href="#仲裁节点改成副本集" class="headerlink" title="仲裁节点改成副本集"></a>仲裁节点改成副本集</h3><p><a href="https://docs.mongodb.com/manual/tutorial/expand-replica-set/" target="_blank" rel="noopener">Add Members to a Replica Set</a></p>
+<p>移除仲裁节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.remove(<span class="string">"192.168.0.35:27005"</span>)</span><br></pre></td></tr></table></figure>
+<p>删除总裁节点的数据，并重启</p>
+<p>在 primary 添加副本节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.add(<span class="string">"192.168.0.35:27005"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rs.conf()</span><br><span class="line">rs.status();</span><br></pre></td></tr></table></figure>
+<p>刚添加的副本集状态为：STARTUP2</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"stateStr"</span> : <span class="string">"STARTUP2"</span>,</span><br></pre></td></tr></table></figure>
+<h2 id="集群中添加分片"><a href="#集群中添加分片" class="headerlink" title="集群中添加分片"></a>集群中添加分片</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mongo 192.168.0.31:20000</span><br><span class="line"><span class="comment">#使用admin数据库</span></span><br><span class="line">use  admin</span><br><span class="line"><span class="comment">#添加分片</span></span><br><span class="line">sh.addShard(<span class="string">"shard5/192.168.0.35:27005,192.168.0.31:27005,192.168.0.32:27005"</span>)</span><br><span class="line"><span class="comment">#查看集群状态</span></span><br><span class="line">sh.status()</span><br></pre></td></tr></table></figure>
+<h2 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h2><h3 id="mongostat"><a href="#mongostat" class="headerlink" title="mongostat"></a>mongostat</h3><p>mongostat是mongdb自带的状态检测工具，在命令行下使用。它会间隔固定时间获取mongodb的当前运行状态，并输出。如果你发现数据库突然变慢或者有其他问题的话，你第一手的操作就考虑采用mongostat来查看mongo的状态。</p>
+<p>它的输出有以下几列：</p>
+<ul>
+<li>inserts/s 每秒插入次数</li>
+<li>query/s 每秒查询次数</li>
+<li>update/s 每秒更新次数</li>
+<li>delete/s 每秒删除次数</li>
+<li>getmore/s 每秒执行getmore次数</li>
+<li>command/s 每秒的命令数，比以上插入、查找、更新、删除的综合还多，还统计了别的命令</li>
+<li>flushs/s 每秒执行fsync将数据写入硬盘的次数。</li>
+<li>mapped/s 所有的被mmap的数据量，单位是MB，</li>
+<li>vsize 虚拟内存使用量，单位MB</li>
+<li>res 物理内存使用量，单位MB</li>
+<li>faults/s 每秒访问失败数（只有Linux有），数据被交换出物理内存，放到swap。不要超过100，否则就是机器内存太小，造成频繁swap写入。此时要升级内存或者扩展</li>
+<li>locked % 被锁的时间百分比，尽量控制在50%以下吧</li>
+<li>idx miss % 索引不命中所占百分比。如果太高的话就要考虑索引是不是少了</li>
+<li><code>q t|r|w</code> 当Mongodb接收到太多的命令而数据库被锁住无法执行完成，它会将命令加入队列。这一栏显示了总共、读、写3个队列的长度，都为0的话表示mongo毫无压力。高并发时，一般队列值会升高。</li>
+<li>conn 当前连接数</li>
+<li>time 时间戳</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mongostat -h 192.168.0.31:27001</span><br><span class="line"><span class="comment">##返回结果</span></span><br><span class="line">insert query update delete getmore <span class="built_in">command</span> dirty  used flushes vsize   res qrw arw net_in net_out conn    <span class="built_in">set</span> repl                time</span><br><span class="line">   576    *0     *0     *0     455  1370|0  2.7% 64.0%       0 15.8G 13.9G 0|1 0|0  1.82m   1.44m   77 shard1  PRI Aug 23 17:05:25.495</span><br><span class="line">   514    *0     *0     *0     446  1336|0  2.7% 64.0%       0 15.8G 13.9G 0|1 0|0  1.71m   1.29m   77 shard1  PRI Aug 23 17:05:26.495</span><br><span class="line">   499    *0     *0     *0     461  1310|0  2.7% 64.0%       0 15.8G 13.9G 0|0 1|0  1.68m   1.27m   77 shard1  PRI Aug 23 17:05:27.495</span><br><span class="line">   485    *0     *0     *0     442  1285|0  2.7% 64.0%       0 15.8G 13.9G 0|0 0|1  1.64m   1.24m   77 shard1  PRI Aug 23 17:05:28.496</span><br><span class="line">   498    *0     *0     *0     444  1317|0  2.7% 64.0%       0 15.8G 13.9G 0|0 0|0  1.68m   1.26m   77 shard1  PRI Aug 23 17:05:29.494</span><br><span class="line">   477    *0     *0     *0     445  1272|0  2.7% 64.0%       0 15.8G 13.9G 0|0 0|0  1.61m   1.22m   77 shard1  PRI Aug 23 17:05:30.494</span><br></pre></td></tr></table></figure>
+<p>mongostat间隔时间刷新mongodb分片的各项操作。</p>
+<h2 id="mongotop"><a href="#mongotop" class="headerlink" title="mongotop"></a>mongotop</h2><p>mongotop用来跟踪MongoDB的实例， 提供每个集合的统计数据。默认情况下，mongotop每一秒刷新一次。<br>mongotop用法：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongotop -h 192.168.0.31:27001 10</span><br></pre></td></tr></table></figure>
+<p>后面的10是<sleeptime>参数 ，可以不使用，等待的时间长度，以秒为单位，mongotop等待调用之间。通过的默认mongotop返回数据的每一秒。</sleeptime></p>
+<p>mongotop –locks<br>报告每个数据库的锁的使用中，使用mongotop - 锁，这将产生以下输出：</p>
+<p>结果字段介绍：<br>ns：包含数据库命名空间，后者结合了数据库名称和集合。<br>db：包含数据库的名称。名为 . 的数据库针对全局锁定，而非特定数据库。<br>total：mongod花费的时间工作在这个命名空间提供总额。<br>read：提供了大量的时间，这mongod花费在执行读操作，在此命名空间。<br>write：提供这个命名空间进行写操作，这mongod花了大量的时间。</p>
+<h3 id="profiler"><a href="#profiler" class="headerlink" title="profiler"></a>profiler</h3><p>类似于MySQL的slow log, MongoDB可以监控所有慢的以及不慢的查询。</p>
+<p>Profiler默认是关闭的，你可以选择全部开启，或者有慢查询的时候开启。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; use <span class="built_in">test</span></span><br><span class="line">switched to db <span class="built_in">test</span></span><br><span class="line">&gt; db.setProfilingLevel(2);</span><br><span class="line">&#123;<span class="string">"was"</span> : 0 , <span class="string">"slowms"</span> : 100, <span class="string">"ok"</span> : 1&#125; // <span class="string">"was"</span> is the old setting</span><br><span class="line">&gt; db.getProfilingLevel()</span><br></pre></td></tr></table></figure>
+<p>查看Profile日志</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.system.profile.find().sort(&#123;<span class="variable">$natural</span>:-1&#125;)</span><br><span class="line">&#123;<span class="string">"ts"</span> : <span class="string">"Thu Jan 29 2009 15:19:32 GMT-0500 (EST)"</span> , <span class="string">"info"</span> :</span><br><span class="line"><span class="string">"query test.<span class="variable">$cmd</span> ntoreturn:1 reslen:66 nscanned:0 query: &#123; profile: 2 &#125; nreturned:1 bytes:50"</span> ,</span><br><span class="line"><span class="string">"millis"</span> : 0&#125; ...</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看系统中的慢查询数量</span></span><br><span class="line">db.system.profile.count();</span><br></pre></td></tr></table></figure>
+<p>3个字段的意义</p>
+<ul>
+<li>ts：时间戳</li>
+<li>info：具体的操作</li>
+<li>millis：操作所花时间，毫秒</li>
+</ul>
+<p>参考：<a href="https://docs.mongodb.com/manual/tutorial/manage-the-database-profiler/" target="_blank" rel="noopener">Database Profiler</a></p>
+<p>注意，造成满查询可能是索引的问题，也可能是数据不在内存造成因此磁盘读入造成。</p>
+<h3 id="db-serverStatus"><a href="#db-serverStatus" class="headerlink" title="db.serverStatus()"></a>db.serverStatus()</h3><p>db.serverStatus()</p>
+<p>获取服务器的状态</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">        <span class="string">"host"</span> : <span class="string">"mongodb31.hkrt.cn:20000"</span>,</span><br><span class="line">        <span class="string">"version"</span> : <span class="string">"3.4.6"</span>,</span><br><span class="line">        <span class="string">"process"</span> : <span class="string">"mongos"</span>,</span><br><span class="line">        <span class="string">"pid"</span> : NumberLong(1940),</span><br><span class="line">        <span class="string">"uptime"</span> : 67854,</span><br><span class="line">        <span class="string">"uptimeMillis"</span> : NumberLong(67853593),</span><br><span class="line">        <span class="string">"uptimeEstimate"</span> : NumberLong(67853),</span><br><span class="line">        <span class="string">"localTime"</span> : ISODate(<span class="string">"2017-08-23T09:39:55.400Z"</span>),</span><br><span class="line">        <span class="string">"asserts"</span> : &#123;</span><br><span class="line">                <span class="string">"regular"</span> : 0,</span><br><span class="line">                <span class="string">"warning"</span> : 0,</span><br><span class="line">                <span class="string">"msg"</span> : 0,</span><br><span class="line">                <span class="string">"user"</span> : 7048,</span><br><span class="line">                <span class="string">"rollovers"</span> : 0</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"connections"</span> : &#123;</span><br><span class="line">                <span class="string">"current"</span> : 56,</span><br><span class="line">                <span class="string">"available"</span> : 52372,</span><br><span class="line">                <span class="string">"totalCreated"</span> : 523</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"extra_info"</span> : &#123;</span><br><span class="line">                <span class="string">"note"</span> : <span class="string">"fields vary by platform"</span>,</span><br><span class="line">                <span class="string">"page_faults"</span> : 3</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"network"</span> : &#123;</span><br><span class="line">                <span class="string">"bytesIn"</span> : NumberLong(<span class="string">"102972729600"</span>),</span><br><span class="line">                <span class="string">"bytesOut"</span> : NumberLong(<span class="string">"7551683898"</span>),</span><br><span class="line">                <span class="string">"physicalBytesIn"</span> : NumberLong(<span class="string">"102972729600"</span>),</span><br><span class="line">                <span class="string">"physicalBytesOut"</span> : NumberLong(<span class="string">"7551683898"</span>),</span><br><span class="line">                <span class="string">"numRequests"</span> : NumberLong(210803831)</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"opcounters"</span> : &#123;</span><br><span class="line">                <span class="string">"insert"</span> : 79028505,</span><br><span class="line">                <span class="string">"query"</span> : 26334341,</span><br><span class="line">                <span class="string">"update"</span> : 0,</span><br><span class="line">                <span class="string">"delete"</span> : 4,</span><br><span class="line">                <span class="string">"getmore"</span> : 0,</span><br><span class="line">                <span class="string">"command"</span> : 79067537</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"sharding"</span> : &#123;</span><br><span class="line">                <span class="string">"configsvrConnectionString"</span> : <span class="string">"config/192.168.0.33:21000,192.168.0.34:21000,192.168.0.35:21000"</span>,</span><br><span class="line">                <span class="string">"lastSeenConfigServerOpTime"</span> : &#123;</span><br><span class="line">                        <span class="string">"ts"</span> : Timestamp(1503481193, 1),</span><br><span class="line">                        <span class="string">"t"</span> : NumberLong(1)</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"tcmalloc"</span> : &#123;</span><br><span class="line">                <span class="string">"generic"</span> : &#123;</span><br><span class="line">                        <span class="string">"current_allocated_bytes"</span> : 3643648,</span><br><span class="line">                        <span class="string">"heap_size"</span> : 40898560</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"tcmalloc"</span> : &#123;</span><br><span class="line">                        <span class="string">"pageheap_free_bytes"</span> : 36864,</span><br><span class="line">                        <span class="string">"pageheap_unmapped_bytes"</span> : 24522752,</span><br><span class="line">                        <span class="string">"max_total_thread_cache_bytes"</span> : NumberLong(1073741824),</span><br><span class="line">                        <span class="string">"current_total_thread_cache_bytes"</span> : 4660344,</span><br><span class="line">                        <span class="string">"total_free_bytes"</span> : 12695296,</span><br><span class="line">                        <span class="string">"central_cache_free_bytes"</span> : 2833608,</span><br><span class="line">                        <span class="string">"transfer_cache_free_bytes"</span> : 5201344,</span><br><span class="line">                        <span class="string">"thread_cache_free_bytes"</span> : 4660344,</span><br><span class="line">                        <span class="string">"aggressive_memory_decommit"</span> : 0,</span><br><span class="line">                        <span class="string">"formattedString"</span> : <span class="string">"------------------------------------------------\nMALLOC:        3643648 (    3.5 MiB) Bytes in use by application\nMALLOC: +        36864 (    0.0 MiB) Bytes in page heap freelist\nMALLOC: +      2833608 (    2.7 MiB) Bytes in central cache freelist\nMALLOC: +      5201344 (    5.0 MiB) Bytes in transfer cache freelist\nMALLOC: +      4660344 (    4.4 MiB) Bytes in thread cache freelists\nMALLOC: +      1401024 (    1.3 MiB) Bytes in malloc metadata\nMALLOC:   ------------\nMALLOC: =     17776832 (   17.0 MiB) Actual memory used (physical + swap)\nMALLOC: +     24522752 (   23.4 MiB) Bytes released to OS (aka unmapped)\nMALLOC:   ------------\nMALLOC: =     42299584 (   40.3 MiB) Virtual address space used\nMALLOC:\nMALLOC:           1936              Spans in use\nMALLOC:            109              Thread heaps in use\nMALLOC:           4096              Tcmalloc page size\n------------------------------------------------\nCall ReleaseFreeMemory() to release freelist memory to the OS (via madvise()).\nBytes released to the OS take up virtual address space but no physical memory.\n"</span></span><br><span class="line">                &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"mem"</span> : &#123;</span><br><span class="line">                <span class="string">"bits"</span> : 64,</span><br><span class="line">                <span class="string">"resident"</span> : 24,</span><br><span class="line">                <span class="string">"virtual"</span> : 689,</span><br><span class="line">                <span class="string">"supported"</span> : <span class="literal">true</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"metrics"</span> : &#123;</span><br><span class="line">                <span class="string">"cursor"</span> : &#123;</span><br><span class="line">                        <span class="string">"timedOut"</span> : NumberLong(21),</span><br><span class="line">                        <span class="string">"open"</span> : &#123;</span><br><span class="line">                                <span class="string">"multiTarget"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"singleTarget"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"pinned"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(0)</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"commands"</span> : &#123;</span><br><span class="line">                        <span class="string">"aggregate"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(1),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(16)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"balancerStatus"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(2)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"buildInfo"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(519)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"collStats"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(1),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(97)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"count"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(12)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"createIndexes"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(4)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"currentOp"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(2)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"dbStats"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(4)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"delete"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(4)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"drop"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(7)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"dropDatabase"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(2)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"find"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(2),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(26334294)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"getLastError"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(252)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"getLog"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(6)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"insert"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(79028505)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"isMaster"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(24048)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"listCollections"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(44)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"listDatabases"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(1),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(135)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"ping"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(13575)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"profile"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(3),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(3)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"replSetGetStatus"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(34),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(34)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"serverStatus"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(131)</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"whatsmyuri"</span> : &#123;</span><br><span class="line">                                <span class="string">"failed"</span> : NumberLong(0),</span><br><span class="line">                                <span class="string">"total"</span> : NumberLong(135)</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"ok"</span> : 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要关心的地方：</p>
+<ul>
+<li>connections 当前连接和可用连接数，听过一个同行介绍过，mongodb最大处理到2000个连接就不行了（要根据你的机器性能和业务来设定），所以设大了没意义。设个合理值的话，到达这个值mongodb就拒绝新的连接请求，避免被太多的连接拖垮。</li>
+<li>indexCounters:btree:misses 索引的不命中数，和hits的比例高就要考虑索引是否正确建立。你看我的”missRatio”3.543930204420982e-7，很健康吧。所以miss率在mongostat里面也可以看</li>
+<li>其他的都能自解释，也不是查看mongo健康状况的关键，就不说明了。</li>
+</ul>
+<p>详细的解释参考这里：<a href="https://docs.mongodb.com/manual/reference/command/serverStatus/#dbcmd.serverStatus" target="_blank" rel="noopener">serverStatus</a></p>
+<h3 id="db-currentOp"><a href="#db-currentOp" class="headerlink" title="db.currentOp()"></a>db.currentOp()</h3><p>Mongodb 的命令一般很快就完成，但是在一台繁忙的机器或者有比较慢的命令时，你可以通过db.currentOp()获取当前正在执行的操作。</p>
+<p>在没有负载的机器上，该命令基本上都是返回空的</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;  db.currentOp()</span><br><span class="line">&#123; <span class="string">"inprog"</span> : [ ] &#125;</span><br></pre></td></tr></table></figure>
+<p>以下是一个有负载的机器上得到的返回值样例：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; <span class="string">"opid"</span> : <span class="string">"shard3:466404288"</span>, <span class="string">"active"</span> : <span class="literal">false</span>, <span class="string">"waitingForLock"</span> : <span class="literal">false</span>, <span class="string">"op"</span> : <span class="string">"query"</span>, <span class="string">"ns"</span> : <span class="string">"sd.usersEmails"</span>, <span class="string">"query"</span> : &#123; &#125;, <span class="string">"client_s"</span> : <span class="string">"10.121.13.8:34473"</span>, <span class="string">"desc"</span> : <span class="string">"conn"</span> &#125;,</span><br></pre></td></tr></table></figure>
+<p>字段名字都能自解释。如果你发现一个操作太长，把数据库卡死的话，可以用这个命令杀死他</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.killOp(<span class="string">"shard3:466404288"</span>)</span><br></pre></td></tr></table></figure>
+<p><a href="https://docs.mongodb.com/manual/reference/method/db.currentOp/index.html" target="_blank" rel="noopener">db.currentOp()</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/zabbix-monitor" data-toggle="tooltip" data-placement="top" title="zabbix 3.4 监控入门实践">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/mongodb-performance-optimization" data-toggle="tooltip" data-placement="top" title="mongodb集群性能优化">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#mongodb" title="mongodb">mongodb</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

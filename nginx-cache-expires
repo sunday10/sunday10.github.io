@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Nginx  缓存与过期 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/nginx-cache-expires">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#cache" title="cache">cache</a>
+                        
+                          <a class="tag" href="/tags/#nginx" title="nginx">nginx</a>
+                        
+                    </div>
+                    <h1>Nginx  缓存与过期</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2017-10-25
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>nginx 缓存能够让网页打开速度享受质的飞跃。 当我们第一次访问一个页面时 将下载的css,js,html已经img等相关资源保存在本地。 在第二次，第三次…访问时，就可以不用去下载文件了。<br>通常来说，设置文件的缓存有两种方式，一种是在服务器内设置响应头文件，另外一个是使用h5的manifest文件来进行相关设置.</p>
+<h1 id="服务器的缓存协商"><a href="#服务器的缓存协商" class="headerlink" title="服务器的缓存协商"></a>服务器的缓存协商</h1><p>这种方式设置的缓存有两种，一种是需要服务器验证，另外一种是不用发送请求验证。</p>
+<h1 id="ETag-Last-Modified"><a href="#ETag-Last-Modified" class="headerlink" title="ETag/Last-Modified"></a>ETag/Last-Modified</h1><p>这两种方式做法类似，都要向服务器发送一次请求进行验证。简直，缓存就缓存呗，为什么还要验证呢？ 其实，这是该协议的一种特有方式，发送一次验证主要是检查文件是否发生变化。</p>
+<h2 id="ETag"><a href="#ETag" class="headerlink" title="ETag"></a>ETag</h2><p>ETag是用来计算文件的内容是否发生变化，比如，你在文件中删除一个空格，这样都算文件内容发生变化。 通常做法是用md5或者SHA1算法，计算出文件的唯一值。 在前端其实都可以完成， 找到一个文件文件解析的md5算法，然后将文件传入，就可以得到ETag的值。 不过这里，我们着重点并不是让你生成Etag，而是看看ETag在缓存中的重要作用。<br>ETag是HTTP/1.1A的一种办法，由Web服务器生成，并写入响应头中。<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//response Headers</span></span><br><span class="line"><span class="symbol">ETag:</span><span class="string">"751F63A30AB5F98F855D1D90D217B356"</span></span><br></pre></td></tr></table></figure></p>
+<p>接着，到了浏览器之后，便缓存在本地。 当下次打开同样的文章时，会在请求头中发送If-None-Match, 给服务器检查文件是否发生变化。如果没有，则告诉浏览器使用本地的，否则返回新文件<br><figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//request Headers</span></span><br><span class="line"><span class="keyword">If</span>-None-Match: <span class="string">"751F63A30AB5F98F855D1D90D217B356"</span></span><br></pre></td></tr></table></figure></p>
+<p>通常情况下，服务器默认是打开Etag的，但是为了防止你的同事，或者后台哥哥的后台配置文件不正确，关闭了Etag，这时候，就需要你对对配置文件做一些设置。 这里我以Nginx为例:<br>打开ngnix.conf文件，检查是否有以下语句:<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">etag</span> <span class="literal">off</span>;</span><br><span class="line"><span class="attribute">more_set_headers</span> -s <span class="number">404</span> -t <span class="string">'ETag'</span>;</span><br><span class="line"><span class="attribute">more_clear_headers</span> <span class="string">'Etag'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>如果有则将其删除掉。然后重启nginx就可以了。他们将Etag关闭的原因其实也很简单，就是因为，Etag打开之后会增加服务器的负载，造成性能的局限性，所以，关闭或者打开Etag都要经过权衡的。</p>
+<h2 id="Last-Modified"><a href="#Last-Modified" class="headerlink" title="Last-Modified"></a>Last-Modified</h2><p>Last-Modified：标示这个响应资源的最后修改时间。web服务器在响应请求时，告诉浏览器资源的最后修改时间。<br>这和文档内容信息验证不同，这里采用的是日期验证办法。 即服务器上会对文件打上一个文件改动的日期，然后客户端接受该日期，下次请求时，返回该日期，服务器验证，如果日期未变，则告诉浏览器使用本地缓存即可。<br>即在服务器的相应头中，可以设置Last-Modified，来启用这一缓存协议.<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Response Header</span></span><br><span class="line">Last-<span class="string">Modified:</span>Tue, <span class="number">03</span> Mar <span class="number">2015</span> <span class="number">01</span>:<span class="number">38</span>:<span class="number">18</span> GMT</span><br></pre></td></tr></table></figure></p>
+<p>接受到这一响应头之后，浏览器会对该文件做一个缓存，并保存该日期。当下次请求的时候，会通过If-Modified-Since将日期传入并验证:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">If-Modified-Since</span><span class="selector-pseudo">:Tue</span>, 03 <span class="selector-tag">Mar</span> 2015 01<span class="selector-pseudo">:38</span><span class="selector-pseudo">:18</span> <span class="selector-tag">GMT</span></span><br></pre></td></tr></table></figure></p>
+<p>如果日期未变，则告诉浏览器使用缓存。</p>
+<p>那我们通常应该怎样启用服务器这一功能呢？<br>默认情况下，服务器会对静态资源发送Last-modified的tag。 但是，需要注意，Last-Modified的更新时间只能以秒来计，如果你文件改动过于频繁，Last-Modified是无效的(不过，谁牛逼到1s内能多次更新文件嘞~)<br>实际上Last-Modified的这个标签的我们通常并不会单独使用它，通常与expires结合，形成一个可降级的缓存.<br>Last-Modified/If-Modified-Since要配合Cache-Control使用。</p>
+<h1 id="Expires-Cache-Control"><a href="#Expires-Cache-Control" class="headerlink" title="Expires/Cache-Control"></a>Expires/Cache-Control</h1><p>Expires/Cache协议与上述验证协议最大的不同在于，他可以省略发送验证请求环节，不需要服务器的验证，而直接使用本地缓存。 通常这种方式，适用于，项目稳定，版本迭代不多的时候。</p>
+<h2 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h2><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Response Headers</span></span><br><span class="line"><span class="symbol">Expires:</span>Tue, <span class="number">03</span> May <span class="number">2016</span> <span class="number">09</span>:<span class="number">33</span>:<span class="number">34</span> GMT</span><br></pre></td></tr></table></figure>
+<p>这告诉浏览器,在2016.5.3号之前,可以直接使用该文本的缓存副本。但是，可能会因为服务器和客户端的GMT时间不同，会有一定的bug。 所以，这里只提议在长时间缓存的情况下使用。否则，应该选择Cache-Control.</p>
+<p>以Nginx服务器为例：<br>对于不经常修改的静态内容（如图片，JS，CSS），可以在服务器中设置expires过期时间，控制浏览器缓存，达到有效减小带宽流量，降低服务器压力的目的。<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">location</span> <span class="title">~ .*\.(js</span>|css)$ &#123;</span><br><span class="line">expires <span class="number">10</span>d; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>过期时间为10天，js css文件不怎么更新，过期可以设大一点，如果频繁更新，则可以设置得小一点。<br>通过expires设置过期时间为一天，此时，服务器会根据当前的时间，加上一天.同时添加Expires和Cache-Control头部标签。<br>即,得到的Response Header为:<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Expires:</span> Fri, <span class="number">28</span> Feb <span class="number">2016</span> <span class="number">10</span>:<span class="number">42</span>:<span class="number">09</span> GMT</span><br><span class="line">Cache-<span class="string">Control:</span> max-age=<span class="number">864000</span> <span class="comment">//24*60*6</span></span><br></pre></td></tr></table></figure></p>
+<p>(HTTP规定，如果出现max-age和expires，则max-age默认覆盖掉expires)<br>当expires为负数表示no-cache，正数或零表示max-age=time。<br>如果你不想缓存，可以直接设置:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expires -1; //永远过期，<span class="keyword">Cache</span>-Control: <span class="keyword">no</span>-<span class="keyword">cache</span></span><br></pre></td></tr></table></figure></p>
+<p>详细可以直接参阅:<a href="https://github.com/h5bp/server-configs-nginx/blob/master/h5bp/location/expires.conf" target="_blank" rel="noopener">nginx配置</a></p>
+<h2 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h2><p>这应该是HTTP1.1为了解决HTTP1.0中expires的时间差的bug，而新添加的一个tag. 他的配置项很多，其实完全都可以取代expires(现在大多数服务器都支持). 引用一段原话:</p>
+<blockquote>
+<p><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn" target="_blank" rel="noopener">Cache-Control 头在 HTTP/1.1 规范中定义，取代了之前用来定义响应缓存策略的头（例如 Expires）。当前的所有浏览器都支持 Cache-Control，因此，使用它就够了。</a><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">General</span><br><span class="line">  Request URL: https://www.sundayle.com/home/images/logo.png</span><br><span class="line">  Request Method: GET</span><br><span class="line">  Status Code: 200  (from memory <span class="keyword">cache</span>)</span><br><span class="line">  Remote Address: <span class="number">123.31</span><span class="number">.46</span><span class="number">.176</span>:<span class="number">443</span></span><br><span class="line">  Referrer <span class="keyword">Policy</span>: <span class="keyword">no</span>-referrer-<span class="keyword">when</span>-<span class="keyword">downgrade</span></span><br><span class="line">Response Headers</span><br><span class="line">  <span class="keyword">accept</span>-ranges: <span class="keyword">bytes</span></span><br><span class="line">  <span class="keyword">cache</span>-control: <span class="keyword">max</span>-age=<span class="number">2592000</span></span><br><span class="line">  <span class="keyword">content</span>-<span class="keyword">length</span>: <span class="number">3559</span></span><br><span class="line">  <span class="keyword">content</span>-<span class="keyword">type</span>: image/png</span><br><span class="line">  <span class="built_in">date</span>: Thu, <span class="number">31</span> May <span class="number">2018</span> <span class="number">03</span>:<span class="number">27</span>:<span class="number">29</span> GMT</span><br><span class="line">  etag: <span class="string">"5ac1d72f-de7"</span></span><br><span class="line">  expires: Sat, <span class="number">30</span> Jun <span class="number">2018</span> <span class="number">03</span>:<span class="number">27</span>:<span class="number">29</span> GMT</span><br><span class="line">  <span class="keyword">last</span>-modified: Mon, <span class="number">02</span> Apr <span class="number">2018</span> <span class="number">07</span>:<span class="number">09</span>:<span class="number">35</span> GMT</span><br><span class="line">  <span class="keyword">server</span>: nginx</span><br><span class="line">  <span class="keyword">status</span>: <span class="number">200</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>当前每次发送请求之前浏览器会检查缓存系统里，是否有相应文件的备份，如果有的话，则直接从本地模仿一个Response头<br>理论知识铺垫完毕，我们来take a look. 看看cache-control 有哪些可以配置的属性(以下属性都跟在cache-control后)</p>
+<ul>
+<li>public: 共有缓存，可被缓存代理服务器缓存,比如CDN</li>
+<li>private: 私有缓存，这些响应通常只为单个用户缓存，因此不允许任何中间缓存对其进行缓存。例如，用户的浏览器可以缓存包含用户私人信息的 HTML 网页，但 CDN 却不能缓存。</li>
+<li>max-age=[秒]：表示在这个时间范围内缓存是新鲜的无需更新。类似Expires时间，不过这个时间是相对的，而不是绝对的。也就是某次请求成功后多少秒内缓存是新鲜的。</li>
+<li>s-maxage=[秒]：类似max-age, 除了仅应用于共享缓存（如代理）。</li>
+<li>no-cache：这里不是不缓存的意思，只是每次在使用缓存之前都强制发送请求给源服务器进行验证，检查文件该没改变(其实这里和ETag/Last区别不大)</li>
+<li>no-store：就是禁止缓存，不让浏览器保留缓存副本</li>
+<li>must-revalidate：告诉浏览器，你这必须再次验证检查信息是否过期, 返回的代号就不是200而是304了。</li>
+<li>proxy-revalidate：类似must-revalidate，除了只能应用于代理缓存。</li>
+</ul>
+<p>比如，这里我可以设置Cache-Control为:<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Response Headers</span></span><br><span class="line"><span class="keyword">Cache</span><span class="params">-Control</span>:<span class="keyword">private</span>, <span class="keyword">max</span><span class="params">-age</span>=<span class="number">0</span>, must<span class="params">-revalidate</span></span><br></pre></td></tr></table></figure></p>
+<p>该文件是一个私有文件,只能被浏览器缓存，而不能被代理缓存。max-age标识该缓存立即过期，其实和no-cache实际上区别不大. 然后must-revalidate告诉浏览器，你必须给我再验证文件过没过期，比如接下来可能会验证Last-Modified或者ETag.如果没有过期则使用本地缓存.<br>其实上面可以直接等同于:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//Response Headers</span><br><span class="line"><span class="keyword">Cache</span>-Control:<span class="keyword">private</span>,<span class="keyword">no</span>-<span class="keyword">cache</span></span><br></pre></td></tr></table></figure></p>
+<p>使用no-store的结果<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//Response Headers</span><br><span class="line"><span class="keyword">Cache</span>-Control:<span class="keyword">no</span>-<span class="keyword">store</span>;</span><br></pre></td></tr></table></figure></p>
+<p>这样表明，不管一不一样都需要重新下载. 强烈表示，不让你使用缓存文件。后续的就不会去验证ETag了。<br>当然，如果你将IE6那种古老的浏览器考虑进来的话，那你干脆就做的不要脸一点，直接用下面的tag就行:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Cache-Control:</span> <span class="literal">no</span><span class="bullet">-cache,</span> <span class="literal">no</span><span class="bullet">-store,</span> <span class="string">must-revalidate</span> <span class="string">//HTTP1.1</span></span><br><span class="line"><span class="attr">Pragma:</span> <span class="literal">no</span><span class="bullet">-cache</span> <span class="string">//HTTP1.0</span></span><br><span class="line"><span class="attr">Expires:</span> <span class="number">0</span> <span class="string">//Proxy</span></span><br></pre></td></tr></table></figure></p>
+<p>不过现在基本上也没有不支持Cache-Control的浏览器了。所以，正常情况下，可以直接使用.如下的策略来进行设置:[From google developer(<a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn)]" target="_blank" rel="noopener">https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn)]</a><br>定义最佳 Cache-Control 策略<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/http-cache-decision-tree.png"></p>
+<p>我们通常在nginx怎么配置对应的cache-control头呢？<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">##设置no-cache</span><br><span class="line"><span class="comment">//Nginx</span></span><br><span class="line">expires <span class="number">-1</span>;</span><br><span class="line"><span class="comment">//cache-control</span></span><br><span class="line">Cache-Control:no-cache</span><br><span class="line"></span><br><span class="line">##设置max-age=<span class="number">0</span></span><br><span class="line"><span class="comment">//Nginx</span></span><br><span class="line">expires <span class="number">0</span>;</span><br><span class="line"><span class="comment">//cache-control</span></span><br><span class="line">Cache-Control:max-age=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">##设置其他头部</span><br><span class="line"><span class="comment">//nginx</span></span><br><span class="line">add_header  Cache-Control <span class="string">"no-cache"</span>;</span><br><span class="line">add_header  Pragma no-cache;</span><br></pre></td></tr></table></figure></p>
+<p>上面说的基本上是服务器的响应头，那在浏览器的Request headers里存在cache-control代表什么呢？<br>当请求头中有:Cache-Control: max-age=0,表示缓存需要进行验证(ETag||Last-Modified)，如果缓存未过期,则可以使用。<br>当请求头中有:Cache-Control: no-cache,表示浏览器只能获取最新的文件。 和Response Header中的no-store相对应。</p>
+<p>在开发调试web的时候，经常会碰到因浏览器缓存(cache)而经常要去清空缓存或者强制刷新来测试的烦恼，提供下apache不缓存配置和nginx不缓存配置的设置。在常用的缓存设置里面有两种方式，都是使用add_header来设置：分别为Cache-Control和Pragma。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location ~ .*\.(css<span class="title">|js|</span><span class="keyword">swf|php|htm|html </span>)$ &#123;</span><br><span class="line"><span class="keyword">add_header </span><span class="keyword">Cache-Control </span>no-store<span class="comment">;</span></span><br><span class="line"><span class="keyword">add_header </span>Pragma no-<span class="keyword">cache;</span></span><br><span class="line"><span class="keyword">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><a href="http://www.web3.xin/code/1763.html" target="_blank" rel="noopener">http://www.web3.xin/code/1763.html</a><br><a href="https://segmentfault.com/a/1190000004486640" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004486640</a><br><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn" target="_blank" rel="noopener">https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/nfs" data-toggle="tooltip" data-placement="top" title="NFS服务器安装与配置">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/google-bbr" data-toggle="tooltip" data-placement="top" title="CentOS 7 部署Google BBR">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#cache" title="cache">cache</a>
+                        
+                          <a class="tag" href="/tags/#nginx" title="nginx">nginx</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

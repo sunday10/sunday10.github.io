@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          使用 pt-table-sync 修复MySQL主从数据不一致 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/pt-table-checksum">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#mysql" title="mysql">mysql</a>
+                        
+                    </div>
+                    <h1>使用 pt-table-sync 修复MySQL主从数据不一致</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-06-25
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>pt-table-checksum是percona-toolkit系列工具中的一个， 可以用来检测主、 从数据库中数据的一致性。其原理是在主库上运行， 对同步的表进行checksum， 记录下来<br>       在MySql主从复制架构的应用中，长时间运行的DB出现各种异常之后，可能会有主备不一致的情况产生，影响正常的业务。</p>
+<p>pt-table-checksum用于校验主从数据的一致性，而pt-table-sync用于同步MySQL表之间的数据，它可以同步单个表，也可以同步整个库，但是不同步表结构、索引、或任何其他模式对象。</p>
+<h1 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h1><p><a href="https://www.percona.com/doc/percona-toolkit/3.0/installation.html" target="_blank" rel="noopener">https://www.percona.com/doc/percona-toolkit/3.0/installation.html</a><br><a href="https://www.percona.com/doc/percona-repo-config/apt-repo.html" target="_blank" rel="noopener">https://www.percona.com/doc/percona-repo-config/apt-repo.html</a></p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>操作系统：Ubuntu 16.04<br>Mysql版本：MySQL 5.7.18-15<br>主库：192.168.1.36<br>从库：192.168.1.37</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http<span class="variable">s:</span>//repo.percona.<span class="keyword">com</span>/apt/percona-release_0.<span class="number">1</span>-<span class="number">4</span>.$(lsb_release -sc)_all.<span class="keyword">deb</span></span><br><span class="line">sudo dpkg -i percona-release_0.<span class="number">1</span>-<span class="number">4</span>.$(lsb_release -sc)_all.<span class="keyword">deb</span></span><br><span class="line">sudo apt-<span class="built_in">get</span> <span class="keyword">update</span></span><br><span class="line">sudo apt-<span class="built_in">get</span> install percona-toolkit</span><br></pre></td></tr></table></figure>
+<h1 id="pt-table-checksum"><a href="#pt-table-checksum" class="headerlink" title="pt-table-checksum"></a>pt-table-checksum</h1><p>场景：端口3306，只检查某一个库的关键表,一主一从，同网段复制，checksum@’192.168.1.%’具备该有的权限（主从都需要设置）<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span>,PROCESS,SUPER,<span class="keyword">REPLICATION</span> <span class="keyword">SLAVE</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="keyword">checksum</span>@<span class="string">'192.168.1.%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'BHJ1jRP79dgZ2LHd5LM3ytG5ZyjMi6'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> ALL <span class="keyword">PRIVILEGES</span> <span class="keyword">on</span> percona.* <span class="keyword">to</span> <span class="keyword">checksum</span>@<span class="string">'192.168.1.%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'BHJ1jRP79dgZ2LHd5LM3ytG5ZyjMi6'</span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="只检测xmusic单个数据库"><a href="#只检测xmusic单个数据库" class="headerlink" title="只检测xmusic单个数据库"></a>只检测xmusic单个数据库</h2><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">pt-table-checksum --nocheck-replication-filters --no-check-binlog-format --databases=xmusic --replicate=percona.checksums h=192.168.1.36,u=checksum,p='BHJ1jRP79dgZ2LHd5LM3ytG5ZyjMi6',P=3306</span><br><span class="line">Checking if all tables can be checksummed ...</span><br><span class="line">Starting checksum ...</span><br><span class="line">            TS ERRORS  DIFFS     ROWS  DIFF_ROWS  CHUNKS SKIPPED    TIME TABLE</span><br><span class="line">06-25T15:41:59     <span class="number"> 0 </span>    <span class="number"> 0 </span>      <span class="number"> 9 </span>        <span class="number"> 0 </span>     <span class="number"> 1 </span>     <span class="number"> 0 </span>  0.236 xmusic.star_archives</span><br><span class="line">06-25T15:41:59     <span class="number"> 0 </span>    <span class="number"> 0 </span>      <span class="number"> 3 </span>        <span class="number"> 0 </span>     <span class="number"> 1 </span>     <span class="number"> 0 </span>  0.337 xmusic.star_categories</span><br><span class="line">06-25T15:41:59     <span class="number"> 0 </span>    <span class="number"> 0 </span>      <span class="number"> 9 </span>        <span class="number"> 0 </span>     <span class="number"> 1 </span>     <span class="number"> 0 </span>  0.153 xmusic.star_category</span><br><span class="line">06-25T15:42:00     <span class="number"> 0 </span>    <span class="number"> 0 </span>      <span class="number"> 8 </span>        <span class="number"> 0 </span>     <span class="number"> 1 </span>     <span class="number"> 0 </span>  0.246 xmusic.star_news</span><br><span class="line">06-25T15:42:00     <span class="number"> 0 </span>    <span class="number"> 0 </span>      <span class="number"> 0 </span>        <span class="number"> 0 </span>     <span class="number"> 1 </span>     <span class="number"> 0 </span>  0.613 xmusic.star_occupation</span><br><span class="line">06-25T15:42:00     <span class="number"> 0 </span>    <span class="number"> 0 </span>    <span class="number"> 160 </span>        <span class="number"> 0 </span>     <span class="number"> 1 </span>     <span class="number"> 0 </span>  0.336 xmusic.tags</span><br><span class="line">06-25T15:42:02     <span class="number"> 0 </span>    <span class="number"> 1 </span>     <span class="number"> 10 </span>        <span class="number"> 0 </span>     <span class="number"> 1 </span>     <span class="number"> 0 </span>  1.284 xmusic.type</span><br><span class="line">06-25T15:42:02     <span class="number"> 0 </span>    <span class="number"> 0 </span>    <span class="number"> 102 </span>        <span class="number"> 0 </span>     <span class="number"> 1 </span>     <span class="number"> 0 </span>  0.437 xmusic.users</span><br></pre></td></tr></table></figure>
+<p>如果是首次运行，会在主库自动创建 percona.checksums 表。</p>
+<h2 id="执行时显示的结果参数说明"><a href="#执行时显示的结果参数说明" class="headerlink" title="执行时显示的结果参数说明"></a>执行时显示的结果参数说明</h2><ul>
+<li>TS ：完成检查的时间戳。</li>
+<li>ERRORS ：检查时候发生错误和警告的数量。</li>
+<li>DIFFS ：0表示一致，1表示不一致。当指定–no-replicate-check时，会一直为0，当指定–replicate-check-only会显示不同的信息</li>
+<li>ROWS ：比对的表行数。</li>
+<li>CHUNKS ：被划分到表中的块的数目。</li>
+<li>SKIPPED ：由于错误或警告或过大，则跳过块的数目。</li>
+<li>TIME ：执行的时间。</li>
+<li>TABLE ：被检查的表名</li>
+</ul>
+<h2 id="命令选项"><a href="#命令选项" class="headerlink" title="命令选项"></a>命令选项</h2><pre><code>--nocheck-replication-filters：不检查复制过滤器，建议启用。后面可以用--databases来指定需要检查的数据库。
+--no-check-binlog-format ：不检查复制的binlog模式，要是binlog模式是ROW，则会报错。
+--replicate-check-only：只显示不同步的信息。(注意：要谨慎使用，此参数不会生成新的checksums数据，只会根据checksums表已经有的数据来显示。)
+--replicate=：把checksum的信息写入到指定表中，建议直接写到被检查的数据库当中。
+--databases=：指定需要被检查的数据库，多个则用逗号隔开。
+--tables=：指定需要被检查的表，多个用逗号隔开
+</code></pre><p>pt-table-checksum  其工作原理是通过计算每个表的散列值 并将计算过程在服务器上重放从而拿到主从各自的散列值做比较<br>但是pt-table-checksum 不是直接计算整个表的散列值，而是分块计算避免服务器长时间延时,因此在计算散列过程重放时是基于statement 不能基于row</p>
+<h2 id="只检测xmusic-type单张表"><a href="#只检测xmusic-type单张表" class="headerlink" title="只检测xmusic.type单张表"></a>只检测xmusic.type单张表</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pt-table-<span class="keyword">checksum</span> h=<span class="number">192.168</span><span class="number">.1</span><span class="number">.36</span>,u=<span class="keyword">checksum</span>,p=<span class="string">'BHJ1jRP79dgZ2LHd5LM3ytG5ZyjMi6'</span>,P=<span class="number">3306</span> <span class="comment">--databases=xmusic --tables=type \</span></span><br><span class="line"><span class="comment">--nocheck-replication-filter --no-check-binlog-format</span></span><br><span class="line"></span><br><span class="line">Checking <span class="keyword">if</span> all <span class="keyword">tables</span> can be checksummed ...</span><br><span class="line"><span class="keyword">Starting</span> <span class="keyword">checksum</span> ...</span><br><span class="line">            TS <span class="keyword">ERRORS</span>  DIFFS     <span class="keyword">ROWS</span>  DIFF_ROWS  CHUNKS SKIPPED    <span class="keyword">TIME</span> <span class="keyword">TABLE</span></span><br><span class="line"><span class="number">06</span><span class="number">-25</span>T15:<span class="number">54</span>:<span class="number">26</span>      <span class="number">0</span>      <span class="number">1</span>       <span class="number">10</span>          <span class="number">0</span>       <span class="number">1</span>       <span class="number">0</span>   <span class="number">1.143</span> xmusic.type</span><br></pre></td></tr></table></figure>
+<h1 id="pt-table-sync"><a href="#pt-table-sync" class="headerlink" title="pt-table-sync"></a>pt-table-sync</h1><p>pt-table-sync可以高效的同步MySQL表之间的数据，他可以做单向和双向同步的表数据。他可以同步单个表，也可以同步整个库。它不同步表结构、索引、或任何其他模式对象。所以在修复一致性之前需要保证他们表存在。</p>
+<p>执行前可以使用–try-run或–print打印下不一致信息</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pt-table-sync <span class="attribute">--replicate</span>=percona.checksums <span class="attribute">h</span>=192.168.1.36,u=checksum,p='BHJ1jRP79dgZ2LHd5LM3ytG5ZyjMi6',P=3306 <span class="attribute">h</span>=192.168.1.37,\</span><br><span class="line"><span class="attribute">u</span>=checksum,p='BHJ1jRP79dgZ2LHd5LM3ytG5ZyjMi6' <span class="attribute">--databases</span>=xmusic <span class="attribute">--tables</span>=type --execute</span><br></pre></td></tr></table></figure>
+<h2 id="命令选项-1"><a href="#命令选项-1" class="headerlink" title="命令选项"></a>命令选项</h2><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-replicate：指定通过pt-table-checksum得到的表，这<span class="number">2</span>个工具差不多都会一直用。</span></span><br><span class="line"><span class="ruby">--databases：指定执行同步的数据库，多个用逗号隔开。</span></span><br><span class="line"><span class="ruby">--tables：指定执行同步的表，多个用逗号隔开。</span></span><br><span class="line"><span class="ruby">--sync-to-master：指定一个DSN，即从的IP，他会通过show processlist或show slave status 去自动的找主。</span></span><br></pre></td></tr></table></figure>
+<p><a href="http://m.itboth.com/d/NNbqya/mysql" target="_blank" rel="noopener">http://m.itboth.com/d/NNbqya/mysql</a><br><a href="http://seanlook.com/2015/12/29/mysql_replica_pt-table-checksum/" target="_blank" rel="noopener">http://seanlook.com/2015/12/29/mysql_replica_pt-table-checksum/</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/find" data-toggle="tooltip" data-placement="top" title="Find命令之xargs、exec">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/fail2ban" data-toggle="tooltip" data-placement="top" title="使用 fail2ban 防范暴力破解ssh vsftp 与CC攻击">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#mysql" title="mysql">mysql</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
