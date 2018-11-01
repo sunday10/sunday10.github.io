@@ -184,6 +184,120 @@
 
 <div class="post-preview">
 
+    <a href="/nginx-proxy-tcp/">
+        <h2 class="post-title">
+            使用Nginx转发TCP/UDP端口
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            ngx_stream_core_module
+编译Nginx123456789101112131415cd /usr/local/srcwget http://nginx.org/download/nginx-1.12.2.tar.gztar zxf nginx-1.12.2.tar.gzcd nginx-1.12.2./configure --prefix=/usr/local/nginx......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kubeadm-build-kubernetes/">
+        <h2 class="post-title">
+            基于kubeadm方式部署kubernetes v1.12.1
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            https://kubernetes.io/docs/setup/independent/install-kubeadm/
+环境说明
+
+
+系统
+IP
+hostname
+
+
+
+
+CentOS 7.4
+192.168.10.101
+master
+
+
+CentOS 7.4
+192.168.10.102
+node2
+
+
+CentOS 7.4
+192.168.10.103
+node3
+
+
+
+
+环境准备......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-log-analysis-command/">
+        <h2 class="post-title">
+            Nginx 日志统计命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263统计IP访问量awk '&#123;print $1&#125;' access.log | sort -n | uniq | wc -l查看某一时间段的IP访......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-limit-modules/">
+        <h2 class="post-title">
+            Nginx 高并发限流模块 limit_conn_module limit_req_module
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            limit_conn_module
+limit_conn_module123456789101112http &#123;    limit_conn_zone $binary_remote_addr zone=perip:10m;    limit_conn_zone $server_name zone=perserver:10m;    limit_conn_log_level erro......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/dockerfile/">
         <h2 class="post-title">
             Docker(二)：Dockerfile 使用详情
@@ -320,96 +434,6 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/codis-redis-cluster/">
-        <h2 class="post-title">
-            Codis Redis 集群
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            https://www.jianshu.com/p/10c68da215bahttps://github.com/CodisLabs/codis
-...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-12
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/dd-simple-test/">
-        <h2 class="post-title">
-            Linux 使用dd 简单测试 读写速度
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            注：要正确测试磁盘读写能力，建议测试文件的大小要远远大于内存的容量！10G 文件 
-测试 写入速度time dd if=/dev/zero of=./test.img bs=160k count=64k conv=fsync
-测试 读取速度time dd if=./test.img of=/dev/null bs=160k count=64k
-hdparm -t /dev/sda1
-...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-08
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/iis-8-5-configure-high-concurrency/">
-        <h2 class="post-title">
-            IIS 8.5 高并发配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 调整IIS的应用程序池队列长度在【应用程序池】列表中，选择你相应网站所使用的应用程序池，将原来的队列长度由1000改为65535。当然这里的队列长度你可以根据自己的访问用户*1.5来设置，例如：你有2000用户，你此处就可以设置为3000(3000=2000用户数*1.5)
-2. 调整IIS的appConcurrentRequestLimit值12cd %windir%\system3......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-30
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/redis-install/">
-        <h2 class="post-title">
-            Redis 3.2 安装及主从复制详细配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            编译安装1234567891011121314151617cd /usr/local/srcwget http://download.redis.io/releases/redis-3.2.12.tar.gztar xf redis-3.2.10.tar.gzcd redis-3.2.10make PREFIX=/usr/local/redis installuseradd -s /bin/......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-28
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -445,9 +469,9 @@ hdparm -t /dev/sda1
                     <div class="tags">
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
                         
+                            
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -465,7 +489,15 @@ hdparm -t /dev/sda1
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="2">docker</a>
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="3">docker</a>
                             
                         
                             
@@ -480,12 +512,6 @@ hdparm -t /dev/sda1
                         
                             
                         
-                            
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
                             
                         
                             
@@ -507,9 +533,9 @@ hdparm -t /dev/sda1
                             
                         
                             
-                        
-                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
                             
                         
                             
@@ -523,17 +549,15 @@ hdparm -t /dev/sda1
                             
                         
                             
-                        
-                            
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -551,11 +575,11 @@ hdparm -t /dev/sda1
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -567,13 +591,21 @@ hdparm -t /dev/sda1
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
+                            <a href="/tags/#nginx" title="nginx" rel="15">nginx</a>
+                            
+                        
                             
                         
                             
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -601,12 +633,6 @@ hdparm -t /dev/sda1
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
                             
                         
@@ -621,9 +647,9 @@ hdparm -t /dev/sda1
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
+                        
                             
                         
                             
@@ -673,9 +699,9 @@ hdparm -t /dev/sda1
                             
                         
                             
-                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
                         
+                            
+                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
                             
                         
                             

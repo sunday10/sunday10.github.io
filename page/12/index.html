@@ -184,6 +184,107 @@
 
 <div class="post-preview">
 
+    <a href="/shadowsocks-libev/">
+        <h2 class="post-title">
+            CentOS 7 配置Shadowsocks-libev + simple-obfs
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            源码编译安装
+关闭防火墙12systemctl stop firewalldsystemctl disable firewalld
+编译环境准备、解决依赖12yum install epel-release -yyum install gettext gcc pcre-devel autoconf libtool automake make asciidoc xmlto c-ares-dev......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/sar/">
+        <h2 class="post-title">
+            Linux sar 命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            安装如果系统没有该命令请安装：
+12apt-get install sysstatyum install sysstat
+安装完毕：
+12vi /etc/default/sysstatENABLED="true"
+启动这个工具来收集系统性能数据：1/etc/init.d/sysstat start
+sar参数说明123456789101112131415161718-A    # 汇总所有的......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-19
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/acme-sh/">
+        <h2 class="post-title">
+            使用acme.sh申请Let's Encrypt 泛域名野卡
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            https://acme.sh/
+acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
+1. 安装 acme.sh安装很简单, 一个命令:12curl  https://get.acme.sh | shsource ~/.bashrc
+普通用户和 root 用户都可以安装使用. 安装过程进行了以下几步:把 acme.sh 安装到你的 home 目录下:~......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-17
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-pitfalls-and-common-mistakes/">
+        <h2 class="post-title">
+            Nginx 配置陷阱和常见错误
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            翻译自：https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+
+警告：
+
+
+请阅读下面所有的内容！是所有的！
+
+不管是新手还是老用户，都可能会掉到一个陷阱中去。下面我们会列出一些我们经常看到，和 经常需要解释如何解决的问题。在 Freenode 的 Nginx IRC 频道中，我们频繁的看到这......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-13
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/nginx-rewrite/">
         <h2 class="post-title">
             Nginx 重定向和重写
@@ -320,94 +421,6 @@ SMP 即 Symmetr......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/linux-interrupt/">
-        <h2 class="post-title">
-            Linux 中断和中断处理
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            众所周知，处理器的速度跟外围硬件设备的速度往往不在一个数量级上，因此，如果内核采取让处理器向硬件发出一个请求，然后专门等待回应的办法，显然差强人意。
-轮询（polling）可能会是一种解决办法。它可以让内核定期对设备的状态进行查询，然后做出相应的处理。不过这种方法很可能会让内核做不少无用功，因为轮询总会周期性的重复执行。更好的办法是提供一种机制，让硬件在需要的时候再向内核发出信号。这就是中断......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-08-08
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/vmstat/">
-        <h2 class="post-title">
-            vmstat 命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            vmstat是Virtual Meomory Statistics（虚拟内存统计）的缩写，可对操作系统的虚拟内存、进程、CPU活动进行监控。他是对系统的整体情况进行统计，不足之处是无法对某个进程进行深入分析。vmstat 工具提供了一种低开销的系统性能观察方式。因为 vmstat 本身就是低开销工具，在非常高负荷的服务器上，你需要查看并监控系统的健康情况,在控制窗口还是能够使用vmstat ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-05-30
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/linux-tcp/">
-        <h2 class="post-title">
-            Linux下如何知道http并发和tcp连接数量
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            作为一个运维人员我们应该时刻关心服务器的Http进程情况和TCP的链接情况，防止服务器都被攻击得快瘫痪了还不知情，下面我们一起来看看在linux下如何设置linux的http进程请看和TCP链接情况。 
-1.linux查看httpd进程数
-123456789101112ps -ef | grep httpd | wc -l 查看Apache的并发请求数及其TCP连接状态  netstat -......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-05-19
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/apache-bench/">
-        <h2 class="post-title">
-            Apache Benchmark ab wrk 压力测试工具使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1[root@node1 ~]# ab -n 10000 -c 1000 http://www.sundayle.com/index.html
-其中－n表示请求数，－c表示并发数12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152This is Apach......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-05-19
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -447,9 +460,9 @@ SMP 即 Symmetr......
                     <div class="tags">
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
                         
+                            
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -467,7 +480,15 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="2">docker</a>
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="3">docker</a>
                             
                         
                             
@@ -482,12 +503,6 @@ SMP 即 Symmetr......
                         
                             
                         
-                            
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
                             
                         
                             
@@ -509,9 +524,9 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
                             
                         
                             
@@ -525,17 +540,15 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -553,11 +566,11 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -569,13 +582,21 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
+                            <a href="/tags/#nginx" title="nginx" rel="15">nginx</a>
+                            
+                        
                             
                         
                             
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -603,12 +624,6 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
                             
                         
@@ -623,9 +638,9 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
+                        
                             
                         
                             
@@ -675,9 +690,9 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
                         
+                            
+                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
                             
                         
                             

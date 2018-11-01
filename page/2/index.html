@@ -184,6 +184,96 @@
 
 <div class="post-preview">
 
+    <a href="/codis-redis-cluster/">
+        <h2 class="post-title">
+            Codis Redis 集群
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            https://www.jianshu.com/p/10c68da215bahttps://github.com/CodisLabs/codis
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/dd-simple-test/">
+        <h2 class="post-title">
+            Linux 使用dd 简单测试 读写速度
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            注：要正确测试磁盘读写能力，建议测试文件的大小要远远大于内存的容量！10G 文件 
+测试 写入速度time dd if=/dev/zero of=./test.img bs=160k count=64k conv=fsync
+测试 读取速度time dd if=./test.img of=/dev/null bs=160k count=64k
+hdparm -t /dev/sda1
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/iis-8-5-configure-high-concurrency/">
+        <h2 class="post-title">
+            IIS 8.5 高并发配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. 调整IIS的应用程序池队列长度在【应用程序池】列表中，选择你相应网站所使用的应用程序池，将原来的队列长度由1000改为65535。当然这里的队列长度你可以根据自己的访问用户*1.5来设置，例如：你有2000用户，你此处就可以设置为3000(3000=2000用户数*1.5)
+2. 调整IIS的appConcurrentRequestLimit值12cd %windir%\system3......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/redis-install/">
+        <h2 class="post-title">
+            Redis 3.2 安装及主从复制详细配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            编译安装1234567891011121314151617cd /usr/local/srcwget http://download.redis.io/releases/redis-3.2.12.tar.gztar xf redis-3.2.10.tar.gzcd redis-3.2.10make PREFIX=/usr/local/redis installuseradd -s /bin/......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/sql-server-replication/">
         <h2 class="post-title">
             Windows SQL Server 主从复制
@@ -315,108 +405,6 @@ CAP理论C：Consisten......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/lvm2/">
-        <h2 class="post-title">
-            LVM逻辑卷管理配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-前言Logical Volume Manager (LVM) 重点在于 可以弹性的调整 文件系统 的容量！
-LVM 可以整合多个硬盘 分区在一起， 让这些 分区 看起来就像是一个磁盘一样！
-传统分区使用固定大小分区，重新调整大小十分麻烦，但是LVM可以创建和管理“逻辑”卷，而不是直接使用物理硬盘，可以让管理员弹性的管理逻辑卷的扩大缩小，操作简单，而不损坏已存储的数据。可以随意将新的硬盘添加......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-23
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/glusterfs-docker/">
-        <h2 class="post-title">
-            基于 GlusterFS 实现 Docker 集群的分布式存储
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            企业中的应用场景理论和实践上分析，GlusterFS 目前主要适用于大文件存储场景，对于小文件尤其是海量小文件，存储效率和访问性能都表现不佳。海量小文件 LOSF 问题是工业界和学术界公认的难题，GlusterFS 作为通用的分布式文件系统，并没有对小文件作额外的优化措施，性能不好也是可以理解的。
-
-Media - 文档、图片、音频、视频
-Shared storage - 云存储、虚拟化存储......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-22
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nmap-penetration/">
-        <h2 class="post-title">
-            Nmap 渗透使用指南
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            介绍nmap是用来探测计算机网络上的主机和服务的一种安全扫描器。为了绘制网络拓扑图Nmap的发送特制的数据包到目标主机然后对返回数据包进行分析。Nmap是一款枚举和测试网络的强大工具。
-特点
-主机探测
-端口扫描
-版本检测
-支持探测脚本的编写
-
-安装官网:http://nmap.org 图形化:Zenmap
-基本操作基本快速扫描Nmap 默认发送一个arp的ping数据包来探测目标主机在1-1......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-21
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/python-deep-copy-and-shallow-copy/">
-        <h2 class="post-title">
-            Python中的深拷贝和浅拷贝
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            最近面试被问到python中深拷贝和浅拷贝的知识这里进行下总结，以便今后复习python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。首先，对赋值操作我们要有以下认识：
-
-赋值是将一个对象的地址赋值给一个变量，让变量指向该地址（ 旧瓶装旧酒 ）。
-修改不可变对象（str、tuple）需要开辟新的空间
-修改可变对象（list等）不......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-21
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -456,9 +444,9 @@ Shared storage - 云存储、虚拟化存储......
                     <div class="tags">
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
                         
+                            
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -476,7 +464,15 @@ Shared storage - 云存储、虚拟化存储......
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="2">docker</a>
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="3">docker</a>
                             
                         
                             
@@ -491,12 +487,6 @@ Shared storage - 云存储、虚拟化存储......
                         
                             
                         
-                            
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
                             
                         
                             
@@ -518,9 +508,9 @@ Shared storage - 云存储、虚拟化存储......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
                             
                         
                             
@@ -534,17 +524,15 @@ Shared storage - 云存储、虚拟化存储......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -562,11 +550,11 @@ Shared storage - 云存储、虚拟化存储......
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -578,13 +566,21 @@ Shared storage - 云存储、虚拟化存储......
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
+                            <a href="/tags/#nginx" title="nginx" rel="15">nginx</a>
+                            
+                        
                             
                         
                             
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -612,12 +608,6 @@ Shared storage - 云存储、虚拟化存储......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
                             
                         
@@ -632,9 +622,9 @@ Shared storage - 云存储、虚拟化存储......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
+                        
                             
                         
                             
@@ -684,9 +674,9 @@ Shared storage - 云存储、虚拟化存储......
                             
                         
                             
-                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
                         
+                            
+                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
                             
                         
                             

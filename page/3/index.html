@@ -184,6 +184,108 @@
 
 <div class="post-preview">
 
+    <a href="/lvm2/">
+        <h2 class="post-title">
+            LVM逻辑卷管理配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+前言Logical Volume Manager (LVM) 重点在于 可以弹性的调整 文件系统 的容量！
+LVM 可以整合多个硬盘 分区在一起， 让这些 分区 看起来就像是一个磁盘一样！
+传统分区使用固定大小分区，重新调整大小十分麻烦，但是LVM可以创建和管理“逻辑”卷，而不是直接使用物理硬盘，可以让管理员弹性的管理逻辑卷的扩大缩小，操作简单，而不损坏已存储的数据。可以随意将新的硬盘添加......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/glusterfs-docker/">
+        <h2 class="post-title">
+            基于 GlusterFS 实现 Docker 集群的分布式存储
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            企业中的应用场景理论和实践上分析，GlusterFS 目前主要适用于大文件存储场景，对于小文件尤其是海量小文件，存储效率和访问性能都表现不佳。海量小文件 LOSF 问题是工业界和学术界公认的难题，GlusterFS 作为通用的分布式文件系统，并没有对小文件作额外的优化措施，性能不好也是可以理解的。
+
+Media - 文档、图片、音频、视频
+Shared storage - 云存储、虚拟化存储......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nmap-penetration/">
+        <h2 class="post-title">
+            Nmap 渗透使用指南
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            介绍nmap是用来探测计算机网络上的主机和服务的一种安全扫描器。为了绘制网络拓扑图Nmap的发送特制的数据包到目标主机然后对返回数据包进行分析。Nmap是一款枚举和测试网络的强大工具。
+特点
+主机探测
+端口扫描
+版本检测
+支持探测脚本的编写
+
+安装官网:http://nmap.org 图形化:Zenmap
+基本操作基本快速扫描Nmap 默认发送一个arp的ping数据包来探测目标主机在1-1......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-21
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/python-deep-copy-and-shallow-copy/">
+        <h2 class="post-title">
+            Python中的深拷贝和浅拷贝
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最近面试被问到python中深拷贝和浅拷贝的知识这里进行下总结，以便今后复习python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。首先，对赋值操作我们要有以下认识：
+
+赋值是将一个对象的地址赋值给一个变量，让变量指向该地址（ 旧瓶装旧酒 ）。
+修改不可变对象（str、tuple）需要开辟新的空间
+修改可变对象（list等）不......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-21
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/python-note/">
         <h2 class="post-title">
             Python学习笔记
@@ -348,93 +450,6 @@ and、or和not
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/linux-process-management/">
-        <h2 class="post-title">
-            Linux 进程的管理与监控
-        </h2>
-        <h3 class="post-subtitle">
-            Process Management
-        </h3>
-        <div class="post-content-preview">
-            进程的概念什么是进程进程（Process）是计算机中程序执的实体。程序通常是由指令和相关数据组成的，在 Linux 系统中，程序的运行通常是由用户通过一个命令行解释器（例如 bash shell）发起执行，或者由其他进程派生而来。
-进程标识符每个进程都有一个非负整数表示的唯一标识符，进程运行时 PID 是由操作系统随机分配的，进程 ID 可以重用。当一个进程终止后，其进程 ID 就可以再次使......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-15
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived-nginx-dual-network/">
-        <h2 class="post-title">
-            Keepalived Nginx双网络(内外网)故障非同步漂移双主模式
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            简介有了keepalived+Lvs这样的高性能组合，为什么还需keepalived+Nginx呢。keepalived是为了Lvs而设计。Lvs是一个四层的负载均衡设备，虽然有着高性能的优势，但它无后端服务器的健康检查机制。keepalived为lvs提供一系列的健康检查机制，例如：TCP_CHECK,UDP_CHECK,HTTP_GET等。同时lvs也可以自己写健康检查脚脚本。或者结合l......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-13
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived-dual-network/">
-        <h2 class="post-title">
-            Keepalived 双网络(内外网)故障同步漂移主备模式
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            前言在生产环境当中，内网与公网都是独立分开的，因此内网和公网不用同步漂移，例如：Keepalived+LVS-DR、Keepalived+Nginx、Keepalived+HAProxy 都无需同步漂移。
-注：Keepalived+LVS-NAT模式除外。
-架构图123456789101112131415161718192021222324    +------+              ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-13
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived-lvs-dr-nginx/">
-        <h2 class="post-title">
-            Keepalived + LVS-DR Nginx 双主高可用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            LVS/DR模式LVS是Linux Virtual Server的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。LVS目前有三种IP负载均衡技术（VS/NAT、VS/TUN和VS/DR）、十种调度算法（rr | wrr | lc | wlc | lblc | lblcr |dh | sh | sed | nq）。LVS在Unix-like系统中是作为一个前端(Director)......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-09
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -474,9 +489,9 @@ and、or和not
                     <div class="tags">
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
                         
+                            
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -494,7 +509,15 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="2">docker</a>
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="3">docker</a>
                             
                         
                             
@@ -509,12 +532,6 @@ and、or和not
                         
                             
                         
-                            
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
                             
                         
                             
@@ -536,9 +553,9 @@ and、or和not
                             
                         
                             
-                        
-                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
                             
                         
                             
@@ -552,17 +569,15 @@ and、or和not
                             
                         
                             
-                        
-                            
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -580,11 +595,11 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -596,13 +611,21 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="12">nginx</a>
+                            <a href="/tags/#nginx" title="nginx" rel="15">nginx</a>
+                            
+                        
                             
                         
                             
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -630,12 +653,6 @@ and、or和not
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
                             
                         
@@ -650,9 +667,9 @@ and、or和not
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
+                        
                             
                         
                             
@@ -702,9 +719,9 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
                         
+                            
+                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
                             
                         
                             

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          基于kubeadm方式部署kubernetes v1.12.1 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/kubeadm-build-kubernetes/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                        
+                          <a class="tag" href="/tags/#kubernetes" title="kubernetes">kubernetes</a>
+                        
+                    </div>
+                    <h1>基于kubeadm方式部署kubernetes v1.12.1</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-10-22
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p><a href="https://kubernetes.io/docs/setup/independent/install-kubeadm/" target="_blank" rel="noopener">https://kubernetes.io/docs/setup/independent/install-kubeadm/</a></p>
+<h1 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h1><table>
+<thead>
+<tr>
+<th>系统</th>
+<th>IP</th>
+<th>hostname</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CentOS 7.4</td>
+<td>192.168.10.101</td>
+<td>master</td>
+</tr>
+<tr>
+<td>CentOS 7.4</td>
+<td>192.168.10.102</td>
+<td>node2</td>
+</tr>
+<tr>
+<td>CentOS 7.4</td>
+<td>192.168.10.103</td>
+<td>node3</td>
+</tr>
+</tbody>
+</table>
+<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/pre-ccm-arch.png">
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p><strong>配置host解析（所有节点）</strong><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; <span class="literal">EOF</span> &gt;&gt; /etc/hosts</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span> master</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.102</span> slave1</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.103</span> slave2</span><br><span class="line"><span class="literal">EOF</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>关闭防火墙（所有节点）</strong><br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">stop</span> firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line">setenforce <span class="number">0</span></span><br><span class="line">sed -i <span class="string">'s#^SELINUX=.*#SELINUX=disabled/g'</span> /etc/selinux/<span class="built_in">config</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>关闭swap（所有节点）</strong><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">swapoff -a</span><br><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'s/.swap./#&amp;/'</span> /etc/fstab</span><br></pre></td></tr></table></figure></p>
+<p><strong>ssh 免密码登陆 （在master上操作）</strong><br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br><span class="line">ssh-<span class="keyword">copy</span><span class="bash">-id root@slave1</span></span><br><span class="line"><span class="bash">ssh-copy-id root@slave2</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>内核配置（所有节点）</strong><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">modprobe br_netfilter</span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;  /etc/sysctl.conf</span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-ip6tables</span> = <span class="number">1</span></span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-iptables</span> = <span class="number">1</span></span><br><span class="line">net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span> = <span class="number">1</span></span><br><span class="line">EOF</span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cat</span> &lt;&lt; EOF &gt;&gt; /etc/security/limits.<span class="keyword">conf</span></span><br><span class="line"><span class="comment">* soft nofile 65536"</span></span><br><span class="line"><span class="comment">* hard nofile 65536"</span></span><br><span class="line"><span class="comment">* soft nproc 65536" </span></span><br><span class="line"><span class="comment">* hard nproc 65536" </span></span><br><span class="line"><span class="comment">* soft  memlock  unlimited" </span></span><br><span class="line"><span class="comment">* hard memlock  unlimited"</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p><strong>时间同步</strong><br><figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">yum </span><span class="string">install </span>-y <span class="string">ntpdate</span></span><br><span class="line"><span class="string">timedatectl </span><span class="built_in">set-timezone</span> <span class="string">Asia/</span><span class="string">Shanghai</span></span><br><span class="line"><span class="string">echo </span><span class="string">'*/30 * * * * /usr/sbin/ntpdate time7.aliyun.com &gt;/dev/null 2&gt;&amp;1'</span> &gt; /<span class="string">tmp/</span><span class="string">crontab2.</span><span class="string">tmp</span></span><br><span class="line"><span class="string">systemctl </span><span class="string">enable </span><span class="string">ntpdate</span></span><br><span class="line"><span class="string">systemctl </span><span class="string">start </span><span class="string">ntpdate</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="部署Docker"><a href="#部署Docker" class="headerlink" title="部署Docker"></a>部署Docker</h1><p><strong>移除相关包</strong><br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">yum</span> remove docker docker-client docker-client-latest docker-<span class="meta">common</span> \</span><br><span class="line"><span class="symbol">docker</span>-latest docker-latest-logrotate docker-logrotate docker-<span class="keyword">selinux </span>\</span><br><span class="line"><span class="symbol">docker</span>-engine-<span class="keyword">selinux </span>docker-engine docker-ce</span><br></pre></td></tr></table></figure></p>
+<p><strong>添加相关依赖包</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> -y epel-<span class="keyword">release</span></span><br><span class="line">yum <span class="keyword">install</span> -y yum-utils device-mapper-persistent-<span class="keyword">data</span> lvm2</span><br></pre></td></tr></table></figure></p>
+<p><strong>添加Docker源</strong><br>所有节点操作<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager --<span class="built_in">add</span>-repo http<span class="variable">s:</span>//mirrors.aliyun.<span class="keyword">com</span>/docker-<span class="keyword">ce</span>/linux/centos/docker-<span class="keyword">ce</span>.repo</span><br></pre></td></tr></table></figure></p>
+<p><strong>安装docker</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> docker-ce -y</span><br><span class="line">systemctl <span class="keyword">start</span> docker</span><br><span class="line">systemctl <span class="keyword">enable</span> docker</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#docker version</span></span><br><span class="line"></span><br><span class="line"><span class="attr">Client:</span></span><br><span class="line"><span class="attr"> Version:</span>           <span class="number">18.06</span><span class="number">.1</span><span class="bullet">-ce</span></span><br><span class="line"> <span class="string">API</span> <span class="attr">version:</span>       <span class="number">1.38</span></span><br><span class="line"> <span class="string">Go</span> <span class="attr">version:</span>        <span class="string">go1.10.3</span></span><br><span class="line"> <span class="string">Git</span> <span class="attr">commit:</span>        <span class="string">e68fc7a</span></span><br><span class="line"><span class="attr"> Built:</span>             <span class="string">Tue</span> <span class="string">Aug</span> <span class="number">21</span> <span class="number">17</span><span class="string">:23:03</span> <span class="number">2018</span></span><br><span class="line"> <span class="string">OS/Arch:</span>           <span class="string">linux/amd64</span></span><br><span class="line"><span class="attr"> Experimental:</span>      <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">Server:</span></span><br><span class="line"><span class="attr"> Engine:</span></span><br><span class="line"><span class="attr">  Version:</span>          <span class="number">18.06</span><span class="number">.1</span><span class="bullet">-ce</span></span><br><span class="line">  <span class="string">API</span> <span class="attr">version:</span>      <span class="number">1.38</span> <span class="string">(minimum</span> <span class="string">version</span> <span class="number">1.12</span><span class="string">)</span></span><br><span class="line">  <span class="string">Go</span> <span class="attr">version:</span>       <span class="string">go1.10.3</span></span><br><span class="line">  <span class="string">Git</span> <span class="attr">commit:</span>       <span class="string">e68fc7a</span></span><br><span class="line"><span class="attr">  Built:</span>            <span class="string">Tue</span> <span class="string">Aug</span> <span class="number">21</span> <span class="number">17</span><span class="string">:25:29</span> <span class="number">2018</span></span><br><span class="line">  <span class="string">OS/Arch:</span>          <span class="string">linux/amd64</span></span><br><span class="line"><span class="attr">  Experimental:</span>     <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p><strong>添加镜像加速器</strong><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mkdir -<span class="selector-tag">p</span> /etc/docker </span><br><span class="line">cat &lt;&lt; EOF &gt; /etc/docker/daemon.json</span><br><span class="line">    <span class="string">"registry-mirrors"</span>: [<span class="string">"https://registry.docker-cn.com"</span>],</span><br><span class="line">    <span class="string">"live-restore"</span>: true</span><br><span class="line">EOF</span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure></p>
+<h1 id="部署Kubernetes"><a href="#部署Kubernetes" class="headerlink" title="部署Kubernetes"></a>部署Kubernetes</h1><p>所有节点操作<br><strong>添加kubernetes源</strong><br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo </span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</span><br><span class="line">gpgcheck=0</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">enabled=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
+<p><strong>安装kubernetes</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum makecache fast</span><br><span class="line">yum <span class="keyword">install</span> -y kubelet kubeadm kubectl kubernetes-cni socat</span><br><span class="line">systemctl <span class="keyword">enable</span> kubelet </span><br><span class="line">systemctl <span class="keyword">start</span> kubelet</span><br></pre></td></tr></table></figure></p>
+<p><strong>添加代理IP和不代理网段</strong><br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sed -i 's<span class="comment">#StartLimitInterval=60s#StartLimitInterval=60s\</span></span><br><span class="line">Environment=<span class="string">"HTTPS_PROXY=http://192.168.10.251:1080"</span>\</span><br><span class="line">Environment=<span class="string">"NO_PROXY=127.0.0.0/8,192.168.10.0/24"</span>'<span class="comment">#  /usr/lib/systemd/system/docker.service</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>忽略Swap</strong><br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"KUBELET_EXTRA_ARGS="</span>--fail-swap-on=<span class="literal">false</span><span class="string">""</span> <span class="meta">&gt;&gt;</span>/etc/sysconfig/kubelet</span><br></pre></td></tr></table></figure></p>
+<p><strong>下载镜像</strong><br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]# kubeadm config images pull</span><br><span class="line">[config/images] Pulled k8s.gcr.io/kube-apiserver:v1<span class="meta">.12</span><span class="meta">.1</span></span><br><span class="line">[config/images] Pulled k8s.gcr.io/kube-controller-manager:v1<span class="meta">.12</span><span class="meta">.1</span></span><br><span class="line">[config/images] Pulled k8s.gcr.io/kube-scheduler:v1<span class="meta">.12</span><span class="meta">.1</span></span><br><span class="line">[config/images] Pulled k8s.gcr.io/kube-proxy:v1<span class="meta">.12</span><span class="meta">.1</span></span><br><span class="line">[config/images] Pulled k8s.gcr.io/<span class="keyword">pause</span>:<span class="number">3.1</span></span><br><span class="line">[config/images] Pulled k8s.gcr.io/etcd:<span class="number">3.2</span><span class="meta">.24</span></span><br><span class="line">[config/images] Pulled k8s.gcr.io/coredns:<span class="number">1.2</span><span class="meta">.2</span></span><br><span class="line"></span><br><span class="line">[root@master ~]# docker images</span><br><span class="line">REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">k8s.gcr.io/kube-proxy                v1<span class="meta">.12</span><span class="meta">.1</span>             61afff57f010        <span class="number">2</span> weeks ago         <span class="number">96.</span>6MB</span><br><span class="line">k8s.gcr.io/kube-scheduler            v1<span class="meta">.12</span><span class="meta">.1</span>             d773ad20fd80        <span class="number">2</span> weeks ago         <span class="number">58.</span>3MB</span><br><span class="line">k8s.gcr.io/kube-apiserver            v1<span class="meta">.12</span><span class="meta">.1</span>             dcb029b5e3ad        <span class="number">2</span> weeks ago         194MB</span><br><span class="line">k8s.gcr.io/kube-controller-manager   v1<span class="meta">.12</span><span class="meta">.1</span>             aa2dd57c7329        <span class="number">2</span> weeks ago         164MB</span><br><span class="line">k8s.gcr.io/etcd                      <span class="number">3.2</span><span class="meta">.24</span>              3cab8e1b9802        <span class="number">4</span> weeks ago         220MB</span><br><span class="line">k8s.gcr.io/coredns                   <span class="number">1.2</span><span class="meta">.2</span>               367cdc8433a4        <span class="number">7</span> weeks ago         <span class="number">39.</span>2MB</span><br><span class="line">quay.io/coreos/flannel               v0<span class="meta">.10</span><span class="meta">.0</span>-amd64       f0fad859c909        <span class="number">9</span> months ago        <span class="number">44.</span>6MB</span><br><span class="line">k8s.gcr.io/<span class="keyword">pause</span>                     <span class="number">3.1</span>                 da86e6ba6ca1        <span class="number">10</span> months ago       742kB</span><br></pre></td></tr></table></figure></p>
+<h1 id="初始化集群"><a href="#初始化集群" class="headerlink" title="初始化集群"></a>初始化集群</h1><p>master上操作<br><strong>kubeadm init 初始化</strong><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubeadm init --kubernetes-version=v1<span class="number">.12</span><span class="number">.1</span> --pod-network-cidr=<span class="number">10.244</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">16</span> \</span><br><span class="line">--service-cidr=<span class="number">10.96</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">12</span> --apiserver-advertise-address=<span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span> \</span><br><span class="line">--ignore-preflight-errors=Swap</span><br></pre></td></tr></table></figure></p>
+<p>kubeadm init 输出<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Your Kubernetes master has initialized successfully!</span><br><span class="line"></span><br><span class="line">To <span class="keyword">start</span> <span class="keyword">using</span> your cluster, you need <span class="keyword">to</span> run the <span class="keyword">following</span> <span class="keyword">as</span> a regular <span class="keyword">user</span>:</span><br><span class="line"></span><br><span class="line">  mkdir -p $HOME/.kube</span><br><span class="line">  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span><br><span class="line">  sudo chown $(<span class="keyword">id</span> -u):$(<span class="keyword">id</span> -g) $HOME/.kube/config</span><br><span class="line"></span><br><span class="line">You should <span class="keyword">now</span> deploy a pod network <span class="keyword">to</span> the cluster.</span><br><span class="line">Run <span class="string">"kubectl apply -f [podnetwork].yaml"</span> <span class="keyword">with</span> one <span class="keyword">of</span> the options listed <span class="keyword">at</span>:</span><br><span class="line">  https://kubernetes.io/docs/concepts/cluster-administration/addons/</span><br><span class="line"></span><br><span class="line">You can <span class="keyword">now</span> <span class="keyword">join</span> <span class="keyword">any</span> <span class="built_in">number</span> <span class="keyword">of</span> machines <span class="keyword">by</span> running the <span class="keyword">following</span> <span class="keyword">on</span> <span class="keyword">each</span> node</span><br><span class="line"><span class="keyword">as</span> root:</span><br><span class="line"></span><br><span class="line">  kubeadm <span class="keyword">join</span> <span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span>:<span class="number">6443</span> <span class="comment">--token mtplaq.2jbbpziao4387pjg --discovery-token-ca-cert-hash sha256:27e77c5b53716b1d42940e6a74797597be55165487c6f30f4</span></span><br></pre></td></tr></table></figure></p>
+<p>注意：请记录<code>kubeadm join</code>命令<br>若初始化失败,请执行<code>kubeadm reset</code>,重新<code>kubeadm init</code>初始化。</p>
+<p>要使kubectl为非root用户工作，这些命令也是kubeadm init输出的一部分：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$HOME</span>/.kube</span><br><span class="line">sudo cp -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">sudo chown $(id -u):$(id -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure></p>
+<p>或者，如果您是root用户，则可以运行：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"export KUBECONFIG=/etc/kubernetes/admin.conf"</span> /etc/profile</span><br><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></p>
+<p><strong>添加pod网络组件flannel</strong><br><a href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/" target="_blank" rel="noopener">https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/</a></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f https:<span class="regexp">//</span>raw.githubusercontent.com<span class="regexp">/coreos/</span>flannel<span class="regexp">/master/</span>Documentation<span class="regexp">/kube-flannel.yml</span></span><br></pre></td></tr></table></figure>
+<p>kube-flannel.yml中配置<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 此处的ip配置要与上面kubeadm的pod-network一致</span></span><br><span class="line">  net-conf.json: |</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"Network"</span>: <span class="string">"10.244.0.0/16"</span>,</span><br><span class="line">      <span class="string">"Backend"</span>: &#123;</span><br><span class="line">        <span class="string">"Type"</span>: <span class="string">"vxlan"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta"># 默认的镜像是quay.io/coreos/flannel:v0.10.0-amd64，如果你能pull下来就不用修改镜像地址，否则，修改yml中镜像地址为阿里镜像源</span></span><br><span class="line"><span class="symbol">image:</span> registry.cn-shenzhen.aliyuncs.com<span class="meta-keyword">/kubernetes-cn/</span>flannel:v0<span class="number">.10</span><span class="number">.0</span>-amd64</span><br><span class="line"></span><br><span class="line"><span class="meta"># 如果Node有多个网卡的话，参考flannel issues 39701，</span></span><br><span class="line"><span class="meta"># https:<span class="comment">//github.com/kubernetes/kubernetes/issues/39701</span></span></span><br><span class="line"><span class="meta"># 目前需要在kube-flannel.yml中使用--iface参数指定集群主机内网网卡的名称，</span></span><br><span class="line"><span class="meta"># 否则可能会出现dns无法解析。容器无法通信的情况，需要将kube-flannel.yml下载到本地，</span></span><br><span class="line"><span class="meta"># flanneld启动参数加上--iface=&lt;iface-name&gt;</span></span><br><span class="line"><span class="symbol">    containers:</span></span><br><span class="line">      - name: kube-flannel</span><br><span class="line"><span class="symbol">        image:</span> registry.cn-shenzhen.aliyuncs.com<span class="meta-keyword">/kubernetes-cn/</span>flannel:v0<span class="number">.10</span><span class="number">.0</span>-amd64</span><br><span class="line"><span class="symbol">        command:</span></span><br><span class="line">        - <span class="meta-keyword">/opt/</span>bin/flanneld</span><br><span class="line"><span class="symbol">        args:</span></span><br><span class="line">        - --ip-masq</span><br><span class="line">        - --kube-subnet-mgr</span><br><span class="line">        - --iface=eth1</span><br><span class="line"></span><br><span class="line"><span class="meta">#--iface=eth1 的值，是你当前的网卡</span></span><br><span class="line"><span class="meta"># kubectl apply -f kube-flannel.yml # 启动</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="简单命令"><a href="#简单命令" class="headerlink" title="简单命令"></a>简单命令</h1><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">get</span> node <span class="comment"># 查看节点状态</span></span><br><span class="line">kubectl <span class="built_in">get</span> pod -n kube-<span class="keyword">system</span> -o wide  <span class="comment"># 查看pod资源</span></span><br><span class="line">kubectl describe pod [pod_name] -n kube-<span class="keyword">system</span> <span class="comment"># 查看指定pod详情</span></span><br><span class="line">kubectl logs [pod_name] -n kube-<span class="keyword">system</span></span><br><span class="line">kubectl <span class="built_in">get</span> cm coredns -oyaml -nkube-<span class="keyword">system</span></span><br><span class="line">kubectl <span class="built_in">get</span> svc -n kube-<span class="keyword">system</span> <span class="comment"># kube-dns</span></span><br><span class="line">kubectl <span class="built_in">get</span> componentstatus <span class="comment"># 查看组件状态</span></span><br><span class="line">systemctl status kubelet</span><br></pre></td></tr></table></figure>
+<h1 id="添加从节点到集群中"><a href="#添加从节点到集群中" class="headerlink" title="添加从节点到集群中"></a>添加从节点到集群中</h1><p>从节点操作<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubeadm join 192.168.10.101:6443 --<span class="keyword">token</span> mtplaq.2jbbpziao4387pjg --discovery-<span class="keyword">token</span>-<span class="keyword">ca</span>-cert-hash sha256:27e77c5b53716b1d42940e6a74797597be55165487c6f30f4</span><br><span class="line">#kubeadm join 192.168.10.101:6443 --<span class="keyword">token</span> 8dtbdm.jxn9lzx6it54alcl --discovery-<span class="keyword">token</span>-<span class="keyword">ca</span>-cert-hash sha256:27e77c5b53716b1d42940e6a74797597be55165487c6f30f4978a2ac97d8df00 --ignore-preflight-errors=Swap</span><br><span class="line"></span><br><span class="line">#若<span class="keyword">token</span>忘记，可在master查询</span><br><span class="line">kubeadm <span class="keyword">token</span> create --<span class="keyword">print</span>-join-command</span><br></pre></td></tr></table></figure></p>
+<p>添加完成，就可在master查询节点了。<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]# kubectl get node</span><br><span class="line">NAME     STATUS   ROLES    AGE     VERSION</span><br><span class="line">master   Ready    master   <span class="number">8</span>m24s   v1<span class="number">.12</span><span class="number">.1</span></span><br><span class="line">node2    Ready    &lt;none&gt;   <span class="number">95</span>s     v1<span class="number">.12</span><span class="number">.1</span></span><br><span class="line">node3    Ready    &lt;none&gt;   <span class="number">60</span>s     v1<span class="number">.12</span><span class="number">.1</span></span><br><span class="line"></span><br><span class="line">[root@master ~]# kubectl get pod -n kube-system -o wide</span><br><span class="line">NAME                             READY   STATUS    RESTARTS   AGE     IP               NODE     NOMINATED NODE</span><br><span class="line">coredns<span class="number">-576</span>cbf47c7<span class="number">-5</span>dmr4         <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">8</span>m7s    <span class="number">10.244</span><span class="number">.0</span><span class="number">.9</span>       master   &lt;none&gt;</span><br><span class="line">coredns<span class="number">-576</span>cbf47c7<span class="number">-8</span>h6l9         <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">8</span>m7s    <span class="number">10.244</span><span class="number">.0</span><span class="number">.8</span>       master   &lt;none&gt;</span><br><span class="line">etcd-master                      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">7</span>m31s   <span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span>   master   &lt;none&gt;</span><br><span class="line">kube-apiserver-master            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">7</span>m34s   <span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span>   master   &lt;none&gt;</span><br><span class="line">kube-controller-manager-master   <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">7</span>m21s   <span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span>   master   &lt;none&gt;</span><br><span class="line">kube-flannel-ds-amd64<span class="number">-6</span>z4v6      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">6</span>m22s   <span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span>   master   &lt;none&gt;</span><br><span class="line">kube-flannel-ds-amd64<span class="number">-9</span>tgjf      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">97</span>s     <span class="number">192.168</span><span class="number">.10</span><span class="number">.102</span>   node2    &lt;none&gt;</span><br><span class="line">kube-flannel-ds-amd64-lvgn2      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">63</span>s     <span class="number">192.168</span><span class="number">.10</span><span class="number">.103</span>   node3    &lt;none&gt;</span><br><span class="line">kube-proxy<span class="number">-7</span>nhxx                 <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">63</span>s     <span class="number">192.168</span><span class="number">.10</span><span class="number">.103</span>   node3    &lt;none&gt;</span><br><span class="line">kube-proxy-ljt6l                 <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">8</span>m7s    <span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span>   master   &lt;none&gt;</span><br><span class="line">kube-proxy-nfcxq                 <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">97</span>s     <span class="number">192.168</span><span class="number">.10</span><span class="number">.102</span>   node2    &lt;none&gt;</span><br><span class="line">kube-scheduler-master            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">7</span>m28s   <span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span>   master   &lt;none&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="dashboard"><a href="#dashboard" class="headerlink" title="dashboard"></a>dashboard</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f https:<span class="regexp">//</span>raw.githubusercontent.com<span class="regexp">/kubernetes/</span>dashboard<span class="regexp">/master/</span>src<span class="regexp">/deploy/</span>recommended<span class="regexp">/kubernetes-dashboard.yaml</span></span><br></pre></td></tr></table></figure>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://www.jianshu.com/p/fada87851e63" target="_blank" rel="noopener">基于kubeadm方式部署kubernetes v1.12.1</a><br><a href="https://kubernetes.io/docs/setup/independent/install-kubeadm/" target="_blank" rel="noopener">kubernetes官方文档kubeadm部署</a><br><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands" target="_blank" rel="noopener">kubernetes官网文档命令指南</a><br><a href="https://kubernetes.io/docs/home/" target="_blank" rel="noopener">kubernetes官方文档</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/nginx-proxy-tcp/" data-toggle="tooltip" data-placement="top" title="使用Nginx转发TCP/UDP端口">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/nginx-log-analysis-command/" data-toggle="tooltip" data-placement="top" title="Nginx 日志统计命令">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                        
+                          <a class="tag" href="/tags/#kubernetes" title="kubernetes">kubernetes</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

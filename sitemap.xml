@@ -2,9 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
+    
+    <lastmod>2018-10-30T09:48:20.753Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/nginx-proxy-tcp/</loc>
+    
+    <lastmod>2018-10-24T08:34:28.510Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/dockerfile/</loc>
     
-    <lastmod>2018-10-19T07:25:26.801Z</lastmod>
+    <lastmod>2018-10-22T09:34:38.526Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/nginx-log-analysis-command/</loc>
+    
+    <lastmod>2018-10-22T08:59:55.625Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/nginx-limit-modules/</loc>
+    
+    <lastmod>2018-10-22T08:48:49.423Z</lastmod>
     
   </url>
   

@@ -4,14 +4,84 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
+    <lastmod>2018-10-30T09:48:20.753Z</lastmod>
+    <data>
+        <display>
+        <title>基于kubeadm方式部署kubernetes v1.12.1</title>
+        <pubTime>2018-10-22T09:38:40.000Z</pubTime>
+        
+        <tag>docker</tag>
+         
+        <tag>kubernetes</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/nginx-proxy-tcp/</loc>
+    <lastmod>2018-10-24T08:34:28.510Z</lastmod>
+    <data>
+        <display>
+        <title>使用Nginx转发TCP/UDP端口</title>
+        <pubTime>2018-10-24T08:03:04.000Z</pubTime>
+        
+        <tag>nginx</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/dockerfile/</loc>
-    <lastmod>2018-10-19T07:25:26.801Z</lastmod>
+    <lastmod>2018-10-22T09:34:38.526Z</lastmod>
     <data>
         <display>
         <title>Docker(二)：Dockerfile 使用详情</title>
         <pubTime>2018-10-15T16:12:44.000Z</pubTime>
         
         <tag>docker</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/nginx-log-analysis-command/</loc>
+    <lastmod>2018-10-22T08:59:55.625Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx 日志统计命令</title>
+        <pubTime>2018-10-22T08:48:22.000Z</pubTime>
+        
+        <tag>nginx</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/nginx-limit-modules/</loc>
+    <lastmod>2018-10-22T08:48:49.423Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx 高并发限流模块 limit_conn_module limit_req_module</title>
+        <pubTime>2018-10-22T02:33:41.000Z</pubTime>
+        
+        <tag>nginx</tag>
          
          
            
@@ -1155,9 +1225,9 @@
         <title>Maven私服Nexus3.x环境配置</title>
         <pubTime>2018-07-31T10:36:25.000Z</pubTime>
         
-        <tag>maven</tag>
-         
         <tag>持续集成</tag>
+         
+        <tag>maven</tag>
          
         <tag>nexus</tag>
          
@@ -1181,9 +1251,9 @@
         
         <tag>jenkins</tag>
          
-        <tag>maven</tag>
-         
         <tag>持续集成</tag>
+         
+        <tag>maven</tag>
          
          
            
