@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -204,7 +204,7 @@
 <p>MogileFS是一个开源的分布式文件系统，用于组建分布式文件集群，由LiveJournal旗下DangaInteractive公司开发，Danga团队开发了包括 Memcached、MogileFS、Perlbal等不错的开源项目：(注：Perlbal是一个强大的Perl写的反向代理服务器)。MogileFS是一个开源的分布式文件系统。<br>目前使用 MogileFS 的公司非常多,比如国外的一些公司,日本前几名的公司基本都在使用这个，国内所知道的使用 MogileFS 的公司有图片托管网站 yupoo又拍,digg, 土豆, 豆瓣,1 号店, 大众点评,搜狗,安居客等等网站.分别为所在的组织或公司管理着海量的图片。</p>
 <p><strong> MogileFS特性 </strong></p>
 <p>1 ) 支持多节点冗余<br>2）可实现自动的文件复制<br>3）使用名称空间（命名空间），每个文件通过key来确定，比如123.jpg是一个key，真正存储的位置可能是/000/000/00/01/md5hash.fid<br>4）不需要RAID，应用层可直接实现RAID，不共享任何东西，通过”集群接口”提供服务<br>5）工作于应用层，没有特殊的组件要求<br>6）不用共享任何数据，MogileFS不需要依靠昂贵的SAN来共享磁盘，每个机器只用维护好自己的磁盘</p>
-<p><strong> MogileFS的工作原理 </strong><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/mogilefs-33.jpg"></p>
+<p><strong> MogileFS的工作原理 </strong><br><img src="http://himg.sundayle.com/static/images/mogilefs-33.jpg"></p>
 <p><strong> MogileFS的架构 </strong><br>MogileFS主要由三部分构成：tracker节点、database节点、storage节点</p>
 <p>1）<code>Tracker–跟踪器，调度器</code><br>MogileFS的核心，是一个调度器，mogilefsd进程就是trackers进程程序,trackers的主要职责有：删除数据、复制数据、监控、查询等等，这个是基于事件的( event-based ) 父进程/消息总线来管理所有来自于客户端应用的交互, 包括将请求负载平衡到多个”query workers”中,然后让 mogilefs的子进程去处理，mogadm,mogtool的所有操作都要跟trackers打交道,Client的一些操作也需要定义好trackers,因此最好同时运行多个trackers来做负载均衡，trackers也可以只运行在一台机器上，使用负载均衡时可以使用一些简单的负载均衡解决方案，如haproxy，lvs，nginx等，tarcker的配置文件为/etc/mogilefs/mogilefsd.conf，监听在TCP的7001端口</p>
 <p>2）<code>Database–数据库部分</code><br>主要用来存储mogilefs的元数据（命名空间和文件在哪里等），是trackers来操作和管理它，可以用mogdbsetup程序来初始化数据库，所有的元数据都存储在数据库中，因此，这个数据相当重要，如果数据库挂掉，所有的数据都不能用于访问，因此，建议应该对数据库做高可用</p>

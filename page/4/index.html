@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,28 +181,6 @@
             
                 <!-- Main Content -->
 
-
-<div class="post-preview">
-
-    <a href="/linux-process-management/">
-        <h2 class="post-title">
-            Linux 进程的管理与监控
-        </h2>
-        <h3 class="post-subtitle">
-            Process Management
-        </h3>
-        <div class="post-content-preview">
-            进程的概念什么是进程进程（Process）是计算机中程序执的实体。程序通常是由指令和相关数据组成的，在 Linux 系统中，程序的运行通常是由用户通过一个命令行解释器（例如 bash shell）发起执行，或者由其他进程派生而来。
-进程标识符每个进程都有一个非负整数表示的唯一标识符，进程运行时 PID 是由操作系统随机分配的，进程 ID 可以重用。当一个进程终止后，其进程 ID 就可以再次使......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-15
-    </p>
-
-</div>
-<hr>
 
 <div class="post-preview">
 
@@ -360,27 +338,6 @@
 
 <div class="post-preview">
 
-    <a href="/haproxy-optimization/">
-        <h2 class="post-title">
-            使用 HAProxy 负载均衡300k并发tcp连接
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            我最近正在尝试建立一个推送系统。为了提高系统的可扩展性，最佳做法是使每个连接尽可能无状态。因此，当出现瓶颈时，通过添加更多机器可以轻松扩展整个系统的容量。说到负载平衡和反向代理，Nginx可能是最着名和最公认的。但是，TCP代理是一个相当新的事情。 Nginx从v1.9引入了TCP负载均衡和反向代理，v1.9于今年5月下旬发布，具有大量缺失功能。另一方面，HAProxy作为TCP加载bala......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-02
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
     <a href="/opcache/">
         <h2 class="post-title">
             PHP 7 启用opcache及缓存清除
@@ -396,6 +353,51 @@
     <p class="post-meta">
         Posted by Sunday on
         2018-08-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/tmpfs/">
+        <h2 class="post-title">
+            CentOS 7 使用tmpfs优化应用服务缓存读写速度
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            tmpfs : 使用内存作为Linux磁盘文件,用于缓存读写。操作12vim /etc/fstabtmpfs                   /tmp        tmpfs   size=2G,noatime,nodiratime  0   0
+挂载1mount -a
+效果12df -h | grep /tmptmpfs           2.0G  216K  2.0G   1%......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/maven-nexus/">
+        <h2 class="post-title">
+            Maven私服Nexus3.x环境配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            简介私服是指私有服务器，是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构建。 有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库； 否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。
+Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部仓库的维护和外部仓库的访问。 如果使用了公共的Maven仓库服务器，......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-31
     </p>
 
 </div>
@@ -440,11 +442,7 @@
                     <div class="tags">
                         
                             
-                        
-                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
                             
                         
                             
@@ -460,15 +458,17 @@
                             
                         
                             
+                            <a href="/tags/#docker" title="docker" rel="3">docker</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
                             
                         
                             
                             <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
-                            
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="3">docker</a>
                             
                         
                             
@@ -496,17 +496,11 @@
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
-                            
-                        
-                            
                             <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -520,6 +514,16 @@
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
                             
                         
@@ -528,17 +532,7 @@
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -550,23 +544,15 @@
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
                             
                         
                             
                             <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
-                            
-                        
-                            
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#nginx" title="nginx" rel="15">nginx</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -578,6 +564,22 @@
                             
                         
                             
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                         
                             
                         
@@ -587,6 +589,8 @@
                         
                             
                         
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="15">nginx</a>
                             
                         
                             
@@ -600,11 +604,11 @@
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -616,11 +620,7 @@
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
-                        
                             
                         
                             
@@ -646,8 +646,6 @@
                             
                         
                             
-                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
-                            
                         
                             
                         
@@ -660,7 +658,7 @@
                             
                         
                             
-                        
+                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
@@ -673,6 +671,12 @@
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

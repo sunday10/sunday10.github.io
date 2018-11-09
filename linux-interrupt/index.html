@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -214,7 +214,7 @@
 <p>因为中断上下文打断了其他代码（甚至可能是打断其他中断线上的），中断上下文中的代码应该迅速、简洁，尽量不要使用循环去处理繁重的工作。</p>
 <p>中断处理程序并不具有自己的栈，它们共享所中断进程的内核栈，因此没有进程可调度时，空任务运行。</p>
 <h1 id="中断处理机制的实现"><a href="#中断处理机制的实现" class="headerlink" title="中断处理机制的实现"></a>中断处理机制的实现</h1><p>中断处理机制在 Linux 中的实现是非常依赖于体系结构的，它的实现依赖于处理器，所使用的中断处理器的类型、体系结构的设计及机器本身。</p>
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/interrpt.png">
+<img src="http://himg.sundayle.com/static/images/interrpt.png">
 <p>上图是中断从硬件到内核的路由。设备产生中断，通过总线把电信号发送给中断控制器。如果中断线是激活的（它们是允许被屏蔽的），那么控制器就把中断发往处理器。在大多数体系结构中，这个工作就是通过电信号给处理器的特定管脚发送一个信号。除非在处理器上禁止该中断，否则处理器会立即停止它正在做的事，关闭中断系统，然后跳到内存中预定义的位置开始执行那里的代码。这个预定义的位置是由内核设置的，是中断处理程序的入口点。</p>
 <h1 id="proc-interrupts"><a href="#proc-interrupts" class="headerlink" title="/proc/interrupts"></a>/proc/interrupts</h1><p>procfs 是一个虚拟文件系统，它只存在于内核内存，一般挂载于 /proc 目录。在 procfs 中读写文件都要调用内核函数，这些函数模拟从真实文件中读或写。/proc/interrupts 文件存放的是系统中与中断相关的统计信息。<br><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@bogon kernel]# cat /<span class="keyword">proc</span>/interrupts </span><br><span class="line"><span class="title">            CPU0</span> <span class="title">      CPU1</span>       </span><br><span class="line">   0:       1167          0<span class="title">   IO-APIC-edge</span> <span class="title">     timer</span></span><br><span class="line"><span class="title"></span>   1:        135          0<span class="title">   IO-APIC-edge</span> <span class="title">     i8042</span></span><br><span class="line"><span class="title"></span>   8:          1          0<span class="title">   IO-APIC-edge</span> <span class="title">     rtc0</span></span><br><span class="line"><span class="title"></span>   9:          0          0<span class="title">   IO-APIC-fasteoi</span> <span class="title">  acpi</span></span><br><span class="line"><span class="title"></span>  12:        205          0<span class="title">   IO-APIC-edge</span> <span class="title">     i8042</span></span><br><span class="line"><span class="title"></span>  14:          0          0<span class="title">   IO-APIC-edge</span> <span class="title">     ata_piix</span></span><br><span class="line"><span class="title"></span>  15:        108          0<span class="title">   IO-APIC-edge</span> <span class="title">     ata_piix</span></span><br><span class="line"><span class="title"></span>  16:          0          0<span class="title">   IO-APIC-fasteoi</span> <span class="title">  ehci_hcd:usb1</span></span><br><span class="line"><span class="title"></span>  17:     231993     184627<span class="title">   IO-APIC-fasteoi</span> <span class="title">  ioc0</span></span><br><span class="line"><span class="title"></span>  18:    1492950     628600<span class="title">   IO-APIC-fasteoi</span> <span class="title">  uhci_hcd:usb2,</span> eth1</span><br><span class="line">  19:     547436         41<span class="title">   IO-APIC-fasteoi</span> <span class="title">  eth0</span></span><br><span class="line"><span class="title"></span> NMI:          0          0<span class="title">   Non-maskable</span> interrupts</span><br><span class="line"><span class="title"> LOC:</span>    9735415    7303736<span class="title">   Local</span> timer<span class="title"> interrupts</span></span><br><span class="line"><span class="title"></span> SPU:          0          0<span class="title">   Spurious</span> interrupts</span><br><span class="line"><span class="title"> PMI:</span>          0          0<span class="title">   Performance</span> monitoring<span class="title"> interrupts</span></span><br><span class="line"><span class="title"></span> IWI:          0          0<span class="title">   IRQ</span> work<span class="title"> interrupts</span></span><br><span class="line"><span class="title"></span> RES:     212365     225566<span class="title">   Rescheduling</span> interrupts</span><br><span class="line"><span class="title"> CAL:</span>     114054     129796<span class="title">   Function</span> call<span class="title"> interrupts</span></span><br><span class="line"><span class="title"></span> TLB:     260312     332043<span class="title">   TLB</span> shootdowns</span><br><span class="line"><span class="title"> TRM:</span>          0          0<span class="title">   Thermal</span> event<span class="title"> interrupts</span></span><br><span class="line"><span class="title"></span> THR:          0          0<span class="title">   Threshold</span> APIC<span class="title"> interrupts</span></span><br><span class="line"><span class="title"></span> MCE:          0          0<span class="title">   Machine</span> check<span class="title"> exceptions</span></span><br><span class="line"><span class="title"></span> MCP:       1030       1030<span class="title">   Machine</span> check<span class="title"> polls</span></span><br><span class="line"><span class="title"></span> ERR:          0</span><br><span class="line"><span class="title"> MIS:</span>          0</span><br></pre></td></tr></table></figure></p>
 <p>第 1 列是中断线，第 2 列是一个接收中断数目的计数器，系统中每个处理器都存在这样的列。第 4 列是处理这个中断的中断控制器。在具有 I/O APIC 的系统上，大多数中断会列出 IO-APIC-level 或 IO-APIC-dege，作为自己的中断控制器。最后一列是与这个中断相关的设备名字，这个名字是通过参数 devname 提供给函数 <code>request_irq()</code>() 的。如果中断是共享的，则这条中断线上注册的所有设备都会列出来。</p>

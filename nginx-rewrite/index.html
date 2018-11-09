@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -212,7 +212,7 @@
 <li>另外，return 命令也更便于理解。return 301 相比 rewrite ^ … permanent 会更加清楚的显示 Nginx 返回 301 状态码。</li>
 </ul>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">...</span><br><span class="line">    server_name www.old-name.com old-name.com;</span><br><span class="line">    rewrite ^ <span class="variable">$scheme</span><span class="symbol">://www</span>.new-name.com<span class="variable">$request_uri</span> permanent;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/taxing-rewrites.png">
+<img src="http://himg.sundayle.com/static/images/taxing-rewrites.png">
 <p><a href="https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/#" target="_blank" rel="noopener">https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/#</a><br><a href="https://muzi.me/story/22/" target="_blank" rel="noopener">https://muzi.me/story/22/</a></p>
 
 

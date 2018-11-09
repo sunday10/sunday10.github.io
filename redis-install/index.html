@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -269,7 +269,8 @@
 <p>如果N和M的条件都无法达到，那么master会回复一个错误信息。写请求也不会被处理。</p>
 <p>有两个配置项用来配置上文中提到的N和M：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">min</span>-slaves-<span class="built_in">to</span>-<span class="built_in">write</span> &lt;<span class="built_in">number</span> <span class="keyword">of</span> slaves&gt;</span><br><span class="line"><span class="built_in">min</span>-slaves-<span class="built_in">max</span>-lag &lt;<span class="built_in">number</span> <span class="keyword">of</span> <span class="built_in">seconds</span>&gt;</span><br></pre></td></tr></table></figure></p>
 <h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:6379</span>&gt; <span class="selector-tag">auth</span> <span class="selector-tag">Passwd</span> # 登录,密码验证 <span class="selector-id">#redis-cli</span> <span class="selector-tag">-a</span> <span class="selector-tag">Passwd</span></span><br><span class="line"><span class="selector-tag">OK</span></span><br><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:6379</span>&gt;<span class="selector-tag">info</span> # 查看数据库状态</span><br><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:6379</span>&gt;<span class="selector-tag">info</span> <span class="selector-tag">replication</span> # 查看<span class="selector-tag">slave</span>的复制状态</span><br><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:6379</span>&gt;<span class="selector-tag">set</span> <span class="selector-tag">key</span> 123 # 插入数据</span><br><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:6379</span>&gt;<span class="selector-tag">keys</span> * # 列出数据</span><br><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:6379</span>&gt;<span class="selector-tag">flushdb</span> # 清空当前数据</span><br><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:6379</span>&gt;<span class="selector-tag">flushall</span> # 清除所有数据库</span><br><span class="line"></span><br><span class="line"># 判断主从是否完全一致</span><br><span class="line"><span class="selector-tag">dbsize</span> #查看<span class="selector-tag">key</span> 的数目</span><br><span class="line"><span class="selector-tag">debug</span> <span class="selector-tag">digest</span> #对整个数据库的数据，产生一个摘要，可用于验证两个<span class="selector-tag">redis</span>数据库数据是否一致 </span><br><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:6379</span>&gt; <span class="selector-tag">debug</span> <span class="selector-tag">digest</span> 7164<span class="selector-tag">ae8b6730c8bcade46532e5e4a8015d4cccfb</span> </span><br><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:6379</span>&gt; <span class="selector-tag">debug</span> <span class="selector-tag">digest</span> 7164<span class="selector-tag">ae8b6730c8bcade46532e5e4a8015d4cccfb</span></span><br></pre></td></tr></table></figure>
-<p><a href="https://segmentfault.com/a/1190000006619753#articleHeader0" target="_blank" rel="noopener">https://segmentfault.com/a/1190000006619753#articleHeader0</a><br><a href="https://www.imooc.com/article/69685?block_id=tuijian_wz" target="_blank" rel="noopener">https://www.imooc.com/article/69685?block_id=tuijian_wz</a></p>
+<h1 id="压力测试"><a href="#压力测试" class="headerlink" title="压力测试"></a>压力测试</h1><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 测试SET 随机数性能</span><br><span class="line">redis-benchmark -h <span class="number">192.168</span><span class="number">.10</span><span class="number">.21</span> -t set -n <span class="number">100000</span> -r <span class="number">10000000</span></span><br><span class="line"># 并发<span class="number">50</span>，测试GET,SET</span><br><span class="line">redis-benchmark -h <span class="number">192.168</span><span class="number">.10</span><span class="number">.21</span> -t set,get -n <span class="number">100000</span> -c <span class="number">50</span> -r <span class="number">10000000</span> -q</span><br></pre></td></tr></table></figure>
+<p><a href="https://segmentfault.com/a/1190000006619753#articleHeader0" target="_blank" rel="noopener">https://segmentfault.com/a/1190000006619753#articleHeader0</a><br><a href="https://www.imooc.com/article/69685?block_id=tuijian_wz" target="_blank" rel="noopener">https://www.imooc.com/article/69685?block_id=tuijian_wz</a><br><a href="https://www.jianshu.com/u/baad5ee99ca9" target="_blank" rel="noopener">https://www.jianshu.com/u/baad5ee99ca9</a><br><a href="https://segmentfault.com/a/1190000015571891" target="_blank" rel="noopener">redis压力测试</a></p>
 
 
                 <hr>

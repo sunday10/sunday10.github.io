@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -192,8 +192,8 @@
                 post-container">
 
                 <h1 id="OpenStack-概述"><a href="#OpenStack-概述" class="headerlink" title="OpenStack 概述"></a>OpenStack 概述</h1><p>OpenStack项目是一个开源云计算平台，支持所有类型的云环境。该项目旨在实现简单，大规模的可扩展性和丰富的功能。<br>OpenStack通过各种补充服务提供基础架构即服务（IaaS）解决方案。每项服务都提供了一个应用程序编程接口（API），以促进这种集成。<br>本文涵盖了使用适用于具有足够Linux经验的OpenStack新用户的功能性示例体系结构，逐步部署主要OpenStack服务。只用于学习OpenStack最小化环境。</p>
-<h1 id="OpenStack-架构总览"><a href="#OpenStack-架构总览" class="headerlink" title="OpenStack 架构总览"></a>OpenStack 架构总览</h1><h2 id="概念性架构"><a href="#概念性架构" class="headerlink" title="概念性架构"></a>概念性架构</h2><p>下图显示了OpenStack服务之间的关系：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/openstack_kilo_conceptual_arch.png"></p>
-<h2 id="逻辑体系结构"><a href="#逻辑体系结构" class="headerlink" title="逻辑体系结构"></a>逻辑体系结构</h2><p>下图显示了OpenStack云中最常见但不是唯一可能的体系结构：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/openstack-arch-kilo-logical-v1.png"><br>对于设计，部署和配置OpenStack，学习者必须了解逻辑体系结构。<br>如概念架构所示，OpenStack由几个独立的部分组成，称为OpenStack服务。所有服务都通过keystone服务进行身份验证。</p>
+<h1 id="OpenStack-架构总览"><a href="#OpenStack-架构总览" class="headerlink" title="OpenStack 架构总览"></a>OpenStack 架构总览</h1><h2 id="概念性架构"><a href="#概念性架构" class="headerlink" title="概念性架构"></a>概念性架构</h2><p>下图显示了OpenStack服务之间的关系：<br><img src="http://himg.sundayle.com/static/images/openstack_kilo_conceptual_arch.png"></p>
+<h2 id="逻辑体系结构"><a href="#逻辑体系结构" class="headerlink" title="逻辑体系结构"></a>逻辑体系结构</h2><p>下图显示了OpenStack云中最常见但不是唯一可能的体系结构：<br><img src="http://himg.sundayle.com/static/images/openstack-arch-kilo-logical-v1.png"><br>对于设计，部署和配置OpenStack，学习者必须了解逻辑体系结构。<br>如概念架构所示，OpenStack由几个独立的部分组成，称为OpenStack服务。所有服务都通过keystone服务进行身份验证。</p>
 <p>各个服务通过公共API相互交互，除非需要特权管理员命令。</p>
 <p>在内部，OpenStack服务由多个进程组成。所有服务都至少有一个API进程，它监听API请求，预处理它们并将它们传递给服务的其他部分。除身份服务外，实际工作由不同的流程完成。<br>对于一个服务的进程之间的通信，使用AMQP消息代理。该服务的状态存储在数据库中。部署和配置OpenStack云时，您可以选择多种消息代理和数据库解决方案，例如RabbitMQ，MySQL，MariaDB和SQLite。</p>
 <p>用户可以通过Horizon Dashboard实现的基于Web的用户界面，通过命令行客户端以及通过浏览器插件或curl等工具发布API请求来访问OpenStack。对于应用程序，有几个SDK可用。最终，所有这些访问方法都会对各种OpenStack服务发出REST API调用。</p>

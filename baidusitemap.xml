@@ -4,6 +4,112 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/rabbitmq-cluster-build/</loc>
+    <lastmod>2018-11-09T09:30:00.249Z</lastmod>
+    <data>
+        <display>
+        <title>RabbitMQ 集群搭建</title>
+        <pubTime>2018-11-01T07:31:53.000Z</pubTime>
+        
+        <tag>rabbitmq</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/kvm-windows-server-2012/</loc>
+    <lastmod>2018-11-09T06:29:16.875Z</lastmod>
+    <data>
+        <display>
+        <title>Ubuntu 16.04 KVM 安装 Windows Server 2012</title>
+        <pubTime>2018-10-12T06:35:17.000Z</pubTime>
+        
+        <tag>kvm</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/haproxy-tutorial/</loc>
+    <lastmod>2018-11-09T03:52:03.334Z</lastmod>
+    <data>
+        <display>
+        <title>HAProxy 反向代理的使用</title>
+        <pubTime>2018-06-26T03:55:02.000Z</pubTime>
+        
+        <tag>haproxy</tag>
+         
+        <tag>高性能</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/</loc>
+    <lastmod>2018-11-09T03:12:09.349Z</lastmod>
+    <data>
+        <display>
+        <title>我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？</title>
+        <pubTime>2018-06-26T07:09:45.000Z</pubTime>
+        
+        <tag>haproxy</tag>
+         
+        <tag>高性能</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/docker/</loc>
+    <lastmod>2018-11-07T03:48:24.239Z</lastmod>
+    <data>
+        <display>
+        <title>Docker(一)：Docker入门</title>
+        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
+        
+        <tag>docker</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/redis-install/</loc>
+    <lastmod>2018-11-02T07:12:46.132Z</lastmod>
+    <data>
+        <display>
+        <title>Redis 3.2 安装及主从复制详细配置</title>
+        <pubTime>2018-09-28T02:27:19.000Z</pubTime>
+        
+        <tag>redis</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
     <lastmod>2018-10-30T09:48:20.753Z</lastmod>
     <data>
@@ -108,23 +214,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/docker/</loc>
-    <lastmod>2018-10-17T04:26:53.056Z</lastmod>
-    <data>
-        <display>
-        <title>Docker(一)：Docker入门</title>
-        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
-        
-        <tag>docker</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/drop_caches/</loc>
     <lastmod>2018-10-17T02:39:19.351Z</lastmod>
     <data>
@@ -133,23 +222,6 @@
         <pubTime>2018-10-15T04:02:10.000Z</pubTime>
         
         <tag>cache</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/redis-install/</loc>
-    <lastmod>2018-10-17T02:32:11.873Z</lastmod>
-    <data>
-        <display>
-        <title>Redis 3.2 安装及主从复制详细配置</title>
-        <pubTime>2018-09-28T02:27:19.000Z</pubTime>
-        
-        <tag>redis</tag>
          
          
            
@@ -258,23 +330,6 @@
         <pubTime>2018-10-12T09:39:01.000Z</pubTime>
         
         <tag>nginx</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/kvm-windows-server-2012/</loc>
-    <lastmod>2018-10-12T06:52:11.260Z</lastmod>
-    <data>
-        <display>
-        <title>Ubuntu 16.04 KVM 安装 Windows Server 2012</title>
-        <pubTime>2018-10-12T06:35:17.000Z</pubTime>
-        
-        <tag>kvm</tag>
          
          
            
@@ -682,44 +737,6 @@
         <pubTime>2017-05-30T15:39:16.000Z</pubTime>
         
         <tag>vmstat</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/</loc>
-    <lastmod>2018-08-16T08:12:07.077Z</lastmod>
-    <data>
-        <display>
-        <title>我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？</title>
-        <pubTime>2018-08-16T07:09:45.000Z</pubTime>
-        
-        <tag>haproxy</tag>
-         
-        <tag>高性能</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/haproxy-tutorial/</loc>
-    <lastmod>2018-08-16T06:51:25.089Z</lastmod>
-    <data>
-        <display>
-        <title>HAProxy 反向代理的使用</title>
-        <pubTime>2018-08-15T03:55:02.000Z</pubTime>
-        
-        <tag>haproxy</tag>
-         
-        <tag>高性能</tag>
          
          
            
@@ -1161,7 +1178,7 @@
     <data>
         <display>
         <title>使用 HAProxy 负载均衡300k并发tcp连接</title>
-        <pubTime>2018-08-02T06:52:49.000Z</pubTime>
+        <pubTime>2018-06-26T06:52:49.000Z</pubTime>
         
         <tag>haproxy</tag>
          

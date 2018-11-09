@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -174,7 +174,7 @@
                     <h2 class="subheading">High availability</h2>
                     <span class="meta">
                         Posted by Sunday on
-                        2018-08-15
+                        2018-06-26
                     </span>
                 </div>
             </div>
@@ -203,6 +203,7 @@
 <li>树型存储，使用作者多年前开发的弹性二叉树，实现 O(log(N)) 的低开销</li>
 <li>在生产环境中，通常将 HAProxy 作为七层负载均衡器，实现 Web 集群的负载均衡，动静分离等功能。</li>
 </ul>
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget <span class="string">http:</span><span class="comment">//www.haproxy.org/download/1.8/src/haproxy-1.8.7.tar.gz</span></span><br><span class="line">useradd -s <span class="regexp">/bin/</span><span class="literal">false</span> haproxy</span><br><span class="line">cd haproxy<span class="number">-1.8</span><span class="number">.7</span></span><br><span class="line">make TARGET=linux26</span><br><span class="line">make install PREFIX=<span class="regexp">/usr/</span>local/haproxy</span><br><span class="line"></span><br><span class="line">mkdir <span class="regexp">/etc/</span>haproxy</span><br><span class="line">cp examples<span class="regexp">/content-sw-sample.cfg /</span>etc<span class="regexp">/haproxy/</span>haproxy.cfg</span><br><span class="line"></span><br><span class="line">cp examples<span class="regexp">/haproxy.init /</span>etc<span class="regexp">/init.d/</span>haproxy</span><br><span class="line">chmod +x <span class="regexp">/etc/</span>init.d/haproxy</span><br><span class="line">sed -i <span class="string">'s#BIN=/usr/sbin#BIN=/usr/local/haproxy/sbin#'</span> <span class="regexp">/etc/</span>init.d/haproxy</span><br><span class="line">grep -o <span class="string">"\$&#123;NETWORKING&#125;"</span> <span class="regexp">/etc/</span>init.d<span class="regexp">/haproxy &amp;&amp; sed -i 's#\$&#123;NETWORKING&#125;#"\$NETWORKING"#' /</span>etc<span class="regexp">/init.d/</span>haproxy</span><br></pre></td></tr></table></figure>
 <h1 id="配置-HAProxy"><a href="#配置-HAProxy" class="headerlink" title="配置 HAProxy"></a>配置 HAProxy</h1><p>HAProxy 的配置文件位于 /etc/haproxy/haproxy.cfg。HAProxy 配置处理主要来源有三类：</p>
 <ol>
 <li>命令行参数</li>
@@ -335,12 +336,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/process-startup-time/" data-toggle="tooltip" data-placement="top" title="Linux 查看进程启动时间">&larr; Previous Post</a>
+                            <a href="/haproxy-optimization/" data-toggle="tooltip" data-placement="top" title="使用 HAProxy 负载均衡300k并发tcp连接">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/linux-process-management/" data-toggle="tooltip" data-placement="top" title="Linux 进程的管理与监控">Next Post &rarr;</a>
+                            <a href="/haproxy/" data-toggle="tooltip" data-placement="top" title="haproxy7层代理、负载均衡">Next Post &rarr;</a>
                         </li>
                     
                 </ul>

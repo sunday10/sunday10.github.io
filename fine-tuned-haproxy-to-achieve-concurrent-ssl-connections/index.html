@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -174,7 +174,7 @@
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sunday on
-                        2018-08-16
+                        2018-06-26
                     </span>
                 </div>
             </div>
@@ -193,7 +193,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_0.png">
+                <img src="http://himg.sundayle.com/static/images/ha_tuned_0.png">
 <p>仔细看上图，我们可以发现两个信息：</p>
 <blockquote>
 <p>1.该机器建立了238万个TCP连接；<br>2.此时内存使用量大约在48G左右。</p>
@@ -244,7 +244,7 @@
 <li>-p , 发送文件 通过POST请求发送文件；<br>如果仔细观察这些参数，我们可以发现通过这三个参数可以组合出很多不同的用例。一个简单的ab命令例如：<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -S -<span class="selector-tag">p</span> post_smaller<span class="selector-class">.txt</span> -T application/json -<span class="selector-tag">q</span> -n <span class="number">100000</span> -c <span class="number">3000</span> http:<span class="comment">//test.haproxy.in:80/ping</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>该命令的输出结果类似：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_1.png"></p>
+<p>该命令的输出结果类似：<br><img src="http://himg.sundayle.com/static/images/ha_tuned_1.png"></p>
 <p>其中需要特别关注的数据有：</p>
 <ul>
 <li>99%延时</li>
@@ -253,13 +253,13 @@
 <li>每秒请求数</li>
 </ul>
 <p>ab 最大的问题在于无法通过参数控制每秒请求数。我们只能通过调整并发度来获得期望的每秒请求数，这增加了尝试次数和错误几率。</p>
-<h1 id="万能的图表"><a href="#万能的图表" class="headerlink" title="万能的图表"></a>万能的图表</h1><p>我们不能通过多次随机压力的结果来得出结论，因为这样的数据没有意义。为了能够获取有意义的结果，必须设计一系列测试场景。因此我们参照了这个图：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_2.png"></p>
+<h1 id="万能的图表"><a href="#万能的图表" class="headerlink" title="万能的图表"></a>万能的图表</h1><p>我们不能通过多次随机压力的结果来得出结论，因为这样的数据没有意义。为了能够获取有意义的结果，必须设计一系列测试场景。因此我们参照了这个图：<br><img src="http://himg.sundayle.com/static/images/ha_tuned_2.png"></p>
 <p>该图表明，直到一个特定的点，随着请求总数的增长，延迟基本上没有变化。然而，当这个拐点之后，响应延迟几乎以指数级增长。这就是我们期望度量的机器或者配置的拐点。</p>
 <h1 id="Ganglia"><a href="#Ganglia" class="headerlink" title="Ganglia"></a>Ganglia</h1><p>在提供一些测试结果之前，首先介绍下Ganglia工具。</p>
 <blockquote>
 <p>Ganglia是一个为高性能计算系统（例如集群和网格计算）设计的可扩展分布式监控系统</p>
 </blockquote>
-<p>下面的一些图表是我们一台服务器的监控数据截图，通过它们我们可以直观的了解Ganglia及其能够提供的图表信息。<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_3.png"></p>
+<p>下面的一些图表是我们一台服务器的监控数据截图，通过它们我们可以直观的了解Ganglia及其能够提供的图表信息。<br><img src="http://himg.sundayle.com/static/images/ha_tuned_3.png"></p>
 <p>看起来不错吧？</p>
 <p>我们使用Ganglia来监控HAProxy服务器，以提供一些核心指标，包括：</p>
 <ol>
@@ -284,7 +284,7 @@
 <p>通过Google发现HAProxy有一个设置可以使其充分利用多核。这个配置称为nbproc，详情及其具体配置可以参照这篇文章：</p>
 <p><a href="http://blog.onefellow.com/post/82478335338/haproxy-mapping-process-to-cpu-core-for-maximum" target="_blank" rel="noopener">http://blog.onefellow.com/post/82478335338/haproxy-mapping-process-to-cpu-core-for-maximum</a></p>
 <p>这项配置调优使得后面的压力测试能够继续，因为让HAProxy能够充分利用多核才能继续后续压力测试集中的各种混合场景。</p>
-<h1 id="使用AB进行压力测试"><a href="#使用AB进行压力测试" class="headerlink" title="使用AB进行压力测试"></a>使用AB进行压力测试</h1><p>从这里开始正式进入压力测试环节，以后将不再赘述我们的度量数据和期望达到的指标。<br>刚开始我们的唯一目标是通过分析前面描述的ab命令参数变化，找到性能拐点。<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_5.png"></p>
+<h1 id="使用AB进行压力测试"><a href="#使用AB进行压力测试" class="headerlink" title="使用AB进行压力测试"></a>使用AB进行压力测试</h1><p>从这里开始正式进入压力测试环节，以后将不再赘述我们的度量数据和期望达到的指标。<br>刚开始我们的唯一目标是通过分析前面描述的ab命令参数变化，找到性能拐点。<br><img src="http://himg.sundayle.com/static/images/ha_tuned_5.png"></p>
 <p>上表是我们进行了多次压力测试之后的结果数据。为了获得这样的结果，我们进行了超过500次测试，从数据上可以明显看出，每次测试结果都有多项数据有变动。</p>
 <h1 id="单客户端问题"><a href="#单客户端问题" class="headerlink" title="单客户端问题"></a>单客户端问题</h1><p>随着压力的逐渐增加，我们发现施压客户端成了瓶颈。从Apache bench文档来看，它在发起请求时只使用单核，并且没有设置可以利用多核提升其性能。</p>
 <p>为了能够提升客户端性能，我们使用了Linux平台上的一个工具，叫做Parallel。如果其名称一样，该工具能够并行命令，以充分利用CPU核心。这也是我们所期望的。以下是使用Parallel运行多个ab客户端的示例命令：<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat hosts.txt |  parallel  <span class="string">'ab  -S -p post_smaller.txt -T</span></span><br><span class="line"><span class="string"> application/json -n 100000 -c 3000 &#123;&#125;'</span></span><br><span class="line">sachinm<span class="symbol">@ip</span><span class="number">-192</span><span class="number">-168</span><span class="number">-0</span><span class="number">-124</span>:~$ cat hosts.txt</span><br><span class="line">http://test.haproxy.<span class="keyword">in</span>:<span class="number">80</span>/<span class="built_in">ping</span></span><br><span class="line">http://test.haproxy.<span class="keyword">in</span>:<span class="number">80</span>/<span class="built_in">ping</span></span><br><span class="line">http://test.haproxy.<span class="keyword">in</span>:<span class="number">80</span>/<span class="built_in">ping</span></span><br></pre></td></tr></table></figure></p>
@@ -308,22 +308,22 @@
 <h1 id="使用Vegeta进行压力测试"><a href="#使用Vegeta进行压力测试" class="headerlink" title="使用Vegeta进行压力测试"></a>使用Vegeta进行压力测试</h1><p>首先来看下单个Vegeta客户端的使用命令。有趣的是，其中用来向后端服务器施压的命令参数叫做attack :p<br><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"<span class="keyword">POST</span> https://test.haproxy.in:443/ping"</span> | vegeta -cpus=</span><br><span class="line"><span class="number">32</span> attack -duration=10m  -header=<span class="string">"sleep:30000"</span>  -body=</span><br><span class="line">post_smaller.txt -rate=<span class="number">2000</span> -workers=<span class="number">500</span>  | tee reports.bin | vegeta report</span><br></pre></td></tr></table></figure></p>
 <p>这里我们简单了解下Vegeta提供的一些参数细节：</p>
 <p>＊ -cpus=32，定义客户端使用的内核数量。为了能够达到需要的压力值，我们将施压机配置调整撑了32核64GB内存。仔细观察结果数据会发现，实际压力并不大，配置调整的主要目的是为了能够支撑大量状态为后端服务器休眠的连接。<br>＊ -duration=10m，该参数顾名思义，如果没有指定执行时间，测试将永久运行。<br>＊ -rate=2000，每秒钟请求数。</p>
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_6.png">
+<img src="http://himg.sundayle.com/static/images/ha_tuned_6.png">
 <p>从上图可以看出，我们仅仅使用一台4核机器，就达到了每秒32k个请求。这个结果比之前得出的拐点图有更高的性能，这里针对非SSL请求的拐点在31.5k。</p>
-<p>下面是更多压力测试的数据：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_7.png"><br>对于SSL连接来说，每秒请求数16k也不算差了。由于更换了新的客户端，整个压力测试过程都需要从头开始，但是从整体来看，结果都优于ab客户端的结果。<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_8.png"><br>随着CPU内核数的增加，在相同压力下响应延迟都有所降低，直到压力达到CPU性能极限。</p>
-<p>但是，我们发现当CPU内核数从8增加到16的时候，每秒请求数没有太多的增长。不过如果我们最终决定在生产环境使用8核机器，也不可能将所有核心都分配给HAProxy而不被其他任何进程占用。因此我们决定使用6核心进行一些测试，验证是否可以接受性能结果。<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_9.png"><br>也不差吧。</p>
+<p>下面是更多压力测试的数据：<br><img src="http://himg.sundayle.com/static/images/ha_tuned_7.png"><br>对于SSL连接来说，每秒请求数16k也不算差了。由于更换了新的客户端，整个压力测试过程都需要从头开始，但是从整体来看，结果都优于ab客户端的结果。<br><img src="http://himg.sundayle.com/static/images/ha_tuned_8.png"><br>随着CPU内核数的增加，在相同压力下响应延迟都有所降低，直到压力达到CPU性能极限。</p>
+<p>但是，我们发现当CPU内核数从8增加到16的时候，每秒请求数没有太多的增长。不过如果我们最终决定在生产环境使用8核机器，也不可能将所有核心都分配给HAProxy而不被其他任何进程占用。因此我们决定使用6核心进行一些测试，验证是否可以接受性能结果。<br><img src="http://himg.sundayle.com/static/images/ha_tuned_9.png"><br>也不差吧。</p>
 <h1 id="引入sleep参数"><a href="#引入sleep参数" class="headerlink" title="引入sleep参数"></a>引入sleep参数</h1><p>目前为止，我们对于压力测试的结果非常满意。然而，现在场景没有模拟真实生产环境场景，直到引入了sleep参数。<br><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"<span class="keyword">POST</span> https://test.haproxy.in:443/ping"</span> | vegeta </span><br><span class="line">-cpus=<span class="number">32</span> attack -duration=10m  -header=<span class="string">"sleep:1000"</span> </span><br><span class="line"> -body=post_smaller.txt-rate=<span class="number">2000</span> -workers=<span class="number">500</span>  | tee reports.bin | vegeta report</span><br></pre></td></tr></table></figure></p>
 <p> 上述命令设置了1000毫秒的休眠时间，会让服务端应用随机休眠0到1000毫秒。因此上述命令的平均延迟是≥ 500ms。 </p>
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_10.png">
+<img src="http://himg.sundayle.com/static/images/ha_tuned_10.png">
 <p>最后一个单元格中的数字分别表示：</p>
 <blockquote>
 <p>TCP连接建立数，包发送数，包接收数</p>
 </blockquote>
 <p>从中我们可以清晰看出，在6核心机器上，最大每秒请求数从20k降低到了8k。显然，增加了休眠时间之后，由于大量的TCP连接数，对结果产生了较大影响。不过此时总的连接数已经接近我们期望的700k的水位。<br>里程碑 #1<br>我们如何增加TCP连接数？非常简单，只需要通过sleep参数增加休眠时间。我们持续增加该参数，最终停留在60秒，既最终平均延迟在30秒左右。</p>
-<p>Vegeta提供了一个有趣的参数：请求成功率。我们发现在该休眠时间下，只有50%的请求成功率。参见下面数据：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_11.png"><br>通过设置60000毫秒休眠时间，我们达到了高达400k TCP连接数，同时每秒请求数8k的结果。图表中60000R中的R代表随机。</p>
-<p>对此我们发现的第一个问题是Vegeta的默认请求超时时间是30秒，因此会有50%的请求失败。因此我们将这个超时时间设置撑了70s，以避免在后续测试到再次遇到。<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_12.png"></p>
+<p>Vegeta提供了一个有趣的参数：请求成功率。我们发现在该休眠时间下，只有50%的请求成功率。参见下面数据：<br><img src="http://himg.sundayle.com/static/images/ha_tuned_11.png"><br>通过设置60000毫秒休眠时间，我们达到了高达400k TCP连接数，同时每秒请求数8k的结果。图表中60000R中的R代表随机。</p>
+<p>对此我们发现的第一个问题是Vegeta的默认请求超时时间是30秒，因此会有50%的请求失败。因此我们将这个超时时间设置撑了70s，以避免在后续测试到再次遇到。<br><img src="http://himg.sundayle.com/static/images/ha_tuned_12.png"></p>
 <p>修改了客户端超时时间之后，我们很容易的达到了700k个连接。唯一的问题是连接数这个数据不稳定，只是峰值数据能够达到。因此系统峰值连接数能够达到600k到700k，但是并不能长时间维持。</p>
-<p>我们希望能够达到这样的效果：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_13.png"></p>
+<p>我们希望能够达到这样的效果：<br><img src="http://himg.sundayle.com/static/images/ha_tuned_13.png"></p>
 <p>该图展示了连接数稳定维持在780k。上面表格数据中，每秒钟请求数非常高，但在实际生产环境中，单台HAProxy机器上的请求数要少很多（大约在300左右）。</p>
 <p>但是我们如果大幅削减生产环境中的HAProxy机器（目前大约在30台，这意味着集群每秒请求数为30*300大约9k），首先遇到的瓶颈会是TCP连接数，而不是CPU。</p>
 <blockquote>
@@ -352,8 +352,8 @@
 <p>因此为了达到2.4m个连接（双向连接，对于客户端来说要发起1.2m个连接），我们需要大约20台机器。在所有20台机器上同时运行Vegeta命令非常痛苦，即使使用了类似csshx工具，仍然需要从所有Vegeta合并最终测试结果。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">result_file=<span class="variable">$1</span></span><br><span class="line"><span class="built_in">declare</span> -a machines=(<span class="string">"172.168.0.138"</span> <span class="string">"172.168.0.141</span></span><br><span class="line"><span class="string">"</span> <span class="string">"172.168.0.142"</span> <span class="string">"172.168.0.18"</span> <span class="string">"</span></span><br><span class="line"><span class="string">172.168.0.5"</span> <span class="string">"172.168.0.122"</span> <span class="string">"172.168.0.123"</span> <span class="string">"</span></span><br><span class="line"><span class="string">172.168.0.124"</span> <span class="string">"172.168.0.232"</span> <span class="string">" 172.168.0.24</span></span><br><span class="line"><span class="string">4"</span> <span class="string">"172.168.0.170"</span> <span class="string">"172.168.0.179"</span> <span class="string">"</span></span><br><span class="line"><span class="string">172.168.0.59"</span> <span class="string">"172.168.0.68"</span> <span class="string">"172.168.0.137"</span> <span class="string">"</span></span><br><span class="line"><span class="string">;172.168.0.155"</span> <span class="string">"172.168.0.154"</span> <span class="string">"172.168.0.45"</span> <span class="string">"</span></span><br><span class="line"><span class="string">172.168.0.136"</span> <span class="string">"172.168.0.143"</span>)</span><br><span class="line">bins=<span class="string">""</span></span><br><span class="line">commas=<span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">"<span class="variable">$&#123;machines[@]&#125;</span>"</span>; <span class="keyword">do</span> bins=<span class="variable">$bins</span><span class="string">","</span><span class="variable">$i</span><span class="string">".</span></span><br><span class="line"><span class="string">bin"</span>; commas=<span class="variable">$commas</span><span class="string">","</span><span class="variable">$i</span>;  <span class="keyword">done</span>;</span><br><span class="line">bins=<span class="variable">$&#123;bins:1&#125;</span></span><br><span class="line">commas=<span class="variable">$&#123;commas:1&#125;</span></span><br><span class="line">pdsh -b -w <span class="string">"<span class="variable">$commas</span>"</span> <span class="string">'echo "POST </span></span><br><span class="line"><span class="string">http://test.haproxy.in:80/ping" | /home/sachinm/.linuxbrew/bin/vegeta -cpus=32 </span></span><br><span class="line"><span class="string">attack -connections=1000000 -header="sleep:20" -header="</span></span><br><span class="line"><span class="string">times:2" -body=post_smaller.txt -timeout=2h -rate=3000 -workers=</span></span><br><span class="line"><span class="string">500 &gt; '</span> <span class="variable">$result_file</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">"<span class="variable">$&#123;machines[@]&#125;</span>"</span>; <span class="keyword">do</span>  scp sachinm</span><br><span class="line">@<span class="variable">$i</span>:/home/sachinm/<span class="variable">$result_file</span> <span class="variable">$i</span>.bin ; <span class="keyword">done</span>;</span><br><span class="line">vegeta report -inputs=<span class="string">"<span class="variable">$bins</span>"</span></span><br></pre></td></tr></table></figure></p>
 <p>幸好这里使用了<a href="https://github.com/grondo/pdsh" target="_blank" rel="noopener">pdsh工具</a>，使得我们能够在多台远程服务器上并行的执行命令。同时Vegeta也提供了结果合并功能，这也是我们急需的。</p>
 <h1 id="HAProxy配置"><a href="#HAProxy配置" class="headerlink" title="HAProxy配置"></a>HAProxy配置</h1><p>本节大概是读者最希望了解的内容，下面是我们在压力测试场景中使用的HAProxy配置。其中最重要的部分是nbproc和maxconn设置。其中maxconn设置允许HAProxy能够支持我们期望达到的TCP连接数。</p>
-<p>maxconn 设置会影响HAProxy进程的ulimit，例如：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_14.png"></p>
-<p>最大文件打开数设置到4m因为HAProxy的最大连接数设置成了2m。干净利落！<br>下文介绍了一些HAProxy优化方式，以达到我们期望的指标：<br><a href="https://www.linangran.com/?p=547" target="_blank" rel="noopener">https://www.linangran.com/?p=547</a><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_15.png"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ha_tuned_16.png"><br>这里从http30一直到http83</p>
+<p>maxconn 设置会影响HAProxy进程的ulimit，例如：<br><img src="http://himg.sundayle.com/static/images/ha_tuned_14.png"></p>
+<p>最大文件打开数设置到4m因为HAProxy的最大连接数设置成了2m。干净利落！<br>下文介绍了一些HAProxy优化方式，以达到我们期望的指标：<br><a href="https://www.linangran.com/?p=547" target="_blank" rel="noopener">https://www.linangran.com/?p=547</a><br><img src="http://himg.sundayle.com/static/images/ha_tuned_15.png"><br><img src="http://himg.sundayle.com/static/images/ha_tuned_16.png"><br>这里从http30一直到http83</p>
 <p>以上就是本文所有内容，如果您能阅读到这里，我真心佩服 :)</p>
 <p>这里要特别感谢Dheeraj Kumar Sidana，没有他的帮助，我无法或者如此多有意义的结果。:)</p>
 <p>如果本文对您有所帮助请告诉我。同时，如果您认为本文有用，请推荐并帮助传播。</p>
@@ -368,12 +368,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/iptables-for-anti-ddos/" data-toggle="tooltip" data-placement="top" title="配置 Sysctl 和 Iptables 防攻击">&larr; Previous Post</a>
+                            <a href="/cobbler/" data-toggle="tooltip" data-placement="top" title="Cobbler 自动化部署实践">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/nginx-domain-judgment/" data-toggle="tooltip" data-placement="top" title="Nginx 域名判断">Next Post &rarr;</a>
+                            <a href="/haproxy-optimization/" data-toggle="tooltip" data-placement="top" title="使用 HAProxy 负载均衡300k并发tcp连接">Next Post &rarr;</a>
                         </li>
                     
                 </ul>

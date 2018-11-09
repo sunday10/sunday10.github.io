@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -197,13 +197,13 @@
 <p>因为所有进程都来自于一个进程，所以 Linux 的进程模型也叫做进程树。</p>
 <p>使用 pstree 命令可以查看系统当前的进程树：<br><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[root@bogon ~]</span># pstree</span><br><span class="line">init─┬─abrtd</span><br><span class="line">     ├─acpid</span><br><span class="line">     ├─atd</span><br><span class="line">     ├─auditd───&#123;auditd&#125;</span><br><span class="line">     ├─automount───<span class="number">4</span>*<span class="string">[&#123;automount&#125;]</span></span><br><span class="line">     ├─console-kit-dae───<span class="number">63</span>*<span class="string">[&#123;console-kit-da&#125;]</span></span><br><span class="line">     ├─crond</span><br><span class="line">     ├─cupsd</span><br><span class="line">     ├─dbus-daemon</span><br><span class="line">     ├─<span class="number">2</span>*<span class="string">[dhclient]</span></span><br><span class="line">     ├─hald─┬─hald-runner─┬─hald-addon-acpi</span><br><span class="line">     │      │             └─hald-addon-inpu</span><br><span class="line">     │      └─&#123;hald&#125;</span><br><span class="line">     ├─login───bash</span><br><span class="line">     ├─master─┬─pickup</span><br><span class="line">     │        └─qmgr</span><br><span class="line">     ├─<span class="number">5</span>*<span class="string">[mingetty]</span></span><br><span class="line">...（省略）</span><br></pre></td></tr></table></figure></p>
 <h1 id="进程的内存空间"><a href="#进程的内存空间" class="headerlink" title="进程的内存空间"></a>进程的内存空间</h1><p>在一个多任务操作系统当中，可能存在着上千个进程，而物理内存只有一个，为了防止进程访问原本不属于本进程的内存空间，现代操作系统都会使用「内存保护」技术。</p>
-<p>每一个进程都运行在它自己的内存沙箱（sandbox）中。这个沙箱被称作「虚拟地址空间」（virtual address space），在 32 位的系统中，它是一个 4GB 大小的内存地址空间，虚拟内存是线性可编址的，其使用单位是页（page），对应的物理内存被称为页框（page frame）。这些虚拟的地址通过页表（page table）映射至真实的物理内存，页表由操作系统内核和处理器（内存管理单元）负责管理。每个进程都有它自己的页表。这里需要注意，所有的进程都运行在「虚拟内存」中，即使是内核本身也一样。因此，虚拟地址空间中的一部分是专门供内核使用的。<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/virtual_address.jpg"></p>
+<p>每一个进程都运行在它自己的内存沙箱（sandbox）中。这个沙箱被称作「虚拟地址空间」（virtual address space），在 32 位的系统中，它是一个 4GB 大小的内存地址空间，虚拟内存是线性可编址的，其使用单位是页（page），对应的物理内存被称为页框（page frame）。这些虚拟的地址通过页表（page table）映射至真实的物理内存，页表由操作系统内核和处理器（内存管理单元）负责管理。每个进程都有它自己的页表。这里需要注意，所有的进程都运行在「虚拟内存」中，即使是内核本身也一样。因此，虚拟地址空间中的一部分是专门供内核使用的。<br><img src="http://himg.sundayle.com/static/images/virtual_address.jpg"></p>
 <p>Linux 系统中虚拟地址空间中的最高地址的 1GB 为内核空间（kernel space），但这并不意味着内核实际使用了这么多物理内存。在页表中，内核空间被标记为特权指令（privileged code，CPU 的 ring 0）专用，因此一个普通进程在访问时会产生页错误（page fault）。对于所有的进程来说，虚拟地址空间中的内核空间都被映射至相同的物理内存地址，而每个进程的用户空间被映射至物理内存地址的情况都不相同。</p>
 <p>一个进程可能不会需要同时使用所有的虚拟内存中的代码和数据，Linux 使用了请求分页技术（demand paging），某些数据可能在进程虚拟地址空间中存在，但是并没有被载入到物理内存中，仅当进程试图访问这些数据时，系统硬件将产生一个页错误（page fault），由内核负责将数据载入物理内存（如果数据已经在物理内存中存在则不需要载入），并将虚拟内存地址映射至响应的物理内存地址。</p>
 <p>关于进程的内存空间的其他细节，可以参考：</p>
 <p><a href="http://duartes.org/gustavo/blog/post/anatomy-of-a-program-in-memory/" target="_blank" rel="noopener">Anatomy of a Program in Memory</a><br><a href="http://marek.vavrusa.com/c/memory/2015/02/20/memory/" target="_blank" rel="noopener">What a C programmer should know about</a><br><a href="http://duartes.org/gustavo/blog/post/journey-to-the-stack/" target="_blank" rel="noopener">memory Journey to the Stack, Part I</a></p>
 <h1 id="进程的状态"><a href="#进程的状态" class="headerlink" title="进程的状态"></a>进程的状态</h1><p>系统中可能存在大量进程，而 CPU 的数量是有限的，因此进程并不一定处于运行状态。在 Linux 系统中，进程有下面这些状态：</p>
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/process_status.png">
+<img src="http://himg.sundayle.com/static/images/process_status.png">
 <p><strong>Executing:</strong> 进程正在 CPU 上运行。</p>
 <p><strong> Ready:</strong> 进程处于准备运行状态，它被放置在一个运行队列中，等待系统分配 CPU 资源给它。</p>
 <p><strong> Stopped:</strong> 进程被停止，通常是通过接收一个信号，正在被调试的进程可能处于停止状态。</p>
@@ -211,7 +211,7 @@
 <p><strong> Interrruptible:</strong> 可中断睡眠状态，进程需要等待某个特定的条件为真，才会继续运行，可中断睡眠状态的进程可以被信号唤醒。</p>
 <p><strong> Zombie:</strong> 子进程已经结束，而父进程没有调用 wait() 或者 waitpid() 系统调用获取子进程的终止状态，导致进程的进程描述符没有被回收。</p>
 <h1 id="进程描述符"><a href="#进程描述符" class="headerlink" title="进程描述符"></a>进程描述符</h1><p>为了管理进程，内核需要追踪每个进程的运行状态，例如进程的优先级，PID，进程的地址空间等信息。内核使用一个 task_struct 类型的结构体来保存这些信息，它被称为进程描述符，对于每个进程，内核都为其创建一个进程描述符，内核使用双向链表的结构来存储这些进程描述符。</p>
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/process_descriptor.jpg">
+<img src="http://himg.sundayle.com/static/images/process_descriptor.jpg">
 <p>#进程的产生方式<br>进程不是凭空创建的，每个进程都是由其父进程衍生而来，在 Linux 系统中，父进程通常使用 fork() ， vfork() 或 clone() 等系统调用来生成子进程。</p>
 <p>fork 创建的进程成被称为「子进程」（child process）。例如，在 shell 中执行一个命令时，shell 进程就会调用 fork() 产生一个子进程，然后子进程调用 exec() 执行命令程序，进程结束后返回控制至父进程 shell 进程。</p>
 <p><strong>写时复制</strong></p>
@@ -229,15 +229,15 @@
 <p>Linux 系统对每种优先级都维护一个运行队列和过期队列，系统每次从优先级最高的运行队列中挑选进行运行，然后放入其过期队列中。当运行队列中的进程全部进入过期队列后，再将过期队列和运行队列对调。</p>
 <h1 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h1><p>守护进程（Daemon）是一种后台服务进程，它们通常不与终端关联，用户空间守护进程的父进程是 init 进程。Linux 中的很多服务都以守护进程模式运行，它们不会随着终端的退出和登录而改变进程状态。</p>
 <h1 id="进程的管理与监控"><a href="#进程的管理与监控" class="headerlink" title="进程的管理与监控"></a>进程的管理与监控</h1><h2 id="htop"><a href="#htop" class="headerlink" title="htop"></a>htop</h2><p>Htop 是 Linux 系统中的一个交互式的系统监控和进程查看工具，它被设计用来取代传统的 Unix 系统监控工具 top。Htop 的界面更加直观，功能更加强大，实乃居家旅行杀人越货的必备神器。</p>
-<p>在 CentOS/RHEL 系统中，htop 由 epel 提供安装，安装后的启动界面如下：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/htop.jpg"></p>
-<p>最上方，htop 提供了 CPU，内存和 Swap 的使用状态，并用不同颜色标识出了不同类型的 CPU 或 内存使用情况，各颜色的意义如下：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/htop-cpu.jpg"></p>
+<p>在 CentOS/RHEL 系统中，htop 由 epel 提供安装，安装后的启动界面如下：<br><img src="http://himg.sundayle.com/static/images/htop.jpg"></p>
+<p>最上方，htop 提供了 CPU，内存和 Swap 的使用状态，并用不同颜色标识出了不同类型的 CPU 或 内存使用情况，各颜色的意义如下：<br><img src="http://himg.sundayle.com/static/images/htop-cpu.jpg"></p>
 <p>右上方，htop 提供了系统中运行的所有任务数量，1分钟，5分钟和15分钟的平均负载，系统的启动时长信息。</p>
 <p>界面的中间是进程的相关信息，htop 默认按 CPU 使用率对进程进行排序。这里各个字段的意义如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PID：进程 ID</span><br><span class="line">USER：运行进程的用户身份</span><br><span class="line">PRI：进程的优先级</span><br><span class="line">NI： 进程的 NICE 值，这个值从 -20 ~ 19，数值越小优先级越高</span><br><span class="line">VIRT：进程的虚拟内存使用量</span><br><span class="line">RES：进程的实际物理内存使用量</span><br><span class="line">SHR：进程的内存中使用的共享内存映射的区域大小</span><br><span class="line">S：进程的状态</span><br><span class="line"><span class="meta">CPU%</span><span class="bash">：进程的 CPU 使用率</span></span><br><span class="line"><span class="meta">MEM%</span><span class="bash">：进程的内存使用率</span></span><br><span class="line">TIME+：进程占用 CPU 的累积时长</span><br><span class="line">Command：进程的启动指令</span><br></pre></td></tr></table></figure></p>
 <p>htop 还可以使用交互式的命令<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">u：过滤仅显式指定用户的进程</span><br><span class="line">s：追踪选定进程的系统调用（类似于 strace 的功能）</span><br><span class="line">l：显式选定进程打开的所有文件（类似与 lsof 的功能）</span><br><span class="line">t：显示进程结构</span><br><span class="line">a：设定进程的 <span class="meta">CPU</span> affinity，可以将进程绑定在指定的 <span class="meta">CPU</span> 上</span><br></pre></td></tr></table></figure></p>
 <p>在最下方 htop 还提供了 F1 ~ F10 十个按键，分别提供了帮助，设置，过滤，搜索，调整进程优先级，kill 进程等功能。</p>
 <p>值得一说的是 htop 甚至还支持使用鼠标点击操作。</p>
 <h2 id="glances"><a href="#glances" class="headerlink" title="glances"></a>glances</h2><p>glances 是一款用 Python 开发的系统状态监控工具，它的监控指标也特别的丰富。在 CentOS 系统中由 epel 提供安装。</p>
-<p>glances 的界面如下：<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/glances.jpg"></p>
+<p>glances 的界面如下：<br><img src="http://himg.sundayle.com/static/images/glances.jpg"></p>
 <p>这里显示了系统的 CPU使用率，平均负载，内存使用情况，Swap 使用情况，网络接口流量速率，磁盘 I/O 速率，挂载分区的空间使用率以及进程状态等信息。</p>
 <p>glances 可以使用交互式命令打开和关闭某类监控，改变监控指标单位，改变进程排序列。<br><figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a：自动对进程排序</span><br><span class="line">c：根据 CPU 使用率对进程排序</span><br><span class="line">m：根据内存使用率对进程排序</span><br><span class="line">i：根据 <span class="keyword">I</span>/<span class="keyword">O</span> 速率对进程排序</span><br><span class="line">d：关闭/开启 磁盘 <span class="keyword">I</span>/<span class="keyword">O</span> 状态信息</span><br><span class="line">f：关闭/开启 文件系统状态信息</span><br><span class="line"><span class="number">1</span>：全局 CPU 状态 / 单个显示 CPU 状态</span><br><span class="line">u：显示网络接口的累积流量</span><br></pre></td></tr></table></figure></p>
 <h2 id="dstat"><a href="#dstat" class="headerlink" title="dstat"></a>dstat</h2><p>dstat 是一款功能非常强大的系统性能监控工具，它整合了 vmstat，iostat，netstat 和 ifstat 四款工具的功能。</p>
@@ -253,7 +253,7 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/haproxy-tutorial/" data-toggle="tooltip" data-placement="top" title="HAProxy 反向代理的使用">&larr; Previous Post</a>
+                            <a href="/process-startup-time/" data-toggle="tooltip" data-placement="top" title="Linux 查看进程启动时间">&larr; Previous Post</a>
                         </li>
                     
                     

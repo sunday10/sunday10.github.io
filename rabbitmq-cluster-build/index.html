@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          RabbitMQ 集群搭建 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/rabbitmq-cluster-build/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#rabbitmq" title="rabbitmq">rabbitmq</a>
+                        
+                    </div>
+                    <h1>RabbitMQ 集群搭建</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2018-11-01
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="AMQP"><a href="#AMQP" class="headerlink" title="AMQP"></a>AMQP</h1><p>AMQP，即Advanced Message Queuing Protocol，高级消息队列协议，是应用层协议的一个开放标准，为面向消息的中间件设计。AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。<br>那么再来介绍下RabbitMQ本身。RabbitMQ是一个上面说的AMQP协议的开源实现，其服务器端用Erlang语言写的，支持多种客户端，如：Python、Ruby、.NET、Java、JMS、C、PHP、ActionScript、XMPP、STOMP等，支持AJAX。该消息队列主要用于在分布式系统中存储转发消息，在易用性、扩展性、高可用性等方面表现不俗。</p>
+<h1 id="为何要选型RabbitMQ"><a href="#为何要选型RabbitMQ" class="headerlink" title="为何要选型RabbitMQ"></a>为何要选型RabbitMQ</h1><p>（1）RabbitMQ本身安装部署（单实例/集群）均较为简单，上手门槛低，功能丰富，符合AMQP标准；<br>（2）RabbitMQ的集群易于扩缩，可以根据实际的业务访问量，通过增减集群中节点实例的方式，达到弹性扩容、缩小的效果；<br>（3）企业级消息队列中间件，经过业界各个公司生产环境大量实践案例的验证，具有较高的可靠性；<br>（4）提供各种插件，比如RabbitMQ Management插件提供友好的Web页面管理；<br>（5）除了Web页面可以对RabbitMQ的单实例和集群的各种参数（Exchanges/Queues/Connections等）进行监控以外，其还提供Http的Api接口/JMX接口可以方便用户根据业务需求进行各种自定义的MQ级监控；<br>（6）支持消息持久化、支持消息确认机制、灵活的任务分发机制等，支持功能非常丰富；<br>（7）实现高可用性，可以在RabbitMQ集群中的机器上创建队列的镜像，使得在部分节点出问题的情况下队列仍然可用；此外，其warren和Shovel模式，可以实现故障转移能力和跨数据中心的异地复制；</p>
+<h1 id="RabbitMQ消息队列基本概念"><a href="#RabbitMQ消息队列基本概念" class="headerlink" title="RabbitMQ消息队列基本概念"></a>RabbitMQ消息队列基本概念</h1><img src="http://himg.sundayle.com/static/images/4325076-1317e5cdbab99a8a.webp">
+<p>（1）<strong>Broker Server</strong>：维护一条从Producer到Consumer的路线（Connection），保证数据能够按照指定的方式进行传输。</p>
+<p>（2）<strong>Virtual Host</strong>，表示一批交换器、消息队列和相关对象的容器。虚拟主机是共享相同的身份认证和加密环境的独立服务器域。默认的 vhost 是 “/”；</p>
+<p>（3）<strong>Connection</strong>： 连接，Producer和Consumer都是通过TCP连接到RabbitMQ Server的。一般我们会看到，在我们业务代码的起始为止就是建立这个TCP连接。</p>
+<p>（4）<strong>Channels</strong>： 信道，它建立在上述的TCP连接中。数据流动都是在Channel中进行的。也就是说，代码开始处第一步是先建立TCP连接（上面（2）步骤），第二步就是建立这个Channel。</p>
+<p>（5）<strong>Exchange</strong>：消息的生产者将消息发送到Exchange（交换器），由Exchange将消息路由到一个或多个Queue中（或者丢弃）。Exchange并不存储消息。RabbitMQ中的Exchange有fanout、direct、topic、headers四种类型，每种类型对应不同的路由规则。其中，headers 匹配 AMQP 消息的 header 而不是路由键，此外 headers 交换器和 direct 交换器完全一致，但性能差很多，目前几乎用不到了，所以一般在业务应用中只需要关注其他三种类型即可：</p>
+<ul>
+<li><p><code>direct</code>：消息中的路由键（routing key）如果和 Binding 中的 binding key 一致， 交换器就将消息发到对应的队列中。路由键与队列名完全匹配，如果一个队列绑定到交换机要求路由键为“dog”，则只转发 routing key 标记为“dog”的消息，不会转发“dog.puppy”，也不会转发“dog.guard”等等。它是完全匹配、单播的模式;</p>
+</li>
+<li><p><code>fanout</code>：每个发到 fanout 类型交换器的消息都会分到所有绑定的队列上去。fanout 交换器不处理路由键，只是简单的将队列绑定到交换器上，每个发送到交换器的消息都会被转发到与该交换器绑定的所有队列上。很像子网广播，每台子网内的主机都获得了一份复制的消息。fanout 类型转发消息是最快的;</p>
+</li>
+<li><p><code>topic</code>：交换器通过模式匹配分配消息的路由键属性，将路由键和某个模式进行匹配，此时队列需要绑定到一个模式上。它将路由键和绑定键的字符串切分成单词，这些单词之间用点隔开。它同样也会识别两个通配符：符号“#”和符号“”。#匹配0个或多个单词，匹配不多不少一个单词;</p>
+</li>
+</ul>
+<p>（6）<strong>Queue</strong>：队列，其为RabbitMQ的内部对象，用于存储消息。消息消费者就是通过订阅队列来获取消息的，RabbitMQ中的消息都只能存储在Queue中，生产者生产消息并最终投递到Queue中，消费者可以从Queue中获取消息并消费。多个消费者可以订阅同一个Queue，这时Queue中的消息会被平均分摊给多个消费者进行处理，而不是每个消费者都收到所有的消息并处理。</p>
+<p>（7）<strong>RoutingKey</strong>：生产者在将消息发送给Exchange的时候，一般会指定一个routing key，用于指定这个消息的路由规则。而这个routing key需要与Exchange Type及binding key联合使用才能最终生效。在Exchange Type与binding key固定的情况下（在正常使用时一般这些内容都是固定配置好的），我们的生产者就可以在发送消息给Exchange时，通过指定routing key来决定消息流向哪里。RabbitMQ为routing key设定的长度限制为255 bytes。</p>
+<p>RabbitMQ这款消息队列中间件产品本身是基于Erlang编写，Erlang语言天生具备分布式特性（通过同步Erlang集群各节点的magic cookie来实现）。因此，RabbitMQ天然支持Clustering。这使得RabbitMQ本身不需要像ActiveMQ、Kafka那样通过ZooKeeper分别来实现HA方案和保存集群的元数据。集群是保证可靠性的一种方式，同时可以通过水平扩展以达到增加消息吞吐量能力的目的。</p>
+<h1 id="配置host解析（所有节点）"><a href="#配置host解析（所有节点）" class="headerlink" title="配置host解析（所有节点）"></a>配置host解析（所有节点）</h1><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; <span class="literal">EOF</span> &gt;&gt; /etc/hosts</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span> node1</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.102</span> node2</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.103</span> node3</span><br><span class="line">...</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.100</span> haproxy</span><br></pre></td></tr></table></figure>
+<h1 id="RabbitMQ安装"><a href="#RabbitMQ安装" class="headerlink" title="RabbitMQ安装"></a>RabbitMQ安装</h1><p><strong>配置yum仓库</strong><br><a href="https://github.com/rabbitmq/erlang-rpm" target="_blank" rel="noopener">https://github.com/rabbitmq/erlang-rpm</a><br><a href="https://www.rabbitmq.com/install-rpm.html#bintray" target="_blank" rel="noopener">https://www.rabbitmq.com/install-rpm.html#bintray</a><br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/rabbitmq-erlang.repo</span><br><span class="line">[rabbitmq-erlang]</span><br><span class="line">name=rabbitmq-erlang</span><br><span class="line">baseurl=https://dl.bintray.com/rabbitmq/rpm/erlang/21/el/7</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc</span><br><span class="line">repo_gpgcheck=0</span><br><span class="line">enabled=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/rabbitmq.repo</span><br><span class="line">[bintray-rabbitmq-server]</span><br><span class="line">name=bintray-rabbitmq-rpm</span><br><span class="line">baseurl=https://dl.bintray.com/rabbitmq/rpm/rabbitmq-server/v3.7.x/el/7/</span><br><span class="line">gpgcheck=0</span><br><span class="line">repo_gpgcheck=0</span><br><span class="line">enabled=1</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc</span><br></pre></td></tr></table></figure>
+<p><strong> 安装erlang rabbitmq </strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> erlang -y</span><br><span class="line">yum <span class="keyword">install</span> rabbitmq-<span class="keyword">server</span> -y</span><br></pre></td></tr></table></figure></p>
+<p><strong>启动rabbitmq</strong><br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable rabbitmq-<span class="keyword">server</span></span><br><span class="line">systemctl start rabbitmq-<span class="keyword">server</span></span><br></pre></td></tr></table></figure></p>
+<p><strong> 启用WEB管理 </strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="builtin-name">enable</span> rabbitmq_management</span><br></pre></td></tr></table></figure></p>
+<h1 id="远程帐户配置"><a href="#远程帐户配置" class="headerlink" title="远程帐户配置"></a>远程帐户配置</h1><p>由于账号guest具有所有的操作权限，并且又是默认账号，出于安全因素的考虑，guest用户只能通过localhost登陆使用，并建议修改guest用户的密码以及新建其他账号管理使用rabbitmq。<br>这里我们以创建个sunday帐号，密码sunday为例，创建一个账号并支持远程ip访问。<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user sunday sunday                        <span class="comment"># 创建账号</span></span><br><span class="line">rabbitmqctl <span class="keyword">set</span>_user_tags sunday administrator            <span class="comment"># 设置用户角色</span></span><br><span class="line">rabbitmqctl <span class="keyword">set</span>_permissions -p <span class="string">"/"</span> sunday <span class="string">".*"</span> <span class="string">".*"</span> <span class="string">".*"</span>  <span class="comment"># 设置用户权限</span></span><br><span class="line">rabbitmqctl list_users                                    <span class="comment"># 查看用户列表</span></span><br></pre></td></tr></table></figure></p>
+<p>WEB: 192.168.10.101:15672</p>
+<h1 id="群集架构图"><a href="#群集架构图" class="headerlink" title="群集架构图"></a>群集架构图</h1><p>生产环境使用还需要根据实际的业务需求对集群中的各个实例进行一些性能参数指标的监控，从性能、吞吐量和消息堆积能力等角度考虑，可以选择Kafka来作为RabbitMQ集群的监控队列使用。<br><img src="http://himg.sundayle.com/static/images/4325076-5f863f419723664c.webp"></p>
+<h1 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h1><p><strong>拷贝同步<code>.erlang.cookie</code></strong><br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp /var/<span class="class"><span class="keyword">lib</span>/<span class="title">rabbitmq</span>/.<span class="title">erlang</span>.<span class="title">cookie</span> <span class="title">root</span>@<span class="title">node2</span>:/<span class="title">var</span>/<span class="title">lib</span>/<span class="title">rabbitmq</span>/</span></span><br><span class="line">scp ... node3-<span class="number">10</span>...</span><br></pre></td></tr></table></figure></p>
+<p><strong>停止各个从节点</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl <span class="keyword">stop</span></span><br><span class="line">rabbitmq-<span class="keyword">server</span> -detached</span><br><span class="line"><span class="keyword">Warning</span>: PID <span class="keyword">file</span> <span class="keyword">not</span> written; -detached was passed.</span><br></pre></td></tr></table></figure></p>
+<p><strong>在node2-10执行以下命令（以node1为主节点，加入群集）</strong><br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl stop_app</span><br><span class="line">rabbitmqctl <span class="keyword">reset</span></span><br><span class="line">rabbitmqctl join_cluster rabbit@node1 </span><br><span class="line">rabbitmqctl start_app</span><br></pre></td></tr></table></figure></p>
+<p>集群节点类型分为：内存节点和磁盘节点(默认)<br>单节点系统只运行磁盘类型的节点。集群可以配置部分节点为内存节点。<br>内存节点将所有的队列，交换器，绑定关系，用户，权限，和vhost的元数据信息保存在内存中。而磁盘节点将这些信息保存在磁盘中，但是内存节点的性能更高，为了保证集群的高可用性，必须保证集群中有两个以上的磁盘节点，来保证当有一个磁盘节点崩溃了，集群还能对外提供访问服务。</p>
+<p>配置部分内存节点<br><figure class="highlight moonscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl join_cluster rabbit@node1  <span class="comment">--ram</span></span><br></pre></td></tr></table></figure></p>
+<p>或修改的节点的类型<br><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">rabbitmqctl</span> changeclusternode_<span class="keyword">type</span> disc | ram</span><br></pre></td></tr></table></figure></p>
+<p><strong>查看集群</strong><br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl cluster_status</span><br><span class="line"></span><br><span class="line">Cluster status of node rabbit@node1 ...</span><br><span class="line">[&#123;nodes,[&#123;disc,[rabbit@node1,rabbit@node2,rabbit@node3]&#125;]&#125;,</span><br><span class="line"> &#123;running_nodes,[rabbit@node3,rabbit@node2,rabbit@node1]&#125;,</span><br><span class="line"> &#123;cluster_name,&lt;&lt;<span class="string">"rabbit@node1"</span><span class="meta">&gt;&gt;</span>&#125;,</span><br><span class="line"> &#123;partitions,[]&#125;,</span><br><span class="line"> &#123;alarms,[&#123;rabbit@node3,[]&#125;,&#123;rabbit@node2,[]&#125;,&#123;rabbit@node1,[]&#125;]&#125;]</span><br></pre></td></tr></table></figure></p>
+<h1 id="配置HAProxy"><a href="#配置HAProxy" class="headerlink" title="配置HAProxy"></a>配置HAProxy</h1><p>HAProxy提供高可用性、负载均衡以及基于TCP和HTTP应用的代理，支持虚拟主机，开源快速并且可靠的一种解决方案。根据官方数据，其最高极限支持10G的并发。HAProxy支持从4层至7层的网络交换，即覆盖所有的TCP协议。支持 Mysql 的均衡负载。为了实现RabbitMQ集群的软负载均衡，这里可以选择HAProxy。</p>
+<p>对于消息的生产和消费者可以通过HAProxy的软负载将请求分发至RabbitMQ集群中的Node1～Node7节点，其中Node8～Node10的三个节点作为磁盘节点保存集群元数据和配置信息。</p>
+<p>HAProxy的具体配置<br>node1-7 内存节点组成集群的负载均衡,node8-10磁盘节点用于保存集群的配置和元数据，不做负载<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">global</span><br><span class="line">        maxconn         10000</span><br><span class="line">        stats socket    /var/run/haproxy.stat mode 600 level admin</span><br><span class="line">        log             127.0.0.1 local0</span><br><span class="line">        uid             98</span><br><span class="line">        gid             98</span><br><span class="line">        chroot          /var/empty</span><br><span class="line">        daemon</span><br><span class="line"></span><br><span class="line">defaults</span><br><span class="line">        log global</span><br><span class="line">        mode tcp</span><br><span class="line">        option tcplog</span><br><span class="line">        option dontlognull</span><br><span class="line">        retries 3</span><br><span class="line">        maxconn 10000</span><br><span class="line">        timeout connect 5s</span><br><span class="line">        timeout<span class="built_in"> client </span>60s</span><br><span class="line">        timeout<span class="built_in"> server </span>60s</span><br><span class="line"></span><br><span class="line">listen rabbitmq_cluster</span><br><span class="line">        bind 0.0.0.0:5672</span><br><span class="line">        mode tcp</span><br><span class="line">        balance roundrobin</span><br><span class="line">       <span class="built_in"> server </span>rmq_node1 192.168.10.101:5672 check inter 2000 rise 2 fall 3 weight 1</span><br><span class="line">       <span class="built_in"> server </span>rmq_node2 192.168.10.102:5672 check inter 2000 rise 2 fall 3 weight 1</span><br><span class="line">       <span class="built_in"> server </span>rmq_node3 192.168.10.103:5672 check inter 2000 rise 2 fall 3 weight 1</span><br><span class="line">       <span class="built_in"> server </span>rmq_node4 192.168.10.104:5672 check inter 2000 rise 2 fall 3 weight 1</span><br><span class="line">       <span class="built_in"> server </span>rmq_node5 192.168.10.105:5672 check inter 2000 rise 2 fall 3 weight 1</span><br><span class="line">       <span class="built_in"> server </span>rmq_node6 192.168.10.106:5672 check inter 2000 rise 2 fall 3 weight 1</span><br><span class="line">       <span class="built_in"> server </span>rmq_node7 192.168.10.107:5672 check inter 2000 rise 2 fall 3 weight 1</span><br><span class="line"></span><br><span class="line">listen rabbitmq_web</span><br><span class="line">        bind 0.0.0.0:15672</span><br><span class="line">        mode http</span><br><span class="line">        balance roundrobin</span><br><span class="line">       <span class="built_in"> server </span>rmq_node1 192.168.10.101:15672 check inter 2000 rise 2 fall 1 weight 1</span><br><span class="line">       <span class="built_in"> server </span>rmq_node2 192.168.10.102:15672 check inter 2000 rise 2 fall 1 weight 1</span><br><span class="line">       <span class="built_in"> server </span>rmq_node3 192.168.10.103:15672 check inter 2000 rise 2 fall 1 weight 1</span><br><span class="line">        #<span class="built_in">..</span>.</span><br><span class="line"></span><br><span class="line">listen monitor</span><br><span class="line">        bind 0.0.0.0:8100</span><br><span class="line">        mode http</span><br><span class="line">        stats enable</span><br><span class="line">        stats uri /stats</span><br><span class="line">        stats refresh 5s</span><br></pre></td></tr></table></figure></p>
+<p>参数解释：<br><code>server rmq_node1 192.168.10.101:5672 check inter 2000 rise 2 fall 3 weight 1</code></p>
+<ul>
+<li><strong>server <name></name></strong>：定义HAProxy内RabbitMQ服务的标识；</li>
+<li><strong>ip1:5672</strong>：后端RabbitMQ的服务器IP地址；</li>
+<li><strong>check inter <value></value></strong>：表示每隔多少毫秒检查RabbitMQ服务是否可用；</li>
+<li><strong>rise <value></value></strong>：表示RabbitMQ服务在发生故障之后，需要多少次健康检查才能被再次确认可用；</li>
+<li><strong>fall <value></value></strong>：表示需要经历多少次失败的健康检查之后，HAProxy才会停止使用此RabbitMQ服务。</li>
+</ul>
+<p>HAPrxoy Web: <a href="http://192.168.10.100:8100/stats" target="_blank" rel="noopener">http://192.168.10.100:8100/stats</a></p>
+<h1 id="压力测试"><a href="#压力测试" class="headerlink" title="压力测试"></a>压力测试</h1><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wget <span class="symbol">https:</span>/<span class="regexp">/github.com/rabbitmq</span><span class="regexp">/rabbitmq-perf-test/releases</span><span class="regexp">/download/v</span>2.<span class="number">3.0</span>/rabbitmq-perf-test-<span class="number">2.3</span>.<span class="number">0</span>-bin.tar.gz</span><br><span class="line">./runjava com.rabbitmq.perf.PerfTest -x10<span class="number">0</span> -y10<span class="number">0</span> -e<span class="string">"testex"</span> -t<span class="string">"fanout"</span> -u<span class="string">"testque"</span> -k<span class="string">"kk01"</span></span><br><span class="line"></span><br><span class="line">openjdk错误解决</span><br><span class="line"><span class="symbol">which:</span> no javac <span class="keyword">in</span> (<span class="regexp">/usr/local</span><span class="regexp">/sbin:/usr</span><span class="regexp">/local/bin</span><span class="symbol">:/usr/sbin</span><span class="symbol">:/usr/bin</span><span class="symbol">:/root/bin</span>)</span><br><span class="line">JAVA_HOME <span class="keyword">not</span> set <span class="keyword">and</span> cannot find javac to deduce location, please set JAVA_HOME.</span><br><span class="line"></span><br><span class="line">yum install -y java-<span class="number">1.8</span>.<span class="number">0</span>-openjdk-devel</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.jianshu.com/p/d54074c092e4" target="_blank" rel="noopener">消息中间件—RabbitMQ(初探篇)</a><br><a href="https://www.jianshu.com/p/6376936845ff" target="_blank" rel="noopener">消息中间件—RabbitMQ（集群原理与搭建篇)</a><br><a href="https://www.jianshu.com/p/e3af4cf97820" target="_blank" rel="noopener">设置RabbitMQ远程IP登陆</a><br><a href="http://www.rabbitmq.com/clustering.html" target="_blank" rel="noopener">RabbitMQ官方群集文档</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/nginx-proxy-tcp/" data-toggle="tooltip" data-placement="top" title="使用Nginx转发TCP/UDP端口">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#rabbitmq" title="rabbitmq">rabbitmq</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

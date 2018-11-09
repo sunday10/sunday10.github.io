@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -193,13 +193,13 @@
 
                 <p>本文介绍了对 Linux IO 子系统性能进行优化时需要考虑的因素，以及一些 IO 性能检测工具。</p>
 <p>本文的大部分内容来自 <a href="http://www.redbooks.ibm.com/abstracts/redp4285.html?Open" target="_blank" rel="noopener">IBM Redbook - Linux Performance and Tuning Guidelines</a></p>
-<h1 id="FileSystem"><a href="#FileSystem" class="headerlink" title="FileSystem"></a>FileSystem</h1><h2 id="VFS-Virtual-FileSystem-虚拟文件系统"><a href="#VFS-Virtual-FileSystem-虚拟文件系统" class="headerlink" title="VFS(Virtual FileSystem) 虚拟文件系统"></a>VFS(Virtual FileSystem) 虚拟文件系统</h2><p>文件系统是内核的功能，是一种工作在内核空间的软件，访问一个文件必须要需要文件系统的存在才可以。Linux 可以支持多达数十种不同的文件系统，它们的实现各不相同，因此 Linux 内核向用户空间提供了虚拟文件系统这个统一的接口用来对文件系统进行操作。<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/vfs.png"></p>
+<h1 id="FileSystem"><a href="#FileSystem" class="headerlink" title="FileSystem"></a>FileSystem</h1><h2 id="VFS-Virtual-FileSystem-虚拟文件系统"><a href="#VFS-Virtual-FileSystem-虚拟文件系统" class="headerlink" title="VFS(Virtual FileSystem) 虚拟文件系统"></a>VFS(Virtual FileSystem) 虚拟文件系统</h2><p>文件系统是内核的功能，是一种工作在内核空间的软件，访问一个文件必须要需要文件系统的存在才可以。Linux 可以支持多达数十种不同的文件系统，它们的实现各不相同，因此 Linux 内核向用户空间提供了虚拟文件系统这个统一的接口用来对文件系统进行操作。<br><img src="http://himg.sundayle.com/static/images/vfs.png"></p>
 <p>虚拟文件系统是位于用户空间进程和内核空间中多种不同的底层文件系统的实现之间的一个抽象的接口层，它提供了常见的文件系统对象模型（如 i-node, file object, page cache, directory entry, etc.）和访问这些对象的方法（如 open, close, delete, write, read, create, fstat, etc.），并将它们统一输出，类似于库的作用。从而向用户进程隐藏了各种不同的文件系统的具体实现，这样上层软件只需要和 VFS 进行交互而不必关系底层的文件系统，简化了软件的开发，也使得 linux 可以支持多种不同的文件系统。</p>
 <h2 id="Journaling"><a href="#Journaling" class="headerlink" title="Journaling"></a>Journaling</h2><p><strong>非日志型文件系统</strong></p>
 <p>在非日志型文件系统中，对文件系统实施一个写操作，内核会首先修改对应的元数据，然后修改数据块。如果在写入元数据时，文件系统发生崩溃或某种故障，那么数据的一致性将会遭到破坏。fsck 命令可以在下次重启时检查所有的元数据并修复数据一致性，但是如果文件系统非常大，或者系统运行关键业务不允许停机，使用非日志型文件系统的风险会非常高。</p>
 <p><strong>日志型文件系统</strong></p>
 <p>日志型文件系统的区别在于，在进行对文件系统写数据之前，写将数据写到「日志区」，然后再写入文件系统，在写入文件系统之后删除日志。日志区可以在文件系统内部也可以在文件系统外部。日志区的数据称作文件系统日志，这些数据包含了修改了的元数据，也可能包含将要修改的数据。写日志也会带来一定的额外开销。</p>
-<h1 id="EXT2"><a href="#EXT2" class="headerlink" title="EXT2"></a>EXT2</h1><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/ext2.png">
+<h1 id="EXT2"><a href="#EXT2" class="headerlink" title="EXT2"></a>EXT2</h1><img src="http://himg.sundayle.com/static/images/ext2.png">
 <p>ext2 文件系统组成不再赘述，需要注意的是 ext2 文件系统没有日志功能。</p>
 <h1 id="EXT3"><a href="#EXT3" class="headerlink" title="EXT3"></a>EXT3</h1><p>ext3 是带有日志功能文件系统，它基于ext2文件系统实现。</p>
 <ul>
@@ -220,7 +220,7 @@
 <li>JFS (Journal File System)， JFS 是一个完全 64 位文件系统，可以支持非常大的文件和分区，早先由 IBM 公司为 AIX 操作系统开发，现已使用 GPL 协议开源。JFS适用于非常大的分区和文件如 HPC 或者数据库业务。</li>
 <li>XFS (eXtended File System)， 一个高性能的日志型文件系统，和 JFS 比较相似。</li>
 </ul>
-<h1 id="I-O子系统架构"><a href="#I-O子系统架构" class="headerlink" title="I/O子系统架构"></a>I/O子系统架构</h1><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/io-arch.png">
+<h1 id="I-O子系统架构"><a href="#I-O子系统架构" class="headerlink" title="I/O子系统架构"></a>I/O子系统架构</h1><img src="http://himg.sundayle.com/static/images/io-arch.png">
 <p>上图概括了一次磁盘 write 操作的过程，假设文件已经被从磁盘中读入了 page cache 中</p>
 <ol>
 <li>一个用户进程通过 write() 系统调用发起写请求</li>
@@ -251,7 +251,7 @@
 <p>请求饿死的一个特例是 <strong>写请求饿死读请求</strong> (writes starving reads)，对于进程来说，当需要进行写操作时，由于需要写的数据在内存的 page cache 中，进程是需要修改对应的内存，向内核发送写请求即可，之后进程可以去进行其他操作，由内核负责将数据同步至磁盘中即可。对于进程来说，写请求是异步操作。而读操作是完全不同的，当进程需要读取数据时，需要向内核发送读请求，内核将数据载入到内存中，由于进程往往需要处理读取的数据，因此进程将处于阻塞状态，直到请求被处理完成。对于进程来说，读请求是同步的操作。写请求延迟对系统的性能影响不大，而读请求延迟对系统性能影响是非常大的，因此两种 IO 请求需要区别对待。</p>
 <p>Dealine 调度器专门针对读请求延迟进行了优化，在 deadline 算法中，每一个请求都有一个过期时间。默认情况下，读请求的过期时间是 500ms，写请求的过期时间是 5s。Dealine 调度器也会对请求队列进行合并和排序操作，这个队列称作排序队列（sorted queue）。当新请求被提交，Deadline将其加入到排序队列中进行合并和排序。同时 Deadline 将这个请求加入到第二种类型的队列中，读请求被加入至读FIFO队列 (Read FIFO queue)，写请求被加入到写FIFO队列 (Write FIFO queue)，这两个队列中，请求完全按照 FIFO 顺序排列，即新请求永远被放入到队列的末尾。</p>
 <p>这样一来 Dealine 就维护三个队列，正常情况下，Deadline 将排序队列中的请求放入到调度队列 (dispatch queue，即将写入磁盘的队列)中，调度队列把请求发送至磁盘驱动。如果写 FIFO 队列或读 FIFO 队列中的请求发生了超时，Deadline 调度器就不再使用排序队列，而是开始将发生超时的 FIFO 队列的请求放入调度队列，直至队列中没有超时的请求，Deadline 通过这样的方式保证所有的请求都不会长时间超时。</p>
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/deadline.gif">
+<img src="http://himg.sundayle.com/static/images/deadline.gif">
 <p>Deadling 防止了请求饿死的出现，由于读请求的超时时间远小于写请求，它同时也避免了出现写请求饿死读请求。</p>
 <p>Deadline 比较适合于MySQL数据库。</p>
 <h2 id="Anticipatory-AS"><a href="#Anticipatory-AS" class="headerlink" title="Anticipatory(AS)"></a>Anticipatory(AS)</h2><p>AS 调度器是基于 Deadline 调度器，加上了一个启发式的「预测」，假设系统中有大量的写请求，这时如果夹杂几个读请求，由于读请求的过期时间短，读请求立即在多个写请求的中间产生，这样会导致磁盘的来回寻道，AS 试图减少大量写请求夹杂少量读请求产生的寻道风暴（seek storm）。当一个读请求完成后，AS不会立即返回处理队列中的剩余请求，而是等待一个预测时间（默认为 6ms），如果等待的时间内发生了相邻位置的读请求，那么立即处理这个相邻位置的读请求，再返回处理队列中的请求，这样可以优化多余的寻道时间。</p>
@@ -262,9 +262,9 @@
 <p>多数企业发型版选择 CFQ 作为默认的 I/O 调度器。</p>
 <h2 id="NOOP-No-Operation"><a href="#NOOP-No-Operation" class="headerlink" title="NOOP(No Operation)"></a>NOOP(No Operation)</h2><p>该算法实现了最简单的 FIFO 队列，所有 IO 请求按照大致的先后顺序进行操作。之所以说「大致」，原因是 NOOP 在 FIFO 的基础上还做了相邻 IO 请求的合并，但其不会进行排序操作。</p>
 <p>NOOP 适用于底层硬件自身就具有很强调度控制器的块设备（如某些SAN设备），或者完全随机访问的块设备（如SSD）。</p>
-<p>各个调度器在数据库应用下的性能，可以看出CFQ的性能是比较均衡的<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/scheduler-db.jpg"></p>
+<p>各个调度器在数据库应用下的性能，可以看出CFQ的性能是比较均衡的<br><img src="http://himg.sundayle.com/static/images/scheduler-db.jpg"></p>
 <h1 id="IO-参数调整"><a href="#IO-参数调整" class="headerlink" title="IO 参数调整"></a>IO 参数调整</h1><h2 id="队列长度"><a href="#队列长度" class="headerlink" title="队列长度"></a>队列长度</h2><p>查看队列长度 <code>/sys/block/&lt;dev&gt;/queue/nr_requests</code></p>
-<p>下图展示了各种队列长度时，Deadline 和 CFQ 调度器的性能<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/queue-1.png"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/queue-2.png"></p>
+<p>下图展示了各种队列长度时，Deadline 和 CFQ 调度器的性能<br><img src="http://himg.sundayle.com/static/images/queue-1.png"><br><img src="http://himg.sundayle.com/static/images/queue-2.png"></p>
 <p>由 ext3 的表现可以看出，对于大量的小文件写操作，队列长度更长，性能会有所提升，在 16KB 左右，性能提升最为明显，在 64KB 时，64 至 8192 的队列长度有着差不多的性能。随着文件大小的增大，小队列长度反而有着更好的性能。 RHEL 操作系统中，每个设备有一个队列长度。对于类似数据库日志的存放分区，大部分写操作属于小文件 IO，可以将队列长度调小。</p>
 <p>对于大量的连续读取，可以考虑增加读取首部的窗口大小 <code>/sys/block/&lt;dev&gt;/queue/read_ahead_kb</code></p>
 <h2 id="IO调度器"><a href="#IO调度器" class="headerlink" title="IO调度器"></a>IO调度器</h2><p>选择设备的IO调度器 <code>/sys/block/&lt;dev&gt;/queue/scheduler</code></p>

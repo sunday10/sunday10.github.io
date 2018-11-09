@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -230,7 +230,7 @@
 <p>该文件是一个私有文件,只能被浏览器缓存，而不能被代理缓存。max-age标识该缓存立即过期，其实和no-cache实际上区别不大. 然后must-revalidate告诉浏览器，你必须给我再验证文件过没过期，比如接下来可能会验证Last-Modified或者ETag.如果没有过期则使用本地缓存.<br>其实上面可以直接等同于:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//Response Headers</span><br><span class="line"><span class="keyword">Cache</span>-Control:<span class="keyword">private</span>,<span class="keyword">no</span>-<span class="keyword">cache</span></span><br></pre></td></tr></table></figure></p>
 <p>使用no-store的结果<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//Response Headers</span><br><span class="line"><span class="keyword">Cache</span>-Control:<span class="keyword">no</span>-<span class="keyword">store</span>;</span><br></pre></td></tr></table></figure></p>
 <p>这样表明，不管一不一样都需要重新下载. 强烈表示，不让你使用缓存文件。后续的就不会去验证ETag了。<br>当然，如果你将IE6那种古老的浏览器考虑进来的话，那你干脆就做的不要脸一点，直接用下面的tag就行:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Cache-Control:</span> <span class="literal">no</span><span class="bullet">-cache,</span> <span class="literal">no</span><span class="bullet">-store,</span> <span class="string">must-revalidate</span> <span class="string">//HTTP1.1</span></span><br><span class="line"><span class="attr">Pragma:</span> <span class="literal">no</span><span class="bullet">-cache</span> <span class="string">//HTTP1.0</span></span><br><span class="line"><span class="attr">Expires:</span> <span class="number">0</span> <span class="string">//Proxy</span></span><br></pre></td></tr></table></figure></p>
-<p>不过现在基本上也没有不支持Cache-Control的浏览器了。所以，正常情况下，可以直接使用.如下的策略来进行设置:[From google developer(<a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn)]" target="_blank" rel="noopener">https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn)]</a><br>定义最佳 Cache-Control 策略<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/http-cache-decision-tree.png"></p>
+<p>不过现在基本上也没有不支持Cache-Control的浏览器了。所以，正常情况下，可以直接使用.如下的策略来进行设置:[From google developer(<a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn)]" target="_blank" rel="noopener">https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn)]</a><br>定义最佳 Cache-Control 策略<br><img src="http://himg.sundayle.com/static/images/http-cache-decision-tree.png"></p>
 <p>我们通常在nginx怎么配置对应的cache-control头呢？<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">##设置no-cache</span><br><span class="line"><span class="comment">//Nginx</span></span><br><span class="line">expires <span class="number">-1</span>;</span><br><span class="line"><span class="comment">//cache-control</span></span><br><span class="line">Cache-Control:no-cache</span><br><span class="line"></span><br><span class="line">##设置max-age=<span class="number">0</span></span><br><span class="line"><span class="comment">//Nginx</span></span><br><span class="line">expires <span class="number">0</span>;</span><br><span class="line"><span class="comment">//cache-control</span></span><br><span class="line">Cache-Control:max-age=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">##设置其他头部</span><br><span class="line"><span class="comment">//nginx</span></span><br><span class="line">add_header  Cache-Control <span class="string">"no-cache"</span>;</span><br><span class="line">add_header  Pragma no-cache;</span><br></pre></td></tr></table></figure></p>
 <p>上面说的基本上是服务器的响应头，那在浏览器的Request headers里存在cache-control代表什么呢？<br>当请求头中有:Cache-Control: max-age=0,表示缓存需要进行验证(ETag||Last-Modified)，如果缓存未过期,则可以使用。<br>当请求头中有:Cache-Control: no-cache,表示浏览器只能获取最新的文件。 和Response Header中的no-store相对应。</p>
 <p>在开发调试web的时候，经常会碰到因浏览器缓存(cache)而经常要去清空缓存或者强制刷新来测试的烦恼，提供下apache不缓存配置和nginx不缓存配置的设置。在常用的缓存设置里面有两种方式，都是使用add_header来设置：分别为Cache-Control和Pragma。</p>

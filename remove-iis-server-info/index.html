@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -193,8 +193,8 @@
 
                 <h1 id="Before"><a href="#Before" class="headerlink" title="Before"></a>Before</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -I net.sundayle.com</span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">Content-<span class="string">Length:</span> <span class="number">206</span></span><br><span class="line">Content-<span class="string">Type:</span> text/html</span><br><span class="line">Last-<span class="string">Modified:</span> Tue, <span class="number">26</span> Dec <span class="number">2017</span> <span class="number">07</span>:<span class="number">15</span>:<span class="number">34</span> GMT</span><br><span class="line">Accept-<span class="string">Ranges:</span> bytes</span><br><span class="line"><span class="string">ETag:</span> <span class="string">"b3754052197ed31:0"</span></span><br><span class="line"><span class="string">Server:</span> Microsoft-IIS/<span class="number">8.5</span></span><br><span class="line">X-Powered-<span class="string">By:</span> ASP.NET</span><br><span class="line"><span class="string">Date:</span> Fri, <span class="number">14</span> Sep <span class="number">2018</span> <span class="number">06</span>:<span class="number">08</span>:<span class="number">04</span> GMT</span><br></pre></td></tr></table></figure>
 <h1 id="隐藏-SERVER-HEADER"><a href="#隐藏-SERVER-HEADER" class="headerlink" title="隐藏 SERVER HEADER"></a>隐藏 SERVER HEADER</h1><p>安装URL重写模块 <a href="https://www.iis.net/downloads/microsoft/url-rewrite" target="_blank" rel="noopener">https://www.iis.net/downloads/microsoft/url-rewrite</a><br>注：请在主页操作，网站的站点会继承的全局设置。如在网站的站点设置过，则不会继承。</p>
-<p>主页 - URL重写 - 新建空白规则 - 名称： Remove Server Info - 匹配范围： 服务器变量 - 变量名称：RESPONSE_Server - 模式: .+ - 操作属性 值：APACHE-SERVER - 其他默认<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-14_14-14-25.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-14_14-15-22.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-14_14-15-47.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-14_14-16-59.jpg"></p>
-<h1 id="隐藏-X-Powered-By"><a href="#隐藏-X-Powered-By" class="headerlink" title="隐藏 X-Powered-By"></a>隐藏 X-Powered-By</h1><p>主页 - HTTP响应标头 - 修改 X-Powered-By 值<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-14_14-18-34.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-14_14-19-32.jpg"></p>
+<p>主页 - URL重写 - 新建空白规则 - 名称： Remove Server Info - 匹配范围： 服务器变量 - 变量名称：RESPONSE_Server - 模式: .+ - 操作属性 值：APACHE-SERVER - 其他默认<br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-14-25.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-15-22.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-15-47.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-16-59.jpg"></p>
+<h1 id="隐藏-X-Powered-By"><a href="#隐藏-X-Powered-By" class="headerlink" title="隐藏 X-Powered-By"></a>隐藏 X-Powered-By</h1><p>主页 - HTTP响应标头 - 修改 X-Powered-By 值<br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-18-34.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-19-32.jpg"></p>
 <h1 id="After"><a href="#After" class="headerlink" title="After"></a>After</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -I net.sundayle.com</span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">Content-<span class="string">Length:</span> <span class="number">206</span></span><br><span class="line">Content-<span class="string">Type:</span> text/html</span><br><span class="line">Last-<span class="string">Modified:</span> Tue, <span class="number">26</span> Dec <span class="number">2017</span> <span class="number">07</span>:<span class="number">15</span>:<span class="number">34</span> GMT</span><br><span class="line">Accept-<span class="string">Ranges:</span> bytes</span><br><span class="line"><span class="string">ETag:</span> <span class="string">"b3754052197ed31:0"</span></span><br><span class="line"><span class="string">Server:</span> APACHE-SERVER</span><br><span class="line">X-Powered-<span class="string">By:</span> APACHE-SERVER</span><br><span class="line"><span class="string">Date:</span> Fri, <span class="number">14</span> Sep <span class="number">2018</span> <span class="number">06</span>:<span class="number">08</span>:<span class="number">04</span> GMT</span><br></pre></td></tr></table></figure>
 
                 <hr>

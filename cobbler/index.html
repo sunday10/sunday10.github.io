@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -197,7 +197,7 @@
 <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Cobbler是一个自动化和简化系统安装的工具，通过使用网络引导来控制和启动安装。Cobbler的特性包括存储库镜像、Kickstart模板和连接电源管理系统。</p>
 <p>Cobbler由Python语言开发，是对PXE和Kickstart以及DHCP的封装。融合很多特性，提供了CLI和Web的管理形式。更加方便的实行网络安装。同时，Cobbler也提供了API接口，使用其它语言也很容易做扩展。它不紧可以安装物理机，同时也支持kvm、xen虚拟化、Guest OS的安装。更多的是它还能结合Puppet等集中化管理软件，实现自动化的管理。</p>
 <p>Cobbler 支持众多的发行版：Red Hat、Fedora、CentOS、Debian、Ubuntu 和 SuSE。当添加一个操作系统（通常通过使用 ISO 文件）时，Cobbler 知道如何解压缩合适的文件并调整网络服务，以正确引导机器。Cobbler 使用命令行方式管理，也提供了基于Web的图形化配置管理工具（cobbler-web）。通过配置cobbler自动部署DHCP、TFTP、HTTP，在安装过程中加载kiskstart无人值守安装应答文件实现无人值守。从客户端使用PXE引导启动安装。</p>
-<h1 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h1><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/b1p5A8Cy.jpeg">
+<h1 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h1><img src="http://himg.sundayle.com/static/images/b1p5A8Cy.jpeg">
 <h1 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h1><p>系统: CentOS 7.4<br>服务端IP: 192.168.70.3/24<br>selinux: setenforce 0<br>防火墙: systemctl stop firewalld</p>
 <blockquote>
 <p>注意:<br>虚拟机网卡采用 NAT 模式，不要使用桥接模式，因为我们会搭建 DHCP 服务器，在同一局域网多个 DHCP 服务会有冲突，并且导致实践失败。<br>VMware 的 NAT 模式的 DHCP 服务也关闭，避免干扰。<br>VMware - 编辑 - 虚拟网络编辑器 - VMnet8 NAT模式 - 取消 使用本地DHCP服务将IP地址分配给虚拟机</p>
@@ -261,10 +261,10 @@
 <p>重装系统完成后的机器配置的 cobbler repo 如下<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[root@localhost ~]</span><span class="comment"># cat /etc/yum.repos.d/cobbler-config.repo </span></span><br><span class="line"><span class="section">[core-0]</span></span><br><span class="line"><span class="attr">name</span>=core-<span class="number">0</span></span><br><span class="line"><span class="attr">baseurl</span>=http://<span class="number">192.168</span>.<span class="number">70.101</span>/cobbler/ks_mirror/CentOS-<span class="number">7</span>-x<span class="number">86_64</span></span><br><span class="line"><span class="attr">enabled</span>=<span class="number">1</span></span><br><span class="line"><span class="attr">gpgcheck</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">priority</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">[centos7-openstack-pike]</span></span><br><span class="line"><span class="attr">name</span>=centos-<span class="number">7.2</span>-openstack-mitaka</span><br><span class="line"><span class="attr">baseurl</span>=http://<span class="number">192.168</span>.<span class="number">70.3</span>/cobbler/repo_mirror/centos7-openstack-pike</span><br><span class="line"><span class="attr">enabled</span>=<span class="number">1</span></span><br><span class="line"><span class="attr">priority</span>=<span class="number">99</span></span><br><span class="line"><span class="attr">gpgcheck</span>=<span class="number">0</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h1><h2 id="安装新系统"><a href="#安装新系统" class="headerlink" title="安装新系统"></a>安装新系统</h2><p>新建一台虚拟机，通过网络启动即可。</p>
 <blockquote>
-<p>注：VMware 新建CentOS7虚拟机内存需要&gt;=2GB,不然会报错无法继续安装。<br><a href="https://access.redhat.com/solutions/3293511" target="_blank" rel="noopener">https://access.redhat.com/solutions/3293511</a><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/20180702-023919.png"></p>
+<p>注：VMware 新建CentOS7虚拟机内存需要&gt;=2GB,不然会报错无法继续安装。<br><a href="https://access.redhat.com/solutions/3293511" target="_blank" rel="noopener">https://access.redhat.com/solutions/3293511</a><br><img src="http://himg.sundayle.com/static/images/20180702-023919.png"></p>
 </blockquote>
 <h2 id="修改Cobbler提示"><a href="#修改Cobbler提示" class="headerlink" title="修改Cobbler提示"></a>修改Cobbler提示</h2><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@linux</span>-node1 ~]<span class="meta"># sed -i <span class="string">'s#MENU TITLE Cobbler.*#MENU TITLE Cobbler | http://www.sundayle.com#'</span>  /etc/cobbler/pxe/pxedefault.template </span></span><br><span class="line">[root<span class="symbol">@linux</span>-node1 ~]<span class="meta"># cobbler sync</span></span><br></pre></td></tr></table></figure>
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/20180702-024919.png">
+<img src="http://himg.sundayle.com/static/images/20180702-024919.png">
 <h2 id="使用-koan-客户端进行系统重装"><a href="#使用-koan-客户端进行系统重装" class="headerlink" title="使用 koan 客户端进行系统重装"></a>使用 koan 客户端进行系统重装</h2><p>安装 koan 客户端<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@linux</span>-node1 ~]<span class="meta"># yum install koan -y</span></span><br></pre></td></tr></table></figure></p>
 <p>查询 Cobbler 服务器上 profile<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@linux-node1 ~]# koan --server=<span class="number">192.168</span><span class="meta">.70</span><span class="meta">.3</span> --list=profiles</span><br><span class="line">- looking for Cobbler <span class="meta">at</span> http://<span class="number">192.168</span><span class="meta">.70</span><span class="meta">.3</span>:<span class="number">80</span>/cobbler_api</span><br><span class="line">CentOS-<span class="number">7</span>-x86_64</span><br><span class="line">CentOS-<span class="number">6</span>-x86_64</span><br></pre></td></tr></table></figure></p>
 <p>指定要重装的系统<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@linux-node1 ~]# koan --replace-self --server=<span class="number">192.168</span><span class="number">.70</span><span class="number">.3</span> --profile=CentOS<span class="number">-7</span>-x86_64</span><br></pre></td></tr></table></figure></p>
@@ -300,7 +300,7 @@
                     
                     
                         <li class="next">
-                            <a href="/haproxy/" data-toggle="tooltip" data-placement="top" title="haproxy7层代理、负载均衡">Next Post &rarr;</a>
+                            <a href="/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/" data-toggle="tooltip" data-placement="top" title="我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？">Next Post &rarr;</a>
                         </li>
                     
                 </ul>

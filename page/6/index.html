@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,50 +181,6 @@
             
                 <!-- Main Content -->
 
-
-<div class="post-preview">
-
-    <a href="/tomcat-optimization/">
-        <h2 class="post-title">
-            Apache Tomcat 8.5 安全配置与高并发优化
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Java的内存模型
-Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和两个大小严格相同的 Survivor 区，其中 Survivor 区间中，某一时刻只有其中一个是被使用的，另外一个留做垃圾收集时复制对象用，在 Young 区间变满的时候，minor GC 就会将存活的对象移到空闲的Survivor 区间中，根据 JVM 的策略，在经过几次垃圾收集后，任然存活于......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-11
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/tomcat/">
-        <h2 class="post-title">
-            Linux Apache Tomcat 8.5 安装与配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境System: CentOS 7Tomcat:  Apache Tomcat/8.5.32Nginx proxy: 192.168.10.100 node0.sundayle.comTomcat node1: 192.168.10.101 node1.sundayle.comTomcat node2: 192.168.10.102 node1.sundayle.com
-Tomcat 安装......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-08
-    </p>
-
-</div>
-<hr>
 
 <div class="post-preview">
 
@@ -316,6 +272,79 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
 
 <div class="post-preview">
 
+    <a href="/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/">
+        <h2 class="post-title">
+            我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+仔细看上图，我们可以发现两个信息：
+
+1.该机器建立了238万个TCP连接；2.此时内存使用量大约在48G左右。
+
+看上去很赞吧？如果有人能够提供配置，并且在单台部署HAProxy的服务器上完成这样规模的调优，是不是更赞？本文将详细描述这个过程;
+本文是一系列关于HAProxy压力测试文章的最后一篇。如果有时间，建议读者能够先阅读本系列的其余两部分。这样能够更好的帮助我们了解本文所提及的内......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-06-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/haproxy-optimization/">
+        <h2 class="post-title">
+            使用 HAProxy 负载均衡300k并发tcp连接
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            我最近正在尝试建立一个推送系统。为了提高系统的可扩展性，最佳做法是使每个连接尽可能无状态。因此，当出现瓶颈时，通过添加更多机器可以轻松扩展整个系统的容量。说到负载平衡和反向代理，Nginx可能是最着名和最公认的。但是，TCP代理是一个相当新的事情。 Nginx从v1.9引入了TCP负载均衡和反向代理，v1.9于今年5月下旬发布，具有大量缺失功能。另一方面，HAProxy作为TCP加载bala......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-06-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/haproxy-tutorial/">
+        <h2 class="post-title">
+            HAProxy 反向代理的使用
+        </h2>
+        <h3 class="post-subtitle">
+            High availability
+        </h3>
+        <div class="post-content-preview">
+            简介HAProxy 是一款高性能的反向代理软件，它可以基于四层或七层进行反向代理，尤其适合于高负载且需要进行七层处理的 Web 站点。
+相较与 Nginx，HAProxy 更专注与反向代理，因此它可以支持更多的选项，更精细的控制，更多的健康状态检测机制和负载均衡算法。
+性能HAproxy 主要借助于现代操作系统上几种常见的技术来实现性能的最大化。
+
+单进程、事件驱动模型，降低了上下文切换和内......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-06-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/haproxy/">
         <h2 class="post-title">
             haproxy7层代理、负载均衡
@@ -381,28 +410,6 @@ HAPr......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/pt-table-checksum/">
-        <h2 class="post-title">
-            使用 pt-table-sync 修复MySQL主从数据不一致
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            简介pt-table-checksum是percona-toolkit系列工具中的一个， 可以用来检测主、 从数据库中数据的一致性。其原理是在主库上运行， 对同步的表进行checksum， 记录下来       在MySql主从复制架构的应用中，长时间运行的DB出现各种异常之后，可能会有主备不一致的情况产生，影响正常的业务。
-pt-table-checksum用于校验主从数据的一致性，而pt......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-06-25
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -442,11 +449,7 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                     <div class="tags">
                         
                             
-                        
-                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
                             
                         
                             
@@ -462,15 +465,17 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                             
                         
                             
+                            <a href="/tags/#docker" title="docker" rel="3">docker</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
                             
                         
                             
                             <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
-                            
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="3">docker</a>
                             
                         
                             
@@ -498,17 +503,11 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
-                            
-                        
-                            
                             <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -522,6 +521,16 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
                             <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
                             
                         
@@ -530,17 +539,7 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -552,23 +551,15 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
                             
                         
                             
                             <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
-                            
-                        
-                            
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#nginx" title="nginx" rel="15">nginx</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -580,6 +571,22 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                             
                         
                             
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                         
                             
                         
@@ -589,6 +596,8 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                         
                             
                         
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="15">nginx</a>
                             
                         
                             
@@ -602,11 +611,11 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -618,11 +627,7 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
-                        
                             
                         
                             
@@ -648,8 +653,6 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                             
                         
                             
-                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
-                            
                         
                             
                         
@@ -662,7 +665,7 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                             
                         
                             
-                        
+                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
@@ -675,6 +678,12 @@ pt-table-checksum用于校验主从数据的一致性，而pt......
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

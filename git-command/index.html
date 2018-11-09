@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -191,7 +191,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <img src="http://owsi2j3f8.bkt.clouddn.com/static/images/articlex.png">
+                <img src="http://himg.sundayle.com/static/images/articlex.png">
 <h1 id="Git-配置"><a href="#Git-配置" class="headerlink" title="Git 配置"></a>Git 配置</h1><p>1.在安装完成 Git 后，开始正式使用前，是需要有一些全局设置的，如用户名、邮箱。<br>设置的主要命令是 git config:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user<span class="selector-class">.name</span> <span class="string">"your name"</span>      <span class="comment">// 设置全局用户名</span></span><br><span class="line">git config --global user<span class="selector-class">.email</span> <span class="string">"your email"</span>    <span class="comment">// 设置邮箱</span></span><br></pre></td></tr></table></figure></p>
 <p>其中， –global 指定为全局配置，不使用该参数，则为当前所在仓库配置。</p>
 <p>2.除了用户名、邮箱之外，还有很多的配置可以用来自定义 Git，如：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --<span class="keyword">global</span> color.ui <span class="literal">true</span>        <span class="comment">// 让 Git 显示不同的颜色</span></span><br><span class="line">git config core.ignorecase <span class="literal">true</span>            <span class="comment">// 让 Git 对仓库中的文件大小写敏感</span></span><br></pre></td></tr></table></figure></p>

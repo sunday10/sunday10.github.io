@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -180,6 +180,21 @@
                     <span class="tag-text">2018</span>
                 </span>
                 <ul>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    11-01
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/rabbitmq-cluster-build/" style="color: #0085a1">
+                        <span>
+                            RabbitMQ 集群搭建
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
                 
                   <!-- <li class="listing-item">
                   <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
@@ -578,21 +593,6 @@
                  <li >
                     08-16
                     <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/" style="color: #0085a1">
-                        <span>
-                            我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    08-16
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                     <a href="/nginx-domain-judgment/" style="color: #0085a1">
                         <span>
                             Nginx 域名判断
@@ -611,21 +611,6 @@
                     <a href="/process-startup-time/" style="color: #0085a1">
                         <span>
                             Linux 查看进程启动时间
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    08-15
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/haproxy-tutorial/" style="color: #0085a1">
-                        <span>
-                            HAProxy 反向代理的使用
                         </span>
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -746,21 +731,6 @@
                     <a href="/firewalld/" style="color: #0085a1">
                         <span>
                             CentOS 7  Firewalld防火墙管理工具
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    08-02
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/haproxy-optimization/" style="color: #0085a1">
-                        <span>
-                            使用 HAProxy 负载均衡300k并发tcp连接
                         </span>
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1016,6 +986,51 @@
                     <a href="/cobbler/" style="color: #0085a1">
                         <span>
                             Cobbler 自动化部署实践
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    06-26
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/" style="color: #0085a1">
+                        <span>
+                            我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    06-26
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/haproxy-optimization/" style="color: #0085a1">
+                        <span>
+                            使用 HAProxy 负载均衡300k并发tcp连接
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    06-26
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/haproxy-tutorial/" style="color: #0085a1">
+                        <span>
+                            HAProxy 反向代理的使用
                         </span>
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->

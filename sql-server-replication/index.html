@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -191,46 +191,46 @@
 
                 <p>注：只有设置主键的表才能同步</p>
 <h1 id="SQL测试库代码"><a href="#SQL测试库代码" class="headerlink" title="SQL测试库代码"></a>SQL测试库代码</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> PUBLISHDB</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">USE</span> PUBLISHDB</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">CREATE</span>　<span class="keyword">TABLE</span>　<span class="keyword">TEST</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">ID</span>　<span class="built_in">VARCHAR</span>(<span class="number">10</span>) PRIMARY <span class="keyword">KEY</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="keyword">NAME</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">TEST</span> <span class="keyword">VALUES</span> (<span class="string">'1'</span>,<span class="string">'A'</span>)</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">TEST</span> <span class="keyword">VALUES</span> (<span class="string">'2'</span>,<span class="string">'B'</span>)</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">TEST</span> <span class="keyword">VALUES</span> (<span class="string">'3'</span>,<span class="string">'C'</span>)</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">TEST</span> <span class="keyword">VALUES</span> (<span class="string">'4'</span>,<span class="string">'D'</span>)</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">TEST</span> <span class="keyword">VALUES</span> (<span class="string">'5'</span>,<span class="string">'E'</span>)</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">TEST</span> <span class="keyword">VALUES</span> (<span class="string">'6'</span>,<span class="string">'F'</span>)</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">TEST</span> <span class="keyword">VALUES</span> (<span class="string">'7'</span>,<span class="string">'G'</span>)</span><br></pre></td></tr></table></figure>
-<h1 id="创建复制用户"><a href="#创建复制用户" class="headerlink" title="创建复制用户"></a>创建复制用户</h1><p>分别在master slave服务器创建repl<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-28_10-23-10.jpg"></p>
-<p>数据库 安全性 登陆名 添加 repl 用户<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-26_15-47-39.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-26_15-54-40.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_18-36-19.jpg"></p>
-<h1 id="创建复制目录及共享设置"><a href="#创建复制目录及共享设置" class="headerlink" title="创建复制目录及共享设置"></a>创建复制目录及共享设置</h1><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_18-40-13.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_18-38-56.jpg">
+<h1 id="创建复制用户"><a href="#创建复制用户" class="headerlink" title="创建复制用户"></a>创建复制用户</h1><p>分别在master slave服务器创建repl<br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-28_10-23-10.jpg"></p>
+<p>数据库 安全性 登陆名 添加 repl 用户<br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-26_15-47-39.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-26_15-54-40.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_18-36-19.jpg"></p>
+<h1 id="创建复制目录及共享设置"><a href="#创建复制目录及共享设置" class="headerlink" title="创建复制目录及共享设置"></a>创建复制目录及共享设置</h1><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_18-40-13.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_18-38-56.jpg">
 <p>记录网络共享路径 </p>
-<h1 id="复制-配置分发"><a href="#复制-配置分发" class="headerlink" title="复制-配置分发"></a>复制-配置分发</h1><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-26_15-55-02.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-26_15-55-19.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-26_15-55-39.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-11-39.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_16-45-47.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-27_14-19-20.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-09-27_14-19-40.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_16-06-26.jpg">
-<h1 id="启动SQL代理"><a href="#启动SQL代理" class="headerlink" title="启动SQL代理"></a>启动SQL代理</h1><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-00-32.jpg">
-<h1 id="复制-新建发布"><a href="#复制-新建发布" class="headerlink" title="复制- 新建发布"></a>复制- 新建发布</h1><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-02-52.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-03-23.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-03-41.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-04-09.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-05-37.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-06-03.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-06-23.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-07-49.jpg">
-<p>这里的进程帐户是master 的<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-08-40.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-17-37.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-18-01.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-18-32.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-18-56.jpg"></p>
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_18-52-07.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_18-52-28.jpg">
-<h1 id="复制-本地发布-新建订阅"><a href="#复制-本地发布-新建订阅" class="headerlink" title="复制-本地发布-新建订阅"></a>复制-本地发布-新建订阅</h1><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-22-56.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-25-34.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-26-03.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-26-27.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-27-03.jpg">
-<p>新建数据库<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-28-12.jpg"><br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-28-51.jpg"><br>在这里要设置slave repl用户权限<br><img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_18-50-01.jpg"></p>
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-29-35.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-30-31.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-30-31.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-31-00.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-31-19.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-31-34.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-31-53.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_17-32-07.jpg">
-<img src="http://owsi2j3f8.bkt.clouddn.com/static/images/Snipaste_2018-10-09_18-52-44.jpg">
+<h1 id="复制-配置分发"><a href="#复制-配置分发" class="headerlink" title="复制-配置分发"></a>复制-配置分发</h1><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-26_15-55-02.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-26_15-55-19.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-26_15-55-39.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-11-39.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_16-45-47.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-27_14-19-20.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-27_14-19-40.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_16-06-26.jpg">
+<h1 id="启动SQL代理"><a href="#启动SQL代理" class="headerlink" title="启动SQL代理"></a>启动SQL代理</h1><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-00-32.jpg">
+<h1 id="复制-新建发布"><a href="#复制-新建发布" class="headerlink" title="复制- 新建发布"></a>复制- 新建发布</h1><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-02-52.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-03-23.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-03-41.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-04-09.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-05-37.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-06-03.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-06-23.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-07-49.jpg">
+<p>这里的进程帐户是master 的<br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-08-40.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-17-37.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-18-01.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-18-32.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-18-56.jpg"></p>
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_18-52-07.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_18-52-28.jpg">
+<h1 id="复制-本地发布-新建订阅"><a href="#复制-本地发布-新建订阅" class="headerlink" title="复制-本地发布-新建订阅"></a>复制-本地发布-新建订阅</h1><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-22-56.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-25-34.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-26-03.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-26-27.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-27-03.jpg">
+<p>新建数据库<br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-28-12.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-28-51.jpg"><br>在这里要设置slave repl用户权限<br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_18-50-01.jpg"></p>
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-29-35.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-30-31.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-30-31.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-31-00.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-31-19.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-31-34.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-31-53.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_17-32-07.jpg">
+<img src="http://himg.sundayle.com/static/images/Snipaste_2018-10-09_18-52-44.jpg">
 <h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>USE PUBLISHDB<br>INSERT INTO TEST VALUES (‘8’,’H’)<br>查看从同步</p>
 <p><a href="https://docs.microsoft.com/zh-cn/sql/relational-databases/replication/tutorial-preparing-the-server-for-replication?view=sql-server-2017" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/sql/relational-databases/replication/tutorial-preparing-the-server-for-replication?view=sql-server-2017</a></p>
 
