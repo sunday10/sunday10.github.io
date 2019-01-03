@@ -90,6 +90,13 @@
 
                         
                         <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -98,13 +105,6 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -270,9 +270,8 @@
 <p>注，首先我们来配置一下日志，不然haproxy无法记录日志。</p>
 <h3 id="配置haproxy日志"><a href="#配置haproxy日志" class="headerlink" title="配置haproxy日志"></a>配置haproxy日志</h3><p>注，配置方法配置文件中已说明，我们这里来演示一下</p>
 <p><strong> (1).修改系统日志的配置文件 </strong><br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[root@haproxy ~]</span><span class="comment"># vim /etc/sysconfig/rsyslog</span></span><br><span class="line"><span class="comment"># Options for rsyslogd</span></span><br><span class="line"><span class="comment"># Syslogd options are deprecated since rsyslog v3.</span></span><br><span class="line"><span class="comment"># If you want to use them, switch to compatibility mode 2 by "-c 2"</span></span><br><span class="line"><span class="comment"># See rsyslogd(8) for more details</span></span><br><span class="line"><span class="attr">SYSLOGD_OPTIONS</span>=<span class="string">"-c 2 -r"</span></span><br></pre></td></tr></table></figure></p>
-<p><strong> (2).增加日志设备 </strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@haproxy ~]# vim /etc/rsyslog.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> Provides TCP syslog reception</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使其接收 TCP 连接</span></span><br><span class="line"><span class="meta">$</span><span class="bash">ModLoad imtcp</span></span><br><span class="line"><span class="meta">$</span><span class="bash">InputTCPServerRun 514</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">增加一行</span></span><br><span class="line">local2.*</span><br></pre></td></tr></table></figure></p>
-<pre><code>/var/log/haproxy.log
-</code></pre><p><strong> (3).重新启动一下日志服务 </strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@haproxy ~]#<span class="built_in"> service </span>rsyslog restart</span><br><span class="line">关闭系统日志记录器：                                       [确定]</span><br><span class="line">启动系统日志记录器：                                       [确定]</span><br><span class="line"></span><br><span class="line">[root@vm_mac haproxy]# ss -tnl</span><br><span class="line">LISTEN     0      25                                                    :::514                                                  :::*</span><br><span class="line">LISTEN     0      25                                                     *:514</span><br></pre></td></tr></table></figure></p>
+<p><strong> (2).增加日志设备 </strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@haproxy ~]# vim /etc/rsyslog.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> Provides TCP syslog reception</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使其接收 TCP 连接</span></span><br><span class="line"><span class="meta">$</span><span class="bash">ModLoad imtcp</span></span><br><span class="line"><span class="meta">$</span><span class="bash">InputTCPServerRun 514</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">增加一行</span></span><br><span class="line">local2.*                          /var/log/haproxy.log</span><br></pre></td></tr></table></figure></p>
+<p><strong> (3).重新启动一下日志服务 </strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@haproxy ~]#<span class="built_in"> service </span>rsyslog restart</span><br><span class="line">关闭系统日志记录器：                                       [确定]</span><br><span class="line">启动系统日志记录器：                                       [确定]</span><br><span class="line"></span><br><span class="line">[root@vm_mac haproxy]# ss -tnl</span><br><span class="line">LISTEN     0      25                                                    :::514                                                  :::*</span><br><span class="line">LISTEN     0      25                                                     *:514</span><br></pre></td></tr></table></figure></p>
 <h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>如上：负载均衡Web服务器的案例</p>
 <h3 id="查检一下配置文件"><a href="#查检一下配置文件" class="headerlink" title="查检一下配置文件"></a>查检一下配置文件</h3><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@haproxy ~]<span class="comment"># haproxy -c -f /etc/haproxy/haproxy.cfg</span></span><br><span class="line">Configuration <span class="built_in">file</span> <span class="keyword">is</span> valid</span><br></pre></td></tr></table></figure>
 <h3 id="启动haproxy"><a href="#启动haproxy" class="headerlink" title="启动haproxy"></a>启动haproxy</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@haproxy ~]#<span class="built_in"> service </span>haproxy start</span><br><span class="line">正在启动 haproxy：</span><br></pre></td></tr></table></figure>
@@ -575,7 +574,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Sunday 2018 
+                    Copyright &copy; Sunday 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

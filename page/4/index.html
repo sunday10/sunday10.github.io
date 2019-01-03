@@ -90,6 +90,13 @@
 
                         
                         <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -98,13 +105,6 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,20 +184,21 @@
 
 <div class="post-preview">
 
-    <a href="/keepalived-nginx-dual-network/">
+    <a href="/python-decorator/">
         <h2 class="post-title">
-            Keepalived Nginx双网络(内外网)故障非同步漂移双主模式
+            Python 装饰器
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            简介有了keepalived+Lvs这样的高性能组合，为什么还需keepalived+Nginx呢。keepalived是为了Lvs而设计。Lvs是一个四层的负载均衡设备，虽然有着高性能的优势，但它无后端服务器的健康检查机制。keepalived为lvs提供一系列的健康检查机制，例如：TCP_CHECK,UDP_CHECK,HTTP_GET等。同时lvs也可以自己写健康检查脚脚本。或者结合l......
+            讲 Python 装饰器前，我想先举个例子，虽有点污，但跟装饰器这个话题很贴切。
+每个人都有的内裤主要功能是用来遮羞，但是到了冬天它没法为我们防风御寒，咋办？我们想到的一个办法就是把内裤改造一下，让它变得更厚更长，这样一来，它不仅有遮羞功能，还能提供保暖，不过有个问题，这个内裤被我们改造成了长裤后，虽然还有遮羞功能，但本质上它不再是一条真正的内裤了。于是聪明的人们发明长裤，在不影响内裤的前提......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
-        2018-08-13
+        2018-08-22
     </p>
 
 </div>
@@ -205,22 +206,23 @@
 
 <div class="post-preview">
 
-    <a href="/keepalived-dual-network/">
+    <a href="/glusterfs-docker/">
         <h2 class="post-title">
-            Keepalived 双网络(内外网)故障同步漂移主备模式
+            基于 GlusterFS 实现 Docker 集群的分布式存储
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            前言在生产环境当中，内网与公网都是独立分开的，因此内网和公网不用同步漂移，例如：Keepalived+LVS-DR、Keepalived+Nginx、Keepalived+HAProxy 都无需同步漂移。
-注：Keepalived+LVS-NAT模式除外。
-架构图123456789101112131415161718192021222324    +------+              ......
+            企业中的应用场景理论和实践上分析，GlusterFS 目前主要适用于大文件存储场景，对于小文件尤其是海量小文件，存储效率和访问性能都表现不佳。海量小文件 LOSF 问题是工业界和学术界公认的难题，GlusterFS 作为通用的分布式文件系统，并没有对小文件作额外的优化措施，性能不好也是可以理解的。
+
+Media - 文档、图片、音频、视频
+Shared storage - 云存储、虚拟化存储......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
-        2018-08-13
+        2018-08-22
     </p>
 
 </div>
@@ -228,20 +230,28 @@
 
 <div class="post-preview">
 
-    <a href="/keepalived-lvs-dr-nginx/">
+    <a href="/python-encoding/">
         <h2 class="post-title">
-            Keepalived + LVS-DR Nginx 双主高可用
+            Python 编码
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            LVS/DR模式LVS是Linux Virtual Server的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。LVS目前有三种IP负载均衡技术（VS/NAT、VS/TUN和VS/DR）、十种调度算法（rr | wrr | lc | wlc | lblc | lblcr |dh | sh | sed | nq）。LVS在Unix-like系统中是作为一个前端(Director)......
+            编码的种类
+ASCII 占1个字节，只支持英文
+GB2312 占2个字节，支持6700+汉字
+GBK GB2312的升级版，支持21000+汉字
+Shift-JIS 日本字符
+ks_c_5601-1987 韩国编码
+TIS-620 泰国编码
+
+由于每个国家都有自己的字符，所以其对应关系也涵盖了自己国家的字符，但是以上编码都存在局限性，即：仅涵盖本国字符，无其他国家字符的对应关系。应运而生出现......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
-        2018-08-09
+        2018-08-21
     </p>
 
 </div>
@@ -249,21 +259,28 @@
 
 <div class="post-preview">
 
-    <a href="/keepalived/">
+    <a href="/nmap-penetration/">
         <h2 class="post-title">
-            Keepavlied 编译及配置文件详解
+            Nmap 渗透使用指南
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            Keepalived简介Keepalived是一个基于vrrp来实现的服务器高可用解决方案，可以利用其实现避免IP单点故障，类似的工具还有heartbeat、corosync。不过其不会单独出现，而是搭配着 LVS、Nginx、HAproxy，一起协同工作达到高可用的目的。
-具体来说，其作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，KeepAlived将会检测到，并将有......
+            介绍nmap是用来探测计算机网络上的主机和服务的一种安全扫描器。为了绘制网络拓扑图Nmap的发送特制的数据包到目标主机然后对返回数据包进行分析。Nmap是一款枚举和测试网络的强大工具。
+特点
+主机探测
+端口扫描
+版本检测
+支持探测脚本的编写
+
+安装官网:http://nmap.org 图形化:Zenmap
+基本操作基本快速扫描Nmap 默认发送一个arp的ping数据包来探测目标主机在1-1......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
-        2018-08-09
+        2018-08-21
     </p>
 
 </div>
@@ -271,66 +288,24 @@
 
 <div class="post-preview">
 
-    <a href="/high-availability/">
+    <a href="/python-deep-copy-and-shallow-copy/">
         <h2 class="post-title">
-            高可用集群基本概念
-        </h2>
-        <h3 class="post-subtitle">
-            High availability
-        </h3>
-        <div class="post-content-preview">
-            什么是高可用可用性如何定义
-
-可用性（availability）是关于系统可供使用时间的表述，以不可用的时间为衡量指标。不可用时间越短，可用性越高。通常用 n 个 9 来描述。比如 4 个 9 的可用性（99.99%），是指一年中不可用时间在 52 分钟内，平均每周不可用时间在 1 分钟。
-可靠性（reliability）是关于系统无故障时间间隔的描述，以发生故障的次数为衡量指标，故障次数越......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-07
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/lvs/">
-        <h2 class="post-title">
-            负载均衡集群 LVS 详解
-        </h2>
-        <h3 class="post-subtitle">
-            Loadbalancer & LVS
-        </h3>
-        <div class="post-content-preview">
-            负载均衡集群负载均衡集群指使用多台提供相同服务的服务器组成集群系统，提高服务的并发处理能力。负载均衡集群的前端使用一个调度器，将客户端请求平均分配到后端的服务器中，同时调度器可能还具有后端服务器状态检测的功能，将故障的服务器自动下线，使得集群具有一定的容错能力。
-使用负载均衡集群能够有效的扩展服务的并发能力，负载均衡集群中的主机间应该尽量的「低耦合」，最好是「无状态」的，这样就能够方便的增加......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-07
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/firewalld/">
-        <h2 class="post-title">
-            CentOS 7  Firewalld防火墙管理工具
+            Python中的深拷贝和浅拷贝
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            firewalld 简介firewalld 提供了支持网络 / 防火墙区域 (zone) 定义网络链接以及接口安全等级的动态防火墙管理工具。它支持 IPv4, IPv6 防火墙设置以及以太网桥接，并且拥有运行时配置和永久配置选项。它也支持允许服务或者应用程序直接添加防火墙规则的接口。以前的 iptables 防火墙是静态的，每次修改都要求防火墙完全重启。这个过程包括内核 netfilter ......
+            最近面试被问到python中深拷贝和浅拷贝的知识这里进行下总结，以便今后复习python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。首先，对赋值操作我们要有以下认识：
+
+赋值是将一个对象的地址赋值给一个变量，让变量指向该地址（ 旧瓶装旧酒 ）。
+修改不可变对象（str、tuple）需要开辟新的空间
+修改可变对象（list等）不......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
-        2018-08-07
+        2018-08-21
     </p>
 
 </div>
@@ -338,21 +313,47 @@
 
 <div class="post-preview">
 
-    <a href="/opcache/">
+    <a href="/python-note/">
         <h2 class="post-title">
-            PHP 7 启用opcache及缓存清除
+            Python学习笔记
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            opcache 简介Zend opcache通过opcode缓存和优化提供更快的PHP执行过程。它将预编译的脚本文件存储在共享内存中供以后使用，从而避免了从磁盘读取代码并进行编译的时间消耗。同时，它还应用了一些代码优化模式，使得代码执行更快。（php &gt;= 5.5）
-启用opcache12345678910zend_extension=opcache.soopcache.enable=......
+            Python学习笔记基础基础
+语法
+
+
+#开头，注释
+缩进的语句视为代码块
+大小写敏感
+
+
+数据类型和变量
+
+True和False首字母大写
+and、or和not
+空值：None
+
+
+字符串格式化%
+
+%d整数
+
+%f浮点数
+
+%s字符串
+
+%x十六进制整数
+
+补位
+12345&gt;&gt;&gt; '%2d-%02d' % (3, 1)' 3-01'&gt;&gt;&gt; '%.2f'......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
-        2018-08-01
+        2018-08-20
     </p>
 
 </div>
@@ -360,22 +361,21 @@
 
 <div class="post-preview">
 
-    <a href="/tmpfs/">
+    <a href="/iptables-for-anti-ddos/">
         <h2 class="post-title">
-            CentOS 7 使用tmpfs优化应用服务缓存读写速度
+            配置 Sysctl 和 Iptables 防攻击
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            tmpfs : 使用内存作为Linux磁盘文件,用于缓存读写。操作12vim /etc/fstabtmpfs                   /tmp        tmpfs   size=2G,noatime,nodiratime  0   0
-挂载1mount -a
-效果12df -h | grep /tmptmpfs           2.0G  216K  2.0G   1%......
+            sysctl 可以显示和修改内核参数，包含一些 TCP/IP 堆栈和虚拟内存系统的高级选项，合理设置可以显著提高系统性能。iptables 是 Linux 下最常用的防火墙软件，也是很多 Linux 发行版自带的默认防火墙软件。通过设置 sysctl 和 iptables，可以有效防范中小程度的攻击。
+查看状态查看TCP连接状态12#netstat -nat |awk '&#123;prin......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
-        2018-08-01
+        2018-08-20
     </p>
 
 </div>
@@ -383,21 +383,65 @@
 
 <div class="post-preview">
 
-    <a href="/maven-nexus/">
+    <a href="/nginx-domain-judgment/">
         <h2 class="post-title">
-            Maven私服Nexus3.x环境配置
+            Nginx 域名判断
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            简介私服是指私有服务器，是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构建。 有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库； 否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。
-Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部仓库的维护和外部仓库的访问。 如果使用了公共的Maven仓库服务器，......
+            判断 HTTP 请求的 HOST 首部，如果不是 sundayle.com 或者 www.sundayle.com , 则进行重定向到 sundayle.com
+通过设置变量到达条件组合的效果。1234567891011121314151617181920212223server &#123;    listen 80;    server_name sundayle.com www.sun......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
-        2018-07-31
+        2018-08-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/process-startup-time/">
+        <h2 class="post-title">
+            Linux 查看进程启动时间
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            按进程名查看1234ps axo comm,lstart| grep nginxnginx           Tue Aug 14 16:06:18 2018nginx           Tue Aug 14 16:06:18 2018
+1234ps axo pid,ppid,comm,pmem,lstart | grep nginx 1159     1 nginx          ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/linux-process-management/">
+        <h2 class="post-title">
+            Linux 进程的管理与监控
+        </h2>
+        <h3 class="post-subtitle">
+            Process Management
+        </h3>
+        <div class="post-content-preview">
+            进程的概念什么是进程进程（Process）是计算机中程序执的实体。程序通常是由指令和相关数据组成的，在 Linux 系统中，程序的运行通常是由用户通过一个命令行解释器（例如 bash shell）发起执行，或者由其他进程派生而来。
+进程标识符每个进程都有一个非负整数表示的唯一标识符，进程运行时 PID 是由操作系统随机分配的，进程 ID 可以重用。当一个进程终止后，其进程 ID 就可以再次使......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-15
     </p>
 
 </div>
@@ -446,6 +490,8 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
                             
                         
                             
+                        
+                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
@@ -454,21 +500,19 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
                             
                         
                             
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
+                            
                         
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="3">docker</a>
-                            
                         
                             
                         
-                            
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
                             
                         
                             
@@ -486,13 +530,7 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
-                            
-                        
-                            
-                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -500,27 +538,19 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
                         
                             
-                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
                         
                             
-                        
+                            <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
                             
                         
                             
                             <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -536,7 +566,13 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
                             
                         
                             
-                            <a href="/tags/#jenkins" title="jenkins" rel="2">jenkins</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
+                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
@@ -544,15 +580,11 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
                             
                         
                             
@@ -564,43 +596,9 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
                         
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#nginx" title="nginx" rel="15">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
                             
                         
                             
@@ -608,13 +606,19 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="16">nginx</a>
+                            
+                        
                             
                         
                             
@@ -628,33 +632,9 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
                             
                         
                             
-                        
+                            <a href="/tags/#python" title="python" rel="4">python</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#python" title="python" rel="2">python</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
                             
                         
                             
@@ -670,7 +650,85 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
                             
                         
                             
+                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="3">docker</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            
+                        
+                            
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
                             
@@ -782,7 +840,7 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Sunday 2018 
+                    Copyright &copy; Sunday 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

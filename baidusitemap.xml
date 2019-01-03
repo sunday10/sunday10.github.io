@@ -4,8 +4,215 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/pt-table-checksum/</loc>
+    <lastmod>2019-01-03T07:11:25.561Z</lastmod>
+    <data>
+        <display>
+        <title>使用 pt-table-sync 修复MySQL主从数据不一致</title>
+        <pubTime>2018-06-25T06:23:18.000Z</pubTime>
+        
+        <tag>mysql</tag>
+         
+         
+           
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/centos-7-lacp-bonding/</loc>
+    <lastmod>2019-01-03T02:10:11.810Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS 7 与 华为交换机 端口汇聚 LACP BONDING</title>
+        <pubTime>2018-12-26T07:40:51.000Z</pubTime>
+        
+        <tag>bonding</tag>
+         
+        <tag>lacp</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/grub-destructive-testing-and-repair/</loc>
+    <lastmod>2018-12-29T11:59:00.308Z</lastmod>
+    <data>
+        <display>
+        <title>Grub 破坏性测试与修复</title>
+        <pubTime>2018-12-29T11:37:20.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/centos-7-compiled-kernel/</loc>
+    <lastmod>2018-12-29T08:07:59.809Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS 7 编译 4.19 内核</title>
+        <pubTime>2018-12-29T07:05:23.000Z</pubTime>
+        
+        <tag>kernel</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/iostat/</loc>
+    <lastmod>2018-12-29T07:06:33.796Z</lastmod>
+    <data>
+        <display>
+        <title>Linux磁盘IO性能监控 - iostat</title>
+        <pubTime>2018-12-21T05:10:37.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/kubernetes-baise/</loc>
+    <lastmod>2018-12-29T02:48:26.021Z</lastmod>
+    <data>
+        <display>
+        <title>kubernetes 基础知识</title>
+        <pubTime>2018-12-08T16:15:06.000Z</pubTime>
+        
+        <tag>kubernetes</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/docker/</loc>
+    <lastmod>2018-12-07T11:34:04.646Z</lastmod>
+    <data>
+        <display>
+        <title>Docker(一)：Docker入门</title>
+        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
+        
+        <tag>docker</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/linux-quickly-view-directory-size/</loc>
+    <lastmod>2018-12-07T02:11:36.354Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 快速查看目录大小</title>
+        <pubTime>2018-12-07T02:06:24.000Z</pubTime>
+        
+        <tag>du</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <lastmod>2018-12-07T02:05:00.716Z</lastmod>
+    <data>
+        <display>
+        <title>Python 编码</title>
+        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <lastmod>2018-12-07T02:05:00.716Z</lastmod>
+    <data>
+        <display>
+        <title>Python 装饰器</title>
+        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
+    <lastmod>2018-12-07T02:05:00.716Z</lastmod>
+    <data>
+        <display>
+        <title>基于kubeadm方式部署kubernetes v1.12.1</title>
+        <pubTime>2018-10-22T09:38:40.000Z</pubTime>
+        
+        <tag>kubernetes</tag>
+         
+        <tag>docker</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/nginx-limit-modules/</loc>
+    <lastmod>2018-12-05T09:03:59.287Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx 高并发限流模块 limit_conn_module limit_req_module</title>
+        <pubTime>2018-10-22T02:33:41.000Z</pubTime>
+        
+        <tag>nginx</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/rabbitmq-cluster-build/</loc>
-    <lastmod>2018-11-09T09:30:00.249Z</lastmod>
+    <lastmod>2018-12-05T08:46:56.875Z</lastmod>
     <data>
         <display>
         <title>RabbitMQ 集群搭建</title>
@@ -21,8 +228,46 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/keepalived/</loc>
+    <lastmod>2018-11-22T09:06:39.035Z</lastmod>
+    <data>
+        <display>
+        <title>Keepalived 编译及配置文件详解</title>
+        <pubTime>2018-08-09T03:50:39.000Z</pubTime>
+        
+        <tag>高可用</tag>
+         
+        <tag>keepalived</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/apt-get-install-specified-version/</loc>
+    <lastmod>2018-11-20T08:34:07.058Z</lastmod>
+    <data>
+        <display>
+        <title>yum apt-get 安装指定版本</title>
+        <pubTime>2018-11-20T07:30:47.000Z</pubTime>
+        
+        <tag>apt-get</tag>
+         
+        <tag>yum</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/kvm-windows-server-2012/</loc>
-    <lastmod>2018-11-09T06:29:16.875Z</lastmod>
+    <lastmod>2018-11-19T03:40:17.873Z</lastmod>
     <data>
         <display>
         <title>Ubuntu 16.04 KVM 安装 Windows Server 2012</title>
@@ -38,8 +283,27 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/nginx-reverse-secondary-directory-with-parameters/</loc>
+    <lastmod>2018-11-16T08:17:41.932Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx 反向代理二级目录带参数</title>
+        <pubTime>2018-11-16T08:02:52.000Z</pubTime>
+        
+        <tag>jenkins</tag>
+         
+        <tag>nginx</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/haproxy-tutorial/</loc>
-    <lastmod>2018-11-09T03:52:03.334Z</lastmod>
+    <lastmod>2018-11-09T03:52:03.335Z</lastmod>
     <data>
         <display>
         <title>HAProxy 反向代理的使用</title>
@@ -58,7 +322,7 @@
     
   <url>
     <loc>http://www.sundayle.com/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/</loc>
-    <lastmod>2018-11-09T03:12:09.349Z</lastmod>
+    <lastmod>2018-11-09T03:12:09.350Z</lastmod>
     <data>
         <display>
         <title>我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？</title>
@@ -76,25 +340,8 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/docker/</loc>
-    <lastmod>2018-11-07T03:48:24.239Z</lastmod>
-    <data>
-        <display>
-        <title>Docker(一)：Docker入门</title>
-        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
-        
-        <tag>docker</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/redis-install/</loc>
-    <lastmod>2018-11-02T07:12:46.132Z</lastmod>
+    <lastmod>2018-11-02T07:12:46.133Z</lastmod>
     <data>
         <display>
         <title>Redis 3.2 安装及主从复制详细配置</title>
@@ -110,27 +357,8 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
-    <lastmod>2018-10-30T09:48:20.753Z</lastmod>
-    <data>
-        <display>
-        <title>基于kubeadm方式部署kubernetes v1.12.1</title>
-        <pubTime>2018-10-22T09:38:40.000Z</pubTime>
-        
-        <tag>docker</tag>
-         
-        <tag>kubernetes</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/nginx-proxy-tcp/</loc>
-    <lastmod>2018-10-24T08:34:28.510Z</lastmod>
+    <lastmod>2018-10-24T08:34:28.511Z</lastmod>
     <data>
         <display>
         <title>使用Nginx转发TCP/UDP端口</title>
@@ -180,23 +408,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/nginx-limit-modules/</loc>
-    <lastmod>2018-10-22T08:48:49.423Z</lastmod>
-    <data>
-        <display>
-        <title>Nginx 高并发限流模块 limit_conn_module limit_req_module</title>
-        <pubTime>2018-10-22T02:33:41.000Z</pubTime>
-        
-        <tag>nginx</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/sar/</loc>
     <lastmod>2018-10-19T03:18:46.228Z</lastmod>
     <data>
@@ -215,7 +426,7 @@
     
   <url>
     <loc>http://www.sundayle.com/drop_caches/</loc>
-    <lastmod>2018-10-17T02:39:19.351Z</lastmod>
+    <lastmod>2018-10-17T02:39:19.352Z</lastmod>
     <data>
         <display>
         <title>Linux 手动清除缓存 drop_cahces</title>
@@ -232,7 +443,7 @@
     
   <url>
     <loc>http://www.sundayle.com/linux-overcommit-oom-killer/</loc>
-    <lastmod>2018-10-16T12:23:28.923Z</lastmod>
+    <lastmod>2018-10-16T12:23:28.924Z</lastmod>
     <data>
         <display>
         <title>Linux  overcommit 及 oom-killer 机制</title>
@@ -268,7 +479,7 @@
     
   <url>
     <loc>http://www.sundayle.com/apache-bench/</loc>
-    <lastmod>2018-10-16T03:01:57.715Z</lastmod>
+    <lastmod>2018-10-16T03:01:57.716Z</lastmod>
     <data>
         <display>
         <title>Apache Benchmark ab wrk 压力测试工具使用</title>
@@ -323,7 +534,7 @@
     
   <url>
     <loc>http://www.sundayle.com/nginx-smooth-upgrade/</loc>
-    <lastmod>2018-10-12T09:59:22.306Z</lastmod>
+    <lastmod>2018-10-12T09:59:22.307Z</lastmod>
     <data>
         <display>
         <title>Nginx 平滑升级</title>
@@ -359,7 +570,7 @@
     
   <url>
     <loc>http://www.sundayle.com/distributed-file-system-fastdfs/</loc>
-    <lastmod>2018-10-12T06:13:34.677Z</lastmod>
+    <lastmod>2018-10-12T06:13:34.678Z</lastmod>
     <data>
         <display>
         <title>分布式文件系统FastDFS详解</title>
@@ -378,7 +589,7 @@
     
   <url>
     <loc>http://www.sundayle.com/sql-server-replication/</loc>
-    <lastmod>2018-10-12T05:57:48.605Z</lastmod>
+    <lastmod>2018-10-12T05:57:48.606Z</lastmod>
     <data>
         <display>
         <title>Windows SQL Server 主从复制</title>
@@ -408,7 +619,7 @@
     
   <url>
     <loc>http://www.sundayle.com/mogilefs/</loc>
-    <lastmod>2018-10-11T10:22:01.949Z</lastmod>
+    <lastmod>2018-10-11T10:22:01.950Z</lastmod>
     <data>
         <display>
         <title>MogileFS 分布式存储</title>
@@ -442,7 +653,7 @@
     
   <url>
     <loc>http://www.sundayle.com/iis-8-5-configure-high-concurrency/</loc>
-    <lastmod>2018-09-30T10:42:21.689Z</lastmod>
+    <lastmod>2018-09-30T10:42:21.690Z</lastmod>
     <data>
         <display>
         <title>IIS 8.5 高并发配置</title>
@@ -512,7 +723,7 @@
     
   <url>
     <loc>http://www.sundayle.com/glusterfs-docker/</loc>
-    <lastmod>2018-08-23T07:40:41.962Z</lastmod>
+    <lastmod>2018-08-23T07:40:41.963Z</lastmod>
     <data>
         <display>
         <title>基于 GlusterFS 实现 Docker 集群的分布式存储</title>
@@ -548,7 +759,7 @@
     
   <url>
     <loc>http://www.sundayle.com/python-deep-copy-and-shallow-copy/</loc>
-    <lastmod>2018-08-23T02:22:30.330Z</lastmod>
+    <lastmod>2018-08-23T02:22:30.331Z</lastmod>
     <data>
         <display>
         <title>Python中的深拷贝和浅拷贝</title>
@@ -565,7 +776,7 @@
     
   <url>
     <loc>http://www.sundayle.com/webbench/</loc>
-    <lastmod>2018-08-22T03:28:31.052Z</lastmod>
+    <lastmod>2018-08-22T03:28:31.053Z</lastmod>
     <data>
         <display>
         <title>Web 压力测试工具 Webbench</title>
@@ -653,7 +864,7 @@
     
   <url>
     <loc>http://www.sundayle.com/iptables-forward/</loc>
-    <lastmod>2018-08-20T04:12:08.860Z</lastmod>
+    <lastmod>2018-08-20T04:12:08.861Z</lastmod>
     <data>
         <display>
         <title>配置iptables、ufw端口转发</title>
@@ -677,7 +888,7 @@
     
   <url>
     <loc>http://www.sundayle.com/firewalld/</loc>
-    <lastmod>2018-08-20T04:09:46.887Z</lastmod>
+    <lastmod>2018-08-20T04:09:46.888Z</lastmod>
     <data>
         <display>
         <title>CentOS 7  Firewalld防火墙管理工具</title>
@@ -711,7 +922,7 @@
     
   <url>
     <loc>http://www.sundayle.com/linux-tcp/</loc>
-    <lastmod>2018-08-17T08:22:55.540Z</lastmod>
+    <lastmod>2018-08-17T08:22:55.541Z</lastmod>
     <data>
         <display>
         <title>Linux下如何知道http并发和tcp连接数量</title>
@@ -764,31 +975,12 @@
     
   <url>
     <loc>http://www.sundayle.com/linux-process-management/</loc>
-    <lastmod>2018-08-15T03:47:05.198Z</lastmod>
+    <lastmod>2018-08-15T03:47:05.199Z</lastmod>
     <data>
         <display>
         <title>Linux 进程的管理与监控</title>
         <pubTime>2018-08-15T03:35:31.000Z</pubTime>
         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/keepalived/</loc>
-    <lastmod>2018-08-15T02:05:54.740Z</lastmod>
-    <data>
-        <display>
-        <title>Keepavlied 编译及配置文件详解</title>
-        <pubTime>2018-08-09T03:50:39.000Z</pubTime>
-        
-        <tag>高可用</tag>
-         
-        <tag>keepalived</tag>
-         
          
            
         </display>
@@ -804,9 +996,9 @@
         <title>负载均衡集群 LVS 详解</title>
         <pubTime>2018-08-07T07:47:27.000Z</pubTime>
         
-        <tag>高性能</tag>
-         
         <tag>lvs</tag>
+         
+        <tag>高性能</tag>
          
          
            
@@ -826,9 +1018,9 @@
         <title>Keepalived Nginx双网络(内外网)故障非同步漂移双主模式</title>
         <pubTime>2018-08-13T10:15:42.000Z</pubTime>
         
-        <tag>keepalived</tag>
-         
         <tag>nginx</tag>
+         
+        <tag>keepalived</tag>
          
          
            
@@ -856,7 +1048,7 @@
     
   <url>
     <loc>http://www.sundayle.com/keepalived-dual-network/</loc>
-    <lastmod>2018-08-14T08:11:09.172Z</lastmod>
+    <lastmod>2018-08-14T08:11:09.173Z</lastmod>
     <data>
         <display>
         <title>Keepalived 双网络(内外网)故障同步漂移主备模式</title>
@@ -871,7 +1063,7 @@
     
   <url>
     <loc>http://www.sundayle.com/keepalived-lvs-dr-nginx/</loc>
-    <lastmod>2018-08-14T07:24:25.340Z</lastmod>
+    <lastmod>2018-08-14T07:24:25.341Z</lastmod>
     <data>
         <display>
         <title>Keepalived + LVS-DR Nginx 双主高可用</title>
@@ -892,7 +1084,7 @@
     
   <url>
     <loc>http://www.sundayle.com/google-bbr/</loc>
-    <lastmod>2018-08-12T15:04:55.034Z</lastmod>
+    <lastmod>2018-08-12T15:04:55.035Z</lastmod>
     <data>
         <display>
         <title>CentOS 7 部署Google BBR</title>
@@ -912,7 +1104,7 @@
     
   <url>
     <loc>http://www.sundayle.com/openstack/</loc>
-    <lastmod>2018-08-08T10:19:38.810Z</lastmod>
+    <lastmod>2018-08-08T10:19:38.811Z</lastmod>
     <data>
         <display>
         <title>OpenStack 入门实践</title>
@@ -972,7 +1164,7 @@
     
   <url>
     <loc>http://www.sundayle.com/grep/</loc>
-    <lastmod>2018-08-08T08:57:33.190Z</lastmod>
+    <lastmod>2018-08-08T08:57:33.191Z</lastmod>
     <data>
         <display>
         <title>文本处理工具 Grep</title>
@@ -1012,31 +1204,11 @@
     
   <url>
     <loc>http://www.sundayle.com/mysql-utf8mb4/</loc>
-    <lastmod>2018-08-08T08:52:56.804Z</lastmod>
+    <lastmod>2018-08-08T08:52:56.805Z</lastmod>
     <data>
         <display>
         <title>MySQL 修改字符集为utf8mb4</title>
         <pubTime>2018-02-28T15:20:13.000Z</pubTime>
-        
-        <tag>mysql</tag>
-         
-         
-           
-             
-              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/pt-table-checksum/</loc>
-    <lastmod>2018-08-08T08:48:26.788Z</lastmod>
-    <data>
-        <display>
-        <title>使用 pt-table-sync 修复MySQL主从数据不一致</title>
-        <pubTime>2018-06-25T06:23:18.000Z</pubTime>
         
         <tag>mysql</tag>
          
@@ -1074,7 +1246,7 @@
     
   <url>
     <loc>http://www.sundayle.com/regex/</loc>
-    <lastmod>2018-08-08T08:39:27.879Z</lastmod>
+    <lastmod>2018-08-08T08:39:27.880Z</lastmod>
     <data>
         <display>
         <title>正则表达式30分钟入门教程</title>
@@ -1114,7 +1286,7 @@
     
   <url>
     <loc>http://www.sundayle.com/mysql-optimize-in-linux/</loc>
-    <lastmod>2018-08-08T08:12:42.376Z</lastmod>
+    <lastmod>2018-08-08T08:12:42.377Z</lastmod>
     <data>
         <display>
         <title>Linux MySQL 优化</title>
@@ -1152,7 +1324,7 @@
     
   <url>
     <loc>http://www.sundayle.com/shadowsocks-libev/</loc>
-    <lastmod>2018-08-08T08:12:08.619Z</lastmod>
+    <lastmod>2018-08-08T08:12:08.620Z</lastmod>
     <data>
         <display>
         <title>CentOS 7 配置Shadowsocks-libev + simple-obfs</title>
@@ -1818,9 +1990,9 @@
         
         <tag>mysql</tag>
          
-        <tag>1062</tag>
-         
         <tag>gtid</tag>
+         
+        <tag>1062</tag>
          
          
            
