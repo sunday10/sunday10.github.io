@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/nginx-proxy-65535-port/</loc>
+    <lastmod>2019-01-08T02:38:55.541Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx 代理突破65535端口</title>
+        <pubTime>2019-01-06T06:55:53.000Z</pubTime>
+        
+        <tag>nginx</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/pt-table-checksum/</loc>
     <lastmod>2019-01-03T07:11:25.561Z</lastmod>
     <data>
@@ -141,6 +158,25 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
+    <lastmod>2018-12-07T02:05:00.716Z</lastmod>
+    <data>
+        <display>
+        <title>基于kubeadm方式部署kubernetes v1.12.1</title>
+        <pubTime>2018-10-22T09:38:40.000Z</pubTime>
+        
+        <tag>kubernetes</tag>
+         
+        <tag>docker</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/python-encoding/</loc>
     <lastmod>2018-12-07T02:05:00.716Z</lastmod>
     <data>
@@ -166,25 +202,6 @@
         <pubTime>2018-08-22T14:31:30.000Z</pubTime>
         
         <tag>python</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
-    <lastmod>2018-12-07T02:05:00.716Z</lastmod>
-    <data>
-        <display>
-        <title>基于kubeadm方式部署kubernetes v1.12.1</title>
-        <pubTime>2018-10-22T09:38:40.000Z</pubTime>
-        
-        <tag>kubernetes</tag>
-         
-        <tag>docker</tag>
          
          
            
@@ -872,9 +889,9 @@
         
         <tag>防火墙</tag>
          
-        <tag>iptables</tag>
-         
         <tag>ufw</tag>
+         
+        <tag>iptables</tag>
          
          
            
@@ -1671,28 +1688,6 @@
            
              
               <breadCrumb title="Nginx" url="http://www.sundayle.com/categories/Nginx/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/haproxy/</loc>
-    <lastmod>2018-06-25T15:44:27.000Z</lastmod>
-    <data>
-        <display>
-        <title>haproxy7层代理、负载均衡</title>
-        <pubTime>2018-06-25T15:44:27.000Z</pubTime>
-        
-        <tag>haproxy</tag>
-         
-        <tag>高可用</tag>
-         
-         
-           
-             
-              <breadCrumb title="haproxy" url="http://www.sundayle.com/categories/haproxy/"/>
           
         </display>
     </data>

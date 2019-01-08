@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,28 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/nginx-proxy-65535-port/">
+        <h2 class="post-title">
+            Nginx 代理突破65535端口
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Nginx12ifconfig em1:0 192.168.1.11/24 upifconfig em1:1 192.168.1.12/24 up
+12345678910map $remote_addr $proxy_bind_ip &#123;*1 192.168.1.11;*2 192.168.1.12;...&#125;location / &#123;    proxy_bind $......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-01-06
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -381,28 +403,6 @@ nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.co
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/nginx-proxy-tcp/">
-        <h2 class="post-title">
-            使用Nginx转发TCP/UDP端口
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            ngx_stream_core_module
-编译Nginx123456789101112131415cd /usr/local/srcwget http://nginx.org/download/nginx-1.12.2.tar.gztar zxf nginx-1.12.2.tar.gzcd nginx-1.12.2./configure --prefix=/usr/local/nginx......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-24
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -438,21 +438,23 @@ nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.co
                     <div class="tags">
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
                         
                             
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            
                         
                             
                         
                             
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -464,14 +466,6 @@ nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.co
                             
                         
                             
-                        
-                            
-                        
-                            
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
-                            
-                        
-                            
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
@@ -480,13 +474,17 @@ nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.co
                             
                         
                             
-                        
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                        
                             
                         
                             
                             <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -498,7 +496,15 @@ nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.co
                             
                         
                             
-                            <a href="/tags/#haproxy" title="haproxy" rel="4">haproxy</a>
+                        
+                            
+                        
+                            
+                            <a href="/tags/#haproxy" title="haproxy" rel="3">haproxy</a>
+                            
+                        
+                            
+                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
                             
                         
                             
@@ -506,13 +512,9 @@ nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.co
                             
                         
                             
-                            <a href="/tags/#高可用" title="高可用" rel="4">高可用</a>
-                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
-                            
-                        
                             
                         
                             
@@ -554,7 +556,19 @@ nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.co
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="12">mysql</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="17">nginx</a>
+                            
+                        
                             
                         
                             
@@ -568,19 +582,7 @@ nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.co
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="16">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -598,11 +600,9 @@ nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.co
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
                             
                         
                             
@@ -656,11 +656,11 @@ nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.co
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
+                            
+                        
                             
                         
                             

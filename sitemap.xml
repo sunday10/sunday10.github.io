@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/nginx-proxy-65535-port/</loc>
+    
+    <lastmod>2019-01-08T02:38:55.541Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/pt-table-checksum/</loc>
     
     <lastmod>2019-01-03T07:11:25.561Z</lastmod>
@@ -58,6 +65,13 @@
   </url>
   
   <url>
+    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
+    
+    <lastmod>2018-12-07T02:05:00.716Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/python-encoding/</loc>
     
     <lastmod>2018-12-07T02:05:00.716Z</lastmod>
@@ -66,13 +80,6 @@
   
   <url>
     <loc>http://www.sundayle.com/python-decorator/</loc>
-    
-    <lastmod>2018-12-07T02:05:00.716Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
     
     <lastmod>2018-12-07T02:05:00.716Z</lastmod>
     
@@ -642,13 +649,6 @@
     <loc>http://www.sundayle.com/nginx-location-rewrite/</loc>
     
     <lastmod>2018-07-02T10:48:12.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/haproxy/</loc>
-    
-    <lastmod>2018-06-25T15:44:27.000Z</lastmod>
     
   </url>
   
