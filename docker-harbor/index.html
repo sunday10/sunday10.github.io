@@ -13,11 +13,11 @@
 
     <title>
         
-          Apache Benchmark ab wrk 压力测试工具使用 - Sunday博客 | Sunday Blog
+          Docker 企业级私有镜像仓库 Harbor 部署 - Sunday博客 | Sunday Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.sundayle.com/apache-bench/">
+    <link rel="canonical" href="http://www.sundayle.com/docker-harbor/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,14 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#压力测试" title="压力测试">压力测试</a>
+                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
                         
                     </div>
-                    <h1>Apache Benchmark ab wrk 压力测试工具使用</h1>
+                    <h1>Docker 企业级私有镜像仓库 Harbor 部署</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sunday on
-                        2017-05-19
+                        2018-12-28
                     </span>
                 </div>
             </div>
@@ -191,22 +191,16 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@<span class="symbol">node1</span> ~]<span class="attr"># ab -n 10000</span> -c <span class="number">1000</span> http:<span class="comment">//www.sundayle.com/index.html</span></span><br></pre></td></tr></table></figure>
-<p>其中－n表示请求数，－c表示并发数<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">This is ApacheBench, Version 2.3 &lt;$Revision:<span class="number"> 655654 </span>$&gt;;</span><br><span class="line">Copyright<span class="number"> 1996 </span>Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</span><br><span class="line">Licensed to The Apache Software Foundation, http://www.apache.org/</span><br><span class="line"></span><br><span class="line">Benchmarking www.sundayle.com (be patient)</span><br><span class="line">Completed<span class="number"> 1000 </span>requests</span><br><span class="line">Completed<span class="number"> 2000 </span>requests</span><br><span class="line">Completed<span class="number"> 3000 </span>requests</span><br><span class="line">Completed<span class="number"> 4000 </span>requests</span><br><span class="line">Completed<span class="number"> 5000 </span>requests</span><br><span class="line">Completed<span class="number"> 6000 </span>requests</span><br><span class="line">Completed<span class="number"> 7000 </span>requests</span><br><span class="line">Completed<span class="number"> 8000 </span>requests</span><br><span class="line">Completed<span class="number"> 9000 </span>requests</span><br><span class="line">Completed<span class="number"> 10000 </span>requests</span><br><span class="line">Finished<span class="number"> 10000 </span>requests</span><br><span class="line">Server Software: nginx/1.10.3</span><br><span class="line">Server Hostname: www.sundayle.com</span><br><span class="line">Server Port: 80</span><br><span class="line"></span><br><span class="line">Document Path: /index.html</span><br><span class="line">Document Length:<span class="number"> 42 </span>bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:<span class="number"> 1000 </span><span class="comment">#并发请求数</span></span><br><span class="line">Time taken for tests: 2.221 seconds <span class="comment">#整个测试持续的时间</span></span><br><span class="line">Complete requests:<span class="number"> 10000 </span><span class="comment">#完成的请求数</span></span><br><span class="line">Failed requests:<span class="number"> 0 </span><span class="comment">#完成的请求数量</span></span><br><span class="line">Write errors:<span class="number"> 0 </span><span class="comment">#失败的请求数量</span></span><br><span class="line">Total transferred:<span class="number"> 2735733 </span>bytes <span class="comment">#整个过程中的网络传输量</span></span><br><span class="line">HTML transferred:<span class="number"> 420882 </span>bytes <span class="comment">#整个过程中的HTML内容传输量</span></span><br><span class="line">Requests per second: 4501.56 [<span class="comment">#/sec] (mean) #吞吐率，重要指标一，相当于LR中的每秒事务数，mean(表示平均值)(越大越好)</span></span><br><span class="line">Time per request: 222.145 [ms] (mean) <span class="comment">#用户平均请求等待时间，重要指标一，相当于LR中的平均事务响应时间(越小越好)</span></span><br><span class="line">Time per request: 0.222 [ms] (mean, across all concurrent requests) <span class="comment">#服务器平均请求处理时间，重要指标三</span></span><br><span class="line">Transfer rate: 1202.64 [Kbytes/sec] received <span class="comment">#平均每秒网络上的流量，可以帮助排除是否存在网络流量过大导致响应时间延长的问题</span></span><br><span class="line">Connection Times (ms) <span class="comment">#网络消耗时间</span></span><br><span class="line">             min mean[+/-sd] median max</span><br><span class="line">Connect:     <span class="number"> 0 </span> <span class="number"> 85 </span> 249.2 <span class="number"> 10 </span>  1027</span><br><span class="line">Processing:  <span class="number"> 6 </span> <span class="number"> 51 </span> 82.2  <span class="number"> 23 </span>  1522</span><br><span class="line">Waiting:     <span class="number"> 0 </span> <span class="number"> 48 </span> 81.9  <span class="number"> 21 </span>  1519</span><br><span class="line">Total:       <span class="number"> 14 </span><span class="number"> 136 </span>271.8 <span class="number"> 31 </span>  1664</span><br><span class="line"></span><br><span class="line"><span class="comment">#这段是每个请求处理时间的分布情况，50%的处理时间在31ms内，66%的处理时间在43ms内...，重要的是看90%的处理时间。</span></span><br><span class="line">Percentage of the requests served within a certain time (ms) </span><br><span class="line">50% 31</span><br><span class="line">66% 43</span><br><span class="line">75% 51</span><br><span class="line">80% 197</span><br><span class="line">90% 288</span><br><span class="line">95% 1033</span><br><span class="line">98% 1050</span><br><span class="line">99% 1237</span><br><span class="line">100%<span class="number"> 1664 </span>(longest request)</span><br></pre></td></tr></table></figure></p>
-<p>关于登录的问题</p>
-<p>有时候进行压力测试需要用户登录，怎么办？<br>请参考以下步骤：</p>
-<p>1.先用账户和密码登录后，用开发者工具找到标识这个会话的Cookie值（Session ID）记下来<br>2.如果只用到一个Cookie，那么只需键入命令：<br><figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab －n <span class="number">100</span> －C <span class="built_in">key</span>＝<span class="built_in">value</span> http:<span class="comment">//test.com/</span></span><br></pre></td></tr></table></figure></p>
-<p>如果需要多个Cookie，就直接设Header：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -n <span class="number">100</span> -H “<span class="string">Cookie:</span> Key1=Value1; Key2=Value2” <span class="string">http:</span><span class="comment">//test.com/</span></span><br></pre></td></tr></table></figure></p>
-<p>在远程对web服务器进行压力测试，往往效果不理想（因为网络延时过大），建议使用内网的另一台或者多台服务器通过内网进行测试，这样得出的数据，准确度会高很多。如果只有单独的一台服务器，可以直接本地测试，比远程测试效果要准确。</p>
-<h1 id="wrk"><a href="#wrk" class="headerlink" title="wrk"></a>wrk</h1><p>[wrk] (<a href="https://github.com/wg/wrk)相对于" target="_blank" rel="noopener">https://github.com/wg/wrk)相对于</a> ab 来说最大的优点是它支持多线程，这样更容易发挥多核 CPU 的能力，从而更容易测试出系统的极限能力，其典型用法如下：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wrk -c <span class="number">100</span> -d <span class="number">10</span> <span class="string">http:</span><span class="comment">//demo.sundayle.com/</span></span><br></pre></td></tr></table></figure>
-<p>其中，参数「c」表示的是并发，参数「d」表示的是整个测试持续的时间。此外，可以通过参数「t」来控制线程数（缺省值为 2），实际使用中可以视情况酌情增大。</p>
-<p>如果顺着 ab 的使用惯性，你可能会纳闷为什么 wrk 没有类似参数「k」这样打开 HTTP 长链接的选项，这是因为 wrk 使用的是 HTTP/1.1，缺省开启的是长连接，而 ab 使用的是 HTTP/1.0，缺省开启的是短链接。</p>
-<p>不过这也引出另一个问题，如何用 wrk 测试短链接？实际上很简单：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wrk -H <span class="string">"Connection: Close"</span> -c <span class="number">100</span> -d <span class="number">10</span> <span class="string">http:</span><span class="comment">//demo.sundayle.com/</span></span><br></pre></td></tr></table></figure>
-<p>也就是说通过参数「H」传递一个自定义的 Connection 请求头来关闭长链接。此外，wrk 支持自定义脚本编程.</p>
-<h1 id="locust"><a href="#locust" class="headerlink" title="locust"></a>locust</h1><p><a href="http://locust.io/" target="_blank" rel="noopener">locust</a>相对于 ab、wrk 来说最大的优点是它不再只是测试一个 url，而是可以测试一个自定义的场景，其中可以包含多个有相互关联的 url，此外，它还是分布式可扩展的，可以模拟大量用户的访问，由此可以得到更贴近真实环境的测试数据。</p>
-<p><a href="http://www.jianshu.com/p/43d04d8baaf7" target="_blank" rel="noopener">http://www.jianshu.com/p/43d04d8baaf7</a><br><a href="https://huoding.com/2017/05/31/620" target="_blank" rel="noopener">https://huoding.com/2017/05/31/620</a></p>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前使用Docker官方的Registry镜像搭建了私有仓库，但是没有可一个可视化的界面去维护，非常不方便。所幸Vmware推出一个基于官方Registry V2镜像打造的私有仓库项目.</p>
+<h1 id="Harbor-简介"><a href="#Harbor-简介" class="headerlink" title="Harbor 简介"></a>Harbor 简介</h1><p>Harbor 是一个用于存储和分发 Docker 镜像的企业级 Registry 服务器，<br>通过添加一些企业必需的功能特性，例如安全、标识和管理等，扩展了开源 Docker Distribution。<br>作为一个企业级私有 Registry 服务器，Harbor 提供了更好的性能和安全。提升用户使用 Registry 构建和运行环境传输镜像的效率。<br>Harbor 支持安装在多个 Registry 节点的镜像资源复制，镜像全部保存在私有 Registry 中，确保数据和知识产权在公司内部网络中管控。<br>另外，Harbor 也提供了高级的安全特性，诸如用户管理，访问控制和活动审计等。</p>
+<p>Harbor 是由 VMware 中国研发团队负责开发的开源企业级 Docker Registry，<br>不仅解决了我们直接使用 Docker Registry 的功能缺失，<br>更解决了我们在生产使用 Docker Registry 面临的高可用、镜像仓库直接复制、镜像仓库性能等运维痛点。</p>
+<h1 id="Harbor-部署"><a href="#Harbor-部署" class="headerlink" title="Harbor 部署"></a>Harbor 部署</h1><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><blockquote>
+<p>Python version 2.7 or higher<br><a href="https://docs.docker.com/install/linux/docker-ce/centos/" target="_blank" rel="noopener">Docker version 1.10 or higher</a><br><a href="https://docs.docker.com/compose/install/#install-compose" target="_blank" rel="noopener">Docker Compose version  1.6.0 or higher</a></p>
+</blockquote>
+<h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p><strong>下载离线安装包</strong><br><a href="https://github.com/goharbor/harbor/releases" target="_blank" rel="noopener">https://github.com/goharbor/harbor/releases</a></p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local/</span></span><br><span class="line">wget https:<span class="string">//storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.0.tgz</span></span><br><span class="line">tar xf <span class="string">/harbor-offline-installer-v1.7.0.tgz</span> </span><br><span class="line"><span class="keyword">cd</span> harbor/</span><br></pre></td></tr></table></figure>
+<p><strong>配置harbor.cfg</strong><br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">hostname</span> = registry.sundayle.com</span><br><span class="line"><span class="attr">ui_url_protocol</span> = https</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/goharbor/harbor/blob/master/docs/installation_guide.md" target="_blank" rel="noopener">https://github.com/goharbor/harbor/blob/master/docs/installation_guide.md</a></p>
 
 
                 <hr>
@@ -216,12 +210,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/webbench/" data-toggle="tooltip" data-placement="top" title="Web 压力测试工具 Webbench">&larr; Previous Post</a>
+                            <a href="/centos-7-upgrade-kernel/" data-toggle="tooltip" data-placement="top" title="CentOS 7 升级 4.19 内核">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/nginx-configuration-optimization/" data-toggle="tooltip" data-placement="top" title="Nginx 配置优化">Next Post &rarr;</a>
+                            <a href="/centos-7-lacp-bonding/" data-toggle="tooltip" data-placement="top" title="CentOS 7 与 华为交换机 端口汇聚 LACP BONDING">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -232,6 +226,20 @@
 
             </div>
     <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
         
 
     <!-- Sidebar Container -->
@@ -248,7 +256,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#压力测试" title="压力测试">压力测试</a>
+                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
                         
                     </div>
                 </section>
@@ -455,6 +463,50 @@
 
 
 <!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
 
 
 
