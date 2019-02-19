@@ -4,6 +4,40 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/nginx-ip-whitelist-reverse-proxy/</loc>
+    <lastmod>2019-02-13T09:03:21.379Z</lastmod>
+    <data>
+        <display>
+        <title>NGINX IP白名单 反向代理</title>
+        <pubTime>2019-02-13T09:00:38.000Z</pubTime>
+        
+        <tag>nginx</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/linux-php-curl-timeout/</loc>
+    <lastmod>2019-02-13T08:37:44.562Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS 7 php curl 微信支付接口 超时</title>
+        <pubTime>2019-02-13T08:07:04.000Z</pubTime>
+        
+        <tag>php</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/centos-7-lacp-bonding/</loc>
     <lastmod>2019-01-25T14:24:46.579Z</lastmod>
     <data>
@@ -192,6 +226,23 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
+    <data>
+        <display>
+        <title>Python 装饰器</title>
+        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/python-encoding/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
@@ -219,23 +270,6 @@
         <tag>docker</tag>
          
         <tag>kubernetes</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
-    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
-    <data>
-        <display>
-        <title>Python 装饰器</title>
-        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
-        
-        <tag>python</tag>
          
          
            
@@ -341,9 +375,9 @@
         <title>Nginx 反向代理二级目录带参数</title>
         <pubTime>2018-11-16T08:02:52.000Z</pubTime>
         
-        <tag>jenkins</tag>
-         
         <tag>nginx</tag>
+         
+        <tag>jenkins</tag>
          
          
            
@@ -2002,9 +2036,9 @@
         
         <tag>mysql</tag>
          
-        <tag>1062</tag>
-         
         <tag>gtid</tag>
+         
+        <tag>1062</tag>
          
          
            

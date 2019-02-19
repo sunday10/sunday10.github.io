@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          CentOS 7 php curl 微信支付接口 超时 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/linux-php-curl-timeout/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#php" title="php">php</a>
+                        
+                    </div>
+                    <h1>CentOS 7 php curl 微信支付接口 超时</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2019-02-13
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h1><ol>
+<li>添加了H3C路由器做内网上网使用，节省IP做集群IP.</li>
+<li>调用微信接口 <a href="https://api.mch.weixin.qq.com/pay/unifiedorder" target="_blank" rel="noopener">https://api.mch.weixin.qq.com/pay/unifiedorder</a> 超时5秒多。</li>
+<li>php报错：cURL error 28: Resolving timed out after 5516 milliseconds (see <a href="https://curl.haxx.se/libcurl/c/libcurl-errors.html" target="_blank" rel="noopener">https://curl.haxx.se/libcurl/c/libcurl-errors.html</a>)<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span>/<span class="number">1</span>) ConnectException</span><br><span class="line">cURL error <span class="number">28</span>: Resolving timed out after <span class="number">5516</span> milliseconds (see https:<span class="comment">//curl.haxx.se/libcurl/c/libcurl-errors.html)</span></span><br><span class="line"></span><br><span class="line">in CurlFactory.php line <span class="number">185</span></span><br><span class="line">at CurlFactory::createRejection(object(EasyHandle), <span class="keyword">array</span>(<span class="string">'errno'</span> =&gt; <span class="number">28</span>, <span class="string">'error'</span> =&gt; <span class="string">'Resolving timed out after 5516 milliseconds'</span>, <span class="string">'url'</span> =&gt; <span class="string">'https://api.mch.weixin.qq.com/pay/unifiedorder'</span>, <span class="string">'content_type'</span> =&gt; <span class="keyword">null</span>, <span class="string">'http_code'</span> =&gt; <span class="number">0</span>, <span class="string">'header_size'</span> =&gt; <span class="number">0</span>, <span class="string">'request_size'</span> =&gt; <span class="number">0</span>, <span class="string">'filetime'</span> =&gt; <span class="number">-1</span>, <span class="string">'ssl_verify_result'</span> =&gt; <span class="number">0</span>, <span class="string">'redirect_count'</span> =&gt; <span class="number">0</span>, <span class="string">'total_time'</span> =&gt; <span class="number">5.515195</span>, <span class="string">'namelookup_time'</span> =&gt; <span class="number">0.0</span>, <span class="string">'connect_time'</span> =&gt; <span class="number">0.0</span>, <span class="string">'pretransfer_time'</span> =&gt; <span class="number">0.0</span>, <span class="string">'size_upload'</span> =&gt; <span class="number">0.0</span>, <span class="string">'size_download'</span> =&gt; <span class="number">0.0</span>, <span class="string">'speed_download'</span> =&gt; <span class="number">0.0</span>, <span class="string">'speed_upload'</span> =&gt; <span class="number">0.0</span>, <span class="string">'download_content_length'</span> =&gt; <span class="number">-1.0</span>, <span class="string">'upload_content_length'</span> =&gt; <span class="number">-1.0</span>, <span class="string">'starttransfer_time'</span> =&gt; <span class="number">0.0</span>, <span class="string">'redirect_time'</span> =&gt; <span class="number">0.0</span>, <span class="string">'redirect_url'</span> =&gt; <span class="string">''</span>, <span class="string">'primary_ip'</span> =&gt; <span class="string">''</span>, <span class="string">'certinfo'</span> =&gt; <span class="keyword">array</span>(), <span class="string">'primary_port'</span> =&gt; <span class="number">0</span>, <span class="string">'local_ip'</span> =&gt; <span class="string">''</span>, <span class="string">'local_port'</span> =&gt; <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h1><ol>
+<li>使用IDC 外网IP curl 正常</li>
+<li>使用H3C 内网IP curl 超时5秒多</li>
+</ol>
+<h1 id="修改resolv-conf"><a href="#修改resolv-conf" class="headerlink" title="修改resolv.conf"></a>修改resolv.conf</h1><p>添加options single-request-reopen<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cat</span> &lt;&lt; EOF&gt; /etc/resolv.<span class="keyword">conf</span></span><br><span class="line"><span class="keyword">options</span> single-request-reopen</span><br><span class="line"><span class="keyword">options</span> timeou<span class="variable">t:1</span> attempt<span class="variable">s:1</span> rotate</span><br><span class="line"></span><br><span class="line">nameserver <span class="number">114.114</span>.<span class="number">114.114</span></span><br><span class="line">nameserver <span class="number">119.29</span>.<span class="number">29.29</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
+<h1 id="禁用IPV6"><a href="#禁用IPV6" class="headerlink" title="禁用IPV6"></a>禁用IPV6</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/sysconfig/network</span><br><span class="line"></span><br><span class="line"><span class="attribute">NETWORKING_IPV6</span>=<span class="literal">no</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/sysconfig/network-scripts/ifcfg-xxx</span><br><span class="line"></span><br><span class="line">DNS1=114.114.114.114</span><br><span class="line">DNS2=119.29.29.29</span><br><span class="line">IPV6INIT=no</span><br><span class="line">IPV6_AUTOCONF=no</span><br></pre></td></tr></table></figure>
+<h1 id="禁用NetworkManager"><a href="#禁用NetworkManager" class="headerlink" title="禁用NetworkManager"></a>禁用NetworkManager</h1><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="keyword">disable</span> NetworkManager </span><br><span class="line">systemctl <span class="keyword">stop</span> NetworkManager</span><br></pre></td></tr></table></figure>
+<p>修改前<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">time curl -I <span class="string">https:</span><span class="comment">//api.mch.weixin.qq.com/pay/unifiedorder</span></span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="string">Server:</span> nginx</span><br><span class="line"><span class="string">Date:</span> Wed, <span class="number">13</span> Feb <span class="number">2019</span> <span class="number">08</span>:<span class="number">16</span>:<span class="number">17</span> GMT</span><br><span class="line">Content-<span class="string">Type:</span> text/plain</span><br><span class="line">Content-<span class="string">Length:</span> <span class="number">110</span></span><br><span class="line"><span class="string">Connection:</span> keep-alive</span><br><span class="line">Keep-<span class="string">Alive:</span> timeout=<span class="number">8</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">real    <span class="number">0</span>m5<span class="number">.75</span>s</span><br><span class="line">user    <span class="number">0</span>m0<span class="number">.062</span>s</span><br><span class="line">sys <span class="number">0</span>m0<span class="number">.052</span>s</span><br></pre></td></tr></table></figure></p>
+<p>修改后<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">time curl -I <span class="string">https:</span><span class="comment">//api.mch.weixin.qq.com/pay/unifiedorder</span></span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="string">Server:</span> nginx</span><br><span class="line"><span class="string">Date:</span> Wed, <span class="number">13</span> Feb <span class="number">2019</span> <span class="number">08</span>:<span class="number">16</span>:<span class="number">17</span> GMT</span><br><span class="line">Content-<span class="string">Type:</span> text/plain</span><br><span class="line">Content-<span class="string">Length:</span> <span class="number">110</span></span><br><span class="line"><span class="string">Connection:</span> keep-alive</span><br><span class="line">Keep-<span class="string">Alive:</span> timeout=<span class="number">8</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">real    <span class="number">0</span>m0<span class="number">.255</span>s</span><br><span class="line">user    <span class="number">0</span>m0<span class="number">.052</span>s</span><br><span class="line">sys <span class="number">0</span>m0<span class="number">.042</span>s</span><br></pre></td></tr></table></figure></p>
+<h1 id="若开启NetworkManager防止resolv被重置"><a href="#若开启NetworkManager防止resolv被重置" class="headerlink" title="若开启NetworkManager防止resolv被重置"></a>若开启NetworkManager防止resolv被重置</h1><ol>
+<li>创建一个脚本。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF &gt; /etc/NetworkManager/dispatcher.d/15-resolv</span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Description : script to override default resolv.conf file</span></span><br><span class="line"><span class="comment"># with customized file.</span></span><br><span class="line">cp -f /etc/resolv.conf.custom /etc/resolv.conf</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>设置文件权限</li>
+</ol>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod u+x <span class="regexp">/etc/</span>NetworkManager<span class="regexp">/dispatcher.d/</span><span class="number">15</span>-resolv</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>创建一个文件</li>
+</ol>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/resolv.conf.custom</span><br><span class="line">options single-request-reopen</span><br><span class="line">nameserver <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span></span><br><span class="line">nameserver <span class="number">119.29</span><span class="number">.29</span><span class="number">.29</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>重启服务</li>
+</ol>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">service NetworkManager restart</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://www.jianshu.com/p/d5b913783d4f" target="_blank" rel="noopener">https://www.jianshu.com/p/d5b913783d4f</a><br><a href="http://www.man7.org/linux/man-pages/man5/resolver.5.html" target="_blank" rel="noopener">http://www.man7.org/linux/man-pages/man5/resolver.5.html</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/nginx-ip-whitelist-reverse-proxy/" data-toggle="tooltip" data-placement="top" title="NGINX IP白名单 反向代理">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/nginx-proxy-65535-port/" data-toggle="tooltip" data-placement="top" title="Nginx 代理突破65535端口">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#php" title="php">php</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
