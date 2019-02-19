@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/percona-xtrabackup-configuration-master-slave-replication/</loc>
+    <lastmod>2019-02-19T08:29:08.826Z</lastmod>
+    <data>
+        <display>
+        <title>Percona-xtrabackup 在线配置主从复制</title>
+        <pubTime>2019-02-19T08:20:51.000Z</pubTime>
+        
+        <tag>mysql</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/nginx-ip-whitelist-reverse-proxy/</loc>
     <lastmod>2019-02-13T09:03:21.379Z</lastmod>
     <data>
@@ -226,23 +243,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
-    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
-    <data>
-        <display>
-        <title>Python 装饰器</title>
-        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
-        
-        <tag>python</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/python-encoding/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
@@ -270,6 +270,23 @@
         <tag>docker</tag>
          
         <tag>kubernetes</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
+    <data>
+        <display>
+        <title>Python 装饰器</title>
+        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
+        
+        <tag>python</tag>
          
          
            
@@ -375,9 +392,9 @@
         <title>Nginx 反向代理二级目录带参数</title>
         <pubTime>2018-11-16T08:02:52.000Z</pubTime>
         
-        <tag>nginx</tag>
-         
         <tag>jenkins</tag>
+         
+        <tag>nginx</tag>
          
          
            
@@ -814,9 +831,9 @@
         <title>基于 GlusterFS 实现 Docker 集群的分布式存储</title>
         <pubTime>2018-08-22T04:05:51.000Z</pubTime>
         
-        <tag>glusterfs</tag>
-         
         <tag>分布式文件系统</tag>
+         
+        <tag>glusterfs</tag>
          
          
            
@@ -2036,9 +2053,9 @@
         
         <tag>mysql</tag>
          
-        <tag>gtid</tag>
-         
         <tag>1062</tag>
+         
+        <tag>gtid</tag>
          
          
            

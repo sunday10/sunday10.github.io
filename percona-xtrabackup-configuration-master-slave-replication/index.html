@@ -13,11 +13,11 @@
 
     <title>
         
-          IIS 8.5 隐藏 X-Powered-By 及 X-Powered-By 信息 - Sunday博客 | Sunday Blog
+          Percona-xtrabackup 在线配置主从复制 - Sunday博客 | Sunday Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.sundayle.com/remove-iis-server-info/">
+    <link rel="canonical" href="http://www.sundayle.com/percona-xtrabackup-configuration-master-slave-replication/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,14 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#iis" title="iis">iis</a>
+                          <a class="tag" href="/tags/#mysql" title="mysql">mysql</a>
                         
                     </div>
-                    <h1>IIS 8.5 隐藏 X-Powered-By 及 X-Powered-By 信息</h1>
+                    <h1>Percona-xtrabackup 在线配置主从复制</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sunday on
-                        2018-09-14
+                        2019-02-19
                     </span>
                 </div>
             </div>
@@ -191,11 +191,21 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="Before"><a href="#Before" class="headerlink" title="Before"></a>Before</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -I net.sundayle.com</span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">Content-<span class="string">Length:</span> <span class="number">206</span></span><br><span class="line">Content-<span class="string">Type:</span> text/html</span><br><span class="line">Last-<span class="string">Modified:</span> Tue, <span class="number">26</span> Dec <span class="number">2017</span> <span class="number">07</span>:<span class="number">15</span>:<span class="number">34</span> GMT</span><br><span class="line">Accept-<span class="string">Ranges:</span> bytes</span><br><span class="line"><span class="string">ETag:</span> <span class="string">"b3754052197ed31:0"</span></span><br><span class="line"><span class="string">Server:</span> Microsoft-IIS/<span class="number">8.5</span></span><br><span class="line">X-Powered-<span class="string">By:</span> ASP.NET</span><br><span class="line"><span class="string">Date:</span> Fri, <span class="number">14</span> Sep <span class="number">2018</span> <span class="number">06</span>:<span class="number">08</span>:<span class="number">04</span> GMT</span><br></pre></td></tr></table></figure>
-<h1 id="隐藏-SERVER-HEADER"><a href="#隐藏-SERVER-HEADER" class="headerlink" title="隐藏 SERVER HEADER"></a>隐藏 SERVER HEADER</h1><p>安装URL重写模块 <a href="https://www.iis.net/downloads/microsoft/url-rewrite" target="_blank" rel="noopener">https://www.iis.net/downloads/microsoft/url-rewrite</a><br>注：请在主页操作，网站的站点会继承的全局设置。如在网站的站点设置过，则不会继承。</p>
-<p>主页 - URL重写 - 新建空白规则 - 名称： Remove Server Info - 匹配范围： 服务器变量 - 变量名称：RESPONSE_Server - 模式: .+ - 操作属性 值：APACHE-SERVER - 其他默认<br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-14-25.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-15-22.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-15-47.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-16-59.jpg"></p>
-<h1 id="隐藏-X-Powered-By"><a href="#隐藏-X-Powered-By" class="headerlink" title="隐藏 X-Powered-By"></a>隐藏 X-Powered-By</h1><p>主页 - HTTP响应标头 - 修改 X-Powered-By 值<br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-18-34.jpg"><br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-09-14_14-19-32.jpg"></p>
-<h1 id="After"><a href="#After" class="headerlink" title="After"></a>After</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -I net.sundayle.com</span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">Content-<span class="string">Length:</span> <span class="number">206</span></span><br><span class="line">Content-<span class="string">Type:</span> text/html</span><br><span class="line">Last-<span class="string">Modified:</span> Tue, <span class="number">26</span> Dec <span class="number">2017</span> <span class="number">07</span>:<span class="number">15</span>:<span class="number">34</span> GMT</span><br><span class="line">Accept-<span class="string">Ranges:</span> bytes</span><br><span class="line"><span class="string">ETag:</span> <span class="string">"b3754052197ed31:0"</span></span><br><span class="line"><span class="string">Server:</span> APACHE-SERVER</span><br><span class="line">X-Powered-<span class="string">By:</span> APACHE-SERVER</span><br><span class="line"><span class="string">Date:</span> Fri, <span class="number">14</span> Sep <span class="number">2018</span> <span class="number">06</span>:<span class="number">08</span>:<span class="number">04</span> GMT</span><br></pre></td></tr></table></figure>
+                <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-<span class="builtin-name">get</span> install percona-xtrabackup-24</span><br></pre></td></tr></table></figure>
+<h1 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h1><h2 id="备份指定库-（多库用空格隔开）"><a href="#备份指定库-（多库用空格隔开）" class="headerlink" title="备份指定库 （多库用空格隔开）"></a>备份指定库 （多库用空格隔开）</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">innobackupex <span class="attribute">--defaults-file</span>=/etc/my.cnf <span class="attribute">--socket</span>=/tmp/mysql.sock <span class="attribute">--user</span>=root \</span><br><span class="line"><span class="attribute">--password</span>=xxx <span class="attribute">--parallel</span>=4 <span class="attribute">--databases</span>=<span class="string">"mall_amusic im_amusic"</span> /root/backup</span><br></pre></td></tr></table></figure>
+<h2 id="备份所有库"><a href="#备份所有库" class="headerlink" title="备份所有库"></a>备份所有库</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">innobackupex <span class="attribute">--defaults-file</span>=/etc/my.cnf <span class="attribute">--socket</span>=/tmp/mysql.sock <span class="attribute">--user</span>=root \</span><br><span class="line"><span class="attribute">--password</span>=xxx <span class="attribute">--parallel</span>=4  /root/backup</span><br></pre></td></tr></table></figure>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls -l /root/backup/</span><br><span class="line">total 4</span><br><span class="line">drwxr-x--- 6 root root 4096 Jan 30 01:01 2019<span class="string">-01</span><span class="string">-30</span>_00<span class="string">-57</span><span class="string">-25</span></span><br></pre></td></tr></table></figure>
+<h2 id="保持事务一致性"><a href="#保持事务一致性" class="headerlink" title="保持事务一致性"></a>保持事务一致性</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">innobackupex <span class="attribute">--defaults-file</span>=/etc/my.cnf <span class="attribute">--socket</span>=/tmp/mysql.sock  <span class="attribute">--user</span>=root \</span><br><span class="line"><span class="attribute">--password</span>=xxx --apply-log /root/backup/2019-01-30_00-57-25/</span><br></pre></td></tr></table></figure>
+<h2 id="传输"><a href="#传输" class="headerlink" title="传输"></a>传输</h2><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -r -P <span class="number">25680</span> <span class="number">2019</span>-<span class="number">01</span>-<span class="number">30_00</span>-<span class="number">57</span>-<span class="number">25</span> sunday<span class="variable">@192</span>.<span class="number">168.1</span>.<span class="number">91</span><span class="symbol">:/home/sunday/</span></span><br></pre></td></tr></table></figure>
+<h2 id="从库恢复"><a href="#从库恢复" class="headerlink" title="从库恢复"></a>从库恢复</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">innobackupex --datadir=/data/mysql/<span class="number">3306</span> --copy-back /home/sunday/<span class="number">2019</span><span class="number">-01</span><span class="number">-30</span>_00<span class="number">-57</span><span class="number">-25</span>/</span><br></pre></td></tr></table></figure>
+<h2 id="修复权限"><a href="#修复权限" class="headerlink" title="修复权限"></a>修复权限</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">chown</span> -<span class="type">R</span> mysql.mysql /<span class="class"><span class="keyword">data</span>/mysql/3306</span></span><br></pre></td></tr></table></figure>
+<h1 id="主从复制配置"><a href="#主从复制配置" class="headerlink" title="主从复制配置"></a>主从复制配置</h1><h2 id="主库授权"><a href="#主库授权" class="headerlink" title="主库授权"></a>主库授权</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">replication</span> <span class="keyword">slave</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="keyword">slave</span>@<span class="string">'192.168.1.9%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'slave'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="从库查看xtrabackup-binlog-info-gtid-purged"><a href="#从库查看xtrabackup-binlog-info-gtid-purged" class="headerlink" title="从库查看xtrabackup_binlog_info gtid_purged"></a>从库查看xtrabackup_binlog_info gtid_purged</h2><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat /data/mysql/<span class="number">3306</span>/xtrabackup_binlog_info </span><br><span class="line">mysql-bin.000033    <span class="number">71601523</span>    4d83ee2d-11ad-<span class="number">11e9</span>-953c-1866dae7c89c:<span class="number">1</span>-<span class="number">4522979</span>,</span><br><span class="line">6c679363-11a5-<span class="number">11e9</span>-<span class="number">8b86</span>-1866dae7c89c:<span class="number">1</span>-<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h2 id="从库修改GTID-PURGE"><a href="#从库修改GTID-PURGE" class="headerlink" title="从库修改GTID_PURGE"></a>从库修改GTID_PURGE</h2><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; reset slave all<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>mysql &gt; reset master;<br>mysql &gt; SET GLOBAL GTID_PURGED=’4d83ee2d-11ad-11e9-953c-1866dae7c89c:1-4522979,6c679363-11a5-11e9-8b86-1866dae7c89c:1-2’<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 从库连接主库</span></span></span><br></pre></td></tr></table></figure></p>
+<p>change master to master_host=’192.168.1.91’,master_user=’slave’,master_password=’slave’,\<br>master_port=3306,master_auto_position=1<br>start slave;<br>show slave status\G;<br><code>`</code></p>
+<p><a href="https://wsgzao.github.io/post/xtrabackup/" target="_blank" rel="noopener">https://wsgzao.github.io/post/xtrabackup/</a></p>
+
 
                 <hr>
 
@@ -203,13 +213,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/sql-server-replication/" data-toggle="tooltip" data-placement="top" title="Windows SQL Server 主从复制">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/fastdfs-cluster/" data-toggle="tooltip" data-placement="top" title="FastDFS 分布式存储集群部署">Next Post &rarr;</a>
+                            <a href="/nginx-ip-whitelist-reverse-proxy/" data-toggle="tooltip" data-placement="top" title="NGINX IP白名单 反向代理">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -250,7 +256,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#iis" title="iis">iis</a>
+                          <a class="tag" href="/tags/#mysql" title="mysql">mysql</a>
                         
                     </div>
                 </section>
