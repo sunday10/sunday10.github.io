@@ -125,23 +125,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/nginx-proxy-65535-port/</loc>
-    <lastmod>2019-01-08T02:38:55.541Z</lastmod>
-    <data>
-        <display>
-        <title>Nginx 代理突破65535端口</title>
-        <pubTime>2019-01-06T06:55:53.000Z</pubTime>
-        
-        <tag>nginx</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/pt-table-checksum/</loc>
     <lastmod>2019-01-03T07:11:25.561Z</lastmod>
     <data>
@@ -243,6 +226,23 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
+    <data>
+        <display>
+        <title>Python 编码</title>
+        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/python-decorator/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
@@ -270,23 +270,6 @@
         <tag>docker</tag>
          
         <tag>kubernetes</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
-    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
-    <data>
-        <display>
-        <title>Python 编码</title>
-        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
-        
-        <tag>python</tag>
          
          
            
@@ -2053,9 +2036,9 @@
         
         <tag>mysql</tag>
          
-        <tag>gtid</tag>
-         
         <tag>1062</tag>
+         
+        <tag>gtid</tag>
          
          
            

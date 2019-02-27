@@ -90,6 +90,13 @@
 
                         
                         <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/tags/">Tags</a>
                         </li>
                         
@@ -98,13 +105,6 @@
                         
                         <li>
                             <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -181,32 +181,6 @@
             
                 <!-- Main Content -->
 
-
-<div class="post-preview">
-
-    <a href="/linux-performance-test/">
-        <h2 class="post-title">
-            Linux 性能测试实践
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-CPU确认CPU型号123lscpu | grep "Model name"Model name:            Intel(R) Xeon(R) CPU E5-2609 v4 @ 1.70GHz
-Super PI
-计算时间越短越好
-
-12345678910111213 time echo "scale=500;4*a(1)"|bc -l -q3.14159265358979323......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-20
-    </p>
-
-</div>
-<hr>
 
 <div class="post-preview">
 
@@ -409,6 +383,27 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
 </div>
 <hr>
 
+<div class="post-preview">
+
+    <a href="/haproxy-optimization/">
+        <h2 class="post-title">
+            使用 HAProxy 负载均衡300k并发tcp连接
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            我最近正在尝试建立一个推送系统。为了提高系统的可扩展性，最佳做法是使每个连接尽可能无状态。因此，当出现瓶颈时，通过添加更多机器可以轻松扩展整个系统的容量。说到负载平衡和反向代理，Nginx可能是最着名和最公认的。但是，TCP代理是一个相当新的事情。 Nginx从v1.9引入了TCP负载均衡和反向代理，v1.9于今年5月下旬发布，具有大量缺失功能。另一方面，HAProxy作为TCP加载bala......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-06-26
+    </p>
+
+</div>
+<hr>
+
 
 
 <!-- Pager -->
@@ -460,19 +455,21 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                        
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
@@ -488,11 +485,11 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
@@ -506,17 +503,17 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                            
+                        
+                            
                             <a href="/tags/#haproxy" title="haproxy" rel="3">haproxy</a>
                             
                         
                             
                             <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -530,11 +527,7 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
-                            
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
-                        
                             
                         
                             
@@ -546,21 +539,27 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
                             
                         
                             
@@ -572,11 +571,9 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
                             
                         
-                            
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
                             
                         
                             
@@ -584,27 +581,15 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="17">nginx</a>
                             
                         
                             
                             <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
-                            
-                        
-                            
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#php" title="php" rel="2">php</a>
                             
                         
                             
@@ -630,11 +615,27 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
                             
                         
                             
+                        
+                            
+                        
+                            
+                            <a href="/tags/#php" title="php" rel="2">php</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                            
+                        
                             
                         
                             
@@ -654,25 +655,13 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
-                            
-                        
                             
                         
                             
@@ -695,6 +684,12 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

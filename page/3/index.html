@@ -90,6 +90,13 @@
 
                         
                         <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/tags/">Tags</a>
                         </li>
                         
@@ -98,13 +105,6 @@
                         
                         <li>
                             <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -181,28 +181,6 @@
             
                 <!-- Main Content -->
 
-
-<div class="post-preview">
-
-    <a href="/linux-overcommit-oom-killer/">
-        <h2 class="post-title">
-            Linux  overcommit 及 oom-killer 机制
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            通常是因为某时刻应用程序大量请求内存导致系统内存不足造成的，这通常会触发 Linux 内核里的 Out of Memory (OOM) killer，OOM killer 会杀掉某个进程(用户态进程，不是内核线程)以腾出内存留给系统用，不致于让系统立刻崩溃。
-overcommitLinux 内核根据应用程序的要求分配内存，通常来说应用程序分配了内存但是并没有实际全部使用，为了提高性能，这部分......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-15
-    </p>
-
-</div>
-<hr>
 
 <div class="post-preview">
 
@@ -406,6 +384,28 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
 </div>
 <hr>
 
+<div class="post-preview">
+
+    <a href="/fastdfs-cluster/">
+        <h2 class="post-title">
+            FastDFS 分布式存储集群部署
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            FastDFS是一个开源的轻量级分布式文件系统，它对文件进行管理，功能包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了大容量存储和负载均衡的问题。特别适合以文件为载体的在线服务，如相册网站、视频网站等等。
+FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、线性扩容等机制，并注重高可用、高性能等指标，使用FastDFS很容易搭建一套高性能的文件服务器集群提供文件上......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-10
+    </p>
+
+</div>
+<hr>
+
 
 
 <!-- Pager -->
@@ -457,19 +457,21 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                        
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
@@ -485,11 +487,11 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
@@ -503,17 +505,17 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                            
+                        
+                            
                             <a href="/tags/#haproxy" title="haproxy" rel="3">haproxy</a>
                             
                         
                             
                             <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -527,11 +529,7 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                        
-                            
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
-                        
                             
                         
                             
@@ -543,21 +541,27 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
                             
                         
                             
@@ -569,11 +573,9 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
                             
                         
-                            
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
                             
                         
                             
@@ -581,27 +583,15 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="17">nginx</a>
                             
                         
                             
                             <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
-                            
-                        
-                            
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#php" title="php" rel="2">php</a>
                             
                         
                             
@@ -627,11 +617,27 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
                             
                         
                             
+                        
+                            
+                        
+                            
+                            <a href="/tags/#php" title="php" rel="2">php</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                            
+                        
                             
                         
                             
@@ -651,25 +657,13 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
-                            
-                        
                             
                         
                             
@@ -692,6 +686,12 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                         
                             
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
