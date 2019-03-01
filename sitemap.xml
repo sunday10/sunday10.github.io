@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/nginx-proxy-65535-port/</loc>
+    
+    <lastmod>2019-03-01T02:57:11.615Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/percona-xtrabackup-configuration-master-slave-replication/</loc>
     
     <lastmod>2019-02-19T08:54:20.817Z</lastmod>
@@ -100,14 +107,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
