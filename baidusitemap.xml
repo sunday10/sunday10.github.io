@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://www.sundayle.com/nginx-proxy-65535-port/</loc>
-    <lastmod>2019-03-01T02:57:11.615Z</lastmod>
+    <lastmod>2019-03-01T03:08:14.271Z</lastmod>
     <data>
         <display>
         <title>Nginx使用proxy_bind负载tcp socket，解决代理端口耗尽</title>
@@ -28,6 +28,8 @@
         <title>使用Xtrabackup在线配置MySQL主从复制</title>
         <pubTime>2019-02-19T08:20:51.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
          
            
         </display>
@@ -43,6 +45,8 @@
         <title>NGINX IP白名单 反向代理</title>
         <pubTime>2019-02-13T09:00:38.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
          
            
         </display>
@@ -58,6 +62,8 @@
         <title>CentOS 7 php curl 微信支付接口 超时</title>
         <pubTime>2019-02-13T08:07:04.000Z</pubTime>
         
+        <tag>php</tag>
+         
          
            
         </display>
@@ -73,6 +79,10 @@
         <title>CentOS 7 与 华为交换机 端口汇聚 LACP BONDING</title>
         <pubTime>2018-12-26T07:40:51.000Z</pubTime>
         
+        <tag>bonding</tag>
+         
+        <tag>lacp</tag>
+         
          
            
         </display>
@@ -88,6 +98,8 @@
         <title>CentOS 7  Firewalld防火墙管理工具</title>
         <pubTime>2018-08-07T06:18:35.000Z</pubTime>
         
+        <tag>防火墙</tag>
+         
          
            
         </display>
@@ -103,6 +115,8 @@
         <title>CentOS 7 升级 4.19 内核</title>
         <pubTime>2018-12-29T07:05:23.000Z</pubTime>
         
+        <tag>kernel</tag>
+         
          
            
         </display>
@@ -118,6 +132,8 @@
         <title>Docker 企业级私有镜像仓库 Harbor 部署</title>
         <pubTime>2018-12-28T05:37:30.000Z</pubTime>
         
+        <tag>docker</tag>
+         
          
            
         </display>
@@ -133,8 +149,13 @@
         <title>使用 pt-table-sync 修复MySQL主从数据不一致</title>
         <pubTime>2018-06-25T06:23:18.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
          
            
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
         </display>
     </data>
     </url>
@@ -178,6 +199,8 @@
         <title>kubernetes 基础知识</title>
         <pubTime>2018-12-08T16:15:06.000Z</pubTime>
         
+        <tag>kubernetes</tag>
+         
          
            
         </display>
@@ -193,6 +216,8 @@
         <title>Docker(一)：Docker入门</title>
         <pubTime>2018-10-15T14:29:07.000Z</pubTime>
         
+        <tag>docker</tag>
+         
          
            
         </display>
@@ -208,36 +233,8 @@
         <title>Linux 快速查看目录大小</title>
         <pubTime>2018-12-07T02:06:24.000Z</pubTime>
         
+        <tag>du</tag>
          
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
-    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
-    <data>
-        <display>
-        <title>Python 编码</title>
-        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
-    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
-    <data>
-        <display>
-        <title>基于kubeadm方式部署kubernetes v1.12.1</title>
-        <pubTime>2018-10-22T09:38:40.000Z</pubTime>
-        
          
            
         </display>
@@ -253,6 +250,44 @@
         <title>Python 装饰器</title>
         <pubTime>2018-08-22T14:31:30.000Z</pubTime>
         
+        <tag>python</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
+    <data>
+        <display>
+        <title>Python 编码</title>
+        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
+    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
+    <data>
+        <display>
+        <title>基于kubeadm方式部署kubernetes v1.12.1</title>
+        <pubTime>2018-10-22T09:38:40.000Z</pubTime>
+        
+        <tag>docker</tag>
+         
+        <tag>kubernetes</tag>
+         
          
            
         </display>
@@ -268,6 +303,8 @@
         <title>Nginx 高并发限流模块 limit_conn_module limit_req_module</title>
         <pubTime>2018-10-22T02:33:41.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
          
            
         </display>
@@ -283,6 +320,8 @@
         <title>RabbitMQ 集群搭建</title>
         <pubTime>2018-11-01T07:31:53.000Z</pubTime>
         
+        <tag>rabbitmq</tag>
+         
          
            
         </display>
@@ -298,6 +337,10 @@
         <title>Keepalived 编译及配置文件详解</title>
         <pubTime>2018-08-09T03:50:39.000Z</pubTime>
         
+        <tag>高可用</tag>
+         
+        <tag>keepalived</tag>
+         
          
            
         </display>
@@ -313,6 +356,10 @@
         <title>yum apt-get 安装指定版本</title>
         <pubTime>2018-11-20T07:30:47.000Z</pubTime>
         
+        <tag>apt-get</tag>
+         
+        <tag>yum</tag>
+         
          
            
         </display>
@@ -328,6 +375,8 @@
         <title>Ubuntu 16.04 KVM 安装 Windows Server 2012</title>
         <pubTime>2018-10-12T06:35:17.000Z</pubTime>
         
+        <tag>kvm</tag>
+         
          
            
         </display>
@@ -343,6 +392,10 @@
         <title>Nginx 反向代理二级目录带参数</title>
         <pubTime>2018-11-16T08:02:52.000Z</pubTime>
         
+        <tag>jenkins</tag>
+         
+        <tag>nginx</tag>
+         
          
            
         </display>
@@ -358,6 +411,10 @@
         <title>HAProxy 反向代理的使用</title>
         <pubTime>2018-06-26T03:55:02.000Z</pubTime>
         
+        <tag>haproxy</tag>
+         
+        <tag>高性能</tag>
+         
          
            
         </display>
@@ -373,6 +430,10 @@
         <title>我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？</title>
         <pubTime>2018-06-26T07:09:45.000Z</pubTime>
         
+        <tag>haproxy</tag>
+         
+        <tag>高性能</tag>
+         
          
            
         </display>
@@ -388,6 +449,8 @@
         <title>Redis 3.2 安装及主从复制详细配置</title>
         <pubTime>2018-09-28T02:27:19.000Z</pubTime>
         
+        <tag>redis</tag>
+         
          
            
         </display>
@@ -403,6 +466,8 @@
         <title>使用Nginx转发TCP/UDP端口</title>
         <pubTime>2018-10-24T08:03:04.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
          
            
         </display>
@@ -418,6 +483,8 @@
         <title>Docker(二)：Dockerfile 使用详情</title>
         <pubTime>2018-10-15T16:12:44.000Z</pubTime>
         
+        <tag>docker</tag>
+         
          
            
         </display>
@@ -433,6 +500,8 @@
         <title>Nginx 日志统计命令</title>
         <pubTime>2018-10-22T08:48:22.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
          
            
         </display>
@@ -448,6 +517,8 @@
         <title>Linux sar 命令</title>
         <pubTime>2017-10-19T03:04:43.000Z</pubTime>
         
+        <tag>监控</tag>
+         
          
            
         </display>
@@ -463,6 +534,8 @@
         <title>Linux 手动清除缓存 drop_cahces</title>
         <pubTime>2018-10-15T04:02:10.000Z</pubTime>
         
+        <tag>cache</tag>
+         
          
            
         </display>
@@ -478,6 +551,10 @@
         <title>Linux  overcommit 及 oom-killer 机制</title>
         <pubTime>2018-10-15T06:11:23.000Z</pubTime>
         
+        <tag>overcommit</tag>
+         
+        <tag>oom-killer</tag>
+         
          
            
         </display>
@@ -493,6 +570,8 @@
         <title>Linux 性能优化之 IO 子系统</title>
         <pubTime>2017-08-08T03:05:21.000Z</pubTime>
         
+        <tag>性能优化</tag>
+         
          
            
         </display>
@@ -508,6 +587,8 @@
         <title>Apache Benchmark ab wrk 压力测试工具使用</title>
         <pubTime>2017-05-19T09:47:20.000Z</pubTime>
         
+        <tag>压力测试</tag>
+         
          
            
         </display>
@@ -523,6 +604,10 @@
         <title>Linux 查看进程启动时间</title>
         <pubTime>2018-08-16T05:11:48.000Z</pubTime>
         
+        <tag>进程</tag>
+         
+        <tag>启动时间</tag>
+         
          
            
         </display>
@@ -538,6 +623,10 @@
         <title>FastDFS 分布式存储集群部署</title>
         <pubTime>2018-09-10T10:23:32.000Z</pubTime>
         
+        <tag>fastdfs</tag>
+         
+        <tag>分布式</tag>
+         
          
            
         </display>
@@ -553,6 +642,8 @@
         <title>Nginx 平滑升级</title>
         <pubTime>2018-10-12T09:39:01.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
          
            
         </display>
@@ -568,6 +659,10 @@
         <title>企业级分布式存储 Glusterfs</title>
         <pubTime>2018-08-23T07:41:57.000Z</pubTime>
         
+        <tag>分布式</tag>
+         
+        <tag>glusterfs</tag>
+         
          
            
         </display>
@@ -583,6 +678,10 @@
         <title>分布式文件系统FastDFS详解</title>
         <pubTime>2018-09-10T04:10:32.000Z</pubTime>
         
+        <tag>fastdfs</tag>
+         
+        <tag>分布式</tag>
+         
          
            
         </display>
@@ -628,6 +727,10 @@
         <title>MogileFS 分布式存储</title>
         <pubTime>2018-09-07T02:47:57.000Z</pubTime>
         
+        <tag>分布式</tag>
+         
+        <tag>mogilefs</tag>
+         
          
            
         </display>
@@ -658,6 +761,8 @@
         <title>IIS 8.5 高并发配置</title>
         <pubTime>2018-09-30T08:48:37.000Z</pubTime>
         
+        <tag>iis</tag>
+         
          
            
         </display>
@@ -673,6 +778,8 @@
         <title>IIS 8.5 隐藏 X-Powered-By 及 X-Powered-By 信息</title>
         <pubTime>2018-09-14T06:02:48.000Z</pubTime>
         
+        <tag>iis</tag>
+         
          
            
         </display>
@@ -688,6 +795,10 @@
         <title>使用 Ansible Playbooks</title>
         <pubTime>2018-05-18T07:11:47.000Z</pubTime>
         
+        <tag>ansible</tag>
+         
+        <tag>自动化</tag>
+         
          
            
         </display>
@@ -703,6 +814,8 @@
         <title>Nginx 配置优化</title>
         <pubTime>2017-04-14T05:21:10.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
          
            
         </display>
@@ -718,6 +831,10 @@
         <title>基于 GlusterFS 实现 Docker 集群的分布式存储</title>
         <pubTime>2018-08-22T04:05:51.000Z</pubTime>
         
+        <tag>分布式文件系统</tag>
+         
+        <tag>glusterfs</tag>
+         
          
            
         </display>
@@ -733,6 +850,8 @@
         <title>LVM逻辑卷管理配置</title>
         <pubTime>2018-08-23T03:43:24.000Z</pubTime>
         
+        <tag>lvm</tag>
+         
          
            
         </display>
@@ -748,6 +867,8 @@
         <title>Python中的深拷贝和浅拷贝</title>
         <pubTime>2018-08-20T17:12:31.000Z</pubTime>
         
+        <tag>python</tag>
+         
          
            
         </display>
@@ -763,6 +884,8 @@
         <title>Web 压力测试工具 Webbench</title>
         <pubTime>2017-05-19T09:47:20.000Z</pubTime>
         
+        <tag>压力测试</tag>
+         
          
            
         </display>
@@ -778,6 +901,8 @@
         <title>Nmap 渗透使用指南</title>
         <pubTime>2018-08-21T08:13:21.000Z</pubTime>
         
+        <tag>nmap</tag>
+         
          
            
         </display>
@@ -793,6 +918,8 @@
         <title>配置 Sysctl 和 Iptables 防攻击</title>
         <pubTime>2018-08-20T01:44:29.000Z</pubTime>
         
+        <tag>iptables</tag>
+         
          
            
         </display>
@@ -808,8 +935,13 @@
         <title>使用 fail2ban 防范暴力破解ssh vsftp 与CC攻击</title>
         <pubTime>2018-06-11T04:09:10.000Z</pubTime>
         
+        <tag>fail2ban</tag>
+         
          
            
+             
+              <breadCrumb title="fail2ban" url="http://www.sundayle.com/categories/fail2ban/"/>
+          
         </display>
     </data>
     </url>
@@ -823,6 +955,8 @@
         <title>Python学习笔记</title>
         <pubTime>2018-08-20T15:01:33.000Z</pubTime>
         
+        <tag>python</tag>
+         
          
            
         </display>
@@ -838,8 +972,17 @@
         <title>配置iptables、ufw端口转发</title>
         <pubTime>2017-10-11T07:33:16.000Z</pubTime>
         
+        <tag>防火墙</tag>
+         
+        <tag>ufw</tag>
+         
+        <tag>iptables</tag>
+         
          
            
+             
+              <breadCrumb title="iptables" url="http://www.sundayle.com/categories/iptables/"/>
+          
         </display>
     </data>
     </url>
@@ -853,6 +996,8 @@
         <title>常用shell查询命令</title>
         <pubTime>2017-04-11T02:40:07.000Z</pubTime>
         
+        <tag>shell</tag>
+         
          
            
         </display>
@@ -868,6 +1013,10 @@
         <title>Linux下如何知道http并发和tcp连接数量</title>
         <pubTime>2017-05-19T14:49:13.000Z</pubTime>
         
+        <tag>并发</tag>
+         
+        <tag>tcp</tag>
+         
          
            
         </display>
@@ -883,6 +1032,8 @@
         <title>vmstat 命令</title>
         <pubTime>2017-05-30T15:39:16.000Z</pubTime>
         
+        <tag>vmstat</tag>
+         
          
            
         </display>
@@ -898,6 +1049,8 @@
         <title>Nginx 域名判断</title>
         <pubTime>2018-08-16T05:54:54.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
          
            
         </display>
@@ -928,8 +1081,15 @@
         <title>负载均衡集群 LVS 详解</title>
         <pubTime>2018-08-07T07:47:27.000Z</pubTime>
         
+        <tag>高性能</tag>
+         
+        <tag>lvs</tag>
+         
          
            
+             
+              <breadCrumb title="lvs" url="http://www.sundayle.com/categories/lvs/"/>
+          
         </display>
     </data>
     </url>
@@ -943,6 +1103,10 @@
         <title>Keepalived Nginx双网络(内外网)故障非同步漂移双主模式</title>
         <pubTime>2018-08-13T10:15:42.000Z</pubTime>
         
+        <tag>keepalived</tag>
+         
+        <tag>nginx</tag>
+         
          
            
         </display>
@@ -958,6 +1122,8 @@
         <title>高可用集群基本概念</title>
         <pubTime>2018-08-07T15:43:24.000Z</pubTime>
         
+        <tag>高可用</tag>
+         
          
            
         </display>
@@ -988,6 +1154,12 @@
         <title>Keepalived + LVS-DR Nginx 双主高可用</title>
         <pubTime>2018-08-09T10:56:48.000Z</pubTime>
         
+        <tag>高可用</tag>
+         
+        <tag>keepalived</tag>
+         
+        <tag>lvs</tag>
+         
          
            
         </display>
@@ -1003,8 +1175,13 @@
         <title>CentOS 7 部署Google BBR</title>
         <pubTime>2017-10-24T16:04:25.000Z</pubTime>
         
+        <tag>bbr</tag>
+         
          
            
+             
+              <breadCrumb title="shadowsocks" url="http://www.sundayle.com/categories/shadowsocks/"/>
+          
         </display>
     </data>
     </url>
@@ -1018,8 +1195,13 @@
         <title>OpenStack 入门实践</title>
         <pubTime>2018-07-12T15:35:01.000Z</pubTime>
         
+        <tag>openstack</tag>
+         
          
            
+             
+              <breadCrumb title="openstack" url="http://www.sundayle.com/categories/openstack/"/>
+          
         </display>
     </data>
     </url>
@@ -1033,8 +1215,13 @@
         <title>mongodb 3.4 集群搭建：分片+副本集</title>
         <pubTime>2018-05-17T15:24:04.000Z</pubTime>
         
+        <tag>mongodb</tag>
+         
          
            
+             
+              <breadCrumb title="mongodb" url="http://www.sundayle.com/categories/mongodb/"/>
+          
         </display>
     </data>
     </url>
@@ -1048,8 +1235,13 @@
         <title>Find命令之xargs、exec</title>
         <pubTime>2018-06-25T15:04:50.000Z</pubTime>
         
+        <tag>find</tag>
+         
          
            
+             
+              <breadCrumb title="find" url="http://www.sundayle.com/categories/find/"/>
+          
         </display>
     </data>
     </url>
@@ -1063,8 +1255,13 @@
         <title>文本处理工具 Grep</title>
         <pubTime>2018-02-22T16:19:59.000Z</pubTime>
         
+        <tag>grep</tag>
+         
          
            
+             
+              <breadCrumb title="grep" url="http://www.sundayle.com/categories/grep/"/>
+          
         </display>
     </data>
     </url>
@@ -1078,8 +1275,13 @@
         <title>Cobbler 自动化部署实践</title>
         <pubTime>2018-07-01T11:03:27.000Z</pubTime>
         
+        <tag>cobbler</tag>
+         
          
            
+             
+              <breadCrumb title="cobbler" url="http://www.sundayle.com/categories/cobbler/"/>
+          
         </display>
     </data>
     </url>
@@ -1093,8 +1295,13 @@
         <title>MySQL 修改字符集为utf8mb4</title>
         <pubTime>2018-02-28T15:20:13.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
          
            
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
         </display>
     </data>
     </url>
@@ -1108,8 +1315,15 @@
         <title>Linux 使用Rsync最快删除海量文件</title>
         <pubTime>2017-11-17T16:17:28.000Z</pubTime>
         
+        <tag>rsync</tag>
+         
+        <tag>delete</tag>
+         
          
            
+             
+              <breadCrumb title="rsync" url="http://www.sundayle.com/categories/rsync/"/>
+          
         </display>
     </data>
     </url>
@@ -1123,8 +1337,13 @@
         <title>正则表达式30分钟入门教程</title>
         <pubTime>2018-02-26T16:02:35.000Z</pubTime>
         
+        <tag>正则表达式</tag>
+         
          
            
+             
+              <breadCrumb title="正则表达式" url="http://www.sundayle.com/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+          
         </display>
     </data>
     </url>
@@ -1138,8 +1357,13 @@
         <title>Nginx 配置陷阱和常见错误</title>
         <pubTime>2017-10-13T08:53:19.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
          
            
+             
+              <breadCrumb title="nginx" url="http://www.sundayle.com/categories/nginx/"/>
+          
         </display>
     </data>
     </url>
@@ -1153,6 +1377,10 @@
         <title>Linux MySQL 优化</title>
         <pubTime>2017-08-08T02:49:38.000Z</pubTime>
         
+        <tag>性能优化</tag>
+         
+        <tag>mysql</tag>
+         
          
            
         </display>
@@ -1168,6 +1396,10 @@
         <title>Linux 中断和中断处理</title>
         <pubTime>2017-08-08T02:07:16.000Z</pubTime>
         
+        <tag>性能优化</tag>
+         
+        <tag>中断</tag>
+         
          
            
         </display>
@@ -1183,8 +1415,13 @@
         <title>CentOS 7 配置Shadowsocks-libev + simple-obfs</title>
         <pubTime>2017-10-24T15:30:22.000Z</pubTime>
         
+        <tag>shadowsocks</tag>
+         
          
            
+             
+              <breadCrumb title="shadowsocks" url="http://www.sundayle.com/categories/shadowsocks/"/>
+          
         </display>
     </data>
     </url>
@@ -1200,8 +1437,13 @@
         <title>使用 HAProxy 负载均衡300k并发tcp连接</title>
         <pubTime>2018-06-26T06:52:49.000Z</pubTime>
         
+        <tag>haproxy</tag>
+         
          
            
+             
+              <breadCrumb title="haproxy" url="http://www.sundayle.com/categories/haproxy/"/>
+          
         </display>
     </data>
     </url>
@@ -1215,8 +1457,15 @@
         <title>PHP 7 启用opcache及缓存清除</title>
         <pubTime>2018-08-01T02:15:51.000Z</pubTime>
         
+        <tag>php</tag>
+         
+        <tag>opcahce</tag>
+         
          
            
+             
+              <breadCrumb title="php" url="http://www.sundayle.com/categories/php/"/>
+          
         </display>
     </data>
     </url>
@@ -1230,8 +1479,13 @@
         <title>CentOS 7 使用tmpfs优化应用服务缓存读写速度</title>
         <pubTime>2018-08-01T01:43:32.000Z</pubTime>
         
+        <tag>tmpfs</tag>
+         
          
            
+             
+              <breadCrumb title="tmpfs" url="http://www.sundayle.com/categories/tmpfs/"/>
+          
         </display>
     </data>
     </url>
@@ -1245,8 +1499,17 @@
         <title>Maven私服Nexus3.x环境配置</title>
         <pubTime>2018-07-31T10:36:25.000Z</pubTime>
         
+        <tag>持续集成</tag>
+         
+        <tag>maven</tag>
+         
+        <tag>nexus</tag>
+         
          
            
+             
+              <breadCrumb title="maven" url="http://www.sundayle.com/categories/maven/"/>
+          
         </display>
     </data>
     </url>
@@ -1260,6 +1523,12 @@
         <title>持续集成 Jenkins Maven</title>
         <pubTime>2018-07-30T03:09:02.000Z</pubTime>
         
+        <tag>jenkins</tag>
+         
+        <tag>持续集成</tag>
+         
+        <tag>maven</tag>
+         
          
            
         </display>
@@ -1275,8 +1544,15 @@
         <title>持续集成 代码审查 Sonar</title>
         <pubTime>2018-07-26T08:59:24.000Z</pubTime>
         
+        <tag>持续集成</tag>
+         
+        <tag>sonar</tag>
+         
          
            
+             
+              <breadCrumb title="sonar" url="http://www.sundayle.com/categories/sonar/"/>
+          
         </display>
     </data>
     </url>
@@ -1290,8 +1566,15 @@
         <title>持续集成 Jenkins Gitlab</title>
         <pubTime>2018-07-25T10:23:23.000Z</pubTime>
         
+        <tag>jenkins</tag>
+         
+        <tag>持续集成</tag>
+         
          
            
+             
+              <breadCrumb title="jenkins" url="http://www.sundayle.com/categories/jenkins/"/>
+          
         </display>
     </data>
     </url>
@@ -1305,8 +1588,13 @@
         <title>Linux Bonding 多网卡汇聚</title>
         <pubTime>2018-07-24T09:36:23.000Z</pubTime>
         
+        <tag>bonding</tag>
+         
          
            
+             
+              <breadCrumb title="bonding" url="http://www.sundayle.com/categories/bonding/"/>
+          
         </display>
     </data>
     </url>
@@ -1320,8 +1608,13 @@
         <title>CentOS 7 Teaming 和 Bridge</title>
         <pubTime>2018-07-23T10:22:09.000Z</pubTime>
         
+        <tag>teaming</tag>
+         
          
            
+             
+              <breadCrumb title="bonding" url="http://www.sundayle.com/categories/bonding/"/>
+          
         </display>
     </data>
     </url>
@@ -1335,8 +1628,13 @@
         <title>Linux 性能测试实践</title>
         <pubTime>2018-07-20T08:00:06.000Z</pubTime>
         
+        <tag>性能优化</tag>
+         
          
            
+             
+              <breadCrumb title="性能优化" url="http://www.sundayle.com/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+          
         </display>
     </data>
     </url>
@@ -1350,8 +1648,13 @@
         <title>Tomcat 8.5 基于APR库性能优化</title>
         <pubTime>2018-07-12T04:11:00.000Z</pubTime>
         
+        <tag>tomcat</tag>
+         
          
            
+             
+              <breadCrumb title="tomcat" url="http://www.sundayle.com/categories/tomcat/"/>
+          
         </display>
     </data>
     </url>
@@ -1365,8 +1668,13 @@
         <title>Apache Tomcat 8.5 安全配置与高并发优化</title>
         <pubTime>2018-07-11T04:10:26.000Z</pubTime>
         
+        <tag>tomcat</tag>
+         
          
            
+             
+              <breadCrumb title="tomcat" url="http://www.sundayle.com/categories/tomcat/"/>
+          
         </display>
     </data>
     </url>
@@ -1380,8 +1688,13 @@
         <title>Linux Apache Tomcat 8.5 安装与配置</title>
         <pubTime>2018-07-07T16:37:20.000Z</pubTime>
         
+        <tag>tomcat</tag>
+         
          
            
+             
+              <breadCrumb title="tomcat" url="http://www.sundayle.com/categories/tomcat/"/>
+          
         </display>
     </data>
     </url>
@@ -1395,8 +1708,13 @@
         <title>Lsyncd实时同步搭建指南--取代rsync+inotify</title>
         <pubTime>2018-07-06T03:57:07.000Z</pubTime>
         
+        <tag>lsyncd</tag>
+         
          
            
+             
+              <breadCrumb title="rsync" url="http://www.sundayle.com/categories/rsync/"/>
+          
         </display>
     </data>
     </url>
@@ -1410,8 +1728,13 @@
         <title>Nginx proxy_set_header 理解</title>
         <pubTime>2018-07-04T04:09:54.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
          
            
+             
+              <breadCrumb title="nginx" url="http://www.sundayle.com/categories/nginx/"/>
+          
         </display>
     </data>
     </url>
@@ -1425,8 +1748,15 @@
         <title>Nginx 配置location总结及rewrite规则写法</title>
         <pubTime>2018-07-02T10:48:12.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
+        <tag>rewrite</tag>
+         
          
            
+             
+              <breadCrumb title="Nginx" url="http://www.sundayle.com/categories/Nginx/"/>
+          
         </display>
     </data>
     </url>
@@ -1440,6 +1770,8 @@
         <title>Linux 进程工具Top解析</title>
         <pubTime>2018-06-25T15:38:47.000Z</pubTime>
         
+        <tag>top</tag>
+         
          
            
         </display>
@@ -1455,8 +1787,15 @@
         <title>Nginx 输出在线日志</title>
         <pubTime>2018-05-31T04:06:28.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
+        <tag>日志</tag>
+         
          
            
+             
+              <breadCrumb title="nginx" url="http://www.sundayle.com/categories/nginx/"/>
+          
         </display>
     </data>
     </url>
@@ -1470,8 +1809,13 @@
         <title>Ubuntu 配置S-nail 使用QQ邮箱服务器</title>
         <pubTime>2018-05-22T06:07:59.000Z</pubTime>
         
+        <tag>mail</tag>
+         
          
            
+             
+              <breadCrumb title="mail" url="http://www.sundayle.com/categories/mail/"/>
+          
         </display>
     </data>
     </url>
@@ -1485,8 +1829,13 @@
         <title>Ansible 自动化工具使用</title>
         <pubTime>2018-05-18T05:26:25.000Z</pubTime>
         
+        <tag>ansible</tag>
+         
          
            
+             
+              <breadCrumb title="ansible" url="http://www.sundayle.com/categories/ansible/"/>
+          
         </display>
     </data>
     </url>
@@ -1500,8 +1849,13 @@
         <title>zabbix 3.4 监控入门实践</title>
         <pubTime>2018-05-18T01:50:32.000Z</pubTime>
         
+        <tag>zabbix</tag>
+         
          
            
+             
+              <breadCrumb title="zabbix" url="http://www.sundayle.com/categories/zabbix/"/>
+          
         </display>
     </data>
     </url>
@@ -1515,8 +1869,13 @@
         <title>mongodb集群监控和运维</title>
         <pubTime>2018-05-17T17:29:40.000Z</pubTime>
         
+        <tag>mongodb</tag>
+         
          
            
+             
+              <breadCrumb title="mongodb" url="http://www.sundayle.com/categories/mongodb/"/>
+          
         </display>
     </data>
     </url>
@@ -1530,8 +1889,13 @@
         <title>mongodb集群性能优化</title>
         <pubTime>2018-05-17T17:27:53.000Z</pubTime>
         
+        <tag>mongodb</tag>
+         
          
            
+             
+              <breadCrumb title="mongodb" url="http://www.sundayle.com/categories/mongodb/"/>
+          
         </display>
     </data>
     </url>
@@ -1545,8 +1909,13 @@
         <title>mongodb 3.4 集群搭建升级版 五台集群</title>
         <pubTime>2018-05-17T15:37:28.000Z</pubTime>
         
+        <tag>mongodb</tag>
+         
          
            
+             
+              <breadCrumb title="mongodb" url="http://www.sundayle.com/categories/mongodb/"/>
+          
         </display>
     </data>
     </url>
@@ -1560,8 +1929,13 @@
         <title>MongoDB命令</title>
         <pubTime>2018-05-16T14:18:45.000Z</pubTime>
         
+        <tag>mongodb</tag>
+         
          
            
+             
+              <breadCrumb title="mongodb" url="http://www.sundayle.com/categories/mongodb/"/>
+          
         </display>
     </data>
     </url>
@@ -1575,8 +1949,13 @@
         <title>MySQL 5.7 使用PMM监视和管理数据库</title>
         <pubTime>2018-05-14T07:52:55.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
          
            
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
         </display>
     </data>
     </url>
@@ -1590,8 +1969,13 @@
         <title>mysqlbinlog 恢复数据</title>
         <pubTime>2018-05-10T07:47:59.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
          
            
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
         </display>
     </data>
     </url>
@@ -1605,8 +1989,13 @@
         <title>xtrabackup备份和恢复</title>
         <pubTime>2018-05-09T05:17:31.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
          
            
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
         </display>
     </data>
     </url>
@@ -1620,8 +2009,13 @@
         <title>MySQL5.7的多源复制</title>
         <pubTime>2018-05-09T03:43:42.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
          
            
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
         </display>
     </data>
     </url>
@@ -1635,8 +2029,15 @@
         <title>MySQL 5.7 GTID在线切换</title>
         <pubTime>2018-05-09T03:31:36.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
+        <tag>gtid</tag>
+         
          
            
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
         </display>
     </data>
     </url>
@@ -1650,8 +2051,17 @@
         <title>Mysql 5.7 gtid主从复制错误处理</title>
         <pubTime>2018-04-24T04:22:16.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
+        <tag>gtid</tag>
+         
+        <tag>1062</tag>
+         
          
            
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
         </display>
     </data>
     </url>
@@ -1665,8 +2075,15 @@
         <title>MySQL 5.7 基于GTID及多线程主从复制</title>
         <pubTime>2018-04-20T02:05:11.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
+        <tag>主从复制</tag>
+         
          
            
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
         </display>
     </data>
     </url>
@@ -1680,8 +2097,13 @@
         <title>MySQL 多实例配置</title>
         <pubTime>2018-04-19T06:47:06.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
          
            
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
         </display>
     </data>
     </url>
@@ -1695,8 +2117,15 @@
         <title>KVM 虚拟化</title>
         <pubTime>2018-04-18T15:49:09.000Z</pubTime>
         
+        <tag>kvm</tag>
+         
+        <tag>虚拟化</tag>
+         
          
            
+             
+              <breadCrumb title="kvm" url="http://www.sundayle.com/categories/kvm/"/>
+          
         </display>
     </data>
     </url>
@@ -1710,8 +2139,15 @@
         <title>gitlab webhook 自动部署代码</title>
         <pubTime>2018-03-29T10:04:53.000Z</pubTime>
         
+        <tag>gitlab</tag>
+         
+        <tag>webhook</tag>
+         
          
            
+             
+              <breadCrumb title="gitlabs" url="http://www.sundayle.com/categories/gitlabs/"/>
+          
         </display>
     </data>
     </url>
@@ -1725,8 +2161,13 @@
         <title>Rsyncd 服务器配置</title>
         <pubTime>2018-03-29T09:36:05.000Z</pubTime>
         
+        <tag>rsync</tag>
+         
          
            
+             
+              <breadCrumb title="rsync" url="http://www.sundayle.com/categories/rsync/"/>
+          
         </display>
     </data>
     </url>
@@ -1740,8 +2181,13 @@
         <title>vsftp服务器配置</title>
         <pubTime>2018-03-29T09:28:49.000Z</pubTime>
         
+        <tag>vsftp</tag>
+         
          
            
+             
+              <breadCrumb title="vsftp" url="http://www.sundayle.com/categories/vsftp/"/>
+          
         </display>
     </data>
     </url>
@@ -1755,8 +2201,13 @@
         <title>Svn 版本系统安装</title>
         <pubTime>2018-03-29T08:54:21.000Z</pubTime>
         
+        <tag>svn</tag>
+         
          
            
+             
+              <breadCrumb title="svn" url="http://www.sundayle.com/categories/svn/"/>
+          
         </display>
     </data>
     </url>
@@ -1770,6 +2221,8 @@
         <title>Crontab 计划任务</title>
         <pubTime>2018-03-29T08:24:55.000Z</pubTime>
         
+        <tag>crontab</tag>
+         
          
            
         </display>
@@ -1785,8 +2238,15 @@
         <title>linux 常用压缩 解压命令</title>
         <pubTime>2018-03-29T08:06:29.000Z</pubTime>
         
+        <tag>tar</tag>
+         
+        <tag>zip</tag>
+         
          
            
+             
+              <breadCrumb title="tar" url="http://www.sundayle.com/categories/tar/"/>
+          
         </display>
     </data>
     </url>
@@ -1800,6 +2260,8 @@
         <title>开源资产管理软件 Snipe-IT</title>
         <pubTime>2018-03-29T07:39:38.000Z</pubTime>
         
+        <tag>snipe-it</tag>
+         
          
            
         </display>
@@ -1815,6 +2277,8 @@
         <title>Linux 开启 core dump</title>
         <pubTime>2018-02-27T09:30:51.000Z</pubTime>
         
+        <tag>coredump</tag>
+         
          
            
         </display>
@@ -1830,8 +2294,13 @@
         <title>文本处理工具 Sed</title>
         <pubTime>2018-02-22T16:26:37.000Z</pubTime>
         
+        <tag>sed</tag>
+         
          
            
+             
+              <breadCrumb title="sed" url="http://www.sundayle.com/categories/sed/"/>
+          
         </display>
     </data>
     </url>
@@ -1845,8 +2314,15 @@
         <title>ELK实时日志分析 Elasticsearch 插件</title>
         <pubTime>2018-01-30T07:23:49.000Z</pubTime>
         
+        <tag>elk</tag>
+         
+        <tag>elasticsearch</tag>
+         
          
            
+             
+              <breadCrumb title="elk" url="http://www.sundayle.com/categories/elk/"/>
+          
         </display>
     </data>
     </url>
@@ -1860,8 +2336,13 @@
         <title>CentOS 7 安装 Java</title>
         <pubTime>2018-01-30T03:03:41.000Z</pubTime>
         
+        <tag>java</tag>
+         
          
            
+             
+              <breadCrumb title="java" url="http://www.sundayle.com/categories/java/"/>
+          
         </display>
     </data>
     </url>
@@ -1875,8 +2356,15 @@
         <title>ELK+Filebeat+Kafka 日志分析</title>
         <pubTime>2018-01-30T05:58:49.000Z</pubTime>
         
+        <tag>elk</tag>
+         
+        <tag>kafka</tag>
+         
          
            
+             
+              <breadCrumb title="elk" url="http://www.sundayle.com/categories/elk/"/>
+          
         </display>
     </data>
     </url>
@@ -1890,8 +2378,13 @@
         <title>Linux 内核优化参数</title>
         <pubTime>2018-01-28T05:18:36.000Z</pubTime>
         
+        <tag>kernel</tag>
+         
          
            
+             
+              <breadCrumb title="性能优化" url="http://www.sundayle.com/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+          
         </display>
     </data>
     </url>
@@ -1905,8 +2398,13 @@
         <title>CentOS 7 启用 iptables 防火墙</title>
         <pubTime>2017-12-29T07:31:35.000Z</pubTime>
         
+        <tag>iptables</tag>
+         
          
            
+             
+              <breadCrumb title="iptables" url="http://www.sundayle.com/categories/iptables/"/>
+          
         </display>
     </data>
     </url>
@@ -1920,8 +2418,15 @@
         <title>Linux 防火墙 iptables详解</title>
         <pubTime>2017-12-29T06:31:35.000Z</pubTime>
         
+        <tag>防火墙</tag>
+         
+        <tag>iptables</tag>
+         
          
            
+             
+              <breadCrumb title="iptables" url="http://www.sundayle.com/categories/iptables/"/>
+          
         </display>
     </data>
     </url>
@@ -1935,8 +2440,13 @@
         <title>Percona MySQL 编译</title>
         <pubTime>2017-12-25T07:51:01.000Z</pubTime>
         
+        <tag>mysql</tag>
+         
          
            
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
         </display>
     </data>
     </url>
@@ -1950,8 +2460,13 @@
         <title>Nginx 编译</title>
         <pubTime>2017-12-25T07:02:23.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
          
            
+             
+              <breadCrumb title="nginx" url="http://www.sundayle.com/categories/nginx/"/>
+          
         </display>
     </data>
     </url>
@@ -1965,8 +2480,15 @@
         <title>更好的内存管理jemalloc</title>
         <pubTime>2017-12-25T06:26:44.000Z</pubTime>
         
+        <tag>性能优化</tag>
+         
+        <tag>jemalloc</tag>
+         
          
            
+             
+              <breadCrumb title="性能优化" url="http://www.sundayle.com/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+          
         </display>
     </data>
     </url>
@@ -1980,8 +2502,15 @@
         <title>Logrotate Nginx日志切割</title>
         <pubTime>2017-11-27T08:40:09.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
+        <tag>日志切割</tag>
+         
          
            
+             
+              <breadCrumb title="nginx" url="http://www.sundayle.com/categories/nginx/"/>
+          
         </display>
     </data>
     </url>
@@ -1995,8 +2524,13 @@
         <title>RAID阵列卡 MegaCli64 常用管理命令汇总</title>
         <pubTime>2017-11-27T03:15:09.000Z</pubTime>
         
+        <tag>raid</tag>
+         
          
            
+             
+              <breadCrumb title="raid" url="http://www.sundayle.com/categories/raid/"/>
+          
         </display>
     </data>
     </url>
@@ -2010,8 +2544,13 @@
         <title>Git 常用命令集合</title>
         <pubTime>2017-11-21T09:25:32.000Z</pubTime>
         
+        <tag>git</tag>
+         
          
            
+             
+              <breadCrumb title="git" url="http://www.sundayle.com/categories/git/"/>
+          
         </display>
     </data>
     </url>
@@ -2025,8 +2564,13 @@
         <title>Git 简易教程</title>
         <pubTime>2017-11-21T06:34:47.000Z</pubTime>
         
+        <tag>git</tag>
+         
          
            
+             
+              <breadCrumb title="git" url="http://www.sundayle.com/categories/git/"/>
+          
         </display>
     </data>
     </url>
@@ -2040,8 +2584,13 @@
         <title>Ubuntu 安装GitLab服务器</title>
         <pubTime>2017-11-17T17:08:39.000Z</pubTime>
         
+        <tag>gitlab</tag>
+         
          
            
+             
+              <breadCrumb title="gitlab" url="http://www.sundayle.com/categories/gitlab/"/>
+          
         </display>
     </data>
     </url>
@@ -2055,8 +2604,13 @@
         <title>NFS服务器安装与配置</title>
         <pubTime>2017-10-27T01:31:27.000Z</pubTime>
         
+        <tag>nfs</tag>
+         
          
            
+             
+              <breadCrumb title="nfs" url="http://www.sundayle.com/categories/nfs/"/>
+          
         </display>
     </data>
     </url>
@@ -2070,8 +2624,15 @@
         <title>Nginx  缓存与过期</title>
         <pubTime>2017-10-25T10:03:05.000Z</pubTime>
         
+        <tag>cache</tag>
+         
+        <tag>nginx</tag>
+         
          
            
+             
+              <breadCrumb title="nginx" url="http://www.sundayle.com/categories/nginx/"/>
+          
         </display>
     </data>
     </url>
@@ -2085,8 +2646,13 @@
         <title>使用acme.sh申请Let's Encrypt 泛域名野卡</title>
         <pubTime>2017-10-17T02:12:34.000Z</pubTime>
         
+        <tag>https</tag>
+         
          
            
+             
+              <breadCrumb title="https" url="http://www.sundayle.com/categories/https/"/>
+          
         </display>
     </data>
     </url>
@@ -2100,8 +2666,15 @@
         <title>Nginx 重定向和重写</title>
         <pubTime>2017-10-13T01:33:02.000Z</pubTime>
         
+        <tag>nginx</tag>
+         
+        <tag>rewrite</tag>
+         
          
            
+             
+              <breadCrumb title="nginx" url="http://www.sundayle.com/categories/nginx/"/>
+          
         </display>
     </data>
     </url>
@@ -2115,8 +2688,13 @@
         <title>CentOS 7 配置Shadowsocksr单服务器多用户 mudbjson模式</title>
         <pubTime>2017-10-12T09:33:03.000Z</pubTime>
         
+        <tag>shadowsocks</tag>
+         
          
            
+             
+              <breadCrumb title="shadowsocks" url="http://www.sundayle.com/categories/shadowsocks/"/>
+          
         </display>
     </data>
     </url>
@@ -2130,8 +2708,13 @@
         <title>Ubuntu 开启ufw防火墙的一些命令</title>
         <pubTime>2017-10-11T03:12:46.000Z</pubTime>
         
+        <tag>防火墙</tag>
+         
          
            
+             
+              <breadCrumb title="防火墙" url="http://www.sundayle.com/categories/%E9%98%B2%E7%81%AB%E5%A2%99/"/>
+          
         </display>
     </data>
     </url>
