@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,28 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/nginx-rewrite/">
+        <h2 class="post-title">
+            Nginx 重定向和重写
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            nginx 重定向、单个页面重定向、整个目录重定向以及全站重定向
+非www跳转到www1234567server &#123;    listen 80;    server_name domain.com www.domain.com;    if ($server_name != "www.domain.com") &#123;        rewrite ^/(.*)$ http:/......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-13
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -366,28 +388,6 @@ SMP 即 Symmetr......
 
 <div class="post-preview">
 
-    <a href="/apache-bench/">
-        <h2 class="post-title">
-            Apache Benchmark ab wrk 压力测试工具使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1[root@node1 ~]# ab -n 10000 -c 1000 http://www.sundayle.com/index.html
-其中－n表示请求数，－c表示并发数12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152This is Apach......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-05-19
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
     <a href="/webbench/">
         <h2 class="post-title">
             Web 压力测试工具 Webbench
@@ -448,13 +448,19 @@ SMP 即 Symmetr......
                             
                         
                             
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
                             
                         
                             
@@ -462,11 +468,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -490,10 +492,6 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
                         
                             
                         
@@ -501,12 +499,6 @@ SMP 即 Symmetr......
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -524,7 +516,13 @@ SMP 即 Symmetr......
                             
                         
                             
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
                             
                         
                             
@@ -542,11 +540,11 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                        
                             
                         
                             
@@ -558,9 +556,19 @@ SMP 即 Symmetr......
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
                             
                         
                             
@@ -570,15 +578,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
-                            
-                        
-                            
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -590,21 +590,15 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="2">php</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -632,7 +626,17 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                        
+                            
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -650,15 +654,11 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -674,13 +674,13 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

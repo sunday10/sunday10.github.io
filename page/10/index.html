@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,28 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/mysql-multi-source-replication/">
+        <h2 class="post-title">
+            MySQL5.7的多源复制
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境Mysql: 5.7.18Master1: 192.168.1.41Master2: 192.168.1.42Slave: 192.168.1.43复制模式: gtid
+配置文件Master1123456789101112131415161718server_id = 41log-bin = mysql-binbinlog_format = rowbinlog_cache_size = ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-09
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -384,30 +406,6 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/crontab/">
-        <h2 class="post-title">
-            Crontab 计划任务
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            可用crontab -e命令来编辑，编辑的是/var/spool/cron下对应用户的cron文件，也可以直接修改/etc/crontab文件。具体格式如下：123Minute Hour Day Month Week command分钟 小时 天 月 星期 命令0-59 0-23 1-31 1-12 0-6 command
-每个字段代表的含义如下：
-
-Minute：每个小时的第几分钟执行该任......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -449,13 +447,19 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
                             
                         
                             
@@ -463,11 +467,7 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -491,10 +491,6 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
                         
                             
                         
@@ -502,12 +498,6 @@ Minute：每个小时的第几分钟执行该任......
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -525,7 +515,13 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
                             
                         
                             
@@ -543,11 +539,11 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                        
                             
                         
                             
@@ -559,9 +555,19 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
                             
                         
                             
@@ -571,15 +577,7 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
-                            
-                        
-                            
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -591,21 +589,15 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="2">php</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -633,7 +625,17 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                        
+                            
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -651,15 +653,11 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -675,13 +673,13 @@ Minute：每个小时的第几分钟执行该任......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,57 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/cobbler/">
+        <h2 class="post-title">
+            Cobbler 自动化部署实践
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+运维自动化在生产环境中占据着举足轻重的地位，尤其是面对几百台，几千台甚至几万台的服务器时，仅仅是安装操作系统，如果不通过自动化来完成， 根本是不可想象的。面对生产环境中不同服务器的需求，该如何实现批量部署多版本的操作系统呢？ Cobbler 便可以的满足这一实际需求，实现多版本操作系统批量部署
+
+简介Cobbler是一个自动化和简化系统安装的工具，通过使用网络引导来控制和启动安装。Cobb......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/">
+        <h2 class="post-title">
+            我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+仔细看上图，我们可以发现两个信息：
+
+1.该机器建立了238万个TCP连接；2.此时内存使用量大约在48G左右。
+
+看上去很赞吧？如果有人能够提供配置，并且在单台部署HAProxy的服务器上完成这样规模的调优，是不是更赞？本文将详细描述这个过程;
+本文是一系列关于HAProxy压力测试文章的最后一篇。如果有时间，建议读者能够先阅读本系列的其余两部分。这样能够更好的帮助我们了解本文所提及的内......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-06-26
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -361,48 +412,6 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/ansible-playbooks/">
-        <h2 class="post-title">
-            使用 Ansible Playbooks
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            ansible可以非常方便的控制多台机器,比如查看各台机器上的apache服务状态,ansible all -a &quot;service apache status&quot; --sudo,如果任务更复杂一点可以写成一个脚本，然后ansible会在每台机器上执行脚本。但是如果任务中子任务有有依赖那，任务判断任务的执行状态那，总之还是有一系列的问题，总结起来就是能不能做任务编排?当然能，......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/ansible/">
-        <h2 class="post-title">
-            Ansible 自动化工具使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Ansible简介ansible 是个什么东西呢？基于 Python paramiko 开发，分布式，无需客户端，轻量级，配置语法使用 YMAL 及 Jinja2模板语言，更强的远程命令执行操作。这个工具的目标有这么几项：自动化部署APP；自动化管理配置项；自动化的持续交互；自动化的（AWS）云服务管理。所有的这几个目标从本质上来说都是在一个台或者几台服务器上，执行一系列的命令而已。通俗的说......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-18
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -444,13 +453,19 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             
                         
                             
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
                             
                         
                             
@@ -458,11 +473,7 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -486,10 +497,6 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
                         
                             
                         
@@ -497,12 +504,6 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -520,7 +521,13 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             
                         
                             
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
                             
                         
                             
@@ -538,11 +545,11 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                        
                             
                         
                             
@@ -554,9 +561,19 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
                             
                         
                             
@@ -566,15 +583,7 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             
                         
                             
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
-                            
-                        
-                            
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -586,21 +595,15 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="2">php</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -628,7 +631,17 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                        
+                            
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -646,15 +659,11 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -670,13 +679,13 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

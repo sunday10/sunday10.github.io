@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,51 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/linux-bonding/">
+        <h2 class="post-title">
+            Linux Bonding 多网卡汇聚
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            什么是Bonding早期由于网卡的速度还不够快，那如果你的服务器需要比较大的频宽使用时，就得要购买更昂贵的万兆网卡才行。那为什么不能将几张网卡合并成为一张来扩大频宽呢？此外，对于重要的服务来说，网络是不能中断的！所以，能不能使用两条以上的线路连接到我的服务器呢？因此，合并网卡的频宽与让网卡具有容错能力（容错）就成了Linux bonding最主要的考量了！目前Linux bonding功能已......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/centos7-teaming-bridge/">
+        <h2 class="post-title">
+            CentOS 7 Teaming 和 Bridge
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            teaming为了提高网络容错或吞吐量，一般服务器都会采取多网卡绑定的策略，在RHEL6中使用的是Bonding，而RHEL7提供了一项新的实现技术Teaming.
+使用teaming替换bonding实现链路聚合网卡绑定team0：eth1 eth2
+安装team12yum install -y teamdmodprobe team
+查看所有网卡123456nmcli con showNA......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-23
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -358,57 +403,6 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/cobbler/">
-        <h2 class="post-title">
-            Cobbler 自动化部署实践
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-运维自动化在生产环境中占据着举足轻重的地位，尤其是面对几百台，几千台甚至几万台的服务器时，仅仅是安装操作系统，如果不通过自动化来完成， 根本是不可想象的。面对生产环境中不同服务器的需求，该如何实现批量部署多版本的操作系统呢？ Cobbler 便可以的满足这一实际需求，实现多版本操作系统批量部署
-
-简介Cobbler是一个自动化和简化系统安装的工具，通过使用网络引导来控制和启动安装。Cobb......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-01
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/">
-        <h2 class="post-title">
-            我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-仔细看上图，我们可以发现两个信息：
-
-1.该机器建立了238万个TCP连接；2.此时内存使用量大约在48G左右。
-
-看上去很赞吧？如果有人能够提供配置，并且在单台部署HAProxy的服务器上完成这样规模的调优，是不是更赞？本文将详细描述这个过程;
-本文是一系列关于HAProxy压力测试文章的最后一篇。如果有时间，建议读者能够先阅读本系列的其余两部分。这样能够更好的帮助我们了解本文所提及的内......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-06-26
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -450,13 +444,19 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
                             
                         
                             
@@ -464,11 +464,7 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -492,10 +488,6 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
                         
                             
                         
@@ -503,12 +495,6 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -526,7 +512,13 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
                             
                         
                             
@@ -544,11 +536,11 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                        
                             
                         
                             
@@ -560,9 +552,19 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
                             
                         
                             
@@ -572,15 +574,7 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
-                            
-                        
-                            
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -592,21 +586,15 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="2">php</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -634,7 +622,17 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                        
+                            
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -652,15 +650,11 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -676,13 +670,13 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

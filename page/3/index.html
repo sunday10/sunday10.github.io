@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,53 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/dockerfile/">
+        <h2 class="post-title">
+            Docker(二)：Dockerfile 使用详情
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Dockerfile 概念
+Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。有了 Dockerfile，当我们需要定制自己额外的需求时，只需在 Dockerfile 上添加或者修改指令，重新生成 image 即可，省去了敲命令的麻烦。
+Dockerfile 文件格式
+123456789......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/docker/">
+        <h2 class="post-title">
+            Docker(一)：Docker入门
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            如今Docker的使用已经非常普遍，特别在一线互联网公司。使用Docker技术可以帮助企业快速水平扩展服务，从而到达弹性部署业务的能力。在云服务概念兴起之后，Docker的使用场景和范围进一步发展，如今在微服务架构越来越流行的情况下，微服务+Docker的完美组合，更加方便微服务架构运维部署落地。
+什么是Docker?
+Docker 是世界领先的软件容器平台。开发人员利用 Docker 可以......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-15
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -363,49 +410,6 @@ hdparm -t /dev/sda1
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/sql-server-replication/">
-        <h2 class="post-title">
-            Windows SQL Server 主从复制
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            注：只有设置主键的表才能同步
-SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLISHDBGOCREATE　TABLE　TEST(ID　VARCHAR(10) PRIMARY KEY NOT NULL,NAME VARCHAR(10))GOINSERT INTO TEST VALUES ('1','A')I......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-26
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/remove-iis-server-info/">
-        <h2 class="post-title">
-            IIS 8.5 隐藏 X-Powered-By 及 X-Powered-By 信息
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Before12345678910curl -I net.sundayle.comHTTP/1.1 200 OKContent-Length: 206Content-Type: text/htmlLast-Modified: Tue, 26 Dec 2017 07:15:34 GMTAccept-Ranges: bytesETag: "b3754052197ed31:0"Server: Mi......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-14
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -447,13 +451,19 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
                             
                         
                             
@@ -461,11 +471,7 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -489,10 +495,6 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
                         
                             
                         
@@ -500,12 +502,6 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -523,7 +519,13 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
                             
                         
                             
@@ -541,11 +543,11 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                        
                             
                         
                             
@@ -557,9 +559,19 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
                             
                         
                             
@@ -569,15 +581,7 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
-                            
-                        
-                            
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -589,21 +593,15 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="2">php</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -631,7 +629,17 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                        
+                            
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -649,15 +657,11 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -673,13 +677,13 @@ SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLIS
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

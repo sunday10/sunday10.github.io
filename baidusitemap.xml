@@ -4,6 +4,60 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/harbor/</loc>
+    <lastmod>2019-03-12T10:01:25.271Z</lastmod>
+    <data>
+        <display>
+        <title>Docker私有仓库 Harbor</title>
+        <pubTime>2019-03-09T12:21:32.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/mysqlbinlog-gtid/</loc>
+    <lastmod>2019-03-12T10:00:54.520Z</lastmod>
+    <data>
+        <display>
+        <title>MySQL 通过 mysqlbinlog 恢复数据库</title>
+        <pubTime>2019-03-12T08:22:39.000Z</pubTime>
+        
+        <tag>mysql</tag>
+         
+        <tag>gtid</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/pt-table-checksum/</loc>
+    <lastmod>2019-03-12T08:42:04.056Z</lastmod>
+    <data>
+        <display>
+        <title>使用 pt-table-sync 修复MySQL主从数据不一致</title>
+        <pubTime>2018-06-25T06:23:18.000Z</pubTime>
+        
+        <tag>mysql</tag>
+         
+         
+           
+             
+              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/nginx-proxy-65535-port/</loc>
     <lastmod>2019-03-01T03:08:14.271Z</lastmod>
     <data>
@@ -142,26 +196,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/pt-table-checksum/</loc>
-    <lastmod>2019-01-03T07:11:25.561Z</lastmod>
-    <data>
-        <display>
-        <title>使用 pt-table-sync 修复MySQL主从数据不一致</title>
-        <pubTime>2018-06-25T06:23:18.000Z</pubTime>
-        
-        <tag>mysql</tag>
-         
-         
-           
-             
-              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/grub-destructive-testing-and-repair/</loc>
     <lastmod>2018-12-29T11:59:00.307Z</lastmod>
     <data>
@@ -243,6 +277,23 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
+    <data>
+        <display>
+        <title>Python 装饰器</title>
+        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
@@ -268,23 +319,6 @@
         <display>
         <title>Python 编码</title>
         <pubTime>2018-08-21T13:41:56.000Z</pubTime>
-        
-        <tag>python</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
-    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
-    <data>
-        <display>
-        <title>Python 装饰器</title>
-        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -1499,9 +1533,9 @@
         <title>Maven私服Nexus3.x环境配置</title>
         <pubTime>2018-07-31T10:36:25.000Z</pubTime>
         
-        <tag>持续集成</tag>
-         
         <tag>maven</tag>
+         
+        <tag>持续集成</tag>
          
         <tag>nexus</tag>
          
@@ -1525,9 +1559,9 @@
         
         <tag>jenkins</tag>
          
-        <tag>持续集成</tag>
-         
         <tag>maven</tag>
+         
+        <tag>持续集成</tag>
          
          
            
@@ -1962,26 +1996,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/mysqlbinlog-recovery-data/</loc>
-    <lastmod>2018-05-10T07:47:59.000Z</lastmod>
-    <data>
-        <display>
-        <title>mysqlbinlog 恢复数据</title>
-        <pubTime>2018-05-10T07:47:59.000Z</pubTime>
-        
-        <tag>mysql</tag>
-         
-         
-           
-             
-              <breadCrumb title="mysql" url="http://www.sundayle.com/categories/mysql/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/xtrabackup/</loc>
     <lastmod>2018-05-09T05:17:31.000Z</lastmod>
     <data>
@@ -2053,9 +2067,9 @@
         
         <tag>mysql</tag>
          
-        <tag>gtid</tag>
-         
         <tag>1062</tag>
+         
+        <tag>gtid</tag>
          
          
            

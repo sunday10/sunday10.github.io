@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,56 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/mysqlbinlog-gtid/">
+        <h2 class="post-title">
+            MySQL 通过 mysqlbinlog 恢复数据库
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境
+Percona MySQL 5.7 GTID ROW
+
+恢复前提
+MySQL 开启 binlog 二进日志
+有最近（每晚或隔三或每周）全量备份数据库。
+
+查看命令123mysqlbinlog -v --base64-output=decode-rows --skip-gtids=true \--start-datetime='2019-03-12 3:00:00' --stop-dat......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-03-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/harbor/">
+        <h2 class="post-title">
+            Docker私有仓库 Harbor
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            https://github.com/goharbor/harbor/releases下载离线版本 Harbor offline installerhttps://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.1.tgz
+12cd /usr/localwget https:......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-03-09
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -363,50 +413,6 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/iostat/">
-        <h2 class="post-title">
-            Linux磁盘IO性能监控 - iostat
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            iostat 命令使用常用选项123456-c    只显示CPU利用率-d    只显示磁盘利用率-p    可以报告出每块磁盘的每个分区的使用情况-k    以 字节/秒 为单位显示磁盘利用率报告-x    显示扩张统计-n    显示NFS（network filesystem）报告
-常用组合12345iostat -d -xiostat -d 2 10iostat -d -x 2 1......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-12-21
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kubernetes-baise/">
-        <h2 class="post-title">
-            kubernetes 基础知识
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Kubernetes架构
-Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存储和Network Namespace　- K8S调度和作业运行的基本单位（Scheduler调度，Kubelet运行）　- 容易“走失”，需要Workload和Service的“呵护”Workloads (Deployment, StatefulSet, DaemonSet, ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-12-09
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -444,13 +450,19 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             
                         
                             
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
                             
                         
                             
@@ -458,11 +470,7 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -486,10 +494,6 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
                         
                             
                         
@@ -497,12 +501,6 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -520,7 +518,13 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             
                         
                             
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
                             
                         
                             
@@ -538,11 +542,11 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                        
                             
                         
                             
@@ -554,9 +558,19 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
+                            
+                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
+                            
+                        
+                            
+                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
                             
                         
                             
@@ -566,15 +580,7 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             
                         
                             
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
-                            
-                        
-                            
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -586,21 +592,15 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="2">php</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -628,7 +628,17 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="2">gtid</a>
+                        
+                            
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -646,15 +656,11 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -670,13 +676,13 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

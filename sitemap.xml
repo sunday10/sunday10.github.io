@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/harbor/</loc>
+    
+    <lastmod>2019-03-12T10:01:25.271Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/mysqlbinlog-gtid/</loc>
+    
+    <lastmod>2019-03-12T10:00:54.520Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/pt-table-checksum/</loc>
+    
+    <lastmod>2019-03-12T08:42:04.056Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/nginx-proxy-65535-port/</loc>
     
     <lastmod>2019-03-01T03:08:14.271Z</lastmod>
@@ -58,13 +79,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/pt-table-checksum/</loc>
-    
-    <lastmod>2019-01-03T07:11:25.561Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/grub-destructive-testing-and-repair/</loc>
     
     <lastmod>2018-12-29T11:59:00.307Z</lastmod>
@@ -100,6 +114,13 @@
   </url>
   
   <url>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
+    
+    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
@@ -108,13 +129,6 @@
   
   <url>
     <loc>http://www.sundayle.com/python-encoding/</loc>
-    
-    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
@@ -747,13 +761,6 @@
     <loc>http://www.sundayle.com/pmm-server/</loc>
     
     <lastmod>2018-05-14T07:52:55.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/mysqlbinlog-recovery-data/</loc>
-    
-    <lastmod>2018-05-10T07:47:59.000Z</lastmod>
     
   </url>
   
