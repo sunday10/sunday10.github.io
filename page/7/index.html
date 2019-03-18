@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,56 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/sonar/">
+        <h2 class="post-title">
+            持续集成 代码审查 Sonar
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            SonarQube 是一个开源的代码分析平台, 用来持续分析和评测项目源代码的质量。 通过SonarQube团队项目代码质量可以检测出项目中重复代码， 潜在bug， 代码风格问题，缺乏单元测试等问题， 并通过一个web ui展示出来。
+主要功能如下：
+
+用户本地使用IDE的插件进行代码分析
+用户上传到源代码版本控制服务器
+持续集成，使用Sonar Scanner进行扫描
+将扫描结果上传到So......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/jenkins-gitlab/">
+        <h2 class="post-title">
+            持续集成 Jenkins Gitlab
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            简介持续集成持续集成(Continuous Integration)是指在软件开发过程中，频繁地将代码集成到主干上，然后进行自动化测试。
+
+持续交付持续交付(Continuous Delivery)是指在持续集成的基础上，将集成后的代码部署到更贴近真实运行环境的“类生产环境”（production-like environments）中。 比如，我们完成单元测试后，可以把代码部署到连接数据库......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-25
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -360,49 +410,6 @@ Tomcat 安装......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/nginx-proxy-set-header/">
-        <h2 class="post-title">
-            Nginx proxy_set_header 理解
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            server_name=www.sundayhk.com ip=192.168.10.100proxy_name=www.sundayle.com ip=192.168.10.101
-Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下配置1234567891011server &#123;    listen      80;    server_name ww......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-04
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-location-rewrite/">
-        <h2 class="post-title">
-            Nginx 配置location总结及rewrite规则写法
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            location正则写法location正则一个示例：123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051location  = / &#123;  # 精确匹配 / ，主机名后面不能带任何字符串  [ configuration A ]&#125;locat......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-02
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -444,7 +451,13 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
+                            
+                        
                             
                         
                             
@@ -454,7 +467,7 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -463,8 +476,6 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -478,17 +489,7 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
-                            
                             <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -500,6 +501,12 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
+                        
+                            
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
                             <a href="/tags/#haproxy" title="haproxy" rel="3">haproxy</a>
                             
                         
@@ -508,7 +515,9 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -516,7 +525,9 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -530,9 +541,13 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
+                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
                         
                             
-                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -542,17 +557,13 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -564,33 +575,11 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
-                            
-                        
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                            <a href="/tags/#php" title="php" rel="2">php</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -600,6 +589,16 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                         
                             
                         
@@ -607,14 +606,24 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#php" title="php" rel="3">php</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
-                            
-                        
                             
                         
                             
@@ -632,15 +641,17 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -658,11 +669,9 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -684,11 +693,11 @@ Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

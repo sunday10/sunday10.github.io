@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,48 @@
 
 <div class="post-preview">
 
+    <a href="/php-opcache-status-and-clear/">
+        <h2 class="post-title">
+            PHP opcache 配置、状态与清除
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            nginx12345678910111213141516171819server &#123;    listen 80;    server_name 192.168.10.21;    root /data/web/opcache-status;    index index.php index.html;    location / &#123;         try_files $......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-03-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-non-80-port-reverse-80/">
+        <h2 class="post-title">
+            Nginx 非80端口反向代理80端口
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            8044 代理 80 端口配置12345678910111213141516upstream web44 &#123;   server 192.168.1.44:80;&#125;server &#123;    listen       8044;     server_name  manage.sundayle.com;    location / &#123;       proxy......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-03-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/mysqlbinlog-gtid/">
         <h2 class="post-title">
             MySQL 通过 mysqlbinlog 恢复数据库
@@ -192,14 +234,15 @@
             
         </h3>
         <div class="post-content-preview">
-            环境
+            通过mysqlbinlog 恢复误删或update错的表和库。
+环境
 Percona MySQL 5.7 GTID ROW
 
 恢复前提
 MySQL 开启 binlog 二进日志
 有最近（每晚或隔三或每周）全量备份数据库。
 
-查看命令123mysqlbinlog -v --base64-output=decode-rows --skip-gtids=true \--start-datetime='2019-03-12 3:00:00' --stop-dat......
+查看命令123mysqlbinlog -v --base64-output=decode-rows --skip-gtids=true \--start-datetime......
         </div>
     </a>
     <p class="post-meta">
@@ -367,52 +410,6 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/docker-harbor/">
-        <h2 class="post-title">
-            Docker 企业级私有镜像仓库 Harbor 部署
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            前言之前使用Docker官方的Registry镜像搭建了私有仓库，但是没有可一个可视化的界面去维护，非常不方便。所幸Vmware推出一个基于官方Registry V2镜像打造的私有仓库项目.
-Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Registry 服务器，通过添加一些企业必需的功能特性，例如安全、标识和管理等，扩展了开源 Docker Distri......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-12-28
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/centos-7-lacp-bonding/">
-        <h2 class="post-title">
-            CentOS 7 与 华为交换机 端口汇聚 LACP BONDING
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-服务器型号: Dell R730XD系统：CentOS Linux release 7.6.1810 (Core)交换机：华为 S5720S-28X-LI-AC 三层交换机网卡：BCM5720 1G x4 + Intel X520-2 10G x2
-
-交换机配置将g0/0/9-12 4个端口组成Eth-Trunk 43将x0/0/1-2   2个端口组成Eth-Trunk 91123456......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-12-26
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -450,7 +447,13 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
+                            
+                        
                             
                         
                             
@@ -460,7 +463,7 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
-                        
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -469,8 +472,6 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -484,17 +485,7 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
-                        
-                            
                             <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -506,6 +497,12 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
+                        
+                            
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
                             <a href="/tags/#haproxy" title="haproxy" rel="3">haproxy</a>
                             
                         
@@ -514,7 +511,9 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -522,7 +521,9 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -536,9 +537,13 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
+                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
                         
                             
-                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -548,17 +553,13 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
-                        
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -570,33 +571,11 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
-                            
-                        
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                            <a href="/tags/#php" title="php" rel="2">php</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -606,6 +585,16 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                         
                             
                         
@@ -613,14 +602,24 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#php" title="php" rel="3">php</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
-                            
-                        
                             
                         
                             
@@ -638,15 +637,17 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -664,11 +665,9 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -690,11 +689,11 @@ Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Reg
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

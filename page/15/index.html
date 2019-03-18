@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,29 @@
 
 <div class="post-preview">
 
+    <a href="/linux-tcp/">
+        <h2 class="post-title">
+            Linux下如何知道http并发和tcp连接数量
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            作为一个运维人员我们应该时刻关心服务器的Http进程情况和TCP的链接情况，防止服务器都被攻击得快瘫痪了还不知情，下面我们一起来看看在linux下如何设置linux的http进程请看和TCP链接情况。 
+1.linux查看httpd进程数
+123456789101112ps -ef | grep httpd | wc -l 查看Apache的并发请求数及其TCP连接状态  netstat -......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-05-19
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/apache-bench/">
         <h2 class="post-title">
             Apache Benchmark ab wrk 压力测试工具使用
@@ -194,6 +217,27 @@
         <div class="post-content-preview">
             1[root@node1 ~]# ab -n 10000 -c 1000 http://www.sundayle.com/index.html
 其中－n表示请求数，－c表示并发数12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152This is Apach......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-05-19
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/webbench/">
+        <h2 class="post-title">
+            Web 压力测试工具 Webbench
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            简介在软件测试工作中，压力测试是一项很重要的工作。比如在一个网站上线之前，能承受多大访问量、在大访问量情况下软件性能怎么样？这些数据指标好坏将会直接影响到用户体验。但是，在压力测试中存在一个共性，那就是压力测试的结果与实际负载结果不会完全相同，就算压力测试工作做的再好，也不能保证100%和线上性能指标相同。面对这些问题，我们只能尽量去想方设法去模拟。所以，压力测试非常有必要，有了这些数据，我......
         </div>
     </a>
     <p class="post-meta">
@@ -286,7 +330,13 @@
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
+                            
+                        
                             
                         
                             
@@ -296,7 +346,7 @@
                             
                         
                             
-                        
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -305,8 +355,6 @@
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -320,17 +368,7 @@
                             
                         
                             
-                        
-                            
                             <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -342,6 +380,12 @@
                             
                         
                             
+                        
+                            
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
                             <a href="/tags/#haproxy" title="haproxy" rel="3">haproxy</a>
                             
                         
@@ -350,7 +394,9 @@
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -358,7 +404,9 @@
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -372,9 +420,13 @@
                             
                         
                             
+                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
                         
                             
-                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -384,17 +436,13 @@
                             
                         
                             
-                        
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -406,33 +454,11 @@
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
-                            
-                        
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                            <a href="/tags/#php" title="php" rel="2">php</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -442,6 +468,16 @@
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                         
                             
                         
@@ -449,14 +485,24 @@
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#php" title="php" rel="3">php</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
-                            
-                        
                             
                         
                             
@@ -474,15 +520,17 @@
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -500,11 +548,9 @@
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -526,11 +572,11 @@
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

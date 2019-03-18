@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,50 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/pmm-server/">
+        <h2 class="post-title">
+            MySQL 5.7 使用PMM监视和管理数据库
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Server端安装server端安装非常简单，我们采用docker的方式来部署。
+1.拉取镜像1docker pull percona/pmm-server:latest
+2.创建PMM数据容器1234567docker create \   -v /opt/prometheus/data \   -v /opt/consul-data \   -v /var/lib/mysql \   -......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/xtrabackup/">
+        <h2 class="post-title">
+            xtrabackup备份和恢复
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            备份方式热备份：读写不受影响（mysqldump–&gt;innodb）温备份：仅可以执行读操作（mysqldump–&gt;myisam）冷备份：离线备份，读写都不可用逻辑备份：将数据导出文本文件中（mysqldump）物理备份：将数据文件拷贝（xtrabackup、mysqlhotcopy）完整备份：备份所有数据增量备份：仅备份上次完整备份或增量备份以来变化的数据差异备份：仅备份上次完整......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-09
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -359,53 +403,6 @@
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/vsftp/">
-        <h2 class="post-title">
-            vsftp服务器配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装
-yum install vsftpd
-#apt-get install vsftpd
-
-vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftpd    Vsftpd的主程序。/etc/pam.d/vsftpd   PAM认证文件 指明阻止访问的用户来自/etc/vsftpd/ftpusers/etc/vsftpd/f......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/svnserve/">
-        <h2 class="post-title">
-            Svn 版本系统安装
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装12345apt-get install libapr1-dev libaprutil1-devtar xf subversion-1.8.17.tar.gzcd subversion-1.8.17./configure --prefix=/usr/local/svnservemake &amp;&amp; make install
-依赖解决12345678910111213An app......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -447,7 +444,13 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
+                            
+                        
                             
                         
                             
@@ -457,7 +460,7 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
-                        
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -466,8 +469,6 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -481,17 +482,7 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
-                        
-                            
                             <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -503,6 +494,12 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
+                        
+                            
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
                             <a href="/tags/#haproxy" title="haproxy" rel="3">haproxy</a>
                             
                         
@@ -511,7 +508,9 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -519,7 +518,9 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -533,9 +534,13 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
+                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
                         
                             
-                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -545,17 +550,13 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
-                        
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -567,33 +568,11 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
-                            
-                        
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                            <a href="/tags/#php" title="php" rel="2">php</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -603,6 +582,16 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                         
                             
                         
@@ -610,14 +599,24 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#php" title="php" rel="3">php</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
-                            
-                        
                             
                         
                             
@@ -635,15 +634,17 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -661,11 +662,9 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -687,11 +686,11 @@ vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftp
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

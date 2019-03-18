@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,53 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/vsftp/">
+        <h2 class="post-title">
+            vsftp服务器配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            安装
+yum install vsftpd
+#apt-get install vsftpd
+
+vsftpd文件说明12345678/etc/vsftpd/vsftpd.conf 主配置文件/usr/sbin/vsftpd    Vsftpd的主程序。/etc/pam.d/vsftpd   PAM认证文件 指明阻止访问的用户来自/etc/vsftpd/ftpusers/etc/vsftpd/f......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-03-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/svnserve/">
+        <h2 class="post-title">
+            Svn 版本系统安装
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            安装12345apt-get install libapr1-dev libaprutil1-devtar xf subversion-1.8.17.tar.gzcd subversion-1.8.17./configure --prefix=/usr/local/svnservemake &amp;&amp; make install
+依赖解决12345678910111213An app......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-03-29
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -367,55 +414,6 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/elk-elasticsearch-plug/">
-        <h2 class="post-title">
-            ELK实时日志分析 Elasticsearch 插件
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Elasticsearch插件
-环境
-系统：CentOS 7
-
-部署elasticsearch 5.x 不再支持插件，需运行独立
-2.1 Head插件作用：集群监制
-123456789101112yum install bzip2 unzip git -y# git clone https://github.com/mobz/elasticsearch-headwget https://gi......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-01-30
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/elk-kafka-filebeat/">
-        <h2 class="post-title">
-            ELK+Filebeat+Kafka 日志分析
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            为什么要用ELK日志主要包括系统日志、应用程序日志和安全日志。系统运维和开发人员可以通过日志了解服务器软硬件信息、检查配置过程中的错误及错误发生的原因。经常分析日志可以了解服务器的负荷，性能安全性，从而及时采取措施纠正错误。
-通常，日志被分散的储存不同的设备上。如果你管理数十上百台服务器，你还在使用依次登录每台机器的传统方法查阅日志。这样是不是感觉很繁琐和效率低下。日志的统计和检索又成为一件......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-01-30
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -457,7 +455,13 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
+                            
+                        
                             
                         
                             
@@ -467,7 +471,7 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
-                        
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -476,8 +480,6 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -491,17 +493,7 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -513,6 +505,12 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
+                        
+                            
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
                             <a href="/tags/#haproxy" title="haproxy" rel="3">haproxy</a>
                             
                         
@@ -521,7 +519,9 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -529,7 +529,9 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -543,9 +545,13 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
+                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
                         
                             
-                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -555,17 +561,13 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
-                        
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -577,33 +579,11 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
-                            
-                        
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                            <a href="/tags/#php" title="php" rel="2">php</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -613,6 +593,16 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                         
                             
                         
@@ -620,14 +610,24 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#php" title="php" rel="3">php</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
-                            
-                        
                             
                         
                             
@@ -645,15 +645,17 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -671,11 +673,9 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -697,11 +697,11 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

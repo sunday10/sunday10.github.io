@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,59 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/glusterfs-docker/">
+        <h2 class="post-title">
+            基于 GlusterFS 实现 Docker 集群的分布式存储
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            企业中的应用场景理论和实践上分析，GlusterFS 目前主要适用于大文件存储场景，对于小文件尤其是海量小文件，存储效率和访问性能都表现不佳。海量小文件 LOSF 问题是工业界和学术界公认的难题，GlusterFS 作为通用的分布式文件系统，并没有对小文件作额外的优化措施，性能不好也是可以理解的。
+
+Media - 文档、图片、音频、视频
+Shared storage - 云存储、虚拟化存储......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/python-encoding/">
+        <h2 class="post-title">
+            Python 编码
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            编码的种类
+ASCII 占1个字节，只支持英文
+GB2312 占2个字节，支持6700+汉字
+GBK GB2312的升级版，支持21000+汉字
+Shift-JIS 日本字符
+ks_c_5601-1987 韩国编码
+TIS-620 泰国编码
+
+由于每个国家都有自己的字符，所以其对应关系也涵盖了自己国家的字符，但是以上编码都存在局限性，即：仅涵盖本国字符，无其他国家字符的对应关系。应运而生出现......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-21
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -393,50 +446,6 @@ and、or和not
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/keepalived-dual-network/">
-        <h2 class="post-title">
-            Keepalived 双网络(内外网)故障同步漂移主备模式
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            前言在生产环境当中，内网与公网都是独立分开的，因此内网和公网不用同步漂移，例如：Keepalived+LVS-DR、Keepalived+Nginx、Keepalived+HAProxy 都无需同步漂移。
-注：Keepalived+LVS-NAT模式除外。
-架构图123456789101112131415161718192021222324    +------+              ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-13
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived-lvs-dr-nginx/">
-        <h2 class="post-title">
-            Keepalived + LVS-DR Nginx 双主高可用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            LVS/DR模式LVS是Linux Virtual Server的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。LVS目前有三种IP负载均衡技术（VS/NAT、VS/TUN和VS/DR）、十种调度算法（rr | wrr | lc | wlc | lblc | lblcr |dh | sh | sed | nq）。LVS在Unix-like系统中是作为一个前端(Director)......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-09
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -478,7 +487,13 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
+                            
+                        
                             
                         
                             
@@ -488,7 +503,7 @@ and、or和not
                             
                         
                             
-                        
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -497,8 +512,6 @@ and、or和not
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -512,17 +525,7 @@ and、or和not
                             
                         
                             
-                        
-                            
                             <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -534,6 +537,12 @@ and、or和not
                             
                         
                             
+                        
+                            
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
                             <a href="/tags/#haproxy" title="haproxy" rel="3">haproxy</a>
                             
                         
@@ -542,7 +551,9 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
+                        
+                            
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -550,7 +561,9 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -564,9 +577,13 @@ and、or和not
                             
                         
                             
+                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
                         
                             
-                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -576,17 +593,13 @@ and、or和not
                             
                         
                             
-                        
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -598,33 +611,11 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="18">nginx</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
-                            
-                        
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                            <a href="/tags/#php" title="php" rel="2">php</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -634,6 +625,16 @@ and、or和not
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                         
                             
                         
@@ -641,14 +642,24 @@ and、or和not
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#php" title="php" rel="3">php</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
-                            
-                        
                             
                         
                             
@@ -666,15 +677,17 @@ and、or和not
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -692,11 +705,9 @@ and、or和not
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -718,11 +729,11 @@ and、or和not
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
+                        
+                            
+                        
                             
                         
                             

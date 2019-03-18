@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -193,7 +193,8 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><blockquote>
+                <p>通过mysqlbinlog 恢复误删或update错的表和库。</p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><blockquote>
 <p>Percona MySQL 5.7 GTID ROW</p>
 </blockquote>
 <h1 id="恢复前提"><a href="#恢复前提" class="headerlink" title="恢复前提"></a>恢复前提</h1><ol>
@@ -201,7 +202,7 @@
 <li>有最近（每晚或隔三或每周）全量备份数据库。</li>
 </ol>
 <h1 id="查看命令"><a href="#查看命令" class="headerlink" title="查看命令"></a>查看命令</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog -v <span class="attribute">--base64-output</span>=decode-rows <span class="attribute">--skip-gtids</span>=<span class="literal">true</span> \</span><br><span class="line"><span class="attribute">--start-datetime</span>=<span class="string">'2019-03-12 3:00:00'</span> <span class="attribute">--stop-datetime</span>=<span class="string">'2019-03-12 11:13:00'</span> \</span><br><span class="line">-d mall_amusic_shop mysql-bin.000125</span><br></pre></td></tr></table></figure>
-<p>常用命令参数<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-start-datetime   <span class="comment">#解析binlog开始时间</span></span></span><br><span class="line"><span class="ruby">--stop-datetime    <span class="comment">#解析binlog结束时间</span></span></span><br><span class="line"><span class="ruby">--start-position   <span class="comment">#解析pos开始位</span></span></span><br><span class="line"><span class="ruby">--stop-position    <span class="comment">#解析pos结束位</span></span></span><br><span class="line"><span class="ruby">--base64-output=decode-rows  <span class="comment">#解析row base-64编码信息,MySQL 5.1+,默认base64加密</span></span></span><br><span class="line"><span class="ruby">-d          <span class="comment">#指定数据库名</span></span></span><br><span class="line"><span class="ruby">-r filename <span class="comment">#指定输出文件或 &gt; 管道输出</span></span></span><br></pre></td></tr></table></figure></p>
+<p>常用命令参数<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-start-datetime   <span class="comment">#解析binlog开始时间</span></span></span><br><span class="line"><span class="ruby">--stop-datetime    <span class="comment">#解析binlog结束时间</span></span></span><br><span class="line"><span class="ruby">--start-position   <span class="comment">#解析pos开始位</span></span></span><br><span class="line"><span class="ruby">--stop-position    <span class="comment">#解析pos结束位</span></span></span><br><span class="line"><span class="ruby">--base64-output=decode-rows  <span class="comment">#解析row base-64,MySQL 5.1+,默认base64加密</span></span></span><br><span class="line"><span class="ruby">-d          <span class="comment">#指定数据库名</span></span></span><br><span class="line"><span class="ruby">-r filename <span class="comment">#指定输出文件或 &gt; 管道输出</span></span></span><br></pre></td></tr></table></figure></p>
 <h1 id="恢复步骤"><a href="#恢复步骤" class="headerlink" title="恢复步骤"></a>恢复步骤</h1><h2 id="1-导入昨晚3点全量备份"><a href="#1-导入昨晚3点全量备份" class="headerlink" title="1.导入昨晚3点全量备份"></a>1.导入昨晚3点全量备份</h2><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">show <span class="keyword">master</span> <span class="title">status</span>;</span><br><span class="line">create database mall_amusic;</span><br><span class="line">mysql mall_amusic <span class="tag">&lt; /data/bak/mysql/mall_amusic_2018_03-12.sql</span></span><br></pre></td></tr></table></figure>
 <h2 id="2-binlog-重放恢复指定时间段数据"><a href="#2-binlog-重放恢复指定时间段数据" class="headerlink" title="2.binlog 重放恢复指定时间段数据"></a>2.binlog 重放恢复指定时间段数据</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog <span class="attribute">--skip-gtids</span>=<span class="literal">true</span> <span class="attribute">--start-datetime</span>=<span class="string">'2019-03-12 3:00:00'</span> \</span><br><span class="line"><span class="attribute">--stop-datetime</span>=<span class="string">'2019-03-12 11:13:00'</span> -d mall_amusic mysql-bin.000125 &gt; backup.sql</span><br><span class="line">mysql &lt; backup.sql</span><br></pre></td></tr></table></figure>
 <h1 id="其他恢复命令"><a href="#其他恢复命令" class="headerlink" title="其他恢复命令"></a>其他恢复命令</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">根据position从20-2000查找resource库相关记录，并输出到指定文件</span><br><span class="line">mysqlbinlog <span class="attribute">--start-position</span>=<span class="string">"20"</span> <span class="attribute">--stop-position</span>=<span class="string">"2000"</span> <span class="attribute">--database</span>=resource mysql-bin.000125 &gt; result.sql </span><br><span class="line"></span><br><span class="line">根据position从20-2000查找resource库相关记录，并导入数据库</span><br><span class="line">mysqlbinlog <span class="attribute">--start-position</span>=<span class="string">"20"</span> <span class="attribute">--stop-position</span>=<span class="string">"2000"</span> <span class="attribute">--database</span>=resource mysql-bin.000125 | mysql -u root</span><br><span class="line"></span><br><span class="line">根据时间为2018-03-20 零晨1点到11点从20-2000查找resource库相关记录，并导入数据库</span><br><span class="line">mysqlbinlog <span class="attribute">--start-datetime</span>=<span class="string">"2018-03-20 1:00:00"</span> <span class="attribute">--stop-datetime</span>=<span class="string">"2018-03-20 11:00:00"</span> mysql-bin.000125 <span class="attribute">--result-file</span>=result.sql</span><br><span class="line"></span><br><span class="line">原中文编码为gb2312，转换utf8编码 </span><br><span class="line">mysqlbinlog <span class="attribute">--set-charset</span>=utf8 <span class="attribute">--database</span>=resource mysql-bin.000125 <span class="attribute">--result-file</span>=result_resource.sql </span><br><span class="line">mysqlbinlog --no-defaults mysql-bin.000014 mysql-bin.000015 <span class="attribute">--start-datetime</span>=<span class="string">'2018-03-20 1:00:00'</span> &gt; bin.sql</span><br></pre></td></tr></table></figure>
@@ -220,6 +221,10 @@
                 
 
                 <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/nginx-non-80-port-reverse-80/" data-toggle="tooltip" data-placement="top" title="Nginx 非80端口反向代理80端口">&larr; Previous Post</a>
+                        </li>
                     
                     
                         <li class="next">
