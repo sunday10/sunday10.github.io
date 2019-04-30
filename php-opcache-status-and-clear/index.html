@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -165,10 +165,6 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#php" title="php">php</a>
-                        
-                          <a class="tag" href="/tags/#opcache" title="opcache">opcache</a>
-                        
                     </div>
                     <h1>PHP opcache 配置、状态与清除</h1>
                     <h2 class="subheading"></h2>
@@ -201,7 +197,8 @@
 <p>访问  <a href="http://192.168.10.21/opcache.php" target="_blank" rel="noopener">http://192.168.10.21/opcache.php</a><br><img src="/images/opcache-status.png" alt="opcache-status"><br><img src="/images/opcache-status-scripts.png" alt="opcache-status-scripts"></p>
 <h1 id="opcache清除配置"><a href="#opcache清除配置" class="headerlink" title="opcache清除配置"></a>opcache清除配置</h1><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/data/web/opcache-status</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;?php opcache_reset(); ?&gt;"</span> &gt; opcache-reset.php</span><br><span class="line"></span><br><span class="line"><span class="comment">#清除所有opcache</span></span><br><span class="line">curl  http:<span class="string">//192.168.10.21/opcache-reset.php</span></span><br></pre></td></tr></table></figure>
 <p><img src="/images/opcache-clean-after.png" alt="opcache-clean-after"></p>
-<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p><a href="http://php.net/manual/en/function.opcache-reset.php#117727" target="_blank" rel="noopener">php官网opcache-reset文档</a><br><a href="https://huoding.com/2016/05/27/515" target="_blank" rel="noopener">如何正确发布PHP代码</a><br><a href="https://github.com/rlerdorf/opcache-status" target="_blank" rel="noopener">查看opcache状态插件</a></p>
+<p>若是采用软链接发布代码请参考 <a href="https://huoding.com/2016/05/27/515" target="_blank" rel="noopener">如何正确发布PHP代码</a></p>
+<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p><a href="http://php.net/manual/en/function.opcache-reset.php#117727" target="_blank" rel="noopener">PHP官网opcache-reset文档</a><br><a href="https://huoding.com/2016/05/27/515" target="_blank" rel="noopener">如何正确发布PHP代码</a><br><a href="https://github.com/rlerdorf/opcache-status" target="_blank" rel="noopener">查看opcache状态插件</a></p>
 
 
                 <hr>
@@ -253,10 +250,6 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#php" title="php">php</a>
-                        
-                          <a class="tag" href="/tags/#opcache" title="opcache">opcache</a>
-                        
                     </div>
                 </section>
                 

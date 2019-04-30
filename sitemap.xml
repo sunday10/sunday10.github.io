@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/centos-7-upgrade-kernel/</loc>
+    
+    <lastmod>2019-04-03T02:56:27.883Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/rabbitmq-cluster-build/</loc>
+    
+    <lastmod>2019-03-26T02:41:44.045Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/php-opcache-status-and-clear/</loc>
     
-    <lastmod>2019-03-18T09:02:34.782Z</lastmod>
+    <lastmod>2019-03-18T09:54:23.966Z</lastmod>
     
   </url>
   
@@ -79,13 +93,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/centos-7-upgrade-kernel/</loc>
-    
-    <lastmod>2019-01-18T02:08:44.041Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/docker-harbor/</loc>
     
     <lastmod>2019-01-09T18:34:08.647Z</lastmod>
@@ -128,14 +135,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
@@ -152,13 +159,6 @@
     <loc>http://www.sundayle.com/nginx-limit-modules/</loc>
     
     <lastmod>2018-12-05T09:03:59.286Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/rabbitmq-cluster-build/</loc>
-    
-    <lastmod>2018-12-05T08:46:56.875Z</lastmod>
     
   </url>
   

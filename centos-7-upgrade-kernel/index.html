@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -165,8 +165,6 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#kernel" title="kernel">kernel</a>
-                        
                     </div>
                     <h1>CentOS 7 升级 4.19 内核</h1>
                     <h2 class="subheading"></h2>
@@ -212,9 +210,9 @@
 <figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim Makefile</span><br><span class="line"></span><br><span class="line"> <span class="number">594</span> ife<span class="string">q ($(dot-config)</span>,<span class="number">1</span>)</span><br><span class="line"> <span class="number">595</span> -include include/config/auto.conf</span><br><span class="line"> <span class="number">596</span> endif</span><br></pre></td></tr></table></figure>
 <h2 id="生成编译配置"><a href="#生成编译配置" class="headerlink" title="生成编译配置"></a>生成编译配置</h2><p>kernel 在编译时需要一个配置文件(.config)，用于描述开启哪些特性等，该文件一般可通过一下四种途径获得:</p>
 <ul>
+<li>使用 make menuconfig 命令开启交互模式，然后根据提示生成编译配置表</li>
 <li>复制当前系统编译配置表，即 cp /boot/config-xxx .config；如果系统有多个内核，那么根据版本号选择最新的即可</li>
 <li>使用 make defconfig 命令获取当前系统编译配置表，该命令会自动写入到 .config 中</li>
-<li>使用 make localmodconfig 命令开启交互模式，然后根据提示生成编译配置表</li>
 <li>使用 make oldconfig 命令根据旧的编译配置表生成新的编译配置表，并在以前没有设定过的配置时会自动开启交互模式</li>
 </ul>
 <figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /boot/config<span class="number">-3.10</span><span class="number">.0</span><span class="number">-957.1</span><span class="number">.3</span>.el7.x86_64 .config</span><br></pre></td></tr></table></figure>
@@ -224,7 +222,7 @@
 <p>安装完内核之后，会在/boot/路径下生成一个内核文件vmlinuz-4.19.12和其他几个文件。</p>
 <h2 id="设置启动项"><a href="#设置启动项" class="headerlink" title="设置启动项"></a>设置启动项</h2><p>这里是UEFI引导<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">egrep ^menuentry <span class="meta-keyword">/etc/</span>grub2-efi.cfg | cut -f <span class="number">2</span> -d \'</span><br><span class="line">grub2-set-default <span class="number">0</span></span><br><span class="line">grub2-mkconfig -o <span class="meta-keyword">/boot/</span>efi/EFI<span class="meta-keyword">/centos/</span>grub.cfg</span><br></pre></td></tr></table></figure></p>
 <p>make mrproper &amp;&amp; make clean</p>
-<h2 id="卸载编译的内核"><a href="#卸载编译的内核" class="headerlink" title="卸载编译的内核"></a>卸载编译的内核</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /<span class="class"><span class="keyword">lib</span>/<span class="title">modules</span>/4.19.12</span></span><br><span class="line">rm -rf /usr/src/linux-<span class="number">4.19</span>.<span class="number">12</span></span><br><span class="line">rm -rf /boot/initramfs-<span class="number">4.19</span>.<span class="number">12</span>.img</span><br><span class="line">rm -rf /boot/vmlinuz-<span class="number">4.19</span>.<span class="number">12</span></span><br><span class="line">rm -rf /boot/System.map-<span class="number">4.19</span>.<span class="number">12</span></span><br></pre></td></tr></table></figure>
+<h2 id="卸载编译的内核"><a href="#卸载编译的内核" class="headerlink" title="卸载编译的内核"></a>卸载编译的内核</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /<span class="class"><span class="keyword">lib</span>/<span class="title">modules</span>/4.19.12</span></span><br><span class="line">rm -rf /boot/initramfs-<span class="number">4.19</span>.<span class="number">12</span>.img</span><br><span class="line">rm -rf /boot/vmlinuz-<span class="number">4.19</span>.<span class="number">12</span></span><br><span class="line">rm -rf /boot/System.map-<span class="number">4.19</span>.<span class="number">12</span></span><br></pre></td></tr></table></figure>
 
 
                 <hr>
@@ -280,8 +278,6 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#kernel" title="kernel">kernel</a>
-                        
                     </div>
                 </section>
                 
