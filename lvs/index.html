@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -222,8 +222,7 @@
 <li>DIP：Director IP，LVS 用户和后端服务器通信的 IP 地址</li>
 <li>CIP：Client IP，客户端 IP 地址</li>
 </ul>
-<h1 id="LVS-的工作模型"><a href="#LVS-的工作模型" class="headerlink" title="LVS 的工作模型"></a>LVS 的工作模型</h1><h2 id="LVS-NAT"><a href="#LVS-NAT" class="headerlink" title="LVS-NAT"></a>LVS-NAT</h2><img src="http://himg.sundayle.com/static/images/lvs-nat.png">
-<p>LVS-NAT 模型类似于 DNAT，工作机制与 DNAT 一样，当客户端请求的是集群服务时，LVS 修改请求报文的目标地址为 RIP，转发至后端的 RealServer，并修改后端响应报文的源地址为 VIP，响应至客户端。</p>
+<h1 id="LVS-的工作模型"><a href="#LVS-的工作模型" class="headerlink" title="LVS 的工作模型"></a>LVS 的工作模型</h1><h2 id="LVS-NAT"><a href="#LVS-NAT" class="headerlink" title="LVS-NAT"></a>LVS-NAT</h2><p><img src="/images/lvs-nat.png" alt="11"><br>LVS-NAT 模型类似于 DNAT，工作机制与 DNAT 一样，当客户端请求的是集群服务时，LVS 修改请求报文的目标地址为 RIP，转发至后端的 RealServer，并修改后端响应报文的源地址为 VIP，响应至客户端。</p>
 <p>在 LVS-NAT 模型下，Director 进出请求报文都经过 Director，因此 Director 的压力是比较大的。</p>
 <p>LVS-NAT 的特性：</p>
 <ul>
@@ -234,8 +233,7 @@
 <li>支持端口映射</li>
 <li>较大规模应用场景中，Director 易成为系统瓶颈（bottleneck）,扩展有限最多20台</li>
 </ul>
-<h2 id="LVS-DR"><a href="#LVS-DR" class="headerlink" title="LVS-DR"></a>LVS-DR</h2><img src="http://himg.sundayle.com/static/images/lvs-dr.png">
-<p>DR 值 Direct Routing，直接路由，DR 模型中，Director 和 Realserver 处在同一网络中，对于 Director，VIP 用于接受客户端请求，DIP 用于和 Realserver 通信。对于 Realserver，每个 Realserver 都配有和 Director 相同的 VIP（此 VIP 隐藏，关闭对 ARP 请求的响应），仅用户响应客户端的请求，RIP 用于和 Director 通信。</p>
+<h2 id="LVS-DR"><a href="#LVS-DR" class="headerlink" title="LVS-DR"></a>LVS-DR</h2><p><img src="/images/lvs-dr.png" alt="11"><br>DR 值 Direct Routing，直接路由，DR 模型中，Director 和 Realserver 处在同一网络中，对于 Director，VIP 用于接受客户端请求，DIP 用于和 Realserver 通信。对于 Realserver，每个 Realserver 都配有和 Director 相同的 VIP（此 VIP 隐藏，关闭对 ARP 请求的响应），仅用户响应客户端的请求，RIP 用于和 Director 通信。</p>
 <p>当客户端请求集群服务时，请求报文发送至 Director 的 VIP（Realserver的 VIP 不会响应 ARP 请求），Director 将客户端报文的源和目标 MAC 地址进行重新封装，将报文转发至 Realserver，Realserver 接收转发的报文。此时报文的源 IP 和目标 IP 都没有被修改，因此 Realserver 接受到的请求报文的目标 IP 地址为本机配置的 VIP，它将使用自己的 VIP 直接响应客户端。</p>
 <p>LVS-DR 模型中，客户端的响应报文不会经过 Director，因此 Director 的并发能力有很大提升。</p>
 <p>LVS-DR 模型的特性：</p>
@@ -250,8 +248,7 @@
 <li>Realserver 不能将网关指向 DIP，而直接使用前端网关</li>
 <li>不支持端口映射<br>由于数据返回不走director ，而是直接由 realserver返回给用户。所认其承载能力比较强，单台lvs dr模式下后端负载的realserver 数量可以达到100台。不过也因为其比较简单，只有四层处理能力，所以其无法对后端server 的健康状态做检查。</li>
 </ul>
-<h2 id="LVS-TUN"><a href="#LVS-TUN" class="headerlink" title="LVS-TUN"></a>LVS-TUN</h2><img src="http://himg.sundayle.com/static/images/lvs-tun.png">
-<p>和 DR 模型类似，Realserver 都配有不可见的 VIP，Realserver 的 RIP 是公网地址，且可能和 DIP 不再同一网络中。当请求到达 Director 后，Director 不修改请求报文的源 IP 和目标 IP 地址，而是使用 IP 隧道技术，使用 DIP 作为源 IP，RIP 作为目标 IP 再次封装此请求报文，转发至 RIP 的 Realserver 上，Realserver 解析报文后仍然使用 VIP 作为源地址响应客户端。</p>
+<h2 id="LVS-TUN"><a href="#LVS-TUN" class="headerlink" title="LVS-TUN"></a>LVS-TUN</h2><p><img src="/images/lvs-tun.png" alt="11"><br>和 DR 模型类似，Realserver 都配有不可见的 VIP，Realserver 的 RIP 是公网地址，且可能和 DIP 不再同一网络中。当请求到达 Director 后，Director 不修改请求报文的源 IP 和目标 IP 地址，而是使用 IP 隧道技术，使用 DIP 作为源 IP，RIP 作为目标 IP 再次封装此请求报文，转发至 RIP 的 Realserver 上，Realserver 解析报文后仍然使用 VIP 作为源地址响应客户端。</p>
 <p>LVS-TUN 的特性：</p>
 <ul>
 <li>集群节点和可以跨越 Internet</li>

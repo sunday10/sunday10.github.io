@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -165,9 +165,9 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#分布式文件系统" title="分布式文件系统">分布式文件系统</a>
-                        
                           <a class="tag" href="/tags/#glusterfs" title="glusterfs">glusterfs</a>
+                        
+                          <a class="tag" href="/tags/#分布式文件系统" title="分布式文件系统">分布式文件系统</a>
                         
                     </div>
                     <h1>基于 GlusterFS 实现 Docker 集群的分布式存储</h1>
@@ -208,7 +208,7 @@
 <li>客户端可通过原生 GlusterFS 协议访问数据，其他没有运行 GlusterFS 客户端的终端可通过 NFS/CIFS 标准协议通过存储网关访问数据（存储网关提供弹性卷管理和访问代理功能）。</li>
 <li>存储服务器主要提供基本的数据存储功能，客户端弥补了没有元数据服务器的问题，承担了更多的功能，包括数据卷管理、I/O 调度、文件定位、数据缓存等功能，利用 FUSE（File system in User Space）模块将 GlusterFS 挂载到本地文件系统之上，实现 POSIX 兼容的方式来访问系统数据。</li>
 </ul>
-<p>图1. GlusterFS 总体架构<br><img src="http://himg.sundayle.com/static/images/image001.png"></p>
+<p>图1. GlusterFS 总体架构<br><img src="/images/image001.png" alt="11"></p>
 <p>如图 1 中 GlusterFS 有非常多的术语，理解这些术语对理解 GlusterFS 的动作机理是非常重要的</p>
 <p>表1给出了 GlusterFS 常见的名称及其解释。</p>
 <table>
@@ -244,24 +244,24 @@
 <h1 id="GlusterFS卷类型"><a href="#GlusterFS卷类型" class="headerlink" title="GlusterFS卷类型"></a>GlusterFS卷类型</h1><p>为了满足不同应用对高性能、高可用的需求，GlusterFS 支持 7 种卷，即 distribute 卷、stripe 卷、replica 卷、distribute stripe 卷、distribute replica 卷、stripe Replica 卷、distribute stripe replica 卷。其实不难看出，GlusterFS 卷类型实际上可以分为 3 种基本卷和 4 种复合卷，每种类型的卷都有其自身的特点和适用场景。</p>
 <h2 id="基本卷"><a href="#基本卷" class="headerlink" title="基本卷"></a>基本卷</h2><p><strong>(1) distribute volume 分布式卷 </strong></p>
 <p>基于 Hash 算法将文件分布到所有 brick server，只是扩大了磁盘空间，不具备容错能力。由于distribute volume 使用本地文件系统，因此存取效率并没有提高，相反会因为网络通信的原因使用效率有所降低，另外本地存储设备的容量有限制，因此支持超大型文件会有一定难度。</p>
-<img src="http://himg.sundayle.com/static/images/image002.jpg">
+<p><img src="/images/image002.jpg" alt="11"></p>
 <p><strong>(2) stripe volume 条带卷</strong></p>
-<p>类似 RAID0，文件分成数据块以 Round Robin 方式分布到 brick server 上，并发粒度是数据块，支持超大文件，大文件的读写性能高。<br><img src="http://himg.sundayle.com/static/images/image003.jpg"></p>
+<p>类似 RAID0，文件分成数据块以 Round Robin 方式分布到 brick server 上，并发粒度是数据块，支持超大文件，大文件的读写性能高。<br><img src="/images/image003.jpg" alt="11"></p>
 <p><strong>(3) replica volume 复制卷</strong></p>
 <p>文件同步复制到多个 brick 上，文件级 RAID1，具有容错能力，写性能下降，读性能提升。Replicated 模式，也称作 AFR（Auto File Replication），相当于 RAID1，即同一文件在多个镜像存储节点上保存多份，每个 replicated 子节点有着相同的目录结构和文件，replica volume 也是在容器存储中较为推崇的一种。</p>
-<img src="http://himg.sundayle.com/static/images/image004.jpg">
+<p><img src="/images/image004.jpg" alt="11"></p>
 <h2 id="复合卷"><a href="#复合卷" class="headerlink" title="复合卷"></a>复合卷</h2><p><strong>(4) distribute stripe volume 分布式条带卷</strong></p>
 <p>Brick server 数量是条带数的倍数，兼具 distribute 和 stripe 卷的特点。分布式的条带卷，volume 中 brick 所包含的存储服务器数必须是 stripe 的倍数(&gt;=2倍)，兼顾分布式和条带式的功能。每个文件分布在四台共享服务器上，通常用于大文件访问处理，最少需要 4 台服务器才能创建分布条带卷。</p>
-<img src="http://himg.sundayle.com/static/images/image005.jpg">
+<p><img src="/images/image005.jpg" alt="11"></p>
 <p><strong>(5) distribute replica volume 分布式复制卷</strong></p>
 <p>Brick server 数量是镜像数的倍数，兼具 distribute 和 replica 卷的特点,可以在 2 个或多个节点之间复制数据。分布式的复制卷，volume 中 brick 所包含的存储服务器数必须是 replica 的倍数(&gt;=2倍)，兼顾分布式和复制式的功能。</p>
-<img src="http://himg.sundayle.com/static/images/image006.jpg">
+<p><img src="/images/image006.jpg" alt="11"></p>
 <p><strong>6) stripe replica volume 条带复制卷</strong></p>
 <p>类似 RAID 10，同时具有条带卷和复制卷的特点。</p>
-<img src="http://himg.sundayle.com/static/images/image007.png">
+<p><img src="/images/image007.png" alt="11"></p>
 <p><strong>(7) distribute stripe replica volume：分布式条带复制卷</strong></p>
 <p>三种基本卷的复合卷，通常用于类 Map Reduce 应用。</p>
-<img src="http://himg.sundayle.com/static/images/image008.png">
+<p><img src="/images/image008.png" alt="11"></p>
 <h1 id="GlusterFS-常用命令"><a href="#GlusterFS-常用命令" class="headerlink" title="GlusterFS 常用命令"></a>GlusterFS 常用命令</h1><p>GlusterFS 客户端提供了非常丰富的命令用来操作节点、卷，表2给出了常用的一些命令。在与容器对接过程中，通过我们需要创建卷、删除卷，以及设定卷的配额等功能，并且后续这些功能也需要 REST API 化，方便通过HTTP请求的方式来操作卷。</p>
 <p>表2. GlusterFS 客户端常用命令</p>
 <table>
@@ -462,9 +462,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#分布式文件系统" title="分布式文件系统">分布式文件系统</a>
-                        
                           <a class="tag" href="/tags/#glusterfs" title="glusterfs">glusterfs</a>
+                        
+                          <a class="tag" href="/tags/#分布式文件系统" title="分布式文件系统">分布式文件系统</a>
                         
                     </div>
                 </section>

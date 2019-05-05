@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -213,7 +213,7 @@
 <li>POSTROUTING 链：报文由本机发出，进行路由决策之后</li>
 </ul>
 <p>下图展现了一个数据包是如何通过内核中的 net 和 filter 表的：</p>
-<img src="http://himg.sundayle.com/static/images/iptables.png">
+<p><img src="/images/iptables.png" alt="11"></p>
 <h1 id="管理类命令"><a href="#管理类命令" class="headerlink" title="管理类命令"></a>管理类命令</h1><p>管理规则<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">A：             附加一条规则，添加在链的尾部</span></span><br><span class="line"><span class="ruby">-I CHAIN [n]：   插入一条规则，插入对应 CHAIN 上的第 n 条，默认插到第一条</span></span><br><span class="line"><span class="ruby">-D CHAIN [n]：   删除指定链中的第 n 条规则</span></span><br><span class="line"><span class="ruby">-R CHAIN [num]: 替换指定的规则</span></span><br></pre></td></tr></table></figure></p>
 <p>管理链<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">F [CHAIN]：     清空指定规则链，如果省略 CHAIN，则清空对应表中的所有链</span></span><br><span class="line"><span class="ruby">-P CHAIN TARGE： 设定指定链的默认策略</span></span><br><span class="line"><span class="ruby">-N：             自定义一个新的空链</span></span><br><span class="line"><span class="ruby">-X：             删除一个自定义的空链</span></span><br></pre></td></tr></table></figure></p>
 <p>查看规则：<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">L：             显式指定表中的规则</span></span><br><span class="line"><span class="ruby">-n：             以数字格式显式主机地址和端口号</span></span><br><span class="line"><span class="ruby">-v：             显式链及规则的详细信息</span></span><br><span class="line"><span class="ruby">--line-numbers： 显式规则号码</span></span><br></pre></td></tr></table></figure></p>

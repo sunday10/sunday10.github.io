@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -195,7 +195,7 @@
 <p>mongodb是最常用的nosql数据库，在数据库排名中已经上升到了前六。这篇文章介绍如何搭建高可用的mongodb（分片+副本）集群。</p>
 <p>在搭建集群之前，需要首先了解几个概念：路由，分片、副本集、配置服务器等。</p>
 <h2 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h2><p>先来看一张图：</p>
-<img src="http://himg.sundayle.com/static/images/sharded-cluster-production-architecture.bakedsvg.svg">
+<p><img src="/images/sharded-cluster-production-architecture.bakedsvg.svg" alt="11"></p>
 <p>从图中可以看到有四个组件：mongos、config server、shard、replica set。</p>
 <p>mongos，数据库集群请求的入口，所有的请求都通过mongos进行协调，不需要在应用程序添加一个路由选择器，mongos自己就是一个请求分发中心，它负责把对应的数据请求请求转发到对应的shard服务器上。在生产环境通常有多mongos作为请求的入口，防止其中一个挂掉所有的mongodb请求都没有办法操作。</p>
 <p>config server，顾名思义为配置服务器，存储所有数据库元信息（路由、分片）的配置。mongos本身没有物理存储分片服务器和数据路由信息，只是缓存在内存里，配置服务器则实际存储这些数据。mongos第一次启动或者关掉重启就会从 config server 加载配置信息，以后如果配置服务器信息变化会通知到所有的 mongos 更新自己的状态，这样 mongos 就能继续准确路由。在生产环境通常有多个 config server 配置服务器，因为它存储了分片路由的元数据，防止数据丢失！</p>

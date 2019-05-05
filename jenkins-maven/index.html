@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -167,9 +167,9 @@
                         
                           <a class="tag" href="/tags/#jenkins" title="jenkins">jenkins</a>
                         
-                          <a class="tag" href="/tags/#maven" title="maven">maven</a>
-                        
                           <a class="tag" href="/tags/#持续集成" title="持续集成">持续集成</a>
+                        
+                          <a class="tag" href="/tags/#maven" title="maven">maven</a>
                         
                     </div>
                     <h1>持续集成 Jenkins Maven</h1>
@@ -201,9 +201,8 @@
 <p>插件：Maven Integration plugin</p>
 <h1 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h1><p><a href="https://maven.apache.org/download.cgi" target="_blank" rel="noopener">https://maven.apache.org/download.cgi</a><br><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">wget http:<span class="comment">//mirrors.gigenet.com/apache/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz </span></span><br><span class="line">tar xf apache-maven<span class="number">-3.5</span><span class="number">.4</span>-bin.tar.gz -C /usr/<span class="keyword">local</span>/</span><br><span class="line"><span class="built_in">ln</span> -sv apache-maven<span class="number">-3.5</span><span class="number">.4</span> /usr/<span class="keyword">local</span>/maven</span><br><span class="line"></span><br><span class="line">cat &lt;&lt; <span class="built_in">EOF</span> &gt; /etc/profile.d/maven.<span class="keyword">show</span></span><br><span class="line">M2_HOME=/usr/<span class="keyword">local</span>/maven</span><br><span class="line">export PATH=\$PATH:\$M2_HOME/bin</span><br><span class="line"><span class="built_in">EOF</span></span><br><span class="line"></span><br><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></p>
 <h1 id="Jenkins构建"><a href="#Jenkins构建" class="headerlink" title="Jenkins构建"></a>Jenkins构建</h1><p>环境：内网开发本地构建<br>Maven插件 Maven Integration plugin<br>发布插件 Deploy to container Plugin<br>git插件 Git plugin<br>svn插件 Subversion Plug-in</p>
-<p>WebApp源码 <a href="https://github.com/sebsto/webapp" target="_blank" rel="noopener">https://github.com/sebsto/webapp</a><br>新建任务 WebApp 构建一个maven项目<br><img src="http://himg.sundayle.com/static/images/20180731174911.jpg"><br>General 丢弃旧的构建天数为15 个数为30<br><img src="http://himg.sundayle.com/static/images/20180731175116.jpg"><br>源码管理 内网gitlab<br>注：需配置ssh<br><img src="http://himg.sundayle.com/static/images/20180731175154.jpg"><br>Build Root POM: pom.xml Coals and options: -U clean package<br>Post Steps 执行shell<br>注：需配置visudo<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/tomcat stop</span><br><span class="line">sudo rm -rf /usr/local/tomcat/temp/*</span><br><span class="line">sudo rm -rf /usr/local/tomcat/work/*</span><br><span class="line">sudo rm -rf /usr/local/tomcat/webapps/WebApp</span><br><span class="line">sudo cp -rp /var/<span class="class"><span class="keyword">lib</span>/<span class="title">jenkins</span>/<span class="title">workspace</span>/<span class="title">WebApp</span>/<span class="title">target</span>/<span class="title">WebApp</span>.<span class="title">war</span> /<span class="title">usr</span>/<span class="title">local</span>/<span class="title">tomcat</span>/<span class="title">webapps</span>/</span></span><br><span class="line">sudo /etc/init.d/tomcat start</span><br></pre></td></tr></table></figure></p>
-<img src="http://himg.sundayle.com/static/images/20180731180614.jpg">
-<p>WebApp立即构建 控制台输出<br><img src="http://himg.sundayle.com/static/images/20180731181528.jpg"><br><img src="http://himg.sundayle.com/static/images/20180731181619.jpg"><br>访问 <a href="http://server_ip:port/WebApp" target="_blank" rel="noopener">http://server_ip:port/WebApp</a><br><img src="http://himg.sundayle.com/static/images/20180731180407.jpg"><br>修改源码，再次构建<br><img src="http://himg.sundayle.com/static/images/20180731180957.jpg"></p>
+<p>WebApp源码 <a href="https://github.com/sebsto/webapp" target="_blank" rel="noopener">https://github.com/sebsto/webapp</a><br>新建任务 WebApp 构建一个maven项目<br><img src="/images/20180731174911.jpg" alt="11"><br>General 丢弃旧的构建天数为15 个数为30<br><img src="/images/20180731175116.jpg" alt="11"><br>源码管理 内网gitlab<br>注：需配置ssh<br><img src="/images/20180731175154.jpg" alt="11"><br>Build Root POM: pom.xml Coals and options: -U clean package<br>Post Steps 执行shell<br>注：需配置visudo<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/tomcat stop</span><br><span class="line">sudo rm -rf /usr/local/tomcat/temp/*</span><br><span class="line">sudo rm -rf /usr/local/tomcat/work/*</span><br><span class="line">sudo rm -rf /usr/local/tomcat/webapps/WebApp</span><br><span class="line">sudo cp -rp /var/<span class="class"><span class="keyword">lib</span>/<span class="title">jenkins</span>/<span class="title">workspace</span>/<span class="title">WebApp</span>/<span class="title">target</span>/<span class="title">WebApp</span>.<span class="title">war</span> /<span class="title">usr</span>/<span class="title">local</span>/<span class="title">tomcat</span>/<span class="title">webapps</span>/</span></span><br><span class="line">sudo /etc/init.d/tomcat start</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/20180731180614.jpg" alt="11"><br>WebApp立即构建 控制台输出<br><img src="/images/20180731181528.jpg" alt="11"><br><img src="/images/20180731181619.jpg" alt="11"><br>访问 <a href="http://server_ip:port/WebApp" target="_blank" rel="noopener">http://server_ip:port/WebApp</a><br><img src="/images/20180731180407.jpg" alt="11"><br>修改源码，再次构建<br><img src="/images/20180731180957.jpg" alt="11"></p>
 <p>#nexus<br><a href="https://www.sundayle.com/2018/07/31/nexus/">https://www.sundayle.com/2018/07/31/nexus/</a></p>
 
 
@@ -262,9 +261,9 @@
                        
                           <a class="tag" href="/tags/#jenkins" title="jenkins">jenkins</a>
                         
-                          <a class="tag" href="/tags/#maven" title="maven">maven</a>
-                        
                           <a class="tag" href="/tags/#持续集成" title="持续集成">持续集成</a>
+                        
+                          <a class="tag" href="/tags/#maven" title="maven">maven</a>
                         
                     </div>
                 </section>

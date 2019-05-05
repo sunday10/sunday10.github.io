@@ -2,16 +2,191 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.sundayle.com/centos-7-upgrade-kernel/</loc>
+    <loc>http://www.sundayle.com/sql-server-replication/</loc>
     
-    <lastmod>2019-04-03T02:56:27.883Z</lastmod>
+    <lastmod>2019-05-05T07:41:18.533Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/remove-iis-server-info/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.505Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.sundayle.com/rabbitmq-cluster-build/</loc>
     
-    <lastmod>2019-03-26T02:41:44.045Z</lastmod>
+    <lastmod>2019-05-05T07:41:18.496Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/openstack/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.481Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/nmap-penetration/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.442Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/nginx-reverse-secondary-directory-with-parameters/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.409Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/mysql-optimize-in-linux/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.336Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/mongodb-cluster/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.318Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/mogilefs/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.306Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/lvs/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.282Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/lvm2/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.266Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/linux-system-io/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.256Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/linux-process-management/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.233Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/linux-interrupt/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.216Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/kvm-windows-server-2012/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.200Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/kubernetes-baise/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.195Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.186Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/iis-8-5-configure-high-concurrency/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.143Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/high-availability/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.135Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/glusterfs/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.128Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/glusterfs-docker/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.116Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.095Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/fastdfs-cluster/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.087Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/docker/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.074Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/distributed-file-system-fastdfs/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.067Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/cobbler/</loc>
+    
+    <lastmod>2019-05-05T07:41:18.060Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/centos-7-upgrade-kernel/</loc>
+    
+    <lastmod>2019-04-03T02:56:27.883Z</lastmod>
     
   </url>
   
@@ -114,20 +289,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/kubernetes-baise/</loc>
-    
-    <lastmod>2018-12-29T02:48:26.020Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/docker/</loc>
-    
-    <lastmod>2018-12-07T11:34:04.645Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/linux-quickly-view-directory-size/</loc>
     
     <lastmod>2018-12-07T02:11:36.354Z</lastmod>
@@ -135,21 +296,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
-    
-    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
-    
-    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/python-encoding/</loc>
+    
+    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
@@ -177,30 +331,9 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/kvm-windows-server-2012/</loc>
-    
-    <lastmod>2018-11-19T03:40:17.873Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/nginx-reverse-secondary-directory-with-parameters/</loc>
-    
-    <lastmod>2018-11-16T08:17:41.931Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/haproxy-tutorial/</loc>
     
     <lastmod>2018-11-09T03:52:03.334Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/</loc>
-    
-    <lastmod>2018-11-09T03:12:09.349Z</lastmod>
     
   </url>
   
@@ -254,13 +387,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/linux-system-io/</loc>
-    
-    <lastmod>2018-10-16T03:03:00.712Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/apache-bench/</loc>
     
     <lastmod>2018-10-16T03:01:57.715Z</lastmod>
@@ -275,37 +401,9 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/fastdfs-cluster/</loc>
-    
-    <lastmod>2018-10-12T10:08:51.801Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/nginx-smooth-upgrade/</loc>
     
     <lastmod>2018-10-12T09:59:22.306Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/glusterfs/</loc>
-    
-    <lastmod>2018-10-12T06:19:00.598Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/distributed-file-system-fastdfs/</loc>
-    
-    <lastmod>2018-10-12T06:13:34.677Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/sql-server-replication/</loc>
-    
-    <lastmod>2018-10-12T05:57:48.605Z</lastmod>
     
   </url>
   
@@ -317,30 +415,9 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/mogilefs/</loc>
-    
-    <lastmod>2018-10-11T10:22:01.949Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/dd-simple-test/</loc>
     
     <lastmod>2018-10-08T10:31:25.580Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/iis-8-5-configure-high-concurrency/</loc>
-    
-    <lastmod>2018-09-30T10:42:21.689Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/remove-iis-server-info/</loc>
-    
-    <lastmod>2018-09-14T06:40:53.937Z</lastmod>
     
   </url>
   
@@ -359,20 +436,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/glusterfs-docker/</loc>
-    
-    <lastmod>2018-08-23T07:40:41.962Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/lvm2/</loc>
-    
-    <lastmod>2018-08-23T06:35:12.067Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/python-deep-copy-and-shallow-copy/</loc>
     
     <lastmod>2018-08-23T02:22:30.330Z</lastmod>
@@ -383,13 +446,6 @@
     <loc>http://www.sundayle.com/webbench/</loc>
     
     <lastmod>2018-08-22T03:28:31.052Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/nmap-penetration/</loc>
-    
-    <lastmod>2018-08-21T08:49:12.254Z</lastmod>
     
   </url>
   
@@ -450,30 +506,9 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/linux-process-management/</loc>
-    
-    <lastmod>2018-08-15T03:47:05.198Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/lvs/</loc>
-    
-    <lastmod>2018-08-15T02:05:01.813Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/keepalived-nginx-dual-network/</loc>
     
     <lastmod>2018-08-15T02:02:56.748Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/high-availability/</loc>
-    
-    <lastmod>2018-08-15T02:01:32.045Z</lastmod>
     
   </url>
   
@@ -499,20 +534,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/openstack/</loc>
-    
-    <lastmod>2018-08-08T10:19:38.810Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/mongodb-cluster/</loc>
-    
-    <lastmod>2018-08-08T09:07:35.611Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/find/</loc>
     
     <lastmod>2018-08-08T08:58:50.426Z</lastmod>
@@ -523,13 +544,6 @@
     <loc>http://www.sundayle.com/grep/</loc>
     
     <lastmod>2018-08-08T08:57:33.190Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/cobbler/</loc>
-    
-    <lastmod>2018-08-08T08:55:51.676Z</lastmod>
     
   </url>
   
@@ -558,20 +572,6 @@
     <loc>http://www.sundayle.com/nginx-pitfalls-and-common-mistakes/</loc>
     
     <lastmod>2018-08-08T08:22:11.571Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/mysql-optimize-in-linux/</loc>
-    
-    <lastmod>2018-08-08T08:12:42.376Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/linux-interrupt/</loc>
-    
-    <lastmod>2018-08-08T08:12:34.508Z</lastmod>
     
   </url>
   

@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -220,7 +220,7 @@
 </tr>
 </tbody>
 </table>
-<img src="http://himg.sundayle.com/static/images/pre-ccm-arch.png">
+<p><img src="/images/pre-ccm-arch.png" alt="11"></p>
 <h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p><strong>配置host解析（所有节点）</strong><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; <span class="literal">EOF</span> &gt;&gt; /etc/hosts</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span> master</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.102</span> slave1</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.103</span> slave2</span><br><span class="line"><span class="literal">EOF</span></span><br></pre></td></tr></table></figure></p>
 <p><strong>关闭防火墙（所有节点）</strong><br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">stop</span> firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line">setenforce <span class="number">0</span></span><br><span class="line">sed -i <span class="string">'s#^SELINUX=.*#SELINUX=disabled#g'</span> /etc/selinux/<span class="built_in">config</span></span><br></pre></td></tr></table></figure></p>
 <p><strong>关闭swap（所有节点）</strong><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">swapoff -a</span><br><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'s/.swap./#&amp;/'</span> /etc/fstab</span><br></pre></td></tr></table></figure></p>

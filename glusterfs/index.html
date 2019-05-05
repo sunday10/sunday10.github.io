@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -303,8 +303,7 @@
 <h2 id="3-3-网络环境"><a href="#3-3-网络环境" class="headerlink" title="3.3 网络环境"></a>3.3 网络环境</h2><p>网络要求全部千兆环境，gluster 服务器至少有 2 块网卡，1 块网卡绑定供 gluster 使用，剩余一块分配管理网络 IP，用于系统管理。<br>如果有条件购买万兆交换机，服务器配置万兆网卡，存储性能会更好。网络方面如果安全性要求较高，可以多网卡绑定。</p>
 <p>跨地区机房配置 Gluster，在中国网络不适用。</p>
 <h2 id="3-4-服务器摆放分布"><a href="#3-4-服务器摆放分布" class="headerlink" title="3.4 服务器摆放分布"></a>3.4 服务器摆放分布</h2><p>服务器主备机器要放在不同的机柜，连接不同的交换机，即使一个机柜出现问题，还有一份数据正常访问。</p>
-<img src="http://himg.sundayle.com/static/images/gluster-jiguibaifang-01.png">
-<img src="http://himg.sundayle.com/static/images/GlusterFS-Cabinet-02.png">
+<p><img src="/images/gluster-jiguibaifang-01.png" alt="11"><br><img src="/images/GlusterFS-Cabinet-02.png" alt="11"></p>
 <h2 id="3-5-构建高性能、高可用存储"><a href="#3-5-构建高性能、高可用存储" class="headerlink" title="3.5 构建高性能、高可用存储"></a>3.5 构建高性能、高可用存储</h2><p>一般在企业中，采用的是分布式复制卷，因为有数据备份，数据相对安全，分布式条带卷目前对 gluster 来说没有完全成熟，存在一定的数据安全风险。</p>
 <h2 id="3-5-1-开启防火墙端口"><a href="#3-5-1-开启防火墙端口" class="headerlink" title="3.5.1 开启防火墙端口"></a>3.5.1 开启防火墙端口</h2><p>一般在企业应用中 Linux 防火墙是打开的，这些 Gluster 服务器之间访问的端口如下：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -<span class="selector-tag">p</span> tcp –dport <span class="number">24007</span>:<span class="number">24011</span> -j ACCEPT</span><br><span class="line">iptables -I INPUT -<span class="selector-tag">p</span> tcp –dport <span class="number">38465</span>:<span class="number">38485</span> -j ACCEPT</span><br></pre></td></tr></table></figure></p>
 <p>上面是卷的端口，下面是硬盘的端口，磁盘越多，端口越多</p>

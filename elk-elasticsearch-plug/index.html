@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -200,15 +200,15 @@
 <h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><p>elasticsearch 5.x 不再支持插件，需运行独立</p>
 <h2 id="2-1-Head"><a href="#2-1-Head" class="headerlink" title="2.1 Head"></a>2.1 Head</h2><p>插件作用：集群监制</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> bzip2 unzip git -y</span><br><span class="line"># git <span class="keyword">clone</span> https://github.com/mobz/elasticsearch-<span class="keyword">head</span></span><br><span class="line">wget https://github.com/mobz/elasticsearch-<span class="keyword">head</span>/<span class="keyword">archive</span>/master.zip</span><br><span class="line">unzip master.zip</span><br><span class="line">cd elasticsearch-<span class="keyword">head</span>-<span class="keyword">master</span></span><br><span class="line">npm <span class="keyword">install</span> -<span class="keyword">ignore</span>-scripts</span><br><span class="line">npm run <span class="keyword">start</span></span><br><span class="line">打开 <span class="keyword">http</span>://<span class="number">192.168</span><span class="number">.11</span><span class="number">.31</span>:<span class="number">9100</span>/</span><br><span class="line"></span><br><span class="line">vim /etc/elasticsearch/elasticsearch.yml</span><br><span class="line">http.cors.enabled: <span class="literal">true</span></span><br><span class="line">http.cors.allow-origin: <span class="string">"*"</span></span><br></pre></td></tr></table></figure>
-<img src="http://himg.sundayle.com/static/images/es-head.jpg">
+<p><img src="/images/es-head.jpg" alt="11"></p>
 <p>vim elasticsearch-head/_site/app.js<br>修改默认连接地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &apos;s!http://localhost:9200!http://192.168.11.31:9200!&apos; _site/app.js</span><br></pre></td></tr></table></figure></p>
 <h2 id="2-2-Bigdesk"><a href="#2-2-Bigdesk" class="headerlink" title="2.2 Bigdesk"></a>2.2 Bigdesk</h2><p>插件作用：性能监控</p>
 <p>git 获取bigdesk源码<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> /www</span><br><span class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/hlstudio/bigdesk</span><br><span class="line">## http<span class="variable">s:</span>//github.<span class="keyword">com</span>/hlstudio/bigdesk/archive/master.zip</span><br></pre></td></tr></table></figure></p>
 <p>修改elasticsearch.yml，启用CORS<br>vim /etc/elasticsearch/elasticsearch.yml<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http<span class="selector-class">.cors</span><span class="selector-class">.enabled</span>: true</span><br><span class="line">http<span class="selector-class">.cors</span><span class="selector-class">.allow-origin</span>: <span class="string">"*"</span></span><br></pre></td></tr></table></figure></p>
 <p>配置nginx<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">vim</span> /etc/nginx/vhost/bigdesk.conf </span><br><span class="line">server&#123;</span><br><span class="line">  <span class="attribute">listen</span>  <span class="number">80</span>;</span><br><span class="line">  <span class="attribute">server_name</span> <span class="number">192.168.11.31</span>;</span><br><span class="line">  <span class="attribute">index</span> index.html;</span><br><span class="line">  <span class="attribute">root</span>  /www/bigdesk/_site;</span><br><span class="line">  <span class="attribute">access_log</span>  /var/log/nginx/bigdesk.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>访问 bigdesk<br><img src="http://himg.sundayle.com/static/images/bigdesk.jpg"></p>
+<p>访问 bigdesk<br><img src="/images/bigdesk.jpg" alt="11"></p>
 <h2 id="3-3-Cerebro"><a href="#3-3-Cerebro" class="headerlink" title="3.3 Cerebro"></a>3.3 Cerebro</h2><p>插件作用：网络状态<br>Requirements<br>cerebro needs Java 1.8 or newer to run.<br>运行cerebro监听默认为0.0.0.0:9000，您可以在不同的主机和端口。<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/lmenezes/cerebro/releases/download/v0<span class="meta">.7</span><span class="meta">.2</span>/cerebro-<span class="number">0.7</span><span class="meta">.2</span>.tgz</span><br><span class="line">tar xf cerebro.tgz</span><br><span class="line">cd cerebro-<span class="number">0.7</span><span class="meta">.2</span></span><br><span class="line">bin/cerebro -Dhttp.port=<span class="number">1234</span> -Dhttp.address=<span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span></span><br></pre></td></tr></table></figure></p>
-<img src="http://himg.sundayle.com/static/images/cerebro.png">
+<p><img src="/images/cerebro.png" alt="11"></p>
 
 
                 <hr>

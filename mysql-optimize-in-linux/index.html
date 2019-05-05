@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -203,7 +203,7 @@
 <p>NUMA, Non-Uniform Memory Access，非一致性内存访问，这种架构下，每个 CPU 都有自己的专用内存和内存控制器（可能就在 CPU 内部），这样一来 CPU 对内存的争用情况将减少。</p>
 <p>每个 CPU 都有自己的运行队列，内核会平衡各个内存的运行队列(rebalancing)，当0号CPU的运行进程被调度至1号 CPU 的运行队列中，由于进程需要原来的数据，那么1号 CPU 就有可能需要访问0号 CPU 的专用内存（请求0号CPU的内存控制器），此时需要跨越 CPU 插槽，需要多个 CPU 时钟周期。</p>
 <p>在 NUMA 结构下，应该尽可能的保证 CPU 至访问自身的内存，常用的方法是进程绑定（CPU affinity）。</p>
-<p>两种架构的图示：<br><img src="http://himg.sundayle.com/static/images/smp-numa.png"></p>
+<p>两种架构的图示：<br><img src="/images/smp-numa.png" alt="11"></p>
 <p>NUMA 架构不适合用于运行数据库服务，由于每个 CPU 使用自身的内存，因此可能出现一个 CPU 的内存使用完，而另一个 CPU 的内存有大量剩余，造成内存资源的浪费，甚至可能出现内存有较多剩余，系统却一直使用 swap 空间的情况（具体可参见 <a href="https://blog.jcole.us/2010/09/28/mysql-swap-insanity-and-the-numa-architecture/" target="_blank" rel="noopener">MySQL “swap insanity”</a>）。</p>
 <p>NUMA 架构的内存分配方式可以设置，但最简单的方式是关闭 NUMA 特性。</p>
 <p>可以使用 <code>numastat</code> 或 <code>numastat -p &lt;PID&gt;</code> 查看 NUMA 结构 CPU 内存访问状态</p>
@@ -218,7 +218,7 @@
 <h1 id="I-O"><a href="#I-O" class="headerlink" title="I/O"></a>I/O</h1><h1 id="IO-scheduler"><a href="#IO-scheduler" class="headerlink" title="IO scheduler"></a>IO scheduler</h1><p>针对机械磁盘的特性，Linux 引入了多种 IO 调度器来优化 IO 性能，简单来说优化磁盘读写的策略就是将 IO 请求合并与重排。合并操作是将相邻扇区的 IO 请求合并为一个，重排是将 IO 请求按扇区逻辑地址顺序排列。</p>
 <p>Linux2.4 只有一种 IO 调度器，2.6后引入了多种 IO 调度器，这里不多介绍，具体可以参考我的另一片文章——<a href="/linux-system-io/#io">Linux 性能优化之 IO 子系统</a></p>
 <p>Linux 默认使用 IO 调度算法是 CFQ，该算法可能会出现 IO 请求饿死的情况。</p>
-<p>下图为 <a href="https://www.redhat.com/magazine/008jun05/features/schedulers/" target="_blank" rel="noopener">Choosing an I/O Scheduler for Red Hat® Enterprise Linux® 4 and the 2.6 Kernel</a> 中的测试结果<br><img src="http://himg.sundayle.com/static/images/scheduler.jpg"></p>
+<p>下图为 <a href="https://www.redhat.com/magazine/008jun05/features/schedulers/" target="_blank" rel="noopener">Choosing an I/O Scheduler for Red Hat® Enterprise Linux® 4 and the 2.6 Kernel</a> 中的测试结果<br><img src="/images/scheduler.jpg" alt="11"></p>
 <p>从很多实际测试场景来看，Deadline 更适合跑 MySQL 数据库。</p>
 <p>修改 IO 调度算法为 Deadline [机械硬盘]<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo deadline &gt; <span class="regexp">/sys/</span>block<span class="regexp">/sda/</span>queue<span class="regexp">/scheduler</span></span><br></pre></td></tr></table></figure></p>
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#机械硬盘</span></span><br><span class="line">echo <span class="number">16</span> <span class="meta-keyword">/sys/</span>block<span class="meta-keyword">/sda/</span>queue/read_ahead_kb  <span class="meta">#减少预读,默认128</span></span><br><span class="line">echo <span class="number">512</span> <span class="meta-keyword">/sys/</span>block<span class="meta-keyword">/sda/</span>queue/nr_requests <span class="meta">#增大队列,默认128</span></span><br></pre></td></tr></table></figure>

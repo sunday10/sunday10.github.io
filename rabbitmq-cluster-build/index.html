@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -193,7 +193,7 @@
 
                 <h1 id="AMQP"><a href="#AMQP" class="headerlink" title="AMQP"></a>AMQP</h1><p>AMQP，即Advanced Message Queuing Protocol，高级消息队列协议，是应用层协议的一个开放标准，为面向消息的中间件设计。AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。<br>那么再来介绍下RabbitMQ本身。RabbitMQ是一个上面说的AMQP协议的开源实现，其服务器端用Erlang语言写的，支持多种客户端，如：Python、Ruby、.NET、Java、JMS、C、PHP、ActionScript、XMPP、STOMP等，支持AJAX。该消息队列主要用于在分布式系统中存储转发消息，在易用性、扩展性、高可用性等方面表现不俗。</p>
 <h1 id="为何要选型RabbitMQ"><a href="#为何要选型RabbitMQ" class="headerlink" title="为何要选型RabbitMQ"></a>为何要选型RabbitMQ</h1><p>（1）RabbitMQ本身安装部署（单实例/集群）均较为简单，上手门槛低，功能丰富，符合AMQP标准；<br>（2）RabbitMQ的集群易于扩缩，可以根据实际的业务访问量，通过增减集群中节点实例的方式，达到弹性扩容、缩小的效果；<br>（3）企业级消息队列中间件，经过业界各个公司生产环境大量实践案例的验证，具有较高的可靠性；<br>（4）提供各种插件，比如RabbitMQ Management插件提供友好的Web页面管理；<br>（5）除了Web页面可以对RabbitMQ的单实例和集群的各种参数（Exchanges/Queues/Connections等）进行监控以外，其还提供Http的Api接口/JMX接口可以方便用户根据业务需求进行各种自定义的MQ级监控；<br>（6）支持消息持久化、支持消息确认机制、灵活的任务分发机制等，支持功能非常丰富；<br>（7）实现高可用性，可以在RabbitMQ集群中的机器上创建队列的镜像，使得在部分节点出问题的情况下队列仍然可用；此外，其warren和Shovel模式，可以实现故障转移能力和跨数据中心的异地复制；</p>
-<h1 id="RabbitMQ消息队列基本概念"><a href="#RabbitMQ消息队列基本概念" class="headerlink" title="RabbitMQ消息队列基本概念"></a>RabbitMQ消息队列基本概念</h1><img src="http://himg.sundayle.com/static/images/4325076-1317e5cdbab99a8a.png">
+<h1 id="RabbitMQ消息队列基本概念"><a href="#RabbitMQ消息队列基本概念" class="headerlink" title="RabbitMQ消息队列基本概念"></a>RabbitMQ消息队列基本概念</h1><p><img src="/images/4325076-1317e5cdbab99a8a.png" alt="11"></p>
 <p>（1）<strong>Broker Server</strong>：维护一条从Producer到Consumer的路线（Connection），保证数据能够按照指定的方式进行传输。</p>
 <p>（2）<strong>Virtual Host</strong>，表示一批交换器、消息队列和相关对象的容器。虚拟主机是共享相同的身份认证和加密环境的独立服务器域。默认的 vhost 是 “/”；</p>
 <p>（3）<strong>Connection</strong>： 连接，Producer和Consumer都是通过TCP连接到RabbitMQ Server的。一般我们会看到，在我们业务代码的起始为止就是建立这个TCP连接。</p>
@@ -248,7 +248,7 @@
 <li>不能添加和删除集群几点</li>
 </ul>
 <p>总结：如果唯一磁盘的磁盘节点崩溃，集群是可以保持运行的，但你不能更改任何东西。<br>解决方案： 在集群中设置两个磁盘节点，只要一个可以，你就能正常操作。</p>
-<h1 id="群集架构图"><a href="#群集架构图" class="headerlink" title="群集架构图"></a>群集架构图</h1><p>生产环境使用还需要根据实际的业务需求对集群中的各个实例进行一些性能参数指标的监控，从性能、吞吐量和消息堆积能力等角度考虑，可以选择Kafka来作为RabbitMQ集群的监控队列使用。<br><img src="http://himg.sundayle.com/static/images/4325076-5f863f419723664c.png"></p>
+<h1 id="群集架构图"><a href="#群集架构图" class="headerlink" title="群集架构图"></a>群集架构图</h1><p>生产环境使用还需要根据实际的业务需求对集群中的各个实例进行一些性能参数指标的监控，从性能、吞吐量和消息堆积能力等角度考虑，可以选择Kafka来作为RabbitMQ集群的监控队列使用。<br><img src="/images/4325076-5f863f419723664c.png" alt="11"></p>
 <h1 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h1><p><strong>拷贝同步<code>.erlang.cookie</code></strong><br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scp /var/<span class="class"><span class="keyword">lib</span>/<span class="title">rabbitmq</span>/.<span class="title">erlang</span>.<span class="title">cookie</span> <span class="title">root</span>@<span class="title">node2</span>:/<span class="title">var</span>/<span class="title">lib</span>/<span class="title">rabbitmq</span>/</span></span><br><span class="line">scp ... node3-<span class="number">10</span>...</span><br><span class="line">chown <span class="number">400</span> /var/<span class="class"><span class="keyword">lib</span>/<span class="title">rabbitmq</span>/.<span class="title">erlang</span>.<span class="title">cookie</span></span></span><br></pre></td></tr></table></figure></p>
 <p><strong>在node2-10执行以下命令（以node1为主节点，加入群集）</strong><br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl stop_app</span><br><span class="line">rabbitmqctl <span class="keyword">reset</span></span><br><span class="line">rabbitmqctl join_cluster rabbit@node1 </span><br><span class="line">rabbitmqctl start_app</span><br></pre></td></tr></table></figure></p>
 <p><strong> 配置部分内存节点 </strong><br><figure class="highlight moonscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl join_cluster rabbit@node1  <span class="comment">--ram</span></span><br></pre></td></tr></table></figure></p>

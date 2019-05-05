@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -231,9 +231,9 @@
 <p><strong>client</strong>：客户端，作为业务请求的发起方，通过专有接口，使用TCP/IP协议与跟踪器服务器或存储节点进行数据交互。FastDFS向使用者提供基本文件访问接口，比如upload、download、append、delete等，以客户端库的方式提供给用户使用。</p>
 <p>另外两个概念：</p>
 <p><strong>group</strong> ：组， 也可称为卷。 同组内服务器上的文件是完全相同的 ，同一组内的storage server之间是对等的， 文件上传、 删除等操作可以在任意一台storage server上进行 。</p>
-<p><strong>meta data</strong> ：文件相关属性，键值对（ Key Value Pair） 方式，如：width=1024,heigth=768 。<br><img src="http://himg.sundayle.com/static/images/fastdfs_arch.png"></p>
+<p><strong>meta data</strong> ：文件相关属性，键值对（ Key Value Pair） 方式，如：width=1024,heigth=768 。<br><img src="/images/fastdfs_arch.png" alt="11"></p>
 <p>Tracker相当于FastDFS的大脑，不论是上传还是下载都是通过tracker来分配资源；客户端一般可以使用ngnix等静态服务器来调用或者做一部分的缓存；存储服务器内部分为卷（或者叫做组），卷于卷之间是平行的关系，可以根据资源的使用情况随时增加，卷内服务器文件相互同步备份，以达到容灾的目的。</p>
-<h2 id="上传机制"><a href="#上传机制" class="headerlink" title="上传机制"></a>上传机制</h2><p>首先客户端请求Tracker服务获取到存储服务器的ip地址和端口，然后客户端根据返回的IP地址和端口号请求上传文件，存储服务器接收到请求后生产文件，并且将文件内容写入磁盘并返回给客户端file_id、路径信息、文件名等信息，客户端保存相关信息上传完毕。<br><img src="http://himg.sundayle.com/static/images/upload.png"></p>
+<h2 id="上传机制"><a href="#上传机制" class="headerlink" title="上传机制"></a>上传机制</h2><p>首先客户端请求Tracker服务获取到存储服务器的ip地址和端口，然后客户端根据返回的IP地址和端口号请求上传文件，存储服务器接收到请求后生产文件，并且将文件内容写入磁盘并返回给客户端file_id、路径信息、文件名等信息，客户端保存相关信息上传完毕。<br><img src="/images/upload.png" alt="11"></p>
 <p>内部机制如下：</p>
 <p><strong>1、选择tracker server</strong><br>当集群中不止一个tracker server时，由于tracker之间是完全对等的关系，客户端在upload文件时可以任意选择一个trakcer。 选择存储的group 当tracker接收到upload file的请求时，会为该文件分配一个可以存储该文件的group，支持如下选择group的规则：</p>
 <ul>
@@ -254,7 +254,7 @@
 </ul>
 <p><strong>4、生成Fileid</strong><br>选定存储目录之后，storage会为文件生一个Fileid，由storage server ip、文件创建时间、文件大小、文件crc32和一个随机数拼接而成，然后将这个二进制串进行base64编码，转换为可打印的字符串。 选择两级目录 当选定存储目录之后，storage会为文件分配一个fileid，每个存储目录下有两级256*256的子目录，storage会按文件fileid进行两次hash（猜测），路由到其中一个子目录，然后将文件以fileid为文件名存储到该子目录下。</p>
 <p><strong>5、生成文件名</strong><br>当文件存储到某个子目录后，即认为该文件存储成功，接下来会为该文件生成一个文件名，文件名由group、存储目录、两级子目录、fileid、文件后缀名（由客户端指定，主要用于区分文件类型）拼接而成。</p>
-<h2 id="下载机制"><a href="#下载机制" class="headerlink" title="下载机制"></a>下载机制</h2><p>客户端带上文件名信息请求Tracker服务获取到存储服务器的ip地址和端口，然后客户端根据返回的IP地址和端口号请求下载文件，存储服务器接收到请求后返回文件给客户端。<br><img src="http://himg.sundayle.com/static/images/download.png"></p>
+<h2 id="下载机制"><a href="#下载机制" class="headerlink" title="下载机制"></a>下载机制</h2><p>客户端带上文件名信息请求Tracker服务获取到存储服务器的ip地址和端口，然后客户端根据返回的IP地址和端口号请求下载文件，存储服务器接收到请求后返回文件给客户端。<br><img src="/images/download.png" alt="11"></p>
 <p>跟upload file一样，在download file时客户端可以选择任意tracker server。tracker发送download请求给某个tracker，必须带上文件名信息，tracke从文件名中解析出文件的group、大小、创建时间等信息，然后为该请求选择一个storage用来服务读请求。由于group内的文件同步时在后台异步进行的，所以有可能出现在读到时候，文件还没有同步到某些storage server上，为了尽量避免访问到这样的storage，tracker按照如下规则选择group内可读的storage。</p>
 <ul>
 <li>1、该文件上传到的源头storage - 源头storage只要存活着，肯定包含这个文件，源头的地址被编码在文件名中。</li>
@@ -262,11 +262,11 @@
 <li>3、文件创建时间戳 &lt; storage被同步到的时间戳。 - 同步时间戳之前的文件确定已经同步了</li>
 <li>4、(当前时间-文件创建时间戳) &gt; 同步延迟阀值（如一天）。 - 经过同步延迟阈值时间，认为文件肯定已经同步了。</li>
 </ul>
-<h2 id="同步时间管理"><a href="#同步时间管理" class="headerlink" title="同步时间管理"></a>同步时间管理</h2><p>当一个文件上传成功后，客户端马上发起对该文件下载请求（或删除请求）时，tracker是如何选定一个适用的存储服务器呢？ 其实每个存储服务器都需要定时将自身的信息上报给tracker，这些信息就包括了本地同步时间（即，同步到的最新文件的时间戳）。而tracker根据各个存储服务器的上报情况，就能够知道刚刚上传的文件，在该存储组中是否已完成了同步。同步信息上报如下图：<br><img src="http://himg.sundayle.com/static/images/sync.png"></p>
+<h2 id="同步时间管理"><a href="#同步时间管理" class="headerlink" title="同步时间管理"></a>同步时间管理</h2><p>当一个文件上传成功后，客户端马上发起对该文件下载请求（或删除请求）时，tracker是如何选定一个适用的存储服务器呢？ 其实每个存储服务器都需要定时将自身的信息上报给tracker，这些信息就包括了本地同步时间（即，同步到的最新文件的时间戳）。而tracker根据各个存储服务器的上报情况，就能够知道刚刚上传的文件，在该存储组中是否已完成了同步。同步信息上报如下图：<br><img src="/images/sync.png" alt="11"></p>
 <p>写文件时，客户端将文件写至group内一个storage server即认为写文件成功，storage server写完文件后，会由后台线程将文件同步至同group内其他的storage server。</p>
 <p>每个storage写文件后，同时会写一份binlog，binlog里不包含文件数据，只包含文件名等元信息，这份binlog用于后台同步，storage会记录向group内其他storage同步的进度，以便重启后能接上次的进度继续同步；进度以时间戳的方式进行记录，所以最好能保证集群内所有server的时钟保持同步。</p>
 <p>storage的同步进度会作为元数据的一部分汇报到tracker上，tracke在选择读storage的时候会以同步进度作为参考。 比如一个group内有A、B、C三个storage server，A向C同步到进度为T1 (T1以前写的文件都已经同步到B上了），B向C同步到时间戳为T2（T2 &gt; T1)，tracker接收到这些同步进度信息时，就会进行整理，将最小的那个做为C的同步时间戳，本例中T1即为C的同步时间戳为T1（即所有T1以前写的数据都已经同步到C上了）；同理，根据上述规则，tracker会为A、B生成一个同步时间戳。</p>
-<h2 id="精巧的文件ID-FID"><a href="#精巧的文件ID-FID" class="headerlink" title="精巧的文件ID-FID"></a>精巧的文件ID-FID</h2><p>说到下载就不得不提文件索引（又称：FID）的精巧设计了。文件索引结构如下图，是客户端上传文件后存储服务器返回给客户端，用于以后访问该文件的索引信息。文件索引信息包括：组名，虚拟磁盘路径，数据两级目录，文件名。<br><img src="http://himg.sundayle.com/static/images/id.png"></p>
+<h2 id="精巧的文件ID-FID"><a href="#精巧的文件ID-FID" class="headerlink" title="精巧的文件ID-FID"></a>精巧的文件ID-FID</h2><p>说到下载就不得不提文件索引（又称：FID）的精巧设计了。文件索引结构如下图，是客户端上传文件后存储服务器返回给客户端，用于以后访问该文件的索引信息。文件索引信息包括：组名，虚拟磁盘路径，数据两级目录，文件名。<br><img src="/images/id.png" alt="11"></p>
 <ul>
 <li>组名：文件上传后所在的存储组名称，在文件上传成功后有存储服务器返回，需要客户端自行保存。</li>
 <li>虚拟磁盘路径：存储服务器配置的虚拟路径，与磁盘选项store_path*对应。</li>

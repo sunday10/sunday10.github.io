@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -195,7 +195,8 @@
 
                 <p>tomcat jenkins：<a href="http://192.168.10.18:8080/jenkins/" target="_blank" rel="noopener">http://192.168.10.18:8080/jenkins/</a></p>
 <p>nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.com/jenkins/<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>      <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>    jenkins.sundayle.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://192.168.10.18:8080/jenkins/;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">port_in_redirect</span> <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">proxy_redirect</span>  <span class="literal">off</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> /jenkins &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://192.168.10.18:8080;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">port_in_redirect</span> <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">proxy_redirect</span>  <span class="literal">off</span>;</span><br><span class="line">    &#125;   </span><br><span class="line">   </span><br><span class="line">    <span class="attribute">access_log</span>  /data/logs/nginx/jenkins.yyq.com.log jenkins.yyq.com;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<img src="http://himg.sundayle.com/static/images/nginx-proxy-jenkins.gif">
+<p><img src="/images/nginx-proxy-jenkins.gif" alt="11"></p>
+
 
                 <hr>
 

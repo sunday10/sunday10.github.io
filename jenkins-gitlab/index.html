@@ -90,7 +90,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -104,7 +104,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -194,11 +194,11 @@
                 post-container">
 
                 <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p><strong>持续集成</strong><br>持续集成(Continuous Integration)是指在软件开发过程中，频繁地将代码集成到主干上，然后进行自动化测试。</p>
-<img src="http://himg.sundayle.com/static/images/Contiunous-Integration.png">
+<p><img src="/images/Contiunous-Integration.png" alt="11"></p>
 <p><strong>持续交付</strong><br>持续交付(Continuous Delivery)是指在持续集成的基础上，将集成后的代码部署到更贴近真实运行环境的“类生产环境”（production-like environments）中。 比如，我们完成单元测试后，可以把代码部署到连接数据库的 Staging 环境中进行更多的测试。如果代码没有问题，可以继续手动部署到生产环境中。</p>
-<img src="http://himg.sundayle.com/static/images/Continuous-Delivery.png">
+<p><img src="/images/Continuous-Delivery.png" alt="11"></p>
 <p><strong>持续部署</strong><br>持续部署(Continuous Deploy)是在持续交付的基础上，把部署到生产环境的过程自动化。持续部署和持续交付的区别就是最终部署到生产环境是自动化的。</p>
-<img src="http://himg.sundayle.com/static/images/Continuous-Deploy.png">
+<p><img src="/images/Continuous-Deploy.png" alt="11"></p>
 <p>GitLab是一个代码仓库，用来管理代码。Jenkins是一个自动化服务器，可以运行各种自动化构建、测试或部署任务。所以这两者结合起来，就可以实现开发者提交代码到GitLab，Jenkins以一定频率自动运行测试、构建和部署的任务，帮组开发团队更高效的集成和发布代码。<br>注意这只是测试环境，而生产环境依然需要手动部署代码。</p>
 <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CentOS <span class="number">7</span></span><br><span class="line">setenforce <span class="number">0</span></span><br><span class="line">systemctl <span class="built_in">stop</span> firewalld</span><br><span class="line">systemctl <span class="built_in">stop</span> NetworkManager</span><br></pre></td></tr></table></figure>
 <h1 id="Gitlab安装配置"><a href="#Gitlab安装配置" class="headerlink" title="Gitlab安装配置"></a>Gitlab安装配置</h1><p><a href="https://about.gitlab.com/installation/#centos-7" target="_blank" rel="noopener">https://about.gitlab.com/installation/#centos-7</a></p>
@@ -213,30 +213,19 @@
 <p>注：若jenkins和gitlab在同一台服务器需要修改jenkins端口，将8080修改为8081<br><figure class="highlight purebasic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -i 's<span class="symbol">#JENKINS_PORT</span>=<span class="string">"8080"</span><span class="symbol">#JENKINS_PORT</span>=<span class="string">"8081"</span><span class="symbol">#g</span>' /etc/sysconfig/jenkins</span><br><span class="line">systemctl start jenkins</span><br></pre></td></tr></table></figure></p>
 <p>访问<a href="http://gitlab.sundayle.com:8081/" target="_blank" rel="noopener">http://gitlab.sundayle.com:8081/</a></p>
 <h1 id="gitlab自动触发构建jenkins"><a href="#gitlab自动触发构建jenkins" class="headerlink" title="gitlab自动触发构建jenkins"></a>gitlab自动触发构建jenkins</h1><p>安装插件：GitLab Plugins</p>
-<h2 id="gitlab-添加Access-Tokens"><a href="#gitlab-添加Access-Tokens" class="headerlink" title="gitlab 添加Access Tokens"></a>gitlab 添加Access Tokens</h2><img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_15-51-18.jpg">
-<img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_17-20-50.jpg">
-<h2 id="Jenkin-系统管理-gitlab配置api并测试"><a href="#Jenkin-系统管理-gitlab配置api并测试" class="headerlink" title="Jenkin 系统管理 gitlab配置api并测试"></a>Jenkin 系统管理 gitlab配置api并测试</h2><img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_16-46-56.jpg">
-<img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_16-47-16.jpg">
-<img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_16-48-03.jpg">
-<h2 id="新建任务-WebApp项目-源码配置"><a href="#新建任务-WebApp项目-源码配置" class="headerlink" title="新建任务 WebApp项目 源码配置"></a>新建任务 WebApp项目 源码配置</h2><img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_17-36-07.jpg">
-<h2 id="WebApp项目-gitlab-hook配置"><a href="#WebApp项目-gitlab-hook配置" class="headerlink" title="WebApp项目 gitlab hook配置"></a>WebApp项目 gitlab hook配置</h2><img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_17-18-42.jpg">
-<h2 id="WebApp项目-配置Build、Post-Steps"><a href="#WebApp项目-配置Build、Post-Steps" class="headerlink" title="WebApp项目 配置Build、Post Steps"></a>WebApp项目 配置Build、Post Steps</h2><img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_17-40-49.jpg">
-<h2 id="gitlab-配置Webhook"><a href="#gitlab-配置Webhook" class="headerlink" title="gitlab 配置Webhook"></a>gitlab 配置Webhook</h2><img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_17-22-44.jpg">
-<img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_17-24-14.jpg">
-<img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_17-24-37.jpg">
-<p>gitlab 添加webhook 报错 Url is blocked: Requests to localhost are not allowed<br><img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_16-34-24.jpg"></p>
+<h2 id="gitlab-添加Access-Tokens"><a href="#gitlab-添加Access-Tokens" class="headerlink" title="gitlab 添加Access Tokens"></a>gitlab 添加Access Tokens</h2><p><img src="/images/Snipaste_2018-08-01_15-51-18.jpg" alt="11"><br><img src="/images/Snipaste_2018-08-01_17-20-50.jpg" alt="11"></p>
+<h2 id="Jenkin-系统管理-gitlab配置api并测试"><a href="#Jenkin-系统管理-gitlab配置api并测试" class="headerlink" title="Jenkin 系统管理 gitlab配置api并测试"></a>Jenkin 系统管理 gitlab配置api并测试</h2><p><img src="/images/Snipaste_2018-08-01_16-46-56.jpg" alt="11"><br><img src="/images/Snipaste_2018-08-01_16-47-16.jpg" alt="11"><br><img src="/images/Snipaste_2018-08-01_16-48-03.jpg" alt="11"></p>
+<h2 id="新建任务-WebApp项目-源码配置"><a href="#新建任务-WebApp项目-源码配置" class="headerlink" title="新建任务 WebApp项目 源码配置"></a>新建任务 WebApp项目 源码配置</h2><p><img src="/images/Snipaste_2018-08-01_17-36-07.jpg" alt="11"></p>
+<h2 id="WebApp项目-gitlab-hook配置"><a href="#WebApp项目-gitlab-hook配置" class="headerlink" title="WebApp项目 gitlab hook配置"></a>WebApp项目 gitlab hook配置</h2><p><img src="/images/Snipaste_2018-08-01_17-18-42.jpg" alt="11"></p>
+<h2 id="WebApp项目-配置Build、Post-Steps"><a href="#WebApp项目-配置Build、Post-Steps" class="headerlink" title="WebApp项目 配置Build、Post Steps"></a>WebApp项目 配置Build、Post Steps</h2><p><img src="/images/Snipaste_2018-08-01_17-40-49.jpg" alt="11"></p>
+<h2 id="gitlab-配置Webhook"><a href="#gitlab-配置Webhook" class="headerlink" title="gitlab 配置Webhook"></a>gitlab 配置Webhook</h2><p><img src="/images/Snipaste_2018-08-01_17-22-44.jpg" alt="11"><br><img src="/images/Snipaste_2018-08-01_17-24-14.jpg" alt="11"><br><img src="/images/Snipaste_2018-08-01_17-24-37.jpg" alt="11"><br>gitlab 添加webhook 报错 Url is blocked: Requests to localhost are not allowed<br><img src="/images/Snipaste_2018-08-01_16-34-24.jpg" alt="11"></p>
 <h1 id="流水线"><a href="#流水线" class="headerlink" title="流水线"></a>流水线</h1><p>安装插件: Build Pipeline Plugin 进行图形化操作</p>
 <p>部署两个项目代码至node2服务器</p>
 <h2 id="node1操作"><a href="#node1操作" class="headerlink" title="node1操作"></a>node1操作</h2><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">visudo </span><br><span class="line">jenkins <span class="keyword">ALL</span>=(<span class="keyword">ALL</span>)       NOPASSWD:<span class="keyword">ALL</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br><span class="line">ssh-copy-id /root/.ssh/id_rsa.pub root@<span class="number">192.168</span><span class="number">.10</span><span class="number">.101</span></span><br></pre></td></tr></table></figure>
-<h2 id="Jenkins-新建任务-hello2"><a href="#Jenkins-新建任务-hello2" class="headerlink" title="Jenkins 新建任务 hello2"></a>Jenkins 新建任务 hello2</h2><img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_19-01-22.jpg">
-<img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_19-02-03.jpg">
-<h2 id="Jenkins-新建任务-hello1"><a href="#Jenkins-新建任务-hello1" class="headerlink" title="Jenkins 新建任务 hello1"></a>Jenkins 新建任务 hello1</h2><img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_19-02-43.jpg">
-<img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_19-03-12.jpg">
-<h2 id="Jenkins-新建pipeline-视图"><a href="#Jenkins-新建pipeline-视图" class="headerlink" title="Jenkins 新建pipeline 视图"></a>Jenkins 新建pipeline 视图</h2><img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_19-04-02.jpg">
-<img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_19-04-50.jpg">
-<img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_19-05-27.jpg">
-<img src="http://himg.sundayle.com/static/images/Snipaste_2018-08-01_19-06-31.jpg">
+<h2 id="Jenkins-新建任务-hello2"><a href="#Jenkins-新建任务-hello2" class="headerlink" title="Jenkins 新建任务 hello2"></a>Jenkins 新建任务 hello2</h2><p><img src="/images/Snipaste_2018-08-01_19-01-22.jpg" alt="11"><br><img src="/images/Snipaste_2018-08-01_19-02-03.jpg" alt="11"></p>
+<h2 id="Jenkins-新建任务-hello1"><a href="#Jenkins-新建任务-hello1" class="headerlink" title="Jenkins 新建任务 hello1"></a>Jenkins 新建任务 hello1</h2><p><img src="/images/Snipaste_2018-08-01_19-02-43.jpg" alt="11"><br><img src="/images/Snipaste_2018-08-01_19-03-12.jpg" alt="11"></p>
+<h2 id="Jenkins-新建pipeline-视图"><a href="#Jenkins-新建pipeline-视图" class="headerlink" title="Jenkins 新建pipeline 视图"></a>Jenkins 新建pipeline 视图</h2><p><img src="/images/Snipaste_2018-08-01_19-04-02.jpg" alt="11"><br><img src="/images/Snipaste_2018-08-01_19-04-50.jpg" alt="11"><br><img src="/images/Snipaste_2018-08-01_19-05-27.jpg" alt="11"><br><img src="/images/Snipaste_2018-08-01_19-06-31.jpg" alt="11"></p>
 <h2 id="node2效果"><a href="#node2效果" class="headerlink" title="node2效果"></a>node2效果</h2><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tree /data/web/</span><br><span class="line">/data/web/</span><br><span class="line">├── hell<span class="meta">o1</span></span><br><span class="line">│   └── hell<span class="meta">o1</span>.md</span><br><span class="line">└── hell<span class="meta">o2</span></span><br><span class="line">    └── hell<span class="meta">o2</span>.md</span><br><span class="line"></span><br><span class="line"><span class="number">2</span> directories, <span class="number">2</span> files</span><br></pre></td></tr></table></figure>
 
                 <hr>

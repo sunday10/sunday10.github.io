@@ -4,14 +4,29 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/centos-7-upgrade-kernel/</loc>
-    <lastmod>2019-04-03T02:56:27.883Z</lastmod>
+    <loc>http://www.sundayle.com/sql-server-replication/</loc>
+    <lastmod>2019-05-05T07:41:18.533Z</lastmod>
     <data>
         <display>
-        <title>CentOS 7 升级 4.19 内核</title>
-        <pubTime>2018-12-29T07:05:23.000Z</pubTime>
+        <title>Windows SQL Server 主从复制</title>
+        <pubTime>2018-09-26T07:21:53.000Z</pubTime>
         
-        <tag>kernel</tag>
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/remove-iis-server-info/</loc>
+    <lastmod>2019-05-05T07:41:18.505Z</lastmod>
+    <data>
+        <display>
+        <title>IIS 8.5 隐藏 X-Powered-By 及 X-Powered-By 信息</title>
+        <pubTime>2018-09-14T06:02:48.000Z</pubTime>
+        
+        <tag>iis</tag>
          
          
            
@@ -22,13 +37,453 @@
     
   <url>
     <loc>http://www.sundayle.com/rabbitmq-cluster-build/</loc>
-    <lastmod>2019-03-26T02:41:44.045Z</lastmod>
+    <lastmod>2019-05-05T07:41:18.496Z</lastmod>
     <data>
         <display>
         <title>RabbitMQ 集群搭建</title>
         <pubTime>2018-11-01T07:31:53.000Z</pubTime>
         
         <tag>rabbitmq</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/openstack/</loc>
+    <lastmod>2019-05-05T07:41:18.481Z</lastmod>
+    <data>
+        <display>
+        <title>OpenStack 入门实践</title>
+        <pubTime>2018-07-12T15:35:01.000Z</pubTime>
+        
+        <tag>openstack</tag>
+         
+         
+           
+             
+              <breadCrumb title="openstack" url="http://www.sundayle.com/categories/openstack/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/nmap-penetration/</loc>
+    <lastmod>2019-05-05T07:41:18.442Z</lastmod>
+    <data>
+        <display>
+        <title>Nmap 渗透使用指南</title>
+        <pubTime>2018-08-21T08:13:21.000Z</pubTime>
+        
+        <tag>nmap</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/nginx-reverse-secondary-directory-with-parameters/</loc>
+    <lastmod>2019-05-05T07:41:18.409Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx 反向代理二级目录带参数</title>
+        <pubTime>2018-11-16T08:02:52.000Z</pubTime>
+        
+        <tag>jenkins</tag>
+         
+        <tag>nginx</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/mysql-optimize-in-linux/</loc>
+    <lastmod>2019-05-05T07:41:18.336Z</lastmod>
+    <data>
+        <display>
+        <title>Linux MySQL 优化</title>
+        <pubTime>2017-08-08T02:49:38.000Z</pubTime>
+        
+        <tag>性能优化</tag>
+         
+        <tag>mysql</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/mongodb-cluster/</loc>
+    <lastmod>2019-05-05T07:41:18.318Z</lastmod>
+    <data>
+        <display>
+        <title>mongodb 3.4 集群搭建：分片+副本集</title>
+        <pubTime>2018-05-17T15:24:04.000Z</pubTime>
+        
+        <tag>mongodb</tag>
+         
+         
+           
+             
+              <breadCrumb title="mongodb" url="http://www.sundayle.com/categories/mongodb/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/mogilefs/</loc>
+    <lastmod>2019-05-05T07:41:18.306Z</lastmod>
+    <data>
+        <display>
+        <title>MogileFS 分布式存储</title>
+        <pubTime>2018-09-07T02:47:57.000Z</pubTime>
+        
+        <tag>分布式</tag>
+         
+        <tag>mogilefs</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/lvs/</loc>
+    <lastmod>2019-05-05T07:41:18.282Z</lastmod>
+    <data>
+        <display>
+        <title>负载均衡集群 LVS 详解</title>
+        <pubTime>2018-08-07T07:47:27.000Z</pubTime>
+        
+        <tag>高性能</tag>
+         
+        <tag>lvs</tag>
+         
+         
+           
+             
+              <breadCrumb title="lvs" url="http://www.sundayle.com/categories/lvs/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/lvm2/</loc>
+    <lastmod>2019-05-05T07:41:18.266Z</lastmod>
+    <data>
+        <display>
+        <title>LVM逻辑卷管理配置</title>
+        <pubTime>2018-08-23T03:43:24.000Z</pubTime>
+        
+        <tag>lvm</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/linux-system-io/</loc>
+    <lastmod>2019-05-05T07:41:18.256Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 性能优化之 IO 子系统</title>
+        <pubTime>2017-08-08T03:05:21.000Z</pubTime>
+        
+        <tag>性能优化</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/linux-process-management/</loc>
+    <lastmod>2019-05-05T07:41:18.233Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 进程的管理与监控</title>
+        <pubTime>2018-08-15T03:35:31.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/linux-interrupt/</loc>
+    <lastmod>2019-05-05T07:41:18.216Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 中断和中断处理</title>
+        <pubTime>2017-08-08T02:07:16.000Z</pubTime>
+        
+        <tag>性能优化</tag>
+         
+        <tag>中断</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/kvm-windows-server-2012/</loc>
+    <lastmod>2019-05-05T07:41:18.200Z</lastmod>
+    <data>
+        <display>
+        <title>Ubuntu 16.04 KVM 安装 Windows Server 2012</title>
+        <pubTime>2018-10-12T06:35:17.000Z</pubTime>
+        
+        <tag>kvm</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/kubernetes-baise/</loc>
+    <lastmod>2019-05-05T07:41:18.195Z</lastmod>
+    <data>
+        <display>
+        <title>kubernetes 基础知识</title>
+        <pubTime>2018-12-08T16:15:06.000Z</pubTime>
+        
+        <tag>kubernetes</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
+    <lastmod>2019-05-05T07:41:18.186Z</lastmod>
+    <data>
+        <display>
+        <title>基于kubeadm方式部署kubernetes v1.12.1</title>
+        <pubTime>2018-10-22T09:38:40.000Z</pubTime>
+        
+        <tag>docker</tag>
+         
+        <tag>kubernetes</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/iis-8-5-configure-high-concurrency/</loc>
+    <lastmod>2019-05-05T07:41:18.143Z</lastmod>
+    <data>
+        <display>
+        <title>IIS 8.5 高并发配置</title>
+        <pubTime>2018-09-30T08:48:37.000Z</pubTime>
+        
+        <tag>iis</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/high-availability/</loc>
+    <lastmod>2019-05-05T07:41:18.135Z</lastmod>
+    <data>
+        <display>
+        <title>高可用集群基本概念</title>
+        <pubTime>2018-08-07T15:43:24.000Z</pubTime>
+        
+        <tag>高可用</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/glusterfs/</loc>
+    <lastmod>2019-05-05T07:41:18.128Z</lastmod>
+    <data>
+        <display>
+        <title>企业级分布式存储 Glusterfs</title>
+        <pubTime>2018-08-23T07:41:57.000Z</pubTime>
+        
+        <tag>分布式</tag>
+         
+        <tag>glusterfs</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/glusterfs-docker/</loc>
+    <lastmod>2019-05-05T07:41:18.116Z</lastmod>
+    <data>
+        <display>
+        <title>基于 GlusterFS 实现 Docker 集群的分布式存储</title>
+        <pubTime>2018-08-22T04:05:51.000Z</pubTime>
+        
+        <tag>glusterfs</tag>
+         
+        <tag>分布式文件系统</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/</loc>
+    <lastmod>2019-05-05T07:41:18.095Z</lastmod>
+    <data>
+        <display>
+        <title>我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？</title>
+        <pubTime>2018-06-26T07:09:45.000Z</pubTime>
+        
+        <tag>haproxy</tag>
+         
+        <tag>高性能</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/fastdfs-cluster/</loc>
+    <lastmod>2019-05-05T07:41:18.087Z</lastmod>
+    <data>
+        <display>
+        <title>FastDFS 分布式存储集群部署</title>
+        <pubTime>2018-09-10T10:23:32.000Z</pubTime>
+        
+        <tag>fastdfs</tag>
+         
+        <tag>分布式</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/docker/</loc>
+    <lastmod>2019-05-05T07:41:18.074Z</lastmod>
+    <data>
+        <display>
+        <title>Docker(一)：Docker入门</title>
+        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
+        
+        <tag>docker</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/distributed-file-system-fastdfs/</loc>
+    <lastmod>2019-05-05T07:41:18.067Z</lastmod>
+    <data>
+        <display>
+        <title>分布式文件系统FastDFS详解</title>
+        <pubTime>2018-09-10T04:10:32.000Z</pubTime>
+        
+        <tag>fastdfs</tag>
+         
+        <tag>分布式</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/cobbler/</loc>
+    <lastmod>2019-05-05T07:41:18.060Z</lastmod>
+    <data>
+        <display>
+        <title>Cobbler 自动化部署实践</title>
+        <pubTime>2018-07-01T11:03:27.000Z</pubTime>
+        
+        <tag>cobbler</tag>
+         
+         
+           
+             
+              <breadCrumb title="cobbler" url="http://www.sundayle.com/categories/cobbler/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/centos-7-upgrade-kernel/</loc>
+    <lastmod>2019-04-03T02:56:27.883Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS 7 升级 4.19 内核</title>
+        <pubTime>2018-12-29T07:05:23.000Z</pubTime>
+        
+        <tag>kernel</tag>
          
          
            
@@ -279,40 +734,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/kubernetes-baise/</loc>
-    <lastmod>2018-12-29T02:48:26.020Z</lastmod>
-    <data>
-        <display>
-        <title>kubernetes 基础知识</title>
-        <pubTime>2018-12-08T16:15:06.000Z</pubTime>
-        
-        <tag>kubernetes</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/docker/</loc>
-    <lastmod>2018-12-07T11:34:04.645Z</lastmod>
-    <data>
-        <display>
-        <title>Docker(一)：Docker入门</title>
-        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
-        
-        <tag>docker</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/linux-quickly-view-directory-size/</loc>
     <lastmod>2018-12-07T02:11:36.354Z</lastmod>
     <data>
@@ -330,12 +751,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>Python 装饰器</title>
-        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
+        <title>Python 编码</title>
+        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -347,31 +768,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/kubeadm-build-kubernetes/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>基于kubeadm方式部署kubernetes v1.12.1</title>
-        <pubTime>2018-10-22T09:38:40.000Z</pubTime>
-        
-        <tag>docker</tag>
-         
-        <tag>kubernetes</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
-    <lastmod>2018-12-07T02:05:00.715Z</lastmod>
-    <data>
-        <display>
-        <title>Python 编码</title>
-        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
+        <title>Python 装饰器</title>
+        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -438,67 +840,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/kvm-windows-server-2012/</loc>
-    <lastmod>2018-11-19T03:40:17.873Z</lastmod>
-    <data>
-        <display>
-        <title>Ubuntu 16.04 KVM 安装 Windows Server 2012</title>
-        <pubTime>2018-10-12T06:35:17.000Z</pubTime>
-        
-        <tag>kvm</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/nginx-reverse-secondary-directory-with-parameters/</loc>
-    <lastmod>2018-11-16T08:17:41.931Z</lastmod>
-    <data>
-        <display>
-        <title>Nginx 反向代理二级目录带参数</title>
-        <pubTime>2018-11-16T08:02:52.000Z</pubTime>
-        
-        <tag>jenkins</tag>
-         
-        <tag>nginx</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/haproxy-tutorial/</loc>
     <lastmod>2018-11-09T03:52:03.334Z</lastmod>
     <data>
         <display>
         <title>HAProxy 反向代理的使用</title>
         <pubTime>2018-06-26T03:55:02.000Z</pubTime>
-        
-        <tag>haproxy</tag>
-         
-        <tag>高性能</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/</loc>
-    <lastmod>2018-11-09T03:12:09.349Z</lastmod>
-    <data>
-        <display>
-        <title>我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？</title>
-        <pubTime>2018-06-26T07:09:45.000Z</pubTime>
         
         <tag>haproxy</tag>
          
@@ -633,23 +980,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/linux-system-io/</loc>
-    <lastmod>2018-10-16T03:03:00.712Z</lastmod>
-    <data>
-        <display>
-        <title>Linux 性能优化之 IO 子系统</title>
-        <pubTime>2017-08-08T03:05:21.000Z</pubTime>
-        
-        <tag>性能优化</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/apache-bench/</loc>
     <lastmod>2018-10-16T03:01:57.715Z</lastmod>
     <data>
@@ -686,25 +1016,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/fastdfs-cluster/</loc>
-    <lastmod>2018-10-12T10:08:51.801Z</lastmod>
-    <data>
-        <display>
-        <title>FastDFS 分布式存储集群部署</title>
-        <pubTime>2018-09-10T10:23:32.000Z</pubTime>
-        
-        <tag>fastdfs</tag>
-         
-        <tag>分布式</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/nginx-smooth-upgrade/</loc>
     <lastmod>2018-10-12T09:59:22.306Z</lastmod>
     <data>
@@ -714,59 +1025,6 @@
         
         <tag>nginx</tag>
          
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/glusterfs/</loc>
-    <lastmod>2018-10-12T06:19:00.598Z</lastmod>
-    <data>
-        <display>
-        <title>企业级分布式存储 Glusterfs</title>
-        <pubTime>2018-08-23T07:41:57.000Z</pubTime>
-        
-        <tag>分布式</tag>
-         
-        <tag>glusterfs</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/distributed-file-system-fastdfs/</loc>
-    <lastmod>2018-10-12T06:13:34.677Z</lastmod>
-    <data>
-        <display>
-        <title>分布式文件系统FastDFS详解</title>
-        <pubTime>2018-09-10T04:10:32.000Z</pubTime>
-        
-        <tag>fastdfs</tag>
-         
-        <tag>分布式</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/sql-server-replication/</loc>
-    <lastmod>2018-10-12T05:57:48.605Z</lastmod>
-    <data>
-        <display>
-        <title>Windows SQL Server 主从复制</title>
-        <pubTime>2018-09-26T07:21:53.000Z</pubTime>
-        
          
            
         </display>
@@ -790,25 +1048,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/mogilefs/</loc>
-    <lastmod>2018-10-11T10:22:01.949Z</lastmod>
-    <data>
-        <display>
-        <title>MogileFS 分布式存储</title>
-        <pubTime>2018-09-07T02:47:57.000Z</pubTime>
-        
-        <tag>分布式</tag>
-         
-        <tag>mogilefs</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/dd-simple-test/</loc>
     <lastmod>2018-10-08T10:31:25.580Z</lastmod>
     <data>
@@ -816,40 +1055,6 @@
         <title>Linux 使用dd 简单测试 读写速度</title>
         <pubTime>2018-10-08T03:00:44.000Z</pubTime>
         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/iis-8-5-configure-high-concurrency/</loc>
-    <lastmod>2018-09-30T10:42:21.689Z</lastmod>
-    <data>
-        <display>
-        <title>IIS 8.5 高并发配置</title>
-        <pubTime>2018-09-30T08:48:37.000Z</pubTime>
-        
-        <tag>iis</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/remove-iis-server-info/</loc>
-    <lastmod>2018-09-14T06:40:53.937Z</lastmod>
-    <data>
-        <display>
-        <title>IIS 8.5 隐藏 X-Powered-By 及 X-Powered-By 信息</title>
-        <pubTime>2018-09-14T06:02:48.000Z</pubTime>
-        
-        <tag>iis</tag>
-         
          
            
         </display>
@@ -894,42 +1099,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/glusterfs-docker/</loc>
-    <lastmod>2018-08-23T07:40:41.962Z</lastmod>
-    <data>
-        <display>
-        <title>基于 GlusterFS 实现 Docker 集群的分布式存储</title>
-        <pubTime>2018-08-22T04:05:51.000Z</pubTime>
-        
-        <tag>分布式文件系统</tag>
-         
-        <tag>glusterfs</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/lvm2/</loc>
-    <lastmod>2018-08-23T06:35:12.067Z</lastmod>
-    <data>
-        <display>
-        <title>LVM逻辑卷管理配置</title>
-        <pubTime>2018-08-23T03:43:24.000Z</pubTime>
-        
-        <tag>lvm</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/python-deep-copy-and-shallow-copy/</loc>
     <lastmod>2018-08-23T02:22:30.330Z</lastmod>
     <data>
@@ -955,23 +1124,6 @@
         <pubTime>2017-05-19T09:47:20.000Z</pubTime>
         
         <tag>压力测试</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/nmap-penetration/</loc>
-    <lastmod>2018-08-21T08:49:12.254Z</lastmod>
-    <data>
-        <display>
-        <title>Nmap 渗透使用指南</title>
-        <pubTime>2018-08-21T08:13:21.000Z</pubTime>
-        
-        <tag>nmap</tag>
          
          
            
@@ -1129,43 +1281,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/linux-process-management/</loc>
-    <lastmod>2018-08-15T03:47:05.198Z</lastmod>
-    <data>
-        <display>
-        <title>Linux 进程的管理与监控</title>
-        <pubTime>2018-08-15T03:35:31.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/lvs/</loc>
-    <lastmod>2018-08-15T02:05:01.813Z</lastmod>
-    <data>
-        <display>
-        <title>负载均衡集群 LVS 详解</title>
-        <pubTime>2018-08-07T07:47:27.000Z</pubTime>
-        
-        <tag>高性能</tag>
-         
-        <tag>lvs</tag>
-         
-         
-           
-             
-              <breadCrumb title="lvs" url="http://www.sundayle.com/categories/lvs/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/keepalived-nginx-dual-network/</loc>
     <lastmod>2018-08-15T02:02:56.748Z</lastmod>
     <data>
@@ -1176,23 +1291,6 @@
         <tag>keepalived</tag>
          
         <tag>nginx</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/high-availability/</loc>
-    <lastmod>2018-08-15T02:01:32.045Z</lastmod>
-    <data>
-        <display>
-        <title>高可用集群基本概念</title>
-        <pubTime>2018-08-07T15:43:24.000Z</pubTime>
-        
-        <tag>高可用</tag>
          
          
            
@@ -1258,46 +1356,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/openstack/</loc>
-    <lastmod>2018-08-08T10:19:38.810Z</lastmod>
-    <data>
-        <display>
-        <title>OpenStack 入门实践</title>
-        <pubTime>2018-07-12T15:35:01.000Z</pubTime>
-        
-        <tag>openstack</tag>
-         
-         
-           
-             
-              <breadCrumb title="openstack" url="http://www.sundayle.com/categories/openstack/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/mongodb-cluster/</loc>
-    <lastmod>2018-08-08T09:07:35.611Z</lastmod>
-    <data>
-        <display>
-        <title>mongodb 3.4 集群搭建：分片+副本集</title>
-        <pubTime>2018-05-17T15:24:04.000Z</pubTime>
-        
-        <tag>mongodb</tag>
-         
-         
-           
-             
-              <breadCrumb title="mongodb" url="http://www.sundayle.com/categories/mongodb/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/find/</loc>
     <lastmod>2018-08-08T08:58:50.426Z</lastmod>
     <data>
@@ -1331,26 +1389,6 @@
            
              
               <breadCrumb title="grep" url="http://www.sundayle.com/categories/grep/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/cobbler/</loc>
-    <lastmod>2018-08-08T08:55:51.676Z</lastmod>
-    <data>
-        <display>
-        <title>Cobbler 自动化部署实践</title>
-        <pubTime>2018-07-01T11:03:27.000Z</pubTime>
-        
-        <tag>cobbler</tag>
-         
-         
-           
-             
-              <breadCrumb title="cobbler" url="http://www.sundayle.com/categories/cobbler/"/>
           
         </display>
     </data>
@@ -1434,44 +1472,6 @@
              
               <breadCrumb title="nginx" url="http://www.sundayle.com/categories/nginx/"/>
           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/mysql-optimize-in-linux/</loc>
-    <lastmod>2018-08-08T08:12:42.376Z</lastmod>
-    <data>
-        <display>
-        <title>Linux MySQL 优化</title>
-        <pubTime>2017-08-08T02:49:38.000Z</pubTime>
-        
-        <tag>性能优化</tag>
-         
-        <tag>mysql</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/linux-interrupt/</loc>
-    <lastmod>2018-08-08T08:12:34.508Z</lastmod>
-    <data>
-        <display>
-        <title>Linux 中断和中断处理</title>
-        <pubTime>2017-08-08T02:07:16.000Z</pubTime>
-        
-        <tag>性能优化</tag>
-         
-        <tag>中断</tag>
-         
-         
-           
         </display>
     </data>
     </url>
@@ -1569,9 +1569,9 @@
         <title>Maven私服Nexus3.x环境配置</title>
         <pubTime>2018-07-31T10:36:25.000Z</pubTime>
         
-        <tag>maven</tag>
-         
         <tag>持续集成</tag>
+         
+        <tag>maven</tag>
          
         <tag>nexus</tag>
          
@@ -1595,9 +1595,9 @@
         
         <tag>jenkins</tag>
          
-        <tag>maven</tag>
-         
         <tag>持续集成</tag>
+         
+        <tag>maven</tag>
          
          
            
