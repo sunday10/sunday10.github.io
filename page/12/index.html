@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,99 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/coredump/">
+        <h2 class="post-title">
+            Linux 开启 core dump
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. 什么是core文件某些信号的操作是导致进程终止并生成核心转储文件，包含终止时进程内存的映像。主要用于程序崩溃时，调试找原因的。
+2. 配置系统生成 core 文件1. 使用 ulimit 配置生成 core 文件大小首先使用ulimit -c 确认系统是否生成 core 文件，若为 0，说明禁用了 core 文件生成，若要启用，根据需要配置 core 文件生成大小。 如不限制 core......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-27
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/regex/">
+        <h2 class="post-title">
+            正则表达式30分钟入门教程
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文目标30分钟内让你明白正则表达式是什么，并对它有一些基本的了解，让你可以在自己的程序或网页里使用它。
+如何使用本教程别被下面那些复杂的表达式吓倒，只要跟着我一步一步来，你会发现正则表达式其实并没有想像中的那么困难。当然，如果你看完了这篇教程之后，发现自己明白了很多，却又几乎什么都记不得，那也是很正常的——我认为，没接触过正则表达式的人在看完这篇教程后，能把提到过的语法记住80%以上的可能......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-27
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/sed/">
+        <h2 class="post-title">
+            文本处理工具 Sed
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            stream editor 流式编辑器sed是Linux中的一个文件编辑工具，按行处理文件内容，可以实现插入，删除，替换等功能。更重要的是sed命令可以用script来处理文本文件，能够应对复杂的编辑需求。
+sed命令语法基本格式 sed [option] [sed.txt]
+选项:
+
+-e &lt;script>: 按script编辑文本并输出到控制台，但不修改原文件内容
+-f : sed......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/grep/">
+        <h2 class="post-title">
+            文本处理工具 Grep
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            文本搜索工具，根据用户指定的文本模式（搜索条件）对目标文件进行逐行搜索，显示能匹配到的行
+grep：最常用，可以检索目标（一个活多个单词或正则表达式）。egrep：支持丰富的正则表达式，而且支持多目标检索，等同于 grep -e。fgrep：不能使用正则表达式，可以检索多个目标，等同于 grep -f，不建议使用。
+Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-23
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -321,94 +414,6 @@ ipt......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/percona-mysql/">
-        <h2 class="post-title">
-            Percona MySQL 编译
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 安装依赖1234#ubuntuapt-get install cmake g++ bison libssl-dev libxml2-dev  libncurses5-dev libreadline-dev libnuma-dev#centosyum install gcc gcc-c++ cmake bison ncurses-devel readine-devel libaio-de......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx/">
-        <h2 class="post-title">
-            Nginx 编译
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 安装依赖12345#ubuntuapt-get install gcc g++ make libtool openssl libssl-dev libpcre3 libpcre3-dev libgd-dev#centosyum install gcc make openssl-devel pcre-devel gd-devel
-2. jemalloc 安装http://www.sund......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/jemalloc/">
-        <h2 class="post-title">
-            更好的内存管理jemalloc
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. jemalloc是干什么的呢？官方说明：
-
-jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support.jemalloc干了malloc干的活，而且干得好一些，主要体现在避免内存碎片与并发扩展......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-log-cut/">
-        <h2 class="post-title">
-            Logrotate Nginx日志切割
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. Logrotate日志切割Linux日志文件如果不定期清理，查看日志会比较麻烦。我们可以使用”logrotate”来管理linux日志文件，它可以实现日志的自动滚动，日志归档等功能。下面以nginx日志文件来讲解下logrotate的用法。
-在/etc/logrotate.d/目录下创建一个配置文件”nginx”，内容如下：1234567891011121314vim /etc/log......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-27
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -448,21 +453,9 @@ jemalloc is a general purpose malloc(3) implementation that emphasizes fragmenta
                     <div class="tags">
                         
                             
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
-                        
-                            
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
@@ -478,11 +471,13 @@ jemalloc is a general purpose malloc(3) implementation that emphasizes fragmenta
                             
                         
                             
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                        
+                            
+                        
                             
                         
                             
@@ -492,7 +487,19 @@ jemalloc is a general purpose malloc(3) implementation that emphasizes fragmenta
                             
                         
                             
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
                             <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -503,6 +510,12 @@ jemalloc is a general purpose malloc(3) implementation that emphasizes fragmenta
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -518,15 +531,9 @@ jemalloc is a general purpose malloc(3) implementation that emphasizes fragmenta
                             
                         
                             
-                        
-                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -542,21 +549,15 @@ jemalloc is a general purpose malloc(3) implementation that emphasizes fragmenta
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -565,6 +566,14 @@ jemalloc is a general purpose malloc(3) implementation that emphasizes fragmenta
                         
                             
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -580,13 +589,13 @@ jemalloc is a general purpose malloc(3) implementation that emphasizes fragmenta
                             
                         
                             
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="3">kubernetes</a>
+                            
+                        
                             
                         
                             
@@ -598,11 +607,11 @@ jemalloc is a general purpose malloc(3) implementation that emphasizes fragmenta
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="3">php</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -670,9 +679,9 @@ jemalloc is a general purpose malloc(3) implementation that emphasizes fragmenta
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -692,13 +701,11 @@ jemalloc is a general purpose malloc(3) implementation that emphasizes fragmenta
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             

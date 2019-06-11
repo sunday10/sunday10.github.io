@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,94 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/percona-mysql/">
+        <h2 class="post-title">
+            Percona MySQL 编译
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. 安装依赖1234#ubuntuapt-get install cmake g++ bison libssl-dev libxml2-dev  libncurses5-dev libreadline-dev libnuma-dev#centosyum install gcc gcc-c++ cmake bison ncurses-devel readine-devel libaio-de......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-12-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx/">
+        <h2 class="post-title">
+            Nginx 编译
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. 安装依赖12345#ubuntuapt-get install gcc g++ make libtool openssl libssl-dev libpcre3 libpcre3-dev libgd-dev#centosyum install gcc make openssl-devel pcre-devel gd-devel
+2. jemalloc 安装http://www.sund......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-12-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/jemalloc/">
+        <h2 class="post-title">
+            更好的内存管理jemalloc
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. jemalloc是干什么的呢？官方说明：
+
+jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support.jemalloc干了malloc干的活，而且干得好一些，主要体现在避免内存碎片与并发扩展......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-12-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-log-cut/">
+        <h2 class="post-title">
+            Logrotate Nginx日志切割
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. Logrotate日志切割Linux日志文件如果不定期清理，查看日志会比较麻烦。我们可以使用”logrotate”来管理linux日志文件，它可以实现日志的自动滚动，日志归档等功能。下面以nginx日志文件来讲解下logrotate的用法。
+在/etc/logrotate.d/目录下创建一个配置文件”nginx”，内容如下：1234567891011121314vim /etc/log......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-11-27
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -319,101 +407,6 @@ Rsync删除......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/nginx-cache-expires/">
-        <h2 class="post-title">
-            Nginx  缓存与过期
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            nginx 缓存能够让网页打开速度享受质的飞跃。 当我们第一次访问一个页面时 将下载的css,js,html已经img等相关资源保存在本地。 在第二次，第三次…访问时，就可以不用去下载文件了。通常来说，设置文件的缓存有两种方式，一种是在服务器内设置响应头文件，另外一个是使用h5的manifest文件来进行相关设置.
-服务器的缓存协商这种方式设置的缓存有两种，一种是需要服务器验证，另外一种是不......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/google-bbr/">
-        <h2 class="post-title">
-            CentOS 7 部署Google BBR
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            使用TCP BBR 拥塞控制算法，能够使Linux服务器更高效的利用带宽、增加吞吐量并减少连接的延迟。
-升级内核查看当前的内核123uname -r输出...3.10.0-514.2.2.el7.x86_64
-这里我们看到当前内核是3.10.0-514.2.2.el7.x86_64，这个内核是不可以安装BBR的。
-安装内核123sudo rpm --import https://www.el......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/shadowsocks-libev/">
-        <h2 class="post-title">
-            CentOS 7 配置Shadowsocks-libev + simple-obfs
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            源码编译安装
-关闭防火墙12systemctl stop firewalldsystemctl disable firewalld
-编译环境准备、解决依赖12yum install epel-release -yyum install gettext gcc pcre-devel autoconf libtool automake make asciidoc xmlto c-ares-dev......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-24
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/sar/">
-        <h2 class="post-title">
-            Linux sar 命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装如果系统没有该命令请安装：
-12apt-get install sysstatyum install sysstat
-安装完毕：
-12vi /etc/default/sysstatENABLED="true"
-启动这个工具来收集系统性能数据：1/etc/init.d/sysstat start
-sar参数说明123456789101112131415161718-A    # 汇总所有的......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-19
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -453,21 +446,9 @@ sar参数说明123456789101112131415161718-A    # 汇总所有的......
                     <div class="tags">
                         
                             
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
-                        
-                            
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
@@ -483,11 +464,13 @@ sar参数说明123456789101112131415161718-A    # 汇总所有的......
                             
                         
                             
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                        
+                            
+                        
                             
                         
                             
@@ -497,7 +480,19 @@ sar参数说明123456789101112131415161718-A    # 汇总所有的......
                             
                         
                             
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
                             <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -508,6 +503,12 @@ sar参数说明123456789101112131415161718-A    # 汇总所有的......
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -523,15 +524,9 @@ sar参数说明123456789101112131415161718-A    # 汇总所有的......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -547,21 +542,15 @@ sar参数说明123456789101112131415161718-A    # 汇总所有的......
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -570,6 +559,14 @@ sar参数说明123456789101112131415161718-A    # 汇总所有的......
                         
                             
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -585,13 +582,13 @@ sar参数说明123456789101112131415161718-A    # 汇总所有的......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="3">kubernetes</a>
+                            
+                        
                             
                         
                             
@@ -603,11 +600,11 @@ sar参数说明123456789101112131415161718-A    # 汇总所有的......
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="3">php</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -675,9 +672,9 @@ sar参数说明123456789101112131415161718-A    # 汇总所有的......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -697,13 +694,11 @@ sar参数说明123456789101112131415161718-A    # 汇总所有的......
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             

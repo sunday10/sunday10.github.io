@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,101 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/nginx-cache-expires/">
+        <h2 class="post-title">
+            Nginx  缓存与过期
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            nginx 缓存能够让网页打开速度享受质的飞跃。 当我们第一次访问一个页面时 将下载的css,js,html已经img等相关资源保存在本地。 在第二次，第三次…访问时，就可以不用去下载文件了。通常来说，设置文件的缓存有两种方式，一种是在服务器内设置响应头文件，另外一个是使用h5的manifest文件来进行相关设置.
+服务器的缓存协商这种方式设置的缓存有两种，一种是需要服务器验证，另外一种是不......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/google-bbr/">
+        <h2 class="post-title">
+            CentOS 7 部署Google BBR
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            使用TCP BBR 拥塞控制算法，能够使Linux服务器更高效的利用带宽、增加吞吐量并减少连接的延迟。
+升级内核查看当前的内核123uname -r输出...3.10.0-514.2.2.el7.x86_64
+这里我们看到当前内核是3.10.0-514.2.2.el7.x86_64，这个内核是不可以安装BBR的。
+安装内核123sudo rpm --import https://www.el......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/shadowsocks-libev/">
+        <h2 class="post-title">
+            CentOS 7 配置Shadowsocks-libev + simple-obfs
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            源码编译安装
+关闭防火墙12systemctl stop firewalldsystemctl disable firewalld
+编译环境准备、解决依赖12yum install epel-release -yyum install gettext gcc pcre-devel autoconf libtool automake make asciidoc xmlto c-ares-dev......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/sar/">
+        <h2 class="post-title">
+            Linux sar 命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            安装如果系统没有该命令请安装：
+12apt-get install sysstatyum install sysstat
+安装完毕：
+12vi /etc/default/sysstatENABLED="true"
+启动这个工具来收集系统性能数据：1/etc/init.d/sysstat start
+sar参数说明123456789101112131415161718-A    # 汇总所有的......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-19
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -324,97 +419,6 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/linux-system-io/">
-        <h2 class="post-title">
-            Linux 性能优化之 IO 子系统
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            本文介绍了对 Linux IO 子系统性能进行优化时需要考虑的因素，以及一些 IO 性能检测工具。
-本文的大部分内容来自 IBM Redbook - Linux Performance and Tuning Guidelines
-FileSystemVFS(Virtual FileSystem) 虚拟文件系统文件系统是内核的功能，是一种工作在内核空间的软件，访问一个文件必须要需要文件系统的存......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-08-08
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/mysql-optimize-in-linux/">
-        <h2 class="post-title">
-            Linux MySQL 优化
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            数据库系统通常是企业的核心应用，因此针对运行 MySQL 的 Linux 系统通常需要进行一些特殊的优化。
-本人非 MySQL 大牛，本文不涉及 MySQL 参数优化，仅对 Linux 系统优化进行一些总结。
-CPU现代操作系统都是多任务多用户的操作系统，服务器能够支持的CPU数量也越来越多，对于多CPU的服务器有多种架构，常见的是 NUMA 和 SMP.
-SMP
-SMP 即 Symmetr......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-08-08
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/linux-interrupt/">
-        <h2 class="post-title">
-            Linux 中断和中断处理
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            众所周知，处理器的速度跟外围硬件设备的速度往往不在一个数量级上，因此，如果内核采取让处理器向硬件发出一个请求，然后专门等待回应的办法，显然差强人意。
-轮询（polling）可能会是一种解决办法。它可以让内核定期对设备的状态进行查询，然后做出相应的处理。不过这种方法很可能会让内核做不少无用功，因为轮询总会周期性的重复执行。更好的办法是提供一种机制，让硬件在需要的时候再向内核发出信号。这就是中断......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-08-08
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/vmstat/">
-        <h2 class="post-title">
-            vmstat 命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            vmstat是Virtual Meomory Statistics（虚拟内存统计）的缩写，可对操作系统的虚拟内存、进程、CPU活动进行监控。他是对系统的整体情况进行统计，不足之处是无法对某个进程进行深入分析。vmstat 工具提供了一种低开销的系统性能观察方式。因为 vmstat 本身就是低开销工具，在非常高负荷的服务器上，你需要查看并监控系统的健康情况,在控制窗口还是能够使用vmstat ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-05-30
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -454,21 +458,9 @@ SMP 即 Symmetr......
                     <div class="tags">
                         
                             
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
-                        
-                            
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
@@ -484,11 +476,13 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                        
+                            
+                        
                             
                         
                             
@@ -498,7 +492,19 @@ SMP 即 Symmetr......
                             
                         
                             
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
                             <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -509,6 +515,12 @@ SMP 即 Symmetr......
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -524,15 +536,9 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -548,21 +554,15 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -571,6 +571,14 @@ SMP 即 Symmetr......
                         
                             
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -586,13 +594,13 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="3">kubernetes</a>
+                            
+                        
                             
                         
                             
@@ -604,11 +612,11 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="3">php</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -676,9 +684,9 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -698,13 +706,11 @@ SMP 即 Symmetr......
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             

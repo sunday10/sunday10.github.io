@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,97 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/linux-system-io/">
+        <h2 class="post-title">
+            Linux 性能优化之 IO 子系统
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文介绍了对 Linux IO 子系统性能进行优化时需要考虑的因素，以及一些 IO 性能检测工具。
+本文的大部分内容来自 IBM Redbook - Linux Performance and Tuning Guidelines
+FileSystemVFS(Virtual FileSystem) 虚拟文件系统文件系统是内核的功能，是一种工作在内核空间的软件，访问一个文件必须要需要文件系统的存......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-08-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysql-optimize-in-linux/">
+        <h2 class="post-title">
+            Linux MySQL 优化
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            数据库系统通常是企业的核心应用，因此针对运行 MySQL 的 Linux 系统通常需要进行一些特殊的优化。
+本人非 MySQL 大牛，本文不涉及 MySQL 参数优化，仅对 Linux 系统优化进行一些总结。
+CPU现代操作系统都是多任务多用户的操作系统，服务器能够支持的CPU数量也越来越多，对于多CPU的服务器有多种架构，常见的是 NUMA 和 SMP.
+SMP
+SMP 即 Symmetr......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-08-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/linux-interrupt/">
+        <h2 class="post-title">
+            Linux 中断和中断处理
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            众所周知，处理器的速度跟外围硬件设备的速度往往不在一个数量级上，因此，如果内核采取让处理器向硬件发出一个请求，然后专门等待回应的办法，显然差强人意。
+轮询（polling）可能会是一种解决办法。它可以让内核定期对设备的状态进行查询，然后做出相应的处理。不过这种方法很可能会让内核做不少无用功，因为轮询总会周期性的重复执行。更好的办法是提供一种机制，让硬件在需要的时候再向内核发出信号。这就是中断......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-08-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/vmstat/">
+        <h2 class="post-title">
+            vmstat 命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            vmstat是Virtual Meomory Statistics（虚拟内存统计）的缩写，可对操作系统的虚拟内存、进程、CPU活动进行监控。他是对系统的整体情况进行统计，不足之处是无法对某个进程进行深入分析。vmstat 工具提供了一种低开销的系统性能观察方式。因为 vmstat 本身就是低开销工具，在非常高负荷的服务器上，你需要查看并监控系统的健康情况,在控制窗口还是能够使用vmstat ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-05-30
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -328,21 +419,9 @@
                     <div class="tags">
                         
                             
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
-                        
-                            
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
@@ -358,11 +437,13 @@
                             
                         
                             
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                        
+                            
+                        
                             
                         
                             
@@ -372,7 +453,19 @@
                             
                         
                             
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
                             <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -383,6 +476,12 @@
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -398,15 +497,9 @@
                             
                         
                             
-                        
-                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -422,21 +515,15 @@
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -445,6 +532,14 @@
                         
                             
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -460,13 +555,13 @@
                             
                         
                             
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="3">kubernetes</a>
+                            
+                        
                             
                         
                             
@@ -478,11 +573,11 @@
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="3">php</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -550,9 +645,9 @@
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -572,13 +667,11 @@
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             

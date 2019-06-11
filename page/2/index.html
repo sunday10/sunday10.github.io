@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,97 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/linux-php-curl-timeout/">
+        <h2 class="post-title">
+            CentOS 7 php curl 微信支付接口 超时
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            事件
+添加了H3C路由器做内网上网使用，节省IP做集群IP.
+调用微信接口 https://api.mch.weixin.qq.com/pay/unifiedorder 超时5秒多。
+php报错：cURL error 28: Resolving timed out after 5516 milliseconds (see https://curl.haxx.se/libcurl/c/libc......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-02-13
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-proxy-65535-port/">
+        <h2 class="post-title">
+            Nginx使用proxy_bind负载tcp socket，解决代理端口耗尽
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            流量升高导致TIME_WAIT增加，连接大量失败的问题nginx将php解析通过TCP转发给php-fpm,需要占用一个TCP
+PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;'SYN_RECV 186TIME_WAIT ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-01-06
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/grub-destructive-testing-and-repair/">
+        <h2 class="post-title">
+            Grub 破坏性测试与修复
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            破坏grub使用dd命令破坏512 前面的446字节，注意不能破坏第一分区到512字节，否则将修复不了。123cd  /bootdd if=/dev/zero of=/dev/sda bs=1 count=446rm -rf grub*
+重启选择Troublesbooting进行修复1234# cp -r /mnt/sysimage/usr/lib/grub/i386-pc /usr/lib......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/centos-7-upgrade-kernel/">
+        <h2 class="post-title">
+            CentOS 7 升级 4.19 内核
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            自动挡升级查看当前内核版本12uname -r3.10.0-957.el7.x86_64
+导入仓库源12sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.orgsudo rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+安装指......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-29
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -315,120 +406,6 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/nginx-reverse-secondary-directory-with-parameters/">
-        <h2 class="post-title">
-            Nginx 反向代理二级目录带参数
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            tomcat jenkins：http://192.168.10.18:8080/jenkins/
-nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.com/jenkins/123456789101112131415161718192021222324server &#123;    listen      80;    serv......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-11-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/rabbitmq-cluster-build/">
-        <h2 class="post-title">
-            RabbitMQ 集群搭建
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            AMQPAMQP，即Advanced Message Queuing Protocol，高级消息队列协议，是应用层协议的一个开放标准，为面向消息的中间件设计。AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。那么再来介绍下RabbitMQ本身。RabbitMQ是一个上面说的AMQP协议的开源实现，其服务器端用Erlang语言写的，支持多种客户端，如：Pytho......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-11-01
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-proxy-tcp/">
-        <h2 class="post-title">
-            使用Nginx转发TCP/UDP端口
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            ngx_stream_core_module
-编译Nginx123456789101112131415cd /usr/local/srcwget http://nginx.org/download/nginx-1.12.2.tar.gztar zxf nginx-1.12.2.tar.gzcd nginx-1.12.2./configure --prefix=/usr/local/nginx......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-24
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kubeadm-build-kubernetes/">
-        <h2 class="post-title">
-            基于kubeadm方式部署kubernetes v1.12.1
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            https://kubernetes.io/docs/setup/independent/install-kubeadm/
-环境说明
-
-
-系统
-IP
-hostname
-
-
-
-
-CentOS 7.4
-192.168.10.101
-master
-
-
-CentOS 7.4
-192.168.10.102
-node2
-
-
-CentOS 7.4
-192.168.10.103
-node3
-
-
-
-
-环境准备......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-22
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -468,21 +445,9 @@ node3
                     <div class="tags">
                         
                             
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
-                        
-                            
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
@@ -498,11 +463,13 @@ node3
                             
                         
                             
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                        
+                            
+                        
                             
                         
                             
@@ -512,7 +479,19 @@ node3
                             
                         
                             
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
                             <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -523,6 +502,12 @@ node3
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -538,15 +523,9 @@ node3
                             
                         
                             
-                        
-                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -562,21 +541,15 @@ node3
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -585,6 +558,14 @@ node3
                         
                             
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -600,13 +581,13 @@ node3
                             
                         
                             
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="3">kubernetes</a>
+                            
+                        
                             
                         
                             
@@ -618,11 +599,11 @@ node3
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="3">php</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -690,9 +671,9 @@ node3
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -712,13 +693,11 @@ node3
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             

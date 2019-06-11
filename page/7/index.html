@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -181,6 +181,95 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/opcache/">
+        <h2 class="post-title">
+            PHP 7 启用opcache及缓存清除
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            opcache 简介Zend opcache通过opcode缓存和优化提供更快的PHP执行过程。它将预编译的脚本文件存储在共享内存中供以后使用，从而避免了从磁盘读取代码并进行编译的时间消耗。同时，它还应用了一些代码优化模式，使得代码执行更快。（php &gt;= 5.5）
+启用opcache12345678910zend_extension=opcache.soopcache.enable=......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/tmpfs/">
+        <h2 class="post-title">
+            CentOS 7 使用tmpfs优化应用服务缓存读写速度
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            tmpfs : 使用内存作为Linux磁盘文件,用于缓存读写。操作12vim /etc/fstabtmpfs                   /tmp        tmpfs   size=2G,noatime,nodiratime  0   0
+挂载1mount -a
+效果12df -h | grep /tmptmpfs           2.0G  216K  2.0G   1%......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/maven-nexus/">
+        <h2 class="post-title">
+            Maven私服Nexus3.x环境配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            简介私服是指私有服务器，是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构建。 有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库； 否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。
+Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部仓库的维护和外部仓库的访问。 如果使用了公共的Maven仓库服务器，......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-31
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/jenkins-maven/">
+        <h2 class="post-title">
+            持续集成 Jenkins Maven
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            JDK1yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
+12345cat &lt;&lt; EOF &gt; /etc/profile.d/java.shexport JAVA_HOME=/usr/lib/jvm/jreexport PATH=$PATH:/\$JAVA_HOME/binexport CLASSPATH=\......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-30
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -324,92 +413,6 @@ Super PI
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/tomcat-apr/">
-        <h2 class="post-title">
-            Tomcat 8.5 基于APR库性能优化
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            简介Tomcat可以使用Apache Portable Runtime来提供卓越的性能及可扩展性，更好地与本地服务器技术的集成。Apache Portable Runtime是一个高度可移植的库，位于Apache HTTP Server 2.x的核心。APR有许多用途，包括访问高级IO功能（如sendfile，epoll和OpenSSL），操作系统级功能（随机数生成，系统状态等）以及本地进程......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-12
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/tomcat-optimization/">
-        <h2 class="post-title">
-            Apache Tomcat 8.5 安全配置与高并发优化
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Java的内存模型
-Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和两个大小严格相同的 Survivor 区，其中 Survivor 区间中，某一时刻只有其中一个是被使用的，另外一个留做垃圾收集时复制对象用，在 Young 区间变满的时候，minor GC 就会将存活的对象移到空闲的Survivor 区间中，根据 JVM 的策略，在经过几次垃圾收集后，任然存活于......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-11
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/tomcat/">
-        <h2 class="post-title">
-            Linux Apache Tomcat 8.5 安装与配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境System: CentOS 7Tomcat:  Apache Tomcat/8.5.32Nginx proxy: 192.168.10.100 node0.sundayle.comTomcat node1: 192.168.10.101 node1.sundayle.comTomcat node2: 192.168.10.102 node1.sundayle.com
-Tomcat 安装......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-08
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/lsyncd/">
-        <h2 class="post-title">
-            Lsyncd实时同步搭建指南--取代rsync+inotify
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            几大实时同步工具比较inotify + rsync最近一直在寻求生产服务服务器上的同步替代方案，原先使用的是inotify + rsync，但随着文件数量的增大到100W+，目录下的文件列表就达20M，在网络状况不佳或者限速的情况下，变更的文件可能10来个才几M，却因此要发送的文件列表就达20M，严重减低的带宽的使用效率以及同步效率；更为要紧的是，加入inotifywait在5s内监控到10......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-06
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -449,21 +452,9 @@ Tomcat 安装......
                     <div class="tags">
                         
                             
+                        
+                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
-                        
-                            
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
@@ -479,11 +470,13 @@ Tomcat 安装......
                             
                         
                             
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                        
+                            
+                        
                             
                         
                             
@@ -493,7 +486,19 @@ Tomcat 安装......
                             
                         
                             
+                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
+                            
+                        
+                            
+                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
+                            
+                        
+                            
                             <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -504,6 +509,12 @@ Tomcat 安装......
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -519,15 +530,9 @@ Tomcat 安装......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
                             
                         
                             
@@ -543,21 +548,15 @@ Tomcat 安装......
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
                             
-                        
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -566,6 +565,14 @@ Tomcat 安装......
                         
                             
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -581,13 +588,13 @@ Tomcat 安装......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="2">kubernetes</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="3">kubernetes</a>
+                            
+                        
                             
                         
                             
@@ -599,11 +606,11 @@ Tomcat 安装......
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#php" title="php" rel="3">php</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -671,9 +678,9 @@ Tomcat 安装......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
                             
                         
                             
@@ -693,13 +700,11 @@ Tomcat 安装......
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             

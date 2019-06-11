@@ -2,6 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/huawei-switch-initialization/</loc>
+    
+    <lastmod>2019-06-11T10:12:22.133Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/huawei-switch-stack/</loc>
+    
+    <lastmod>2019-06-11T10:01:13.058Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/curl-track/</loc>
+    
+    <lastmod>2019-06-11T09:25:36.056Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/kubernetes-cluster/</loc>
+    
+    <lastmod>2019-05-27T02:06:44.929Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/firewalld/</loc>
+    
+    <lastmod>2019-05-17T02:42:34.247Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/nginx-limit-modules/</loc>
+    
+    <lastmod>2019-05-09T09:28:44.799Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/sql-server-replication/</loc>
     
     <lastmod>2019-05-05T07:41:18.533Z</lastmod>
@@ -261,13 +303,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/firewalld/</loc>
-    
-    <lastmod>2019-01-25T04:08:56.240Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/docker-harbor/</loc>
     
     <lastmod>2019-01-09T18:34:08.647Z</lastmod>
@@ -306,13 +341,6 @@
     <loc>http://www.sundayle.com/python-decorator/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/nginx-limit-modules/</loc>
-    
-    <lastmod>2018-12-05T09:03:59.286Z</lastmod>
     
   </url>
   
