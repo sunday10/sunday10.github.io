@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,28 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/drop_caches/">
+        <h2 class="post-title">
+            Linux 手动清除缓存 drop_cahces
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            为了提高磁盘存取效率，Linux做了一些精心的设计，除了对dentry进行缓存（用于VFS，加速文件路径名到inode的转换），还采取了两种主要Cache方式：Buffer Cache和Page Cache。前者针对磁盘块的读写，后者针对文件inode的读写。这些Cache有效缩短了 I/O系统调用（比如read，write，getdents）的时间。
+1234# free -h      ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-15
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -384,30 +406,6 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/distributed-file-system-fastdfs/">
-        <h2 class="post-title">
-            分布式文件系统FastDFS详解
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            为什么要使用分布式文件系统呢？
-嗯，这个问题问的好，使用了它对我们有哪些好处？带着这个问题我们来往下看：
-单机时代初创时期由于时间紧迫，在各种资源有限的情况下，通常就直接在项目目录下建立静态文件夹，用于用户存放项目中的文件资源。如果按不同类型再细分，可以在项目目录下再建立不同的子目录来区分。例如：resources\static\file、resources\static\img等。
-优点：......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-10
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -447,9 +445,15 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                     <div class="tags">
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
                             
                         
                             
@@ -475,12 +479,6 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
                             
                         
@@ -489,11 +487,11 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
@@ -531,6 +529,8 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
+                        
+                            
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
@@ -543,23 +543,13 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
-                        
-                            
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -571,7 +561,15 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
+                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
+                            
+                        
+                            
                             <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -587,9 +585,11 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="3">kubernetes</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="4">kubernetes</a>
                             
                         
+                            
+                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
                             
                         
                             
@@ -601,11 +601,11 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#php" title="php" rel="3">php</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -685,9 +685,9 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
                             
                         
                             

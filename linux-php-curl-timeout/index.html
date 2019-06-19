@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -201,7 +201,7 @@
 <li>使用IDC 外网IP curl 正常</li>
 <li>使用H3C 内网IP curl 超时5秒多</li>
 </ol>
-<h1 id="修改resolv-conf"><a href="#修改resolv-conf" class="headerlink" title="修改resolv.conf"></a>修改resolv.conf</h1><p>添加options single-request-reopen<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cat</span> &lt;&lt; EOF&gt; /etc/resolv.<span class="keyword">conf</span></span><br><span class="line"><span class="keyword">options</span> single-request-reopen</span><br><span class="line"><span class="keyword">options</span> timeou<span class="variable">t:1</span> attempt<span class="variable">s:1</span> rotate</span><br><span class="line"></span><br><span class="line">nameserver <span class="number">114.114</span>.<span class="number">114.114</span></span><br><span class="line">nameserver <span class="number">119.29</span>.<span class="number">29.29</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
+<h1 id="修改resolv-conf"><a href="#修改resolv-conf" class="headerlink" title="修改resolv.conf"></a>修改resolv.conf</h1><p>添加options single-request-reopen<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; <span class="literal">EOF</span>&gt; /etc/resolv.conf</span><br><span class="line">options single-request-reopen</span><br><span class="line"></span><br><span class="line">nameserver <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span></span><br><span class="line">nameserver <span class="number">119.29</span><span class="number">.29</span><span class="number">.29</span></span><br><span class="line"><span class="literal">EOF</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="禁用IPV6"><a href="#禁用IPV6" class="headerlink" title="禁用IPV6"></a>禁用IPV6</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/sysconfig/network</span><br><span class="line"></span><br><span class="line"><span class="attribute">NETWORKING_IPV6</span>=<span class="literal">no</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/sysconfig/network-scripts/ifcfg-xxx</span><br><span class="line"></span><br><span class="line">DNS1=114.114.114.114</span><br><span class="line">DNS2=119.29.29.29</span><br><span class="line">IPV6INIT=no</span><br><span class="line">IPV6_AUTOCONF=no</span><br></pre></td></tr></table></figure>
 <h1 id="禁用NetworkManager"><a href="#禁用NetworkManager" class="headerlink" title="禁用NetworkManager"></a>禁用NetworkManager</h1><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="keyword">disable</span> NetworkManager </span><br><span class="line">systemctl <span class="keyword">stop</span> NetworkManager</span><br></pre></td></tr></table></figure>

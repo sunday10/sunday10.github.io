@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,28 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/ubuntu-ufw/">
+        <h2 class="post-title">
+            Ubuntu 开启ufw防火墙的一些命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            UFW，即Uncomplicated Firewall，是基于iptables实现的防火墙管理工具，旨在简化配置防火墙的过程，所以实际上UFW修改的是iptables的规则。虽然iptables是一个坚实而灵活的工具，但初学者很难学习如何使用它来正确配置防火墙。如果您希望开始保护您的网络，并且您不确定使用哪种工具，UFW可能是您的正确选择。
+本文测试环境为Ubuntu 16.04，其他系统可......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-11
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -298,16 +320,15 @@ SMP 即 Symmetr......
 
 <div class="post-preview">
 
-    <a href="/apache-bench/">
+    <a href="/webbench/">
         <h2 class="post-title">
-            Apache Benchmark ab wrk 压力测试工具使用
+            Web 压力测试工具 Webbench
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            1[root@node1 ~]# ab -n 10000 -c 1000 http://www.sundayle.com/index.html
-其中－n表示请求数，－c表示并发数12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152This is Apach......
+            简介在软件测试工作中，压力测试是一项很重要的工作。比如在一个网站上线之前，能承受多大访问量、在大访问量情况下软件性能怎么样？这些数据指标好坏将会直接影响到用户体验。但是，在压力测试中存在一个共性，那就是压力测试的结果与实际负载结果不会完全相同，就算压力测试工作做的再好，也不能保证100%和线上性能指标相同。面对这些问题，我们只能尽量去想方设法去模拟。所以，压力测试非常有必要，有了这些数据，我......
         </div>
     </a>
     <p class="post-meta">
@@ -320,15 +341,16 @@ SMP 即 Symmetr......
 
 <div class="post-preview">
 
-    <a href="/webbench/">
+    <a href="/apache-bench/">
         <h2 class="post-title">
-            Web 压力测试工具 Webbench
+            Apache Benchmark ab wrk 压力测试工具使用
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            简介在软件测试工作中，压力测试是一项很重要的工作。比如在一个网站上线之前，能承受多大访问量、在大访问量情况下软件性能怎么样？这些数据指标好坏将会直接影响到用户体验。但是，在压力测试中存在一个共性，那就是压力测试的结果与实际负载结果不会完全相同，就算压力测试工作做的再好，也不能保证100%和线上性能指标相同。面对这些问题，我们只能尽量去想方设法去模拟。所以，压力测试非常有必要，有了这些数据，我......
+            1[root@node1 ~]# ab -n 10000 -c 1000 http://www.sundayle.com/index.html
+其中－n表示请求数，－c表示并发数12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152This is Apach......
         </div>
     </a>
     <p class="post-meta">
@@ -419,9 +441,15 @@ SMP 即 Symmetr......
                     <div class="tags">
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
                             
                         
                             
@@ -447,12 +475,6 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
                             
                         
@@ -461,11 +483,11 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
@@ -503,6 +525,8 @@ SMP 即 Symmetr......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
@@ -515,23 +539,13 @@ SMP 即 Symmetr......
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
-                        
-                            
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -543,7 +557,15 @@ SMP 即 Symmetr......
                             
                         
                             
+                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
+                            
+                        
+                            
                             <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -559,9 +581,11 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="3">kubernetes</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="4">kubernetes</a>
                             
                         
+                            
+                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
                             
                         
                             
@@ -573,11 +597,11 @@ SMP 即 Symmetr......
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#php" title="php" rel="3">php</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -657,9 +681,9 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
                             
                         
                             

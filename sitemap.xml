@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/kubernetes-dashboard/</loc>
+    
+    <lastmod>2019-06-19T04:31:08.160Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/linux-php-curl-timeout/</loc>
+    
+    <lastmod>2019-06-18T08:11:40.033Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/kubespray/</loc>
+    
+    <lastmod>2019-06-17T08:46:57.794Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/huawei-switch-initialization/</loc>
     
     <lastmod>2019-06-11T10:12:22.133Z</lastmod>
@@ -19,13 +40,6 @@
     <loc>http://www.sundayle.com/curl-track/</loc>
     
     <lastmod>2019-06-11T09:25:36.056Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/kubernetes-cluster/</loc>
-    
-    <lastmod>2019-05-27T02:06:44.929Z</lastmod>
     
   </url>
   
@@ -289,13 +303,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/linux-php-curl-timeout/</loc>
-    
-    <lastmod>2019-02-13T08:37:44.562Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/centos-7-lacp-bonding/</loc>
     
     <lastmod>2019-01-25T14:24:46.579Z</lastmod>
@@ -331,14 +338,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     

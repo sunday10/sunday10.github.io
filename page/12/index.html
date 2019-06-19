@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,30 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/mysql-utf8mb4/">
+        <h2 class="post-title">
+            MySQL 修改字符集为utf8mb4
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+一般情况下，我们会设置MySQL默认的字符编码为utf8，但是近些年来，emoji表情的火爆使用，给数据库带来了意外的错误，就是emoji的字符集已经超出了utf8的编码范畴😄
+
+emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表情，为了解决这个问题，MySQL在 5.5.3 之后增加了 utf8mb4 字符编码，mb4即 most bytes 4。......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-28
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -392,28 +416,6 @@ CentOS7默认的防火墙不是iptables,而是firewalle. 不过之前用开iptab
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/iptables-detailed/">
-        <h2 class="post-title">
-            Linux 防火墙 iptables详解
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Netfilter 与 iptables 的关系Linux 系统在内核中提供了对报文数据包过滤和修改的官方项目名为 Netfilter，它指的是 Linux 内核中的一个框架，它可以用于在不同阶段将某些钩子函数（hook）作用域网络协议栈。Netfilter 本身并不对数据包进行过滤，它只是允许可以过滤数据包或修改数据包的函数挂接到内核网络协议栈中的适当位置。这些函数是可以自定义的。
-ipt......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-29
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -453,9 +455,15 @@ ipt......
                     <div class="tags">
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
                             
                         
                             
@@ -481,12 +489,6 @@ ipt......
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
                             
                         
@@ -495,11 +497,11 @@ ipt......
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
@@ -537,6 +539,8 @@ ipt......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
@@ -549,23 +553,13 @@ ipt......
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
-                        
-                            
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -577,7 +571,15 @@ ipt......
                             
                         
                             
+                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
+                            
+                        
+                            
                             <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -593,9 +595,11 @@ ipt......
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="3">kubernetes</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="4">kubernetes</a>
                             
                         
+                            
+                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
                             
                         
                             
@@ -607,11 +611,11 @@ ipt......
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#php" title="php" rel="3">php</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -691,9 +695,9 @@ ipt......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
                             
                         
                             

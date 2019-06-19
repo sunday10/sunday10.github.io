@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,27 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/mysql-gtid-relication/">
+        <h2 class="post-title">
+            MySQL 5.7 基于GTID及多线程主从复制
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            MySQL主从同步原理MySQL主从同步是在MySQL主从复制(Master-Slave Replication)基础上实现的，通过设置在Master MySQL上的binlog(使其处于打开状态)，Slave MySQL上通过一个I/O线程从Master MySQL上读取binlog，然后传输到Slave MySQL的中继日志中，然后Slave MySQL的SQL线程从中继日志中读取中继日......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-04-20
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -386,30 +407,6 @@ Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，�
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/mysql-utf8mb4/">
-        <h2 class="post-title">
-            MySQL 修改字符集为utf8mb4
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-一般情况下，我们会设置MySQL默认的字符编码为utf8，但是近些年来，emoji表情的火爆使用，给数据库带来了意外的错误，就是emoji的字符集已经超出了utf8的编码范畴😄
-
-emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表情，为了解决这个问题，MySQL在 5.5.3 之后增加了 utf8mb4 字符编码，mb4即 most bytes 4。......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-02-28
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -449,9 +446,15 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                     <div class="tags">
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
                             
                         
                             
@@ -477,12 +480,6 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
                             
                         
@@ -491,11 +488,11 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
@@ -533,6 +530,8 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
+                        
+                            
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
                             
                         
@@ -545,23 +544,13 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
                         
                             
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
-                        
-                            
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -573,7 +562,15 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
+                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
+                            
+                        
+                            
                             <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
+                        
+                            
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -589,9 +586,11 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="3">kubernetes</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="4">kubernetes</a>
                             
                         
+                            
+                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
                             
                         
                             
@@ -603,11 +602,11 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#php" title="php" rel="3">php</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -687,9 +686,9 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
                             
                         
                             
