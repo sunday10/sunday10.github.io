@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Keepalived 和 Firewalld - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/keepalived-and-firewalld/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#firewall" title="firewall">firewall</a>
+                        
+                          <a class="tag" href="/tags/#keepalived" title="keepalived">keepalived</a>
+                        
+                    </div>
+                    <h1>Keepalived 和 Firewalld</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2019-07-11
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><blockquote>
+<p>MASTER IP 192.168.1.7<br>BACKUP IP 192.168.1.8<br>VIP 192.168.1.200<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install  keepalived </span><br><span class="line">systemctl stop firewalld</span><br><span class="line">echo <span class="string">"net.ipv4.ip_forward = 1"</span> <span class="meta">&gt;&gt; </span>/etc/sysctl.conf</span><br><span class="line">echo <span class="string">"net.ipv4.ip_nonlocal_bind = 1"</span> <span class="meta">&gt;&gt; </span>/etc/sysctl.conf <span class="comment">#开启允许绑定非本机的IP</span></span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="Keepalived"><a href="#Keepalived" class="headerlink" title="Keepalived"></a>Keepalived</h1><p>MASTER<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">       root@localhost</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from ka@localhost</span><br><span class="line">   smtp_server 127.0.0.1</span><br><span class="line">   smtp_connect_timeout 30</span><br><span class="line">   router_id ka46</span><br><span class="line">   vrrp_mcast_group4 224.0.0.111</span><br><span class="line">   #vrrp_strict </span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">vrrp_instance Intranet_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">   <span class="built_in"> interface </span>em1</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass starsing</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.1.200/24</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #virtual_routes &#123;</span><br><span class="line">    #   <span class="built_in"> default </span>via 192.168.1.1</span><br><span class="line">    #&#125;</span><br><span class="line"></span><br><span class="line">    notify_master <span class="string">"/etc/keepalived/notify.sh master"</span></span><br><span class="line">    notify_backup <span class="string">"/etc/keepalived/notify.sh backup"</span></span><br><span class="line">    notify_fault <span class="string">"/etc/keepalived/notify.sh fault"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>BACKUP</p>
+<blockquote>
+<p>注意以下几点<br>state 角色为 BACKUP<br>interface 为网卡的 ID，要根据机器确认<br>virtual_route_id 要与 MASTER 一致，默认为 51<br>priority 要比 MASTER 小</p>
+</blockquote>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">       root@localhost</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from ka@localhost</span><br><span class="line">   smtp_server 127.0.0.1</span><br><span class="line">   smtp_connect_timeout 30</span><br><span class="line">   router_id ka46</span><br><span class="line">   vrrp_mcast_group4 224.0.0.111</span><br><span class="line">   #vrrp_strict </span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">vrrp_instance Intranet_1 &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">   <span class="built_in"> interface </span>em1</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    priority 95</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass starsing</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.1.200/24</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #virtual_routes &#123;</span><br><span class="line">    #   <span class="built_in"> default </span>via 192.168.1.1</span><br><span class="line">    #&#125;</span><br><span class="line"></span><br><span class="line">    notify_master <span class="string">"/etc/keepalived/notify.sh master"</span></span><br><span class="line">    notify_backup <span class="string">"/etc/keepalived/notify.sh backup"</span></span><br><span class="line">    notify_fault <span class="string">"/etc/keepalived/notify.sh fault"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>NOTIFY<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">contact=<span class="string">"root@localhost"</span></span><br><span class="line">contact_xwx=<span class="string">"sunday@sundayle.com"</span></span><br><span class="line">                </span><br><span class="line"><span class="function"><span class="title">notify</span></span>() &#123;</span><br><span class="line">    <span class="built_in">local</span> mailsubject=<span class="string">"<span class="variable">$(hostname)</span> to be <span class="variable">$1</span>, vip floating"</span></span><br><span class="line">    <span class="built_in">local</span> mailbody=<span class="string">"<span class="variable">$(date +'%F %T')</span>: vrrp transition, <span class="variable">$(hostname)</span> changed to be <span class="variable">$1</span>"</span></span><br><span class="line">    <span class="comment">#echo "$mailbody" | mail -s "$mailsubject" $contact</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"<span class="variable">$mailbody</span>"</span> | mail -s <span class="string">"<span class="variable">$mailsubject</span>"</span> <span class="variable">$contact_xwx</span></span><br><span class="line">&#125;</span><br><span class="line">                </span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">master)</span><br><span class="line">    notify master   </span><br><span class="line">    ;;</span><br><span class="line">backup)</span><br><span class="line">    notify backup   </span><br><span class="line">    ;;</span><br><span class="line">fault)</span><br><span class="line">    notify fault    </span><br><span class="line">    ;;</span><br><span class="line">*)</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Usage: <span class="variable">$(basename $0)</span> &#123;master|backup|fault&#125;"</span></span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line">    ;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure></p>
+<p>MASTER和BACKUP 启动keepalived<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start keepalived</span><br><span class="line">systemctl <span class="builtin-name">enable</span> keepalived</span><br></pre></td></tr></table></figure></p>
+<p>此时防火墙是关闭状态，MASTER获得VIP。BACKUP没有。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@master ]#<span class="built_in"> ip </span>addr | grep 192.168.1.200</span><br><span class="line">    inet 192.168.1.200/24 scope global secondary em1</span><br></pre></td></tr></table></figure></p>
+<p>漂移规则：<br>默认 MASTER 会获得 VIP(192.168.1.200)。<br>当 MASTER 出问题时，VIP 会漂移到 BACKUP 服务器。<br>当 MASTER 重新启动后，VIP 又会漂移回 MASTER 服务器。</p>
+<h1 id="Firewalld"><a href="#Firewalld" class="headerlink" title="Firewalld"></a>Firewalld</h1><p>防火墙添加规则，默认不指定为<code>224.0.0.18</code>,这里修改了为<code>224.0.0.111</code></p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="literal">stop</span> keepalived</span><br><span class="line">systemctl <span class="literal">start</span> firewalld</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --direct --permanent --add-rule ipv4<span class="built_in"> filter </span>INPUT 0 --in-interface em1 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br><span class="line">firewall-cmd --direct --permanent --add-rule ipv4<span class="built_in"> filter </span>OUTPUT 0 --out-interface em1 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<p>查看这两条规则<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]# firewall-cmd --direct --get-rules ipv4<span class="built_in"> filter </span>INPUT</span><br><span class="line">0 --in-interface em1 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br><span class="line">[root@master ~]# firewall-cmd --direct --get-rules ipv4<span class="built_in"> filter </span>OUTPUT</span><br><span class="line">0 --out-interface em1 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="literal">start</span> keepalived</span><br></pre></td></tr></table></figure>
+<p>此时Master获得VIP,BACKUP没有，则防火墙放行vrrp正常。<br>若Master和Backup均获取到VIP,则防火墙配置，注意网卡接口和vrrp组播地址。</p>
+<h1 id="服务测试"><a href="#服务测试" class="headerlink" title="服务测试"></a>服务测试</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]# yum install tcpdump</span><br><span class="line">[root@master ~]# tcpdump -i em1<span class="built_in"> vrrp </span>-n</span><br><span class="line">tcpdump: verbose output suppressed, use -v <span class="keyword">or</span> -vv <span class="keyword">for</span> full protocol decode</span><br><span class="line">listening on em1, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">16:17:56.949963<span class="built_in"> IP </span>192.168.1.7 &gt; 224.0.0.111: VRRPv2, Advertisement, vrid 51, prio 100, authtype simple, intvl 1s, length 36</span><br><span class="line">16:17:57.950994<span class="built_in"> IP </span>192.168.1.7 &gt; 224.0.0.111: VRRPv2, Advertisement, vrid 51, prio 100, authtype simple, intvl 1s, length 36</span><br><span class="line">16:17:58.952063<span class="built_in"> IP </span>192.168.1.7 &gt; 224.0.0.111: VRRPv2, Advertisement, vrid 51, prio 100, authtype simple, intvl 1s, length 36</span><br><span class="line">16:17:59.953131<span class="built_in"> IP </span>192.168.1.7 &gt; 224.0.0.111: VRRPv2, Advertisement, vrid 51, prio 100, authtype simple, intvl 1s, length 36</span><br><span class="line">16:18:00.954206<span class="built_in"> IP </span>192.168.1.7 &gt; 224.0.0.111: VRRPv2, Advertisement, vrid 51, prio 100, authtype simple, intvl 1s, length 36</span><br></pre></td></tr></table></figure>
+<p>此时VIP在MASTER上。<br>如果MASTER停止keepalived,VIP会漂移到BACKUP上<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">stop</span> keepalived</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]# tcpdump -i em1<span class="built_in"> vrrp </span>-n</span><br><span class="line">tcpdump: verbose output suppressed, use -v <span class="keyword">or</span> -vv <span class="keyword">for</span> full protocol decode</span><br><span class="line">listening on em1, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">16:25:24.415708<span class="built_in"> IP </span>192.168.1.8 &gt; 224.0.0.111: VRRPv2, Advertisement, vrid 51, prio 100, authtype simple, intvl 1s, length 36</span><br><span class="line">16:25:25.416790<span class="built_in"> IP </span>192.168.1.8 &gt; 224.0.0.111: VRRPv2, Advertisement, vrid 51, prio 100, authtype simple, intvl 1s, length 36</span><br><span class="line">16:25:26.417831<span class="built_in"> IP </span>192.168.1.8 &gt; 224.0.0.111: VRRPv2, Advertisement, vrid 51, prio 100, authtype simple, intvl 1s, length 36</span><br></pre></td></tr></table></figure>
+<p>此时VIP在BACKUP上。</p>
+<h1 id="配置日志"><a href="#配置日志" class="headerlink" title="配置日志"></a>配置日志</h1><blockquote>
+<p>非必要</p>
+</blockquote>
+<p>keepalived 默认将日志输出到系统日志/var/log/messages中，因为系统日志很多，查询问题时相对麻烦。<br>我们可以将 keepalived 的日志单独拿出来，这需要修改日志输出路径。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysconfig/keepalived</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Options <span class="keyword">for</span> keepalived. See `keepalived --<span class="built_in">help</span><span class="string">' output and keepalived(8) and</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> keepalived.conf(5) man pages <span class="keyword">for</span> a list of all options. Here are the most</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> common ones :</span></span><br><span class="line"><span class="meta">#</span><span class="bash"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> --vrrp               -P    Only run with VRRP subsystem.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> --check              -C    Only run with Health-checker subsystem.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> --dont-release-vrrp  -V    Dont remove VRRP VIPs &amp; VROUTEs on daemon stop.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> --dont-release-ipvs  -I    Dont remove IPVS topology on daemon stop.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> --dump-conf          -d    Dump the configuration data.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> --<span class="built_in">log</span>-detail         -D    Detailed <span class="built_in">log</span> messages.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> --<span class="built_in">log</span>-facility       -S    0-7 Set <span class="built_in">local</span> syslog facility (default=LOG_DAEMON)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">KEEPALIVED_OPTIONS=<span class="string">"-D"</span></span></span><br><span class="line">KEEPALIVED_OPTIONS="-D -d -S 0"</span><br></pre></td></tr></table></figure></p>
+<p>把 KEEPALIVED_OPTIONS=”-D” 修改为 KEEPALIVED_OPTIONS=”-D -d -S 0”，其中 -S 指定 syslog 的 facility</p>
+<p>配置 rsyslog.conf<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rsyslog.<span class="keyword">conf</span> </span><br><span class="line"></span><br><span class="line">local0.*                                                /<span class="keyword">var</span>/<span class="keyword">log</span>/keepalived.<span class="built_in">log</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">restart</span> rsyslog</span><br><span class="line">systemctl <span class="built_in">restart</span> keepalived</span><br></pre></td></tr></table></figure>
+<p>此时，可以从 /var/log/keepalived.log 查看日志了。</p>
+<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p><a href="https://qizhanming.com/blog/2018/05/17/how-to-config-keepalived-on-centos-7" target="_blank" rel="noopener">CentOS 7 配置 Keepalived 实现双机热备</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/redis-batch-deletion/" data-toggle="tooltip" data-placement="top" title="Redis-cli 批量删除及AOF文件过大">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#firewall" title="firewall">firewall</a>
+                        
+                          <a class="tag" href="/tags/#keepalived" title="keepalived">keepalived</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

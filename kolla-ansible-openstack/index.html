@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Kolla-Ansible 部署 Openstack - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/kolla-ansible-openstack/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                    </div>
+                    <h1>Kolla-Ansible 部署 Openstack</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2019-06-24
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP</th>
+<th>配置</th>
+<th>系统</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>部署机</td>
+<td>192.168.10.20</td>
+<td>4G内存 40G 网卡一张</td>
+<td>CentOS7</td>
+</tr>
+<tr>
+<td>openstack主机</td>
+<td>192.168.10.81</td>
+<td>8G内存 40G磁盘 网卡两张</td>
+<td>CentOS7</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/images/openstack-kolla.png" alt="openstack-kolla"></p>
+<h1 id="部署机准备"><a href="#部署机准备" class="headerlink" title="部署机准备"></a>部署机准备</h1><p>配置pypi 国内源加速<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -<span class="keyword">p</span> ~/.config/pip/</span><br><span class="line">tee ~/.config/pip/pip.<span class="keyword">conf</span> &lt;&lt; <span class="string">'EOF'</span></span><br><span class="line">[<span class="keyword">global</span>]</span><br><span class="line"><span class="built_in">index</span>-url = http<span class="variable">s:</span>//pypi.doubanio.<span class="keyword">com</span>/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
+<p>安装依赖<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -<span class="keyword">y</span> <span class="keyword">vim</span> net-tools git <span class="keyword">python</span>-devel libffi-devel gcc openssl-devel libselinux-<span class="keyword">python</span></span><br></pre></td></tr></table></figure></p>
+<p>安装 pip &amp; ansible<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release</span><br><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'s+download.fedoraproject.org/pub+mirrors.ustc.edu.cn+'</span> /etc/yum<span class="selector-class">.repos</span><span class="selector-class">.d</span>/epel.repo</span><br><span class="line">yum install -y python-pip ansible</span><br><span class="line">pip install --upgrade pip</span><br><span class="line">pip install -U ansible</span><br></pre></td></tr></table></figure></p>
+<p>ansible 配置<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/ansible/ansible.cfg </span><br><span class="line"></span><br><span class="line">[defaults]</span><br><span class="line">host_key_checking=False</span><br><span class="line">pipelining=True</span><br><span class="line">forks=100</span><br></pre></td></tr></table></figure></p>
+<p>docker 安装<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> /etc/yum.repos.d/</span><br><span class="line">wget http<span class="variable">s:</span>//mirrors.aliyun.<span class="keyword">com</span>/docker-<span class="keyword">ce</span>/linux/centos/docker-<span class="keyword">ce</span>.repo</span><br><span class="line">yum install docker-<span class="keyword">ce</span> -<span class="keyword">y</span></span><br></pre></td></tr></table></figure></p>
+<p>开启 Docker 的共享挂载功能<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/systemd/system/docker<span class="selector-class">.service</span><span class="selector-class">.d</span></span><br><span class="line">tee /etc/systemd/system/docker<span class="selector-class">.service</span><span class="selector-class">.d</span>/kolla<span class="selector-class">.conf</span> &lt;&lt; <span class="string">'EOF'</span></span><br><span class="line">[Service]</span><br><span class="line">MountFlags=shared</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
+<p>使用阿里的加速器<br>登陆阿里云–&gt;控制台–&gt;产品与服务–&gt;容器镜像服务–&gt;镜像加速器 获取加速器地址</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir -<span class="selector-tag">p</span> /etc/docker</span><br><span class="line">tee /etc/docker/daemon<span class="selector-class">.json</span> &lt;&lt;-<span class="string">'EOF'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://xxxx.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">systemctl daemon-reload</span></span><br><span class="line"><span class="attribute">systemctl restart docker</span></span><br></pre></td></tr></table></figure>
+<h1 id="Kolla-Ansible"><a href="#Kolla-Ansible" class="headerlink" title="Kolla-Ansible"></a>Kolla-Ansible</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git clone https:<span class="comment">//github.com/openstack/kolla</span></span><br><span class="line">git clone https:<span class="comment">//github.com/openstack/kolla-ansible</span></span><br><span class="line"></span><br><span class="line">pip install -r kolla/requirements.txt</span><br><span class="line">pip install -r kolla-ansible/requirements.txt</span><br><span class="line"></span><br><span class="line">pip install --ignore-installed requests</span><br><span class="line">sudo pip install --ignore-installed PyYAML</span><br><span class="line"></span><br><span class="line">cd kolla-ansible &amp;&amp; python setup<span class="selector-class">.py</span> install</span><br></pre></td></tr></table></figure>
+<p>将globals.yml和passwords.yml复制到/etc/kolla目录<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/etc/</span>kolla</span><br><span class="line">cp -r kolla-ansible<span class="regexp">/etc/</span>kolla<span class="regexp">/* /</span>etc<span class="regexp">/kolla</span></span><br></pre></td></tr></table></figure></p>
+<p>将multinode和multinode库存文件复制到当前目录<br><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cp</span> kolla-ansible/ansible/inventory<span class="comment">/* .</span></span><br></pre></td></tr></table></figure></p>
+<p>部署中使用的密码存储在/etc/kolla/passwords.yml文件中。<br>修改keystone_admin_password密码（OpenStack登录密码）<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kolla-genpwd</span><br><span class="line"></span><br><span class="line">vim <span class="meta-keyword">/etc/</span>kolla/passwords.yml</span><br><span class="line"><span class="symbol">keystone_admin_password:</span> sunday</span><br></pre></td></tr></table></figure></p>
+<p>kolla配置<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="meta-keyword">/etc/</span>kolla/globals.yml</span><br><span class="line"></span><br><span class="line"><span class="symbol">kolla_base_distro:</span> <span class="string">"centos"</span></span><br><span class="line"><span class="symbol">kolla_install_type:</span> <span class="string">"source"</span>  </span><br><span class="line"><span class="symbol">openstack_release:</span> <span class="string">"stein"</span></span><br><span class="line"><span class="symbol">network_interface:</span> <span class="string">"eth0"</span> <span class="meta"># OpenStack使用的网络接口</span></span><br><span class="line"><span class="symbol">neutron_external_interface:</span> <span class="string">"eth1"</span></span><br><span class="line"><span class="meta">#eth1桥接模式，ip其实是dhcp分配，这个其实是让neutron的br-ex 绑定使用，虚拟机是通过这块网卡访问外网</span></span><br><span class="line"><span class="meta"># 第二个接口专用于Neutron外部（或公共）网络，可以是vlan或flat，取决于网络的创建方式。</span></span><br><span class="line"><span class="meta"># 这个接口应该是活动的，没有IP地址。否则，实例将无法访问外部网络</span></span><br><span class="line"><span class="symbol">kolla_internal_vip_address:</span> <span class="string">"10.1.1.10"</span>  <span class="meta"># VIP 与network_interface同网段且未被使用的IP</span></span><br><span class="line"><span class="symbol">docker_new_yum_url:</span> <span class="string">"https://mirrors.aliyun.com/docker-ce/linux/&#123;&#123; ansible_distribution | lower &#125;&#125;"</span></span><br></pre></td></tr></table></figure></p>
+<p>拉取镜像<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">kolla-ansible pull -vvv</span></span><br></pre></td></tr></table></figure></p>
+<p>这里可以将镜像pull下来后上传至内网，然后修改vim /etc/kolla/globals.yml  中docker_registry: “192.168.10.20:4000” 方便扩展</p>
+<h1 id="将镜像上传至内网"><a href="#将镜像上传至内网" class="headerlink" title="将镜像上传至内网"></a>将镜像上传至内网</h1><p>启动容器<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/var/</span>www<span class="regexp">/html/</span>registry</span><br><span class="line">docker run -d -p <span class="number">4000</span>:<span class="number">5000</span> -v <span class="regexp">/var/</span>www<span class="regexp">/html/</span><span class="string">registry:</span><span class="regexp">/var/</span>lib/registry --restart=always --name registry <span class="string">registry:</span><span class="number">2.6</span><span class="number">.2</span></span><br></pre></td></tr></table></figure></p>
+<p>修改docker配置,192.168.10.20是eth0的ip<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="meta-keyword">/etc/</span>docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://mb8n4btz.mirror.aliyuncs.com"</span>],</span><br><span class="line">  <span class="string">"insecure-registries"</span>:[<span class="string">"192.168.10.20:4000"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改镜像tag<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `docker images|grep -v registry|grep -v R|awk <span class="string">'&#123;print $1&#125;'</span>`;<span class="keyword">do</span> docker image tag <span class="variable">$i</span><span class="symbol">:stein</span> <span class="number">192.168</span>.<span class="number">10.20</span><span class="symbol">:</span><span class="number">4000</span>/<span class="variable">$i</span><span class="symbol">:stein</span>;done</span><br></pre></td></tr></table></figure></p>
+<p>上传镜像到私有镜像仓库<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `docker images|grep 192.168.10.20|awk <span class="string">'&#123;print $1&#125;'</span>`;<span class="keyword">do</span> docker push <span class="variable">$i</span>:stein;<span class="keyword">done</span></span><br></pre></td></tr></table></figure></p>
+<p>查看镜像是否上传成功<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET http:<span class="regexp">//</span><span class="number">192.168</span>.<span class="number">10.20</span>:<span class="number">4000</span><span class="regexp">/v2/</span>_catalog</span><br></pre></td></tr></table></figure></p>
+<p>备份镜像文件<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcvf kolla-openstack-stein-registry<span class="selector-class">.tar</span><span class="selector-class">.gz</span> /var/www/html/registry</span><br></pre></td></tr></table></figure></p>
+<h1 id="Openstack-部署"><a href="#Openstack-部署" class="headerlink" title="Openstack 部署"></a>Openstack 部署</h1><p>修改multinode<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">vim multinode</span><br><span class="line"></span><br><span class="line">192.168.10.81 <span class="attribute">ansible_user</span>=root <span class="attribute">ansible_password</span>=sunday <span class="attribute">ansible_become</span>=<span class="literal">true</span></span><br><span class="line">192.168.10.82 <span class="attribute">ansible_user</span>=root <span class="attribute">ansible_password</span>=sunday <span class="attribute">ansible_become</span>=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The above can also be specified as follows:</span></span><br><span class="line"><span class="comment">#control[01:03]     ansible_user=kolla</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The network nodes are where your l3-agent and loadbalancers will run</span></span><br><span class="line"><span class="comment"># This can be the same as a host in the control group</span></span><br><span class="line">[network]</span><br><span class="line">192.168.10.81 <span class="attribute">ansible_user</span>=root <span class="attribute">ansible_password</span>=sunday <span class="attribute">ansible_become</span>=<span class="literal">true</span></span><br><span class="line">192.168.10.82 <span class="attribute">ansible_user</span>=root <span class="attribute">ansible_password</span>=sunday <span class="attribute">ansible_become</span>=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[compute]</span><br><span class="line">192.168.10.83 <span class="attribute">ansible_user</span>=root <span class="attribute">ansible_password</span>=sunday <span class="attribute">ansible_become</span>=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[monitoring]</span><br><span class="line">192.168.10.83 <span class="attribute">ansible_user</span>=root <span class="attribute">ansible_password</span>=sunday <span class="attribute">ansible_become</span>=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># When compute nodes and control nodes use different interfaces,</span></span><br><span class="line"><span class="comment"># you need to comment out "api_interface" and other interfaces from the globals.yml</span></span><br><span class="line"><span class="comment"># and specify like below:</span></span><br><span class="line"><span class="comment">#compute01 neutron_external_interface=eth0 api_interface=em1 storage_interface=em1 tunnel_interface=em1</span></span><br><span class="line"></span><br><span class="line">[storage]</span><br><span class="line">192.168.10.83 <span class="attribute">ansible_user</span>=root <span class="attribute">ansible_password</span>=sunday <span class="attribute">ansible_become</span>=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[deployment]</span><br><span class="line">localhost       <span class="attribute">ansible_connection</span>=local</span><br><span class="line"><span class="built_in">..</span>.</span><br><span class="line"><span class="comment">#下面还有很多</span></span><br></pre></td></tr></table></figure></p>
+<p>对主机安装依赖，如docker等<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -vvv 可以打印出最详细的信息</span></span><br><span class="line">kolla-ansible -i <span class="string">./multinode</span> bootstrap-servers</span><br></pre></td></tr></table></figure></p>
+<p>对主机执行预部署检查<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kolla-ansible -<span class="selector-tag">i</span> ./multinode prechecks</span><br></pre></td></tr></table></figure></p>
+<p>执行OpenStack部署<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kolla-ansible -i <span class="string">./multinode</span> <span class="keyword">deploy</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="OpenStack-使用"><a href="#OpenStack-使用" class="headerlink" title="OpenStack 使用"></a>OpenStack 使用</h1><p>OpenStack需要一个openrc文件，其中设置了admin用户的凭证。<br>要生成这个文件运行以下命令<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kolla-ansible <span class="keyword">post</span>-deploy</span><br><span class="line">. /etc/kolla/admin-openrc.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure></p>
+<p>安装基本的OpenStack CLI客户端<br> <figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --ignore-installed <span class="keyword">python</span>-openstackclient <span class="keyword">python</span>-glanceclient <span class="keyword">python</span>-neutronclient</span><br></pre></td></tr></table></figure></p>
+<p>运行脚本创建示例网络，图像等<br> <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. <span class="regexp">/usr/</span>share<span class="regexp">/kolla-ansible/i</span>nit-runonce</span><br></pre></td></tr></table></figure></p>
+<p> 浏览器访问openstack dashboard<br> <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">IP</span> 192<span class="selector-class">.168</span><span class="selector-class">.8</span><span class="selector-class">.88</span></span><br><span class="line">用户名 <span class="selector-tag">admin</span></span><br><span class="line">密码 <span class="selector-tag">sunday</span></span><br></pre></td></tr></table></figure></p>
+<p>Kolla 构建镜像<br>上面的镜像到docker hub pull下来。这里是build<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd kolla</span><br><span class="line">git checkout stable/stein</span><br><span class="line">git pull</span><br><span class="line">pip <span class="keyword">install</span> ./</span><br><span class="line">pip <span class="keyword">show</span> kolla</span><br><span class="line">kolla-<span class="keyword">build</span> -b centos -t <span class="built_in">binary</span> -p <span class="keyword">default</span></span><br></pre></td></tr></table></figure></p>
+<p>报错解决<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">如果出现requests <span class="number">2.20</span><span class="number">.0</span> has requirement idna&lt;<span class="number">2.8</span>,&gt;=<span class="number">2.5</span>, <span class="keyword">but</span> you'll have idna <span class="number">2.4</span> which <span class="keyword">is</span> </span><br><span class="line">incompatible.错误，则强制更新requets库</span><br><span class="line">pip install <span class="comment">--ignore-installed requests</span></span><br><span class="line"></span><br><span class="line">同样，出现Cannot uninstall 'PyYAML'. It <span class="keyword">is</span> a distutils installed project <span class="keyword">and</span> thus we cannot </span><br><span class="line">accurately determine which files belong <span class="keyword">to</span> <span class="keyword">it</span> which would lead <span class="keyword">to</span> only a partial uninstall.错误，强制更新</span><br><span class="line">sudo pip install <span class="comment">--ignore-installed PyYAML</span></span><br><span class="line"></span><br><span class="line">Cannot uninstall 'ipaddress'. It <span class="keyword">is</span> a distutils installed project <span class="keyword">and</span> thus we cannot accurately determine which files belong <span class="keyword">to</span> <span class="keyword">it</span> which would lead <span class="keyword">to</span> only a partial uninstall.</span><br><span class="line">此类问题强制升级此安装包即可。(已发现PyYAML,ipaddress)</span><br><span class="line">pip install <span class="comment">--ignore-installed ipaddress</span></span><br><span class="line"></span><br><span class="line">ImportError: cannot import <span class="built_in">name</span> decorate</span><br><span class="line">pip install -U decorator</span><br><span class="line"></span><br><span class="line">问题：kolla <span class="string">"Waiting for virtual IP to appear"</span></span><br><span class="line">/etc/kolla/globals.yml</span><br><span class="line">keepalived_virtual_router_id: <span class="string">"250"</span></span><br><span class="line"></span><br><span class="line">网络连接</span><br><span class="line">iptables -A INPUT -i br-ex -j ACCEPT <span class="comment">#注意内核转发问题（INPUT都需要允许才行）</span></span><br><span class="line">iptables -t nat -A POSTROUTING -s <span class="number">10.0</span><span class="number">.2</span><span class="number">.0</span>/<span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>  -j SNAT <span class="comment">--to-source 10.8.250.57</span></span><br><span class="line">ifconfig br-ex <span class="number">10.0</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span></span><br><span class="line"></span><br><span class="line">由于错误的出现，可能需要多次的部署，而有些错误重新部署是不会进行修正的，所以需要将整个环境进行清理:</span><br><span class="line">    /usr/share/kolla-ansible/tools/cleanup-containers                <span class="comment">#可用于从系统中移除部署的容器</span></span><br><span class="line">    /usr/share/kolla-ansible/tools/cleanup-host                      <span class="comment">#可用于移除由于残余网络变化引发的docker启动的neutron-agents主机</span></span><br><span class="line">    /usr/share/kolla-ansible/tools/cleanup-images                    <span class="comment">#可用于从本地缓存中移除所有的doc</span></span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.jianshu.com/p/5d58f6f9e2c7" target="_blank" rel="noopener">https://www.jianshu.com/p/5d58f6f9e2c7</a><br><a href="https://www.jianshu.com/p/c549a512c224" target="_blank" rel="noopener">https://www.jianshu.com/p/c549a512c224</a><br><a href="https://docs.openstack.org/project-deploy-guide/kolla-ansible/ocata/quickstart.html" target="_blank" rel="noopener">https://docs.openstack.org/project-deploy-guide/kolla-ansible/ocata/quickstart.html</a><br><a href="https://xiexianbin.cn/openstack/kolla/2016-10-23-use-kolla-to-deploy-openstack-multinode-env/" target="_blank" rel="noopener">https://xiexianbin.cn/openstack/kolla/2016-10-23-use-kolla-to-deploy-openstack-multinode-env/</a><br><a href="https://opengers.github.io/openstack/openstack-base-use-openvswitch/" target="_blank" rel="noopener">云计算底层技术-使用openvswitch</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/linux-jupyter/" data-toggle="tooltip" data-placement="top" title="Linux 安装 Jupyter notebook">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/kubernetes-dashboard/" data-toggle="tooltip" data-placement="top" title="Kubernetes dashboard 1.10.1">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

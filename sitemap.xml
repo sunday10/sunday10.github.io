@@ -2,6 +2,76 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/keepalived-and-firewalld/</loc>
+    
+    <lastmod>2019-07-11T09:05:42.313Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/firewalld/</loc>
+    
+    <lastmod>2019-07-11T09:05:17.005Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/redis-batch-deletion/</loc>
+    
+    <lastmod>2019-07-11T09:05:01.835Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/redis-install/</loc>
+    
+    <lastmod>2019-07-11T08:55:53.844Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/kolla-ansible-openstack/</loc>
+    
+    <lastmod>2019-07-05T04:19:19.882Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/nginx-advenced-limit-request/</loc>
+    
+    <lastmod>2019-07-04T06:56:05.724Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/nginx-cookie/</loc>
+    
+    <lastmod>2019-07-03T10:49:43.714Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/nginx-limit-modules/</loc>
+    
+    <lastmod>2019-07-03T06:16:33.198Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/pssh-expect/</loc>
+    
+    <lastmod>2019-07-01T06:37:40.902Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/linux-jupyter/</loc>
+    
+    <lastmod>2019-07-01T04:09:46.713Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/kubernetes-dashboard/</loc>
     
     <lastmod>2019-06-19T04:31:08.160Z</lastmod>
@@ -40,20 +110,6 @@
     <loc>http://www.sundayle.com/curl-track/</loc>
     
     <lastmod>2019-06-11T09:25:36.056Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/firewalld/</loc>
-    
-    <lastmod>2019-05-17T02:42:34.247Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/nginx-limit-modules/</loc>
-    
-    <lastmod>2019-05-09T09:28:44.799Z</lastmod>
     
   </url>
   
@@ -369,13 +425,6 @@
     <loc>http://www.sundayle.com/haproxy-tutorial/</loc>
     
     <lastmod>2018-11-09T03:52:03.334Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/redis-install/</loc>
-    
-    <lastmod>2018-11-02T07:12:46.132Z</lastmod>
     
   </url>
   

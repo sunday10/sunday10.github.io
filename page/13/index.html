@@ -184,6 +184,172 @@
 
 <div class="post-preview">
 
+    <a href="/sed/">
+        <h2 class="post-title">
+            文本处理工具 Sed
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            stream editor 流式编辑器sed是Linux中的一个文件编辑工具，按行处理文件内容，可以实现插入，删除，替换等功能。更重要的是sed命令可以用script来处理文本文件，能够应对复杂的编辑需求。
+sed命令语法基本格式 sed [option] [sed.txt]
+选项:
+
+-e &lt;script>: 按script编辑文本并输出到控制台，但不修改原文件内容
+-f : sed......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/grep/">
+        <h2 class="post-title">
+            文本处理工具 Grep
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            文本搜索工具，根据用户指定的文本模式（搜索条件）对目标文件进行逐行搜索，显示能匹配到的行
+grep：最常用，可以检索目标（一个活多个单词或正则表达式）。egrep：支持丰富的正则表达式，而且支持多目标检索，等同于 grep -e。fgrep：不能使用正则表达式，可以检索多个目标，等同于 grep -f，不建议使用。
+Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/elk-elasticsearch-plug/">
+        <h2 class="post-title">
+            ELK实时日志分析 Elasticsearch 插件
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Elasticsearch插件
+环境
+系统：CentOS 7
+
+部署elasticsearch 5.x 不再支持插件，需运行独立
+2.1 Head插件作用：集群监制
+123456789101112yum install bzip2 unzip git -y# git clone https://github.com/mobz/elasticsearch-headwget https://gi......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/elk-kafka-filebeat/">
+        <h2 class="post-title">
+            ELK+Filebeat+Kafka 日志分析
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            为什么要用ELK日志主要包括系统日志、应用程序日志和安全日志。系统运维和开发人员可以通过日志了解服务器软硬件信息、检查配置过程中的错误及错误发生的原因。经常分析日志可以了解服务器的负荷，性能安全性，从而及时采取措施纠正错误。
+通常，日志被分散的储存不同的设备上。如果你管理数十上百台服务器，你还在使用依次登录每台机器的传统方法查阅日志。这样是不是感觉很繁琐和效率低下。日志的统计和检索又成为一件......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/java/">
+        <h2 class="post-title">
+            CentOS 7 安装 Java
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            两种方式安装JDK
+1. yum安装12345yum install -y javajava -versionopenjdk version "1.8.0_171"OpenJDK Runtime Environment (build 1.8.0_171-b14)OpenJDK 64-Bit Server VM (build 25.171-b14, mixed mode
+2. 源码安装http......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kernel-sysctl/">
+        <h2 class="post-title">
+            Linux 内核优化参数
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境系统：CentOS 7
+Linux 内核优化参数sudo vim /etc/sysctl.conf123456789101112131415161718192021222324252627282930313233343536net.ipv4.ip_forward = 0net.ipv4.conf.default.rp_filter = 1net.ipv4.conf.default.acc......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/iptables/">
+        <h2 class="post-title">
+            CentOS 7 启用 iptables 防火墙
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言在大企业中防火墙角色主要交给硬件来支持，效果自然没话说只是需要增加一点点成本，但对于大多数个人或者互联网公司来说选择系统自带的iptables或者第三方云防火墙似乎是更加合适的选择，通过一些合理的优化和灵活的配置，我们也可以很轻松实现硬件防火墙的部分功能，够用就好。
+
+CentOS7默认的防火墙不是iptables,而是firewalle. 不过之前用开iptables，so…  ipt......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-12-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/iptables-detailed/">
         <h2 class="post-title">
             Linux 防火墙 iptables详解
@@ -247,165 +413,6 @@ ipt......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/jemalloc/">
-        <h2 class="post-title">
-            更好的内存管理jemalloc
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. jemalloc是干什么的呢？官方说明：
-
-jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support.jemalloc干了malloc干的活，而且干得好一些，主要体现在避免内存碎片与并发扩展......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-log-cut/">
-        <h2 class="post-title">
-            Logrotate Nginx日志切割
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. Logrotate日志切割Linux日志文件如果不定期清理，查看日志会比较麻烦。我们可以使用”logrotate”来管理linux日志文件，它可以实现日志的自动滚动，日志归档等功能。下面以nginx日志文件来讲解下logrotate的用法。
-在/etc/logrotate.d/目录下创建一个配置文件”nginx”，内容如下：1234567891011121314vim /etc/log......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-27
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/raid-megacli/">
-        <h2 class="post-title">
-            RAID阵列卡 MegaCli64 常用管理命令汇总
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            硬盘方面：
-1、查看所有物理磁盘信息12345678910111213141516171819202122232425262728293031# MegaCli64 -PDList -aALL                                     Adapter #0Enclosure Device ID: 32Slot Number: 0Drive's position:......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-27
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/git-command/">
-        <h2 class="post-title">
-            Git 常用命令集合
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些全局设置的，如用户名、邮箱。设置的主要命令是 git config:12git config --global user.name "your name"      // 设置全局用户名git config --global user.email "your email"    // 设置邮箱
-其中， –global 指定......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-21
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/git-base/">
-        <h2 class="post-title">
-            Git 简易教程
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 创建新仓库创建新文件夹，打开，然后执行git init以创建新的 git 仓库。
-2. 检出仓库执行如下命令以创建一个本地仓库的克隆版本：git clone /path/to/repository如果是远端服务器上的仓库，你的命令会是这个样子：git clone username@host:/path/to/repository
-3. 工作流你的本地仓库由 git 维护的三棵“树”组成......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-21
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/gitlab/">
-        <h2 class="post-title">
-            Ubuntu 安装GitLab服务器
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境操作系统：Ubuntu 16.04应用服务：Gitlab 10.1.4-ce.0防火墙状态：关闭
-安装并配置必要的依赖关系1sudo apt-get install -y curl openssh-server ca-certificates
-添加 GitLab 镜像源并安装12curl -sS http://packages.gitlab.com.cn/install/gitlab-c......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/rsync-delete/">
-        <h2 class="post-title">
-            Linux 使用Rsync最快删除海量文件
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            摘要在Linux Web维护过程中，Web服务会生成海量（万级）缓存文件。这些小文件会消耗大量的inode。使用我们最常用的删除命令rm -fr * 就不好用了，非常吃力，等待的时间太长了。有时会报错。-bash: /bin/rm: Argument list too long。这时，我们可以使用rsync来实现快速删除大量文件。
-新建空目录1mkdir /tmp/empty
-Rsync删除......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-18
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -445,271 +452,13 @@ Rsync删除......
                     <div class="tags">
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
                             
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#fastdfs" title="fastdfs" rel="2">fastdfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#分布式" title="分布式" rel="4">分布式</a>
-                            
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
-                            
-                        
-                            
-                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#防火墙" title="防火墙" rel="4">防火墙</a>
-                            
-                        
-                            
-                            <a href="/tags/#haproxy" title="haproxy" rel="3">haproxy</a>
-                            
-                        
-                            
-                            <a href="/tags/#高性能" title="高性能" rel="3">高性能</a>
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
-                            
-                        
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
-                            
-                        
-                            
-                            <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
-                            
-                        
-                            
-                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
-                            
-                            <a href="/tags/#keepalived" title="keepalived" rel="3">keepalived</a>
-                            
-                        
-                            
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
-                            
-                        
-                            
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="4">kubernetes</a>
-                            
-                        
-                            
-                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
-                            
-                        
-                            
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#php" title="php" rel="3">php</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
-                            
-                        
-                            
-                            <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#python" title="python" rel="4">python</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#redis" title="redis" rel="2">redis</a>
                             
                         
                             
