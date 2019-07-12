@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/nginx-advenced-limit-request/</loc>
+    
+    <lastmod>2019-07-12T08:07:27.190Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/iostat/</loc>
+    
+    <lastmod>2019-07-11T09:15:51.198Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/keepalived-and-firewalld/</loc>
     
     <lastmod>2019-07-11T09:05:42.313Z</lastmod>
@@ -33,13 +47,6 @@
     <loc>http://www.sundayle.com/kolla-ansible-openstack/</loc>
     
     <lastmod>2019-07-05T04:19:19.882Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/nginx-advenced-limit-request/</loc>
-    
-    <lastmod>2019-07-04T06:56:05.724Z</lastmod>
     
   </url>
   
@@ -380,13 +387,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/iostat/</loc>
-    
-    <lastmod>2018-12-29T07:06:33.795Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/linux-quickly-view-directory-size/</loc>
     
     <lastmod>2018-12-07T02:11:36.354Z</lastmod>
@@ -394,14 +394,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
