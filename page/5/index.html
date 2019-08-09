@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,53 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/nginx-smooth-upgrade/">
+        <h2 class="post-title">
+            Nginx 平滑升级
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            有时候，我们需要对服务器进行编译添加模块或升级更高版本，此时我们将强制停止服务器，然后在原来基础上升级，这样会关闭之前正在运行的进程。
+平滑升级正是解决这个问题的，平滑升级时，不会停掉在运行着的进程，这些进程会继续处理请求，但是不会再接收新的请求，在这些老进程处理完还在处理的请求后，停止。此平滑升级的过程中，新开的进程会被处理。他不会影响我们的进程处理。
+123456789101112131......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kvm-windows-server-2012/">
+        <h2 class="post-title">
+            Ubuntu 16.04 KVM 安装 Windows Server 2012
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+安装KVM1sudo apt-get install qemu-kvm libvirt-bin virtinst bridge-utils cpu-checker
+验证KVM1234$kvm-okINFO: /dev/kvm existsKVM acceleration can be used
+配置网桥cp /etc/network/interfaces /etc/network/inte......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-12
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -361,50 +408,6 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/mogilefs/">
-        <h2 class="post-title">
-            MogileFS 分布式存储
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            什么是分布式存储分布式存储系统，是将数据分散存储在多台独立的设备上。传统的网络存储系统采用集中的存储服务器存放所有数据，存储服务器成为系统性能的瓶颈，也是可靠性和安全性的焦点，不能满足大规模存储应用的需要。分布式网络存储系统采用可扩展的系统结构，利用多台存储服务器分担存储负荷，利用位置服务器定位存储信息，它不但提高了系统的可靠性、可用性和存取效率，还易于扩展
-CAP理论C：Consisten......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-07
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/glusterfs/">
-        <h2 class="post-title">
-            企业级分布式存储 Glusterfs
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 理论基础1.1 分布式文件系统出现计算机通过文件系统管理、存储数据，而现在数据信息爆炸的时代中人们可以获取的数据成指数倍的增长，单纯通过增加硬盘个数来扩展计算机文件系统的存储容量的方式，已经不能满足目前的需求。
-分布式文件系统可以有效解决数据的存储和管理难题，将固定于某个地点的某个文件系统，扩展到任意多个地点、多个文件系统，众多的节点组成一个文件系统网络。每个节点可以分布在不同的地点，......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-23
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -444,12 +447,6 @@ CAP理论C：Consisten......
                     <div class="tags">
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
@@ -460,19 +457,23 @@ CAP理论C：Consisten......
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
+                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
                             
                         
                             
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -484,7 +485,7 @@ CAP理论C：Consisten......
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                        
                             
                         
                             
@@ -494,7 +495,7 @@ CAP理论C：Consisten......
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
@@ -506,9 +507,7 @@ CAP理论C：Consisten......
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
+                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -520,7 +519,11 @@ CAP理论C：Consisten......
                             
                         
                             
-                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -532,6 +535,8 @@ CAP理论C：Consisten......
                             
                         
                             
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
@@ -540,7 +545,13 @@ CAP理论C：Consisten......
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            
+                        
                             
                         
                             
@@ -548,7 +559,9 @@ CAP理论C：Consisten......
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -562,11 +575,7 @@ CAP理论C：Consisten......
                             
                         
                             
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -574,23 +583,15 @@ CAP理论C：Consisten......
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="4">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
-                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
                             
                         
                             
@@ -598,17 +599,7 @@ CAP理论C：Consisten......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
                             
                         
                             
@@ -628,11 +619,25 @@ CAP理论C：Consisten......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            
+                        
                             
                         
                             
@@ -672,13 +677,11 @@ CAP理论C：Consisten......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -700,11 +703,11 @@ CAP理论C：Consisten......
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
                             
                         
                             

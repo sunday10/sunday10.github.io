@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,52 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/nginx-cache-expires/">
+        <h2 class="post-title">
+            Nginx  缓存与过期
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            nginx 缓存能够让网页打开速度享受质的飞跃。 当我们第一次访问一个页面时 将下载的css,js,html已经img等相关资源保存在本地。 在第二次，第三次…访问时，就可以不用去下载文件了。通常来说，设置文件的缓存有两种方式，一种是在服务器内设置响应头文件，另外一个是使用h5的manifest文件来进行相关设置.
+服务器的缓存协商这种方式设置的缓存有两种，一种是需要服务器验证，另外一种是不......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/google-bbr/">
+        <h2 class="post-title">
+            CentOS 7 部署Google BBR
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            使用TCP BBR 拥塞控制算法，能够使Linux服务器更高效的利用带宽、增加吞吐量并减少连接的延迟。
+升级内核查看当前的内核123uname -r输出...3.10.0-514.2.2.el7.x86_64
+这里我们看到当前内核是3.10.0-514.2.2.el7.x86_64，这个内核是不可以安装BBR的。
+安装内核123sudo rpm --import https://www.el......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-25
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -373,54 +419,6 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/linux-system-io/">
-        <h2 class="post-title">
-            Linux 性能优化之 IO 子系统
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            本文介绍了对 Linux IO 子系统性能进行优化时需要考虑的因素，以及一些 IO 性能检测工具。
-本文的大部分内容来自 IBM Redbook - Linux Performance and Tuning Guidelines
-FileSystemVFS(Virtual FileSystem) 虚拟文件系统文件系统是内核的功能，是一种工作在内核空间的软件，访问一个文件必须要需要文件系统的存......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-08-08
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/mysql-optimize-in-linux/">
-        <h2 class="post-title">
-            Linux MySQL 优化
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            数据库系统通常是企业的核心应用，因此针对运行 MySQL 的 Linux 系统通常需要进行一些特殊的优化。
-本人非 MySQL 大牛，本文不涉及 MySQL 参数优化，仅对 Linux 系统优化进行一些总结。
-CPU现代操作系统都是多任务多用户的操作系统，服务器能够支持的CPU数量也越来越多，对于多CPU的服务器有多种架构，常见的是 NUMA 和 SMP.
-SMP
-SMP 即 Symmetr......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-08-08
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -460,12 +458,6 @@ SMP 即 Symmetr......
                     <div class="tags">
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
@@ -476,19 +468,23 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
+                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
                             
                         
                             
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -500,7 +496,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                        
                             
                         
                             
@@ -510,7 +506,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
@@ -522,9 +518,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
+                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -536,7 +530,11 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -548,6 +546,8 @@ SMP 即 Symmetr......
                             
                         
                             
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
@@ -556,7 +556,13 @@ SMP 即 Symmetr......
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            
+                        
                             
                         
                             
@@ -564,7 +570,9 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -578,11 +586,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -590,23 +594,15 @@ SMP 即 Symmetr......
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="4">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
-                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
                             
                         
                             
@@ -614,17 +610,7 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
                             
                         
                             
@@ -644,11 +630,25 @@ SMP 即 Symmetr......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            
+                        
                             
                         
                             
@@ -688,13 +688,11 @@ SMP 即 Symmetr......
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -716,11 +714,11 @@ SMP 即 Symmetr......
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
                             
                         
                             

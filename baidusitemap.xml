@@ -4,6 +4,57 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/nginx-allows-multiple-domain-cors/</loc>
+    <lastmod>2019-08-09T04:30:04.367Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx 允许多个域名跨域访问</title>
+        <pubTime>2019-08-09T03:06:47.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/kubernetes-binary-installation/</loc>
+    <lastmod>2019-07-19T10:01:44.599Z</lastmod>
+    <data>
+        <display>
+        <title>Kubernetes 二进制安装</title>
+        <pubTime>2019-07-18T10:06:11.000Z</pubTime>
+        
+        <tag>kernel</tag>
+         
+        <tag>kubernetes</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/centos-7-upgrade-kernel/</loc>
+    <lastmod>2019-07-19T06:52:33.994Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS 7 升级 4.19 kernel 内核</title>
+        <pubTime>2018-12-29T07:05:23.000Z</pubTime>
+        
+        <tag>kernel</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/nginx-advenced-limit-request/</loc>
     <lastmod>2019-07-12T08:07:27.190Z</lastmod>
     <data>
@@ -753,23 +804,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/centos-7-upgrade-kernel/</loc>
-    <lastmod>2019-04-03T02:56:27.883Z</lastmod>
-    <data>
-        <display>
-        <title>CentOS 7 升级 4.19 内核</title>
-        <pubTime>2018-12-29T07:05:23.000Z</pubTime>
-        
-        <tag>kernel</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/php-opcache-status-and-clear/</loc>
     <lastmod>2019-03-18T09:54:23.966Z</lastmod>
     <data>
@@ -1390,9 +1424,9 @@
         
         <tag>iptables</tag>
          
-        <tag>防火墙</tag>
-         
         <tag>ufw</tag>
+         
+        <tag>防火墙</tag>
          
          
            

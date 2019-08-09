@@ -13,7 +13,7 @@
 
     <title>
         
-          CentOS 7 升级 4.19 内核 - Sunday博客 | Sunday Blog
+          CentOS 7 升级 4.19 kernel 内核 - Sunday博客 | Sunday Blog
         
     </title>
 
@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -168,7 +168,7 @@
                           <a class="tag" href="/tags/#kernel" title="kernel">kernel</a>
                         
                     </div>
-                    <h1>CentOS 7 升级 4.19 内核</h1>
+                    <h1>CentOS 7 升级 4.19 kernel 内核</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sunday on
@@ -195,7 +195,7 @@
 <h2 id="导入仓库源"><a href="#导入仓库源" class="headerlink" title="导入仓库源"></a>导入仓库源</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm --<span class="keyword">import</span> <span class="string">https:</span><span class="comment">//www.elrepo.org/RPM-GPG-KEY-elrepo.org</span></span><br><span class="line">sudo rpm -Uvh <span class="string">http:</span><span class="comment">//www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span></span><br></pre></td></tr></table></figure>
 <h2 id="安装指定版本-4-19"><a href="#安装指定版本-4-19" class="headerlink" title="安装指定版本 4.19"></a>安装指定版本 4.19</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum --enablerepo=<span class="string">"elrepo-kernel"</span> <span class="type">list</span> --showduplicates | sort -r | grep kernel-ml.x86_64</span><br><span class="line">kernel-ml.x86_64 <span class="number">4.20</span><span class="number">.0</span><span class="number">-1.</span>el7.elrepo elrepo-kernel</span><br><span class="line">kernel-ml.x86_64 <span class="number">4.19</span><span class="number">.12</span><span class="number">-1.</span>el7.elrepo elrepo-kernel</span><br><span class="line"></span><br><span class="line">yum --enablerepo=<span class="string">"elrepo-kernel"</span> install kernel-ml<span class="number">-4.19</span><span class="number">.12</span><span class="number">-1.</span>el7.elrepo.x86_64 -y</span><br></pre></td></tr></table></figure>
 <h2 id="传统启动方式"><a href="#传统启动方式" class="headerlink" title="传统启动方式"></a>传统启动方式</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">egrep ^menuentry /boot/grub2/grub.cfg | cut -f <span class="number">2</span> -d \' </span><br><span class="line">CentOS Linux (<span class="number">4.19</span><span class="number">.12</span><span class="number">-1.</span>el7.elrepo.x86_64) <span class="number">7</span> (Core)</span><br><span class="line">CentOS Linux (<span class="number">3.10</span><span class="number">.0</span><span class="number">-957.</span>el7.x86_64) <span class="number">7</span> (Core)</span><br><span class="line">CentOS Linux (<span class="number">0</span>-rescue<span class="number">-4</span>de75e64d2d54ea49d12a4b730b2e839) <span class="number">7</span> (Core)</span><br></pre></td></tr></table></figure>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grub2-<span class="keyword">set</span>-default <span class="comment">0</span></span><br><span class="line">grub2-mkconfig <span class="comment">-o</span> /boot/<span class="comment">grub2</span>/grub.cfg</span><br></pre></td></tr></table></figure>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grub2-<span class="keyword">set</span>-<span class="keyword">default</span> <span class="number">0</span></span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br><span class="line">grubby --<span class="keyword">default</span>-kernel</span><br></pre></td></tr></table></figure>
 <h2 id="UEFI启动方式"><a href="#UEFI启动方式" class="headerlink" title="UEFI启动方式"></a>UEFI启动方式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">egrep ^menuentry /etc/grub2-efi.cfg | cut -f 2 -d \&apos;</span><br><span class="line">grub2-set-default 0</span><br><span class="line">grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg</span><br></pre></td></tr></table></figure>
 <h2 id="查找清除旧内核"><a href="#查找清除旧内核" class="headerlink" title="查找清除旧内核"></a>查找清除旧内核</h2><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel</span><br><span class="line">yum remove <span class="keyword">x</span>.<span class="keyword">x</span>.<span class="keyword">x</span></span><br></pre></td></tr></table></figure>
 <p>注：R730XD 使用UEFI启动方式安装CenntOS 7。Yum 升级4.x内核，启动卡在 pstore: No deflate compression,显示器无法正常显示画面，但可以ssh连接。</p>
@@ -206,6 +206,8 @@
 </li>
 </ol>
 <p><a href="https://elrepo.org/bugs/view.php?id=668" target="_blank" rel="noopener">https://elrepo.org/bugs/view.php?id=668</a></p>
+<h1 id="下载rpm升级4-19-内核"><a href="#下载rpm升级4-19-内核" class="headerlink" title="下载rpm升级4.19 内核"></a>下载rpm升级4.19 内核</h1><p>因elrepo源都是最新版本，4.19找不到了。<br><a href="http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/" target="_blank" rel="noopener">kernel rpm 历史归档版本</a></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># wget http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el<span class="number">7</span>/<span class="keyword">x</span><span class="number">86</span>_<span class="number">64</span>/RPMS/kernel-ml-devel<span class="number">-4.19</span>.<span class="number">12</span><span class="number">-1</span>.el<span class="number">7</span>.elrepo.<span class="keyword">x</span><span class="number">86</span>_<span class="number">64</span>.rpm </span><br><span class="line"># wget http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el<span class="number">7</span>/<span class="keyword">x</span><span class="number">86</span>_<span class="number">64</span>/RPMS/kernel-ml-headers<span class="number">-4.19</span>.<span class="number">12</span><span class="number">-1</span>.el<span class="number">7</span>.elrepo.<span class="keyword">x</span><span class="number">86</span>_<span class="number">64</span>.rpm</span><br><span class="line">wget http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el<span class="number">7</span>/<span class="keyword">x</span><span class="number">86</span>_<span class="number">64</span>/RPMS/kernel-ml<span class="number">-4.19</span>.<span class="number">12</span><span class="number">-1</span>.el<span class="number">7</span>.elrepo.<span class="keyword">x</span><span class="number">86</span>_<span class="number">64</span>.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh kernel-ml<span class="number">-4.19</span>.<span class="number">12</span><span class="number">-1</span>.el<span class="number">7</span>.elrepo.<span class="keyword">x</span><span class="number">86</span>_<span class="number">64</span>.rpm </span><br><span class="line">grub<span class="number">2</span>-set-<span class="keyword">default</span> <span class="number">0</span></span><br><span class="line">grub<span class="number">2</span>-mkconfig -o /boot/grub<span class="number">2</span>/grub.cfg</span><br><span class="line">grubby --<span class="keyword">default</span>-kernel</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
 <h1 id="手动挡编译"><a href="#手动挡编译" class="headerlink" title="手动挡编译"></a>手动挡编译</h1><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum groupinstall -y <span class="string">"Development Tools"</span></span><br><span class="line">yum <span class="keyword">install</span> -y ncurses-devel qt-devel</span><br></pre></td></tr></table></figure>
 <p><a href="https://www.kernel.org/" target="_blank" rel="noopener">https://www.kernel.org/</a></p>
 <h2 id="下载解压内核"><a href="#下载解压内核" class="headerlink" title="下载解压内核"></a>下载解压内核</h2><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/usr/src</span></span><br><span class="line">wget https:<span class="string">//cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.12.tar.xz</span></span><br><span class="line">tar xf linux-4.19.12.tar.xz</span><br><span class="line"><span class="keyword">cd</span> linux-4.19.12</span><br></pre></td></tr></table></figure>
@@ -225,7 +227,6 @@
 <h2 id="设置启动项"><a href="#设置启动项" class="headerlink" title="设置启动项"></a>设置启动项</h2><p>这里是UEFI引导<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">egrep ^menuentry <span class="meta-keyword">/etc/</span>grub2-efi.cfg | cut -f <span class="number">2</span> -d \'</span><br><span class="line">grub2-set-default <span class="number">0</span></span><br><span class="line">grub2-mkconfig -o <span class="meta-keyword">/boot/</span>efi/EFI<span class="meta-keyword">/centos/</span>grub.cfg</span><br></pre></td></tr></table></figure></p>
 <p>make mrproper &amp;&amp; make clean</p>
 <h2 id="卸载编译的内核"><a href="#卸载编译的内核" class="headerlink" title="卸载编译的内核"></a>卸载编译的内核</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /<span class="class"><span class="keyword">lib</span>/<span class="title">modules</span>/4.19.12</span></span><br><span class="line">rm -rf /boot/initramfs-<span class="number">4.19</span>.<span class="number">12</span>.img</span><br><span class="line">rm -rf /boot/vmlinuz-<span class="number">4.19</span>.<span class="number">12</span></span><br><span class="line">rm -rf /boot/System.map-<span class="number">4.19</span>.<span class="number">12</span></span><br></pre></td></tr></table></figure>
-
 
                 <hr>
 

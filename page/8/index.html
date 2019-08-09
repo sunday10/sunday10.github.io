@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,51 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/opcache/">
+        <h2 class="post-title">
+            PHP 7 启用opcache及缓存清除
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            opcache 简介Zend opcache通过opcode缓存和优化提供更快的PHP执行过程。它将预编译的脚本文件存储在共享内存中供以后使用，从而避免了从磁盘读取代码并进行编译的时间消耗。同时，它还应用了一些代码优化模式，使得代码执行更快。（php &gt;= 5.5）
+启用opcache12345678910zend_extension=opcache.soopcache.enable=......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/tmpfs/">
+        <h2 class="post-title">
+            CentOS 7 使用tmpfs优化应用服务缓存读写速度
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            tmpfs : 使用内存作为Linux磁盘文件,用于缓存读写。操作12vim /etc/fstabtmpfs                   /tmp        tmpfs   size=2G,noatime,nodiratime  0   0
+挂载1mount -a
+效果12df -h | grep /tmptmpfs           2.0G  216K  2.0G   1%......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-01
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -368,49 +413,6 @@ Super PI
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/tomcat-apr/">
-        <h2 class="post-title">
-            Tomcat 8.5 基于APR库性能优化
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            简介Tomcat可以使用Apache Portable Runtime来提供卓越的性能及可扩展性，更好地与本地服务器技术的集成。Apache Portable Runtime是一个高度可移植的库，位于Apache HTTP Server 2.x的核心。APR有许多用途，包括访问高级IO功能（如sendfile，epoll和OpenSSL），操作系统级功能（随机数生成，系统状态等）以及本地进程......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-12
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/tomcat-optimization/">
-        <h2 class="post-title">
-            Apache Tomcat 8.5 安全配置与高并发优化
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Java的内存模型
-Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和两个大小严格相同的 Survivor 区，其中 Survivor 区间中，某一时刻只有其中一个是被使用的，另外一个留做垃圾收集时复制对象用，在 Young 区间变满的时候，minor GC 就会将存活的对象移到空闲的Survivor 区间中，根据 JVM 的策略，在经过几次垃圾收集后，任然存活于......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-07-11
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -450,12 +452,6 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                     <div class="tags">
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
@@ -466,19 +462,23 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
+                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
                             
                         
                             
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -490,7 +490,7 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                        
                             
                         
                             
@@ -500,7 +500,7 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
@@ -512,9 +512,7 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
+                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -526,7 +524,11 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
-                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -538,6 +540,8 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
@@ -546,7 +550,13 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            
+                        
                             
                         
                             
@@ -554,7 +564,9 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -568,11 +580,7 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -580,23 +588,15 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="4">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
-                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
                             
                         
                             
@@ -604,17 +604,7 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
                             
                         
                             
@@ -634,11 +624,25 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            
+                        
                             
                         
                             
@@ -678,13 +682,11 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -706,11 +708,11 @@ Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和�
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
                             
                         
                             

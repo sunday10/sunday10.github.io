@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,55 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/huawei-switch-initialization/">
+        <h2 class="post-title">
+            华为交换机常用命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            #指定管理IP12345system-viewinterface vlan 1ip add 192.168.1.2 24#ip address 192.168.1.2 255.255.255.0quit
+#开启常用服务123http server enabletelnet server enablestelnet server enable
+#配置认证模式为aaa12345678910use......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-06-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/huawei-switch-stack/">
+        <h2 class="post-title">
+            堆叠两台 华为S5720交换机
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+型号：S5720S-28X-LI-AC
+
+升级相同固件版本两台升级为V200R011C10SPC600V200R011C10SPC600 固件链接
+配置逻辑堆叠端口并加入物理成员端口配置SwitchA的业务口XGigabitEthernet0/0/1、GigabitEthernet0/0/2为物理成员端口，并加入到相应的逻辑堆叠端口。
+交换机A操作1234567sysname Switch......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-06-11
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -373,52 +422,6 @@ MySQL 开启 binlog 二进日志
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/linux-php-curl-timeout/">
-        <h2 class="post-title">
-            CentOS 7 php curl 微信支付接口 超时
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            事件
-添加了H3C路由器做内网上网使用，节省IP做集群IP.
-调用微信接口 https://api.mch.weixin.qq.com/pay/unifiedorder 超时5秒多。
-php报错：cURL error 28: Resolving timed out after 5516 milliseconds (see https://curl.haxx.se/libcurl/c/libc......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-02-13
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-proxy-65535-port/">
-        <h2 class="post-title">
-            Nginx使用proxy_bind负载tcp socket，解决代理端口耗尽
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            流量升高导致TIME_WAIT增加，连接大量失败的问题nginx将php解析通过TCP转发给php-fpm,需要占用一个TCP
-PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;'SYN_RECV 186TIME_WAIT ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-01-06
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -458,12 +461,6 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                     <div class="tags">
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
@@ -474,19 +471,23 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
+                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
                             
                         
                             
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -498,7 +499,7 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                        
                             
                         
                             
@@ -508,7 +509,7 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
@@ -520,9 +521,7 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
+                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -534,7 +533,11 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
-                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -546,6 +549,8 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
@@ -554,7 +559,13 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            
+                        
                             
                         
                             
@@ -562,7 +573,9 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -576,11 +589,7 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -588,23 +597,15 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="4">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
-                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
                             
                         
                             
@@ -612,17 +613,7 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
                             
                         
                             
@@ -642,11 +633,25 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            
+                        
                             
                         
                             
@@ -686,13 +691,11 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -714,11 +717,11 @@ PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;f
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
                             
                         
                             

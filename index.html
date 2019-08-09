@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,72 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/nginx-allows-multiple-domain-cors/">
+        <h2 class="post-title">
+            Nginx 允许多个域名跨域访问
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            允许指定单个域名跨域访问1234567891011location /&#123;    #add_header Access-Control-Allow-Origin *; #允许所有域名不安全    add_header 'Access-Control-Allow-Origin' 'https://www.sundayle.com';    add_header 'Access-Cont......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-08-09
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kubernetes-binary-installation/">
+        <h2 class="post-title">
+            Kubernetes 二进制安装
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境准备
+
+
+Hostname
+IP / VIP
+Service
+Hardware
+
+
+
+
+k8s-master1
+192.168.10.81 / 192.168.10.88
+keepalive haproxy
+2C 4G
+
+
+k8s-master2
+192.168.10.82 / 192.168.10.88
+keepalive haproxy
+2C 4G
+
+
+k8s-node1
+192.1......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-07-18
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -387,55 +453,6 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/huawei-switch-initialization/">
-        <h2 class="post-title">
-            华为交换机常用命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            #指定管理IP12345system-viewinterface vlan 1ip add 192.168.1.2 24#ip address 192.168.1.2 255.255.255.0quit
-#开启常用服务123http server enabletelnet server enablestelnet server enable
-#配置认证模式为aaa12345678910use......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-06-11
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/huawei-switch-stack/">
-        <h2 class="post-title">
-            堆叠两台 华为S5720交换机
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-型号：S5720S-28X-LI-AC
-
-升级相同固件版本两台升级为V200R011C10SPC600V200R011C10SPC600 固件链接
-配置逻辑堆叠端口并加入物理成员端口配置SwitchA的业务口XGigabitEthernet0/0/1、GigabitEthernet0/0/2为物理成员端口，并加入到相应的逻辑堆叠端口。
-交换机A操作1234567sysname Switch......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-06-11
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -471,12 +488,6 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                     <div class="tags">
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
@@ -487,19 +498,23 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
+                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
                             
                         
                             
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -511,7 +526,7 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                        
                             
                         
                             
@@ -521,7 +536,7 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
@@ -533,9 +548,7 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
+                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -547,7 +560,11 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -559,6 +576,8 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
@@ -567,7 +586,13 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            
+                        
                             
                         
                             
@@ -575,7 +600,9 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -589,11 +616,7 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -601,23 +624,15 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="4">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
-                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
                             
                         
                             
@@ -625,17 +640,7 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
                             
                         
                             
@@ -655,11 +660,25 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            
+                        
                             
                         
                             
@@ -699,13 +718,11 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -727,11 +744,11 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
                             
                         
                             

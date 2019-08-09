@@ -90,13 +90,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -105,6 +98,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,52 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/mysqld-multi/">
+        <h2 class="post-title">
+            MySQL 多实例配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            安装MySQL 5.7 源码安装 http://www.sundayle.com/2017/12/25/mysql/ Apt源安装 123456 #https://www.percona.com/doc/percona-server/LATEST/installation/apt_repo.htmlsudo dpkg -i https://mirrors.tuna.tsinghua.edu.......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-04-19
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kvm/">
+        <h2 class="post-title">
+            KVM 虚拟化
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            云计算指的是资源使用和交互的一种模式虚拟化指的是技术，可以将物理计算机虚拟成多个逻辑计算机（如VMware）他们彼此独立，互不影响，但是云计算又需要使用虚拟化技术。
+1. 操作环境
+系统: Centos 7母机IP:192.168.77.11 (KVM-S1)KVM IP:192.168.77.111防火墙状态: 关闭selinux状态: 关闭NetworkManager: 关闭
+
+2. 检......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-04-18
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -364,50 +410,6 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/coredump/">
-        <h2 class="post-title">
-            Linux 开启 core dump
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 什么是core文件某些信号的操作是导致进程终止并生成核心转储文件，包含终止时进程内存的映像。主要用于程序崩溃时，调试找原因的。
-2. 配置系统生成 core 文件1. 使用 ulimit 配置生成 core 文件大小首先使用ulimit -c 确认系统是否生成 core 文件，若为 0，说明禁用了 core 文件生成，若要启用，根据需要配置 core 文件生成大小。 如不限制 core......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-02-27
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/regex/">
-        <h2 class="post-title">
-            正则表达式30分钟入门教程
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            本文目标30分钟内让你明白正则表达式是什么，并对它有一些基本的了解，让你可以在自己的程序或网页里使用它。
-如何使用本教程别被下面那些复杂的表达式吓倒，只要跟着我一步一步来，你会发现正则表达式其实并没有想像中的那么困难。当然，如果你看完了这篇教程之后，发现自己明白了很多，却又几乎什么都记不得，那也是很正常的——我认为，没接触过正则表达式的人在看完这篇教程后，能把提到过的语法记住80%以上的可能......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-02-27
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -447,12 +449,6 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                     <div class="tags">
                         
                             
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
@@ -463,19 +459,23 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
+                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
                             
                         
                             
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -487,7 +487,7 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                        
                             
                         
                             
@@ -497,7 +497,7 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
                             
                         
                             
@@ -509,9 +509,7 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
-                            
-                        
+                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -523,7 +521,11 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -535,6 +537,8 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                            
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
@@ -543,7 +547,13 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                            
+                        
+                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
+                            
+                        
                             
                         
                             
@@ -551,7 +561,9 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -565,11 +577,7 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
@@ -577,23 +585,15 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="4">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
-                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
                             
                         
                             
@@ -601,17 +601,7 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                            <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
                             
                         
                             
@@ -631,11 +621,25 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            
+                        
                             
                         
                             
@@ -675,13 +679,11 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -703,11 +705,11 @@ emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
-                            
-                        
-                            
-                        
                             
                         
                             
