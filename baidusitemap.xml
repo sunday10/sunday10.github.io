@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://www.sundayle.com/nginx-allows-multiple-domain-cors/</loc>
-    <lastmod>2019-08-09T04:30:04.367Z</lastmod>
+    <lastmod>2019-08-09T17:22:47.488Z</lastmod>
     <data>
         <display>
         <title>Nginx 允许多个域名跨域访问</title>
@@ -1013,12 +1013,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>Python 装饰器</title>
-        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
+        <title>Python 编码</title>
+        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -1030,12 +1030,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>Python 编码</title>
-        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
+        <title>Python 装饰器</title>
+        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -1424,9 +1424,9 @@
         
         <tag>iptables</tag>
          
-        <tag>ufw</tag>
-         
         <tag>防火墙</tag>
+         
+        <tag>ufw</tag>
          
          
            
@@ -1797,9 +1797,9 @@
         <title>Maven私服Nexus3.x环境配置</title>
         <pubTime>2018-07-31T10:36:25.000Z</pubTime>
         
-        <tag>持续集成</tag>
-         
         <tag>maven</tag>
+         
+        <tag>持续集成</tag>
          
         <tag>nexus</tag>
          
@@ -1823,9 +1823,9 @@
         
         <tag>jenkins</tag>
          
-        <tag>持续集成</tag>
-         
         <tag>maven</tag>
+         
+        <tag>持续集成</tag>
          
          
            
@@ -1983,7 +1983,7 @@
     <lastmod>2018-07-07T16:37:20.000Z</lastmod>
     <data>
         <display>
-        <title>Linux Apache Tomcat 8.5 安装与配置</title>
+        <title>Linux Apache tomcat 8.5 安装与配置</title>
         <pubTime>2018-07-07T16:37:20.000Z</pubTime>
         
         <tag>tomcat</tag>

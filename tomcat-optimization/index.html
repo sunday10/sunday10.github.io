@@ -90,6 +90,13 @@
 
                         
                         <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/archives/">Archives</a>
                         </li>
                         
@@ -98,13 +105,6 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -261,7 +261,7 @@
 <p>修改为：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector <span class="attribute">port</span>=<span class="string">"8019"</span> <span class="attribute">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attribute">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 <h2 id="使用普通用户启动tomcat"><a href="#使用普通用户启动tomcat" class="headerlink" title="使用普通用户启动tomcat"></a>使用普通用户启动tomcat</h2><blockquote>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -s <span class="regexp">/bin/</span>false tomcat</span><br><span class="line">sudo -u tomcat <span class="regexp">/bin/</span>bash <span class="variable">$TOMCAT_HOME</span><span class="regexp">/bin/</span>startup.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -s <span class="regexp">/bin/</span>false tomcat</span><br><span class="line">sudo -u tomcat <span class="regexp">/bin/</span>bash <span class="variable">$tomcat_HOME</span><span class="regexp">/bin/</span>startup.sh</span><br></pre></td></tr></table></figure>
 </blockquote>
 <h2 id="关闭自动部署"><a href="#关闭自动部署" class="headerlink" title="关闭自动部署"></a>关闭自动部署</h2><p>防止被植入木马等恶意程序</p>
 <blockquote>
@@ -277,10 +277,10 @@
 <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/tomcat/<span class="class"><span class="keyword">lib</span>/</span></span><br><span class="line">unzip catalina.jar</span><br><span class="line">cd org/apache/catalina/util</span><br><span class="line">vim ServerInfo.properties</span><br></pre></td></tr></table></figure>
 </blockquote>
 <blockquote>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server.<span class="attribute">info</span>=Apache Tomcat/8.5.32</span><br><span class="line">server.<span class="attribute">number</span>=8.5.32.0</span><br><span class="line">server.<span class="attribute">built</span>=Jun 20 2018 19:50:35 UTC</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server.<span class="attribute">info</span>=Apache Tomcat/8.5.32</span><br><span class="line">server.<span class="attribute">number</span>=8.5.32.0</span><br><span class="line">server.<span class="attribute">built</span>=Jun 20 2018 19:50:35 UTC</span><br><span class="line"></span><br><span class="line">&lt;!--</span><br><span class="line">server.<span class="attribute">info</span>=Apache tomcat/8.5.43</span><br><span class="line">server.<span class="attribute">number</span>=8.5.43.0</span><br><span class="line">server.<span class="attribute">built</span>=Jul 4 2019 20:53:15 UTC</span><br><span class="line">--&gt;</span><br><span class="line">server.<span class="attribute">info</span>=EnjoyMusic</span><br><span class="line">server.<span class="attribute">number</span>=x.x.x.x</span><br><span class="line">server.<span class="attribute">built</span>=Today</span><br></pre></td></tr></table></figure>
 </blockquote>
 <blockquote>
-<p>将以上去掉或修改信息即可</p>
+<p>将以上去掉或修改信息,压缩回jar包<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jar uvf catalina.jar org<span class="regexp">/apache/</span>catalina<span class="regexp">/util/</span>ServerInfo.properties</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 <h1 id="APR-库性能优化"><a href="#APR-库性能优化" class="headerlink" title="APR 库性能优化"></a>APR 库性能优化</h1><p><a href="http://www.sundayle.com/2018/07/12/tomcat-apr/">http://www.sundayle.com/2018/07/12/tomcat-apr/</a></p>
 <h1 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h1><p>使用Apache与Tomcat整合，因为Tomcat 处理静态文件能力远不足Apache，因此让Apache来处理静态文件，Tomcat处理动态jsp 文件，可以有效提高处理速度。同时也会涉及到一个问题，怎么保存Session？</p>
@@ -307,7 +307,7 @@
                     
                     
                         <li class="next">
-                            <a href="/tomcat/" data-toggle="tooltip" data-placement="top" title="Linux Apache Tomcat 8.5 安装与配置">Next Post &rarr;</a>
+                            <a href="/tomcat/" data-toggle="tooltip" data-placement="top" title="Linux Apache tomcat 8.5 安装与配置">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
