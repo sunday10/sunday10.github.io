@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,130 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/nmap-penetration/">
+        <h2 class="post-title">
+            Nmap 渗透使用指南
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            介绍nmap是用来探测计算机网络上的主机和服务的一种安全扫描器。为了绘制网络拓扑图Nmap的发送特制的数据包到目标主机然后对返回数据包进行分析。Nmap是一款枚举和测试网络的强大工具。
+特点
+主机探测
+端口扫描
+版本检测
+支持探测脚本的编写
+
+安装官网:http://nmap.org 图形化:Zenmap
+基本操作基本快速扫描Nmap 默认发送一个arp的ping数据包来探测目标主机在1-1......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-21
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/python-deep-copy-and-shallow-copy/">
+        <h2 class="post-title">
+            Python中的深拷贝和浅拷贝
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最近面试被问到python中深拷贝和浅拷贝的知识这里进行下总结，以便今后复习python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。首先，对赋值操作我们要有以下认识：
+
+赋值是将一个对象的地址赋值给一个变量，让变量指向该地址（ 旧瓶装旧酒 ）。
+修改不可变对象（str、tuple）需要开辟新的空间
+修改可变对象（list等）不......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-21
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/python-note/">
+        <h2 class="post-title">
+            Python学习笔记
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Python学习笔记基础基础
+语法
+
+
+#开头，注释
+缩进的语句视为代码块
+大小写敏感
+
+
+数据类型和变量
+
+True和False首字母大写
+and、or和not
+空值：None
+
+
+字符串格式化%
+
+%d整数
+
+%f浮点数
+
+%s字符串
+
+%x十六进制整数
+
+补位
+12345&gt;&gt;&gt; '%2d-%02d' % (3, 1)' 3-01'&gt;&gt;&gt; '%.2f'......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-20
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/iptables-for-anti-ddos/">
+        <h2 class="post-title">
+            配置 Sysctl 和 Iptables 防攻击
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            sysctl 可以显示和修改内核参数，包含一些 TCP/IP 堆栈和虚拟内存系统的高级选项，合理设置可以显著提高系统性能。iptables 是 Linux 下最常用的防火墙软件，也是很多 Linux 发行版自带的默认防火墙软件。通过设置 sysctl 和 iptables，可以有效防范中小程度的攻击。
+查看状态查看TCP连接状态12#netstat -nat |awk '&#123;prin......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-20
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -313,95 +437,6 @@
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/keepalived/">
-        <h2 class="post-title">
-            Keepalived 编译及配置文件详解
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Keepalived简介Keepalived是一个基于vrrp来实现的服务器高可用解决方案，可以利用其实现避免IP单点故障，类似的工具还有heartbeat、corosync。不过其不会单独出现，而是搭配着 LVS、Nginx、HAproxy，一起协同工作达到高可用的目的。
-具体来说，其作用是检测服务器的状态，如果有一台web服务器宕机，或工作出现故障，KeepAlived将会检测到，并将有......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-09
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/high-availability/">
-        <h2 class="post-title">
-            高可用集群基本概念
-        </h2>
-        <h3 class="post-subtitle">
-            High availability
-        </h3>
-        <div class="post-content-preview">
-            什么是高可用可用性如何定义
-
-可用性（availability）是关于系统可供使用时间的表述，以不可用的时间为衡量指标。不可用时间越短，可用性越高。通常用 n 个 9 来描述。比如 4 个 9 的可用性（99.99%），是指一年中不可用时间在 52 分钟内，平均每周不可用时间在 1 分钟。
-可靠性（reliability）是关于系统无故障时间间隔的描述，以发生故障的次数为衡量指标，故障次数越......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-07
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/lvs/">
-        <h2 class="post-title">
-            负载均衡集群 LVS 详解
-        </h2>
-        <h3 class="post-subtitle">
-            Loadbalancer & LVS
-        </h3>
-        <div class="post-content-preview">
-            负载均衡集群负载均衡集群指使用多台提供相同服务的服务器组成集群系统，提高服务的并发处理能力。负载均衡集群的前端使用一个调度器，将客户端请求平均分配到后端的服务器中，同时调度器可能还具有后端服务器状态检测的功能，将故障的服务器自动下线，使得集群具有一定的容错能力。
-使用负载均衡集群能够有效的扩展服务的并发能力，负载均衡集群中的主机间应该尽量的「低耦合」，最好是「无状态」的，这样就能够方便的增加......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-07
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/firewalld/">
-        <h2 class="post-title">
-            CentOS 7  Firewalld防火墙管理工具
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            firewalld 简介firewalld 提供了支持网络 / 防火墙区域 (zone) 定义网络链接以及接口安全等级的动态防火墙管理工具。它支持 IPv4, IPv6 防火墙设置以及以太网桥接，并且拥有运行时配置和永久配置选项。它也支持允许服务或者应用程序直接添加防火墙规则的接口。以前的 iptables 防火墙是静态的，每次修改都要求防火墙完全重启。这个过程包括内核 netfilter ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-07
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -441,25 +476,11 @@
                     <div class="tags">
                         
                             
-                        
-                            
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -473,13 +494,23 @@
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
+                            
+                        
                             
                         
                             
@@ -491,17 +522,13 @@
                             
                         
                             
-                        
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -517,7 +544,9 @@
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
                             
                         
                             
@@ -529,17 +558,23 @@
                             
                         
                             
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
                             
                         
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -550,14 +585,6 @@
                             <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -573,6 +600,14 @@
                             
                         
                             
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
                             <a href="/tags/#keepalived" title="keepalived" rel="4">keepalived</a>
                             
                         
@@ -581,23 +616,15 @@
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
                             
                         
                             
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
-                            
-                        
-                            
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -621,6 +648,10 @@
                             
                         
                             
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
                         
                             
                         
@@ -631,13 +662,17 @@
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
                             
                         
                             
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                        
                             
                         
                             
@@ -659,13 +694,7 @@
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
-                            
-                        
                             
                         
                             
@@ -677,19 +706,27 @@
                             
                         
                             
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

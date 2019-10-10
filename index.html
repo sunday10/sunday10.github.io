@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,194 @@
 
 <div class="post-preview">
 
+    <a href="/kubeadm-1-15/">
+        <h2 class="post-title">
+            使用kubeadm 安装 Kubernetes v1.15 HA高可用
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境说明
+OS: Centos7.5Kubernetes: 1.15.3Docker: 18.09 
+
+
+
+
+主机名
+IP / VIP
+组件
+
+
+
+
+k8s-master1
+192.168.10.81 / 192.168.10.80
+haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-scheduler、no......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-10-10
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-upstream/">
+        <h2 class="post-title">
+            Nginx upstream 注意配置头部
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境说明
+
+
+域名
+IP
+服务
+
+
+
+
+im.sundayle.com
+192.168.1.92
+Nginx反向代理
+
+
+37.im.sundayle.com
+192.168.1.37
+Nginx Web
+
+
+47.im.sundayle.com
+192.168.1.47
+Nginx Web
+
+
+
+Nginx反向代理
+
+注意配置proxy_set_header Host im.sundayl......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-09-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-consul/">
+        <h2 class="post-title">
+            nginx consul
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境说明
+
+
+主机名
+IP
+系统
+角色
+
+
+
+
+demo18
+192.168.10.18
+Ubuntu 16.04
+server
+
+
+demo20
+192.168.10.20
+Ubuntu 16.04
+server
+
+
+demo21
+192.168.10.21
+Ubuntu 16.04
+server
+
+
+
+https://www.consul.io/downloads.htmlhttps:/......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-09-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kubernets-taint/">
+        <h2 class="post-title">
+            kubernets 污点
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            手动部署的k8s集群, 需要为master节点设置taint，才能默认不被调度
+设置taint语法:12345kubectl taint node [node] key=value[effect]        其中[effect] 可取值: [ NoSchedule | PreferNoSchedule | NoExecute ]      NoSchedule: 一定不能被调度     ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-08-27
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kubernetes-1-14-2-binary-installation/">
+        <h2 class="post-title">
+            Kubernetes 1.14.2 二进制安装
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            配置策略
+kube-apiserver
+
+
+使用haproxy+keepalived实现高可用；
+关闭非安全端口 8080 和匿名访问；
+在安全端口 6443 接收 https 请求；
+严格的认证和授权策略 (x509、token、RBAC)；
+开启 bootstrap token 认证，支持 kubelet TLS bootstrapping；
+使用 https 访问 kubelet、et......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-08-15
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/nginx-allows-multiple-domain-cors/">
         <h2 class="post-title">
             Nginx 允许多个域名跨域访问
@@ -198,51 +386,6 @@
     <p class="post-meta">
         Posted by Sunday on
         2019-08-09
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kubernetes-binary-installation/">
-        <h2 class="post-title">
-            Kubernetes 二进制安装
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境准备
-
-
-Hostname
-IP / VIP
-Service
-Hardware
-
-
-
-
-k8s-master1
-192.168.10.81 / 192.168.10.88
-keepalive haproxy
-2C 4G
-
-
-k8s-master2
-192.168.10.82 / 192.168.10.88
-keepalive haproxy
-2C 4G
-
-
-k8s-node1
-192.1......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-07-18
     </p>
 
 </div>
@@ -338,121 +481,6 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/pssh-expect/">
-        <h2 class="post-title">
-            pssh expect 使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            批量添加密钥有两种情况，一种是直接输入密码，就像基线版本；另一种情况是会先提示添加主机到known_hosts。
-12345678910111213141516171819202122232425262728vim addkeys.sh #!/usr/bin/expect set timeout 60set user rootset password 123456set key_path /......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-07-01
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/linux-jupyter/">
-        <h2 class="post-title">
-            Linux 安装 Jupyter notebook
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            官方文档
-安装启动123yum install -y python-develpip install --upgrade pippip install jupyter
-启动1jupyter notebook --ip 0.0.0.0 --allow-root
-访问1http://ip:8888
-设置密码12jupyter notebook --generate-configjupyter n......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-07-01
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kolla-ansible-openstack/">
-        <h2 class="post-title">
-            Kolla-Ansible 部署 Openstack
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境准备
-
-
-主机名
-IP
-配置
-系统
-
-
-
-
-部署机
-192.168.10.20
-4G内存 40G 网卡一张
-CentOS7
-
-
-openstack主机
-192.168.10.81
-8G内存 40G磁盘 网卡两张
-CentOS7
-
-
-
-
-部署机准备配置pypi 国内源加速12345mkdir -p ~/.config/pip/tee ~/.config/pip/pip.conf &lt;&......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-06-24
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kubernetes-dashboard/">
-        <h2 class="post-title">
-            Kubernetes dashboard 1.10.1
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            download1wget https://github.com/kubernetes/dashboard/blob/master/aio/deploy/recommended/kubernetes-dashboard.yaml
-modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300112345678910111213141516......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-06-18
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -488,25 +516,11 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                     <div class="tags">
                         
                             
-                        
-                            
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -520,13 +534,23 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
+                            
+                        
                             
                         
                             
@@ -538,17 +562,13 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                        
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -564,7 +584,9 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
                             
                         
                             
@@ -576,17 +598,23 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
                             
                         
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -597,14 +625,6 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -620,6 +640,14 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
                             <a href="/tags/#keepalived" title="keepalived" rel="4">keepalived</a>
                             
                         
@@ -628,23 +656,15 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
                             
                         
                             
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
-                            
-                        
-                            
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -668,6 +688,10 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
                         
                             
                         
@@ -678,13 +702,17 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
                             
                         
                             
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                        
                             
                         
                             
@@ -706,13 +734,7 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
-                            
-                        
                             
                         
                             
@@ -724,19 +746,27 @@ modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300
                             
                         
                             
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

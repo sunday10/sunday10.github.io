@@ -13,7 +13,7 @@
 
     <title>
         
-          使用acme.sh申请Let&#39;s Encrypt 泛域名野卡 - Sunday博客 | Sunday Blog
+          使用acme.sh申请Let&#39;s Encrypt 泛域名野卡 dnspod - Sunday博客 | Sunday Blog
         
     </title>
 
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -168,7 +168,7 @@
                           <a class="tag" href="/tags/#https" title="https">https</a>
                         
                     </div>
-                    <h1>使用acme.sh申请Let&#39;s Encrypt 泛域名野卡</h1>
+                    <h1>使用acme.sh申请Let&#39;s Encrypt 泛域名野卡 dnspod</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sunday on
@@ -200,7 +200,7 @@
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">更详细的 api 用法: https:<span class="regexp">//gi</span>thub.com<span class="regexp">/Neilpang/</span>acme.sh<span class="regexp">/blob/m</span>aster<span class="regexp">/dnsapi/</span>README.md</span><br></pre></td></tr></table></figure>
 <h1 id="3-copy-安装-证书"><a href="#3-copy-安装-证书" class="headerlink" title="3. copy/安装 证书"></a>3. copy/安装 证书</h1><p>前面证书生成以后, 接下来需要把证书 copy 到真正需要用它的地方.</p>
 <p>注意, 默认生成的证书都放在安装目录下: ~/.acme.sh/, 请不要直接使用此目录下的文件, 例如: 不要直接让 nginx/apache 的配置文件使用这下面的文件. 这里面的文件都是内部使用, 而且目录结构可能会变化.</p>
-<h3 id="安装到nginx"><a href="#安装到nginx" class="headerlink" title="安装到nginx"></a>安装到nginx</h3><p>正确的使用方法是使用 –installcert 命令,并指定目标位置, 然后证书文件会被copy到相应的位置, 例如:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/nginx/ssl</span><br><span class="line">acme<span class="selector-class">.sh</span>  --installcert  -d  sundayle<span class="selector-class">.com</span>   \</span><br><span class="line">        --key-file   /etc/nginx/ssl/sundayle<span class="selector-class">.com</span><span class="selector-class">.key</span> \</span><br><span class="line">        --fullchain-file /etc/nginx/ssl/sundayle<span class="selector-class">.com</span><span class="selector-class">.cer</span> \</span><br><span class="line">        --reloadcmd  <span class="string">"service nginx force-reload"</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="安装到nginx"><a href="#安装到nginx" class="headerlink" title="安装到nginx"></a>安装到nginx</h3><p>正确的使用方法是使用 –installcert 命令,并指定目标位置, 然后证书文件会被copy到相应的位置, 例如:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/nginx/ssl</span><br><span class="line">acme<span class="selector-class">.sh</span>  --installcert  -d  sundayle<span class="selector-class">.com</span>   \</span><br><span class="line">        --key-file   /etc/nginx/ssl/sundayle<span class="selector-class">.com</span><span class="selector-class">.key</span> \</span><br><span class="line">        --fullchain-file /etc/nginx/ssl/sundayle<span class="selector-class">.com</span><span class="selector-class">.cer</span> \</span><br><span class="line">        --reloadcmd  <span class="string">"/etc/init.d/nginx force-reload"</span></span><br></pre></td></tr></table></figure></p>
 <p>(一个小提醒, 这里用的是 service nginx force-reload, 不是 service nginx reload, 据测试, reload 并不会重新加载证书, 所以用的 force-reload，–reloadcmd用于更新证书后自动重启nginx服务)</p>
 <p>–installcert命令可以携带很多参数, 来指定目标文件. 并且可以指定 reloadcmd, 当证书更新以后, reloadcmd会被自动调用,让服务器生效.</p>
 <h3 id="查看修改-更新证书计划"><a href="#查看修改-更新证书计划" class="headerlink" title="查看修改 更新证书计划"></a>查看修改 更新证书计划</h3><p>这里修改成一个月更新一次（强制性）<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br><span class="line"></span><br><span class="line">00 01 * *<span class="string">/1</span> * <span class="string">"/root/.acme.sh"</span><span class="string">/acme.sh</span> <span class="params">--cron</span> <span class="params">--home</span> <span class="string">"/root/.acme.sh"</span> <span class="params">--force</span> &gt; <span class="string">/dev/null</span></span><br></pre></td></tr></table></figure></p>
@@ -213,9 +213,9 @@
 <p>如果你不想手动升级, 可以开启自动升级:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme<span class="selector-class">.sh</span>  --upgrade  --<span class="attribute">auto</span>-upgrade</span><br></pre></td></tr></table></figure></p>
 <p>之后, acme.sh 就会自动保持更新了.</p>
 <p>你也可以随时关闭自动更新:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme<span class="selector-class">.sh</span> --upgrade  --<span class="attribute">auto</span>-upgrade  <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="6-出错怎么办："><a href="#6-出错怎么办：" class="headerlink" title="6. 出错怎么办："></a>6. 出错怎么办：</h1><p>如果出错, 请添加 debug log：<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh  <span class="params">--issue</span>  <span class="string">.....</span>  <span class="params">--debug</span></span><br></pre></td></tr></table></figure></p>
-<p>或者：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh  --issue  <span class="built_in">..</span><span class="built_in">..</span>.  --<span class="builtin-name">debug</span>  2</span><br></pre></td></tr></table></figure></p>
-<p>请参考： <a href="https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh" target="_blank" rel="noopener">https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh</a></p>
+<h1 id="6-删除不用的证书"><a href="#6-删除不用的证书" class="headerlink" title="6. 删除不用的证书"></a>6. 删除不用的证书</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">acme.<span class="keyword">sh</span> --<span class="keyword">list</span> </span><br><span class="line">acme.<span class="keyword">sh</span>  --<span class="built_in">remove</span>  -d example.<span class="keyword">com</span></span><br><span class="line">``</span><br><span class="line"># <span class="number">7</span>. 出错怎么办：</span><br><span class="line"></span><br><span class="line">如果出错, 请添加 <span class="keyword">debug</span> <span class="built_in">log</span>：</span><br></pre></td></tr></table></figure>
+<p>acme.sh  –issue  …..  –debug<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">或者：</span><br></pre></td></tr></table></figure></p>
+<p>acme.sh  –issue  …..  –debug  2<br><code>`</code><br>请参考： <a href="https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh" target="_blank" rel="noopener">https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh</a></p>
 <p>最后, 本文并非完全的使用说明, 还有很多高级的功能, 更高级的用法请参看其他 wiki 页面.</p>
 <p><a href="https://github.com/Neilpang/acme.sh/wiki" target="_blank" rel="noopener">https://github.com/Neilpang/acme.sh/wiki</a><br><a href="https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md" target="_blank" rel="noopener">https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md</a><br>英文高级配置：<a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="noopener">https://github.com/Neilpang/acme.sh</a><br>中文简单配置：<a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E</a></p>
 

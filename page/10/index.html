@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,102 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/cobbler/">
+        <h2 class="post-title">
+            Cobbler 自动化部署实践
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+运维自动化在生产环境中占据着举足轻重的地位，尤其是面对几百台，几千台甚至几万台的服务器时，仅仅是安装操作系统，如果不通过自动化来完成， 根本是不可想象的。面对生产环境中不同服务器的需求，该如何实现批量部署多版本的操作系统呢？ Cobbler 便可以的满足这一实际需求，实现多版本操作系统批量部署
+
+简介Cobbler是一个自动化和简化系统安装的工具，通过使用网络引导来控制和启动安装。Cobb......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/">
+        <h2 class="post-title">
+            我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            仔细看上图，我们可以发现两个信息：
+
+1.该机器建立了238万个TCP连接；2.此时内存使用量大约在48G左右。
+
+看上去很赞吧？如果有人能够提供配置，并且在单台部署HAProxy的服务器上完成这样规模的调优，是不是更赞？本文将详细描述这个过程;
+本文是一系列关于HAProxy压力测试文章的最后一篇。如果有时间，建议读者能够先阅读本系列的其余两部分。这样能够更好的帮助我们了解本文所提及的内核......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-06-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/haproxy-optimization/">
+        <h2 class="post-title">
+            使用 HAProxy 负载均衡300k并发tcp连接
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            我最近正在尝试建立一个推送系统。为了提高系统的可扩展性，最佳做法是使每个连接尽可能无状态。因此，当出现瓶颈时，通过添加更多机器可以轻松扩展整个系统的容量。说到负载平衡和反向代理，Nginx可能是最着名和最公认的。但是，TCP代理是一个相当新的事情。 Nginx从v1.9引入了TCP负载均衡和反向代理，v1.9于今年5月下旬发布，具有大量缺失功能。另一方面，HAProxy作为TCP加载bala......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-06-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/haproxy-tutorial/">
+        <h2 class="post-title">
+            HAProxy 反向代理的使用
+        </h2>
+        <h3 class="post-subtitle">
+            High availability
+        </h3>
+        <div class="post-content-preview">
+            简介HAProxy 是一款高性能的反向代理软件，它可以基于四层或七层进行反向代理，尤其适合于高负载且需要进行七层处理的 Web 站点。
+相较与 Nginx，HAProxy 更专注与反向代理，因此它可以支持更多的选项，更精细的控制，更多的健康状态检测机制和负载均衡算法。
+性能HAproxy 主要借助于现代操作系统上几种常见的技术来实现性能的最大化。
+
+单进程、事件驱动模型，降低了上下文切换和内......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-06-26
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -315,96 +411,6 @@ root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 3
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/ansible-playbooks/">
-        <h2 class="post-title">
-            使用 Ansible Playbooks
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            ansible可以非常方便的控制多台机器,比如查看各台机器上的apache服务状态,ansible all -a &quot;service apache status&quot; --sudo,如果任务更复杂一点可以写成一个脚本，然后ansible会在每台机器上执行脚本。但是如果任务中子任务有有依赖那，任务判断任务的执行状态那，总之还是有一系列的问题，总结起来就是能不能做任务编排?当然能，......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/ansible/">
-        <h2 class="post-title">
-            Ansible 自动化工具使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Ansible简介ansible 是个什么东西呢？基于 Python paramiko 开发，分布式，无需客户端，轻量级，配置语法使用 YMAL 及 Jinja2模板语言，更强的远程命令执行操作。这个工具的目标有这么几项：自动化部署APP；自动化管理配置项；自动化的持续交互；自动化的（AWS）云服务管理。所有的这几个目标从本质上来说都是在一个台或者几台服务器上，执行一系列的命令而已。通俗的说......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/zabbix-monitor/">
-        <h2 class="post-title">
-            zabbix 3.4 监控入门实践
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            简介zabbix 是一个企业级的分布式开源监控方案，能够监控各种网络参数以及服务器健康性和完整性的软件，支持自定义配置和自定义告警，并且可以实现邮件、短信等方式的告警，zabbix基本组件如下：
-
-zabbix_server: zabbix服务端守护进程，所有的监控数据都会统一汇总给server。
-zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户端各种参数，如......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/mongodb-operation/">
-        <h2 class="post-title">
-            mongodb集群监控和运维
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            本文转载自：http://www.mooooc.com/mongodb/2017/09/06/mongodb-operation.html这篇文件介绍如何动态的添加、下架mongod分片和副本集，以及如何监控和运维mongodb。
-添加节点副本集 改为仲裁节点convert-secondary-into-arbiter
-登录
-123mongo 192.168.0.35:27005#使用adm......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-18
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -444,25 +450,11 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                     <div class="tags">
                         
                             
-                        
-                            
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -476,13 +468,23 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
+                            
+                        
                             
                         
                             
@@ -494,17 +496,13 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                        
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -520,7 +518,9 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
                             
                         
                             
@@ -532,17 +532,23 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
                             
                         
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -553,14 +559,6 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -576,6 +574,14 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
                             <a href="/tags/#keepalived" title="keepalived" rel="4">keepalived</a>
                             
                         
@@ -584,23 +590,15 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
                             
                         
                             
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
-                            
-                        
-                            
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -624,6 +622,10 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
                         
                             
                         
@@ -634,13 +636,17 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
                             
                         
                             
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                        
                             
                         
                             
@@ -662,13 +668,7 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
-                            
-                        
                             
                         
                             
@@ -680,19 +680,27 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

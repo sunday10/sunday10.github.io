@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          nginx consul - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/nginx-consul/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                    </div>
+                    <h1>nginx consul</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2019-09-24
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h1><table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP</th>
+<th>系统</th>
+<th>角色</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>demo18</td>
+<td>192.168.10.18</td>
+<td>Ubuntu 16.04</td>
+<td>server</td>
+</tr>
+<tr>
+<td>demo20</td>
+<td>192.168.10.20</td>
+<td>Ubuntu 16.04</td>
+<td>server</td>
+</tr>
+<tr>
+<td>demo21</td>
+<td>192.168.10.21</td>
+<td>Ubuntu 16.04</td>
+<td>server</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://www.consul.io/downloads.html" target="_blank" rel="noopener">https://www.consul.io/downloads.html</a><br><a href="https://github.com/weibocom/nginx-upsync-module" target="_blank" rel="noopener">https://github.com/weibocom/nginx-upsync-module</a><br><a href="https://github.com/xiaokai-wang/nginx_upstream_check_module" target="_blank" rel="noopener">https://github.com/xiaokai-wang/nginx_upstream_check_module</a></p>
+<p>编译nginx<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="regexp">/usr/</span>local<span class="regexp">/src/</span></span><br><span class="line">git clone https:<span class="regexp">//gi</span>thub.com<span class="regexp">/xiaokai-wang/</span>nginx_upstream_check_module</span><br><span class="line">git clone https:<span class="regexp">//gi</span>thub.com<span class="regexp">/weibocom/</span>nginx-upsync-module</span><br><span class="line"></span><br><span class="line">wget https:<span class="regexp">//</span>openresty.org<span class="regexp">/download/</span>openresty-nginx-<span class="number">1.13</span>.<span class="number">6</span>.tar.gz</span><br><span class="line">tar xf openresty-<span class="number">1.15</span>.<span class="number">8.2</span>.tar.gz </span><br><span class="line">cd openresty-<span class="number">1.15</span>.<span class="number">8.2</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/src/</span>openresty-<span class="number">1.13</span>.<span class="number">6.2</span><span class="regexp">/bundle/</span>nginx-<span class="number">1.13</span>.<span class="number">6</span></span><br><span class="line">patch -p1 &lt; <span class="regexp">/usr/</span>local<span class="regexp">/src/</span>nginx_module<span class="regexp">/nginx_upstream_check_module/</span>check_1.<span class="number">12.1</span>+.patch </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">.<span class="regexp">/configure --prefix=/u</span>sr<span class="regexp">/local/</span>openresty --add-module=<span class="regexp">/usr/</span>local<span class="regexp">/src/</span>nginx_module<span class="regexp">/nginx_upstream_check_module --add-module=/u</span>sr<span class="regexp">/local/</span>src<span class="regexp">/nginx_module/</span>nginx-upsync-module </span><br><span class="line">make -j <span class="number">20</span> &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget <span class="string">https:</span><span class="comment">//releases.hashicorp.com/consul/1.6.1/consul_1.6.1_linux_amd64.zip</span></span><br><span class="line">unzip consul_1<span class="number">.6</span><span class="number">.1</span>_linux_amd64.zip </span><br><span class="line">mv consul <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span></span><br></pre></td></tr></table></figure>
+<p>手动运行集群命令<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">consul agent -server -bootstrap-expect <span class="number">3</span> -ui -node=consul<span class="number">-1</span> --data-dir=/data/consul -bind=<span class="number">192.168</span><span class="number">.10</span><span class="number">.18</span> -client <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">consul agent -server -bootstrap-expect <span class="number">3</span> -ui -node=consul<span class="number">-2</span> --data-dir=/data/consul -bind=<span class="number">192.168</span><span class="number">.10</span><span class="number">.20</span> -client <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">consul agent -server -bootstrap-expect <span class="number">3</span> -ui -node=consul<span class="number">-3</span> --data-dir=/data/consul -bind=<span class="number">192.168</span><span class="number">.10</span><span class="number">.21</span> -client <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">useradd <span class="params">--system</span> <span class="params">--home</span> <span class="string">/data/consul</span> <span class="params">--shell</span> <span class="string">/bin/false</span> consul</span><br><span class="line">mkdir -p <span class="string">/data/consul</span></span><br><span class="line">chown -R consul<span class="function">:consul</span> <span class="string">/data/consul</span></span><br><span class="line">mkdir -p <span class="string">/etc/consul.d</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF &gt; <span class="regexp">/etc/</span>consul.d/consul.json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"datacenter"</span>: <span class="string">"dc1"</span>, </span><br><span class="line">    <span class="string">"data_dir"</span>: <span class="string">"/data/consul"</span>,</span><br><span class="line">    <span class="string">"log_level"</span>: <span class="string">"INFO"</span>,</span><br><span class="line">    <span class="string">"node_name"</span>: <span class="string">"demo18"</span>,</span><br><span class="line">    <span class="string">"server"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"ui"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"bootstrap_expect"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="string">"bind_addr"</span>: <span class="string">"192.168.10.18"</span>,</span><br><span class="line">    <span class="string">"client_addr"</span>: <span class="string">"0.0.0.0"</span>,</span><br><span class="line">    <span class="string">"retry_join"</span>: [<span class="string">"192.168.10.21"</span>,<span class="string">"192.168.10.20"</span>],</span><br><span class="line">    <span class="string">"retry_interval"</span>: <span class="string">"3s"</span>,</span><br><span class="line">    <span class="string">"raft_protocol"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="string">"enable_debug"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"rejoin_after_leave"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"enable_syslog"</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">chmod <span class="number">640</span> <span class="regexp">/etc/</span>consul.d/consul.json</span><br><span class="line">chown -R <span class="string">consul:</span>consul <span class="regexp">/etc/</span>consul.d</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.consul.io/docs/agent/options.html#configuration_files" target="_blank" rel="noopener">https://www.consul.io/docs/agent/options.html#configuration_files</a><br><a href="https://www.consul.io/docs/install/performance.html" target="_blank" rel="noopener">https://www.consul.io/docs/install/performance.html</a><br><a href="https://learn.hashicorp.com/consul/datacenter-deploy/deployment-guide" target="_blank" rel="noopener">https://learn.hashicorp.com/consul/datacenter-deploy/deployment-guide</a></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF &gt; /etc/systemd/system/consul.service </span><br><span class="line">[Unit]</span><br><span class="line"><span class="attribute">Description</span>=<span class="string">"HashiCorp Consul - A service mesh solution"</span></span><br><span class="line"><span class="attribute">Documentation</span>=https://www.consul.io/</span><br><span class="line"><span class="attribute">Requires</span>=network-online.target</span><br><span class="line"><span class="attribute">After</span>=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line"><span class="attribute">User</span>=consul</span><br><span class="line"><span class="attribute">Group</span>=consul</span><br><span class="line"><span class="attribute">ExecStart</span>=/usr/local/bin/consul agent <span class="attribute">-config-dir</span>=/etc/consul.d/</span><br><span class="line"><span class="attribute">ExecReload</span>=/usr/local/bin/consul reload</span><br><span class="line"><span class="attribute">KillMode</span>=process</span><br><span class="line"><span class="attribute">Restart</span>=on-failure</span><br><span class="line"><span class="attribute">LimitNOFILE</span>=65536</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line"><span class="attribute">WantedBy</span>=multi-user.target</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">chown -R consul.consul /data/consul /etc/consul.d</span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart consul</span><br><span class="line">systemctl <span class="builtin-name">enable</span> consul</span><br><span class="line">systemctl status consul</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">consul members <span class="attribute">-http-addr</span>=192.168.10.18:8500</span><br><span class="line">Node   <span class="built_in"> Address </span>            Status <span class="built_in"> Type </span>   Build  Protocol  DC   Segment</span><br><span class="line">demo18  192.168.10.18:8301  alive  <span class="built_in"> server </span> 1.6.1  2         dc1  &lt;all&gt;</span><br><span class="line">demo20  192.168.10.20:8301  alive  <span class="built_in"> server </span> 1.6.1  2         dc1  &lt;all&gt;</span><br><span class="line">demo21  192.168.10.21:8301  alive  <span class="built_in"> server </span> 1.6.1  2         dc1  &lt;all&gt;</span><br></pre></td></tr></table></figure>
+<p><code></code><br>curl -X PUT -d ‘{“weight”:10, “max_fails”:2, “fail_timeout”:10, “down”:0}’ <a href="http://192.168.10.21:8500/v1/kv/upstreams/pic_backend/192.168.10.21:80" target="_blank" rel="noopener">http://192.168.10.21:8500/v1/kv/upstreams/pic_backend/192.168.10.21:80</a><br>curl -X PUT <a href="http://192.168.10.21:8500/v1/kv/upstreams/up1/192.168.10.21:80" target="_blank" rel="noopener">http://192.168.10.21:8500/v1/kv/upstreams/up1/192.168.10.21:80</a><br>curl -X PUT <a href="http://192.168.10.18:8500/v1/kv/upstreams/up1/192.168.10.21:83" target="_blank" rel="noopener">http://192.168.10.18:8500/v1/kv/upstreams/up1/192.168.10.21:83</a><br>curl -X PUT <a href="http://192.168.10.18:8500/v1/kv/upstreams/up1/192.168.10.18:83" target="_blank" rel="noopener">http://192.168.10.18:8500/v1/kv/upstreams/up1/192.168.10.18:83</a></p>
+<p>consul info -http-addr=192.168.10.18:8500<br>consul operator raft list-peers</p>
+<p>curl -X PUT <a href="http://192.168.1.200:8500/v1/kv/upstreams/api_im_any/192.168.1.43:8882" target="_blank" rel="noopener">http://192.168.1.200:8500/v1/kv/upstreams/api_im_any/192.168.1.43:8882</a><br>curl -X PUT <a href="http://192.168.1.200:8500/v1/kv/upstreams/api_im_any/192.168.1.46:8882" target="_blank" rel="noopener">http://192.168.1.200:8500/v1/kv/upstreams/api_im_any/192.168.1.46:8882</a></p>
+<p>curl -X PUT <a href="http://192.168.1.200:8500/v1/kv/upstreams/api_im_xwx/192.168.1.43:8882" target="_blank" rel="noopener">http://192.168.1.200:8500/v1/kv/upstreams/api_im_xwx/192.168.1.43:8882</a><br>curl -X PUT <a href="http://192.168.1.200:8500/v1/kv/upstreams/api_im_xwx/192.168.1.46:8882" target="_blank" rel="noopener">http://192.168.1.200:8500/v1/kv/upstreams/api_im_xwx/192.168.1.46:8882</a></p>
+<p>curl -X PUT <a href="http://192.168.1.91:8500/v1/kv/upstreams/im_test/192.168.1.46:80" target="_blank" rel="noopener">http://192.168.1.91:8500/v1/kv/upstreams/im_test/192.168.1.46:80</a></p>
+<p>curl -X PUT <a href="http://192.168.1.200:8500/v1/kv/upstreams/wss_im_xwx/192.168.1.43:8883" target="_blank" rel="noopener">http://192.168.1.200:8500/v1/kv/upstreams/wss_im_xwx/192.168.1.43:8883</a><br>curl -X PUT <a href="http://192.168.1.200:8500/v1/kv/upstreams/wss_im_xwx/192.168.1.46:8883" target="_blank" rel="noopener">http://192.168.1.200:8500/v1/kv/upstreams/wss_im_xwx/192.168.1.46:8883</a></p>
+<p>curl -X PUT <a href="http://192.168.1.200:8500/v1/kv/upstreams/wss_im_any/192.168.1.43:8883" target="_blank" rel="noopener">http://192.168.1.200:8500/v1/kv/upstreams/wss_im_any/192.168.1.43:8883</a><br>curl -X PUT <a href="http://192.168.1.200:8500/v1/kv/upstreams/wss_im_any/192.168.1.46:8883" target="_blank" rel="noopener">http://192.168.1.200:8500/v1/kv/upstreams/wss_im_any/192.168.1.46:8883</a><br><code>`</code></p>
+<p><a href="https://wxnacy.com/2018/05/24/nginx-upsync/" target="_blank" rel="noopener">https://wxnacy.com/2018/05/24/nginx-upsync/</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/nginx-upstream/" data-toggle="tooltip" data-placement="top" title="Nginx upstream 注意配置头部">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/kubernets-taint/" data-toggle="tooltip" data-placement="top" title="kubernets 污点">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

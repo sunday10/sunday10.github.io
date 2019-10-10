@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -210,11 +210,11 @@
 <li><p>根据端口列进程</p>
 <figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -ntlp | <span class="type">grep</span> <span class="number">80</span> | <span class="type">awk</span> '&#123;print $<span class="number">7</span>&#125;' | <span class="type">cut</span> -d/ -f1</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>查看有多少个PHP-CGI进程活动</p>
-<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -anp | <span class="type">grep</span> php-cgi | <span class="type">grep</span> ^tcp | <span class="type">wc</span> -l</span><br></pre></td></tr></table></figure>
+<li><p>查看有多少个PHP-FPM进程活动</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -anp | <span class="type">grep</span> php-fpm | <span class="type">grep</span> ^tcp | <span class="type">wc</span> -l</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>查看PHP-CGI占用内存的总数</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">total</span>=0; <span class="keyword">for</span> i <span class="keyword">in</span> `ps -C php-cgi -o <span class="attribute">rss</span>=`; <span class="keyword">do</span> <span class="attribute">total</span>=$(($total+$i)); done; echo <span class="string">"PHP-CGI Memory usage: <span class="variable">$total</span> kb"</span></span><br></pre></td></tr></table></figure>
+<li><p>查看PHP-fpm占用内存的总数</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">total</span>=0; <span class="keyword">for</span> i <span class="keyword">in</span> `ps -C php-fpm -o <span class="attribute">rss</span>=`; <span class="keyword">do</span> <span class="attribute">total</span>=$(($total+$i)); done; echo <span class="string">"PHP-FPM Memory usage: <span class="variable">$total</span> kb"</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>查看访问次数最多的url</p>
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cat</span>  /<span class="keyword">var</span>/<span class="keyword">log</span>/httpd/access.<span class="keyword">log</span> |tail -10000|awk '&#123;<span class="keyword">print</span> <span class="variable">$7&#125;</span>'|<span class="keyword">sort</span>|uniq -c|<span class="keyword">sort</span> -nr|less</span><br></pre></td></tr></table></figure>

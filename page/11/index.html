@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,96 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/ansible-playbooks/">
+        <h2 class="post-title">
+            使用 Ansible Playbooks
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            ansible可以非常方便的控制多台机器,比如查看各台机器上的apache服务状态,ansible all -a &quot;service apache status&quot; --sudo,如果任务更复杂一点可以写成一个脚本，然后ansible会在每台机器上执行脚本。但是如果任务中子任务有有依赖那，任务判断任务的执行状态那，总之还是有一系列的问题，总结起来就是能不能做任务编排?当然能，......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/ansible/">
+        <h2 class="post-title">
+            Ansible 自动化工具使用
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Ansible简介ansible 是个什么东西呢？基于 Python paramiko 开发，分布式，无需客户端，轻量级，配置语法使用 YMAL 及 Jinja2模板语言，更强的远程命令执行操作。这个工具的目标有这么几项：自动化部署APP；自动化管理配置项；自动化的持续交互；自动化的（AWS）云服务管理。所有的这几个目标从本质上来说都是在一个台或者几台服务器上，执行一系列的命令而已。通俗的说......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/zabbix-monitor/">
+        <h2 class="post-title">
+            zabbix 3.4 监控入门实践
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            简介zabbix 是一个企业级的分布式开源监控方案，能够监控各种网络参数以及服务器健康性和完整性的软件，支持自定义配置和自定义告警，并且可以实现邮件、短信等方式的告警，zabbix基本组件如下：
+
+zabbix_server: zabbix服务端守护进程，所有的监控数据都会统一汇总给server。
+zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户端各种参数，如......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mongodb-operation/">
+        <h2 class="post-title">
+            mongodb集群监控和运维
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文转载自：http://www.mooooc.com/mongodb/2017/09/06/mongodb-operation.html这篇文件介绍如何动态的添加、下架mongod分片和副本集，以及如何监控和运维mongodb。
+添加节点副本集 改为仲裁节点convert-secondary-into-arbiter
+登录
+123mongo 192.168.0.35:27005#使用adm......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-18
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -321,92 +411,6 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/mysql-multi-source-replication/">
-        <h2 class="post-title">
-            MySQL5.7的多源复制
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境Mysql: 5.7.18Master1: 192.168.1.41Master2: 192.168.1.42Slave: 192.168.1.43复制模式: gtid
-配置文件Master1123456789101112131415161718server_id = 41log-bin = mysql-binbinlog_format = rowbinlog_cache_size = ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-09
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/mysql-gtid-online/">
-        <h2 class="post-title">
-            MySQL 5.7 GTID在线切换
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            在线切换的版本要&gt;=5.7.6gitd_mode   解释OFF 不产生GTID,Slave只接收不带GTID的事务OFF_PERMISSIVE  不产生GTID,Slave接收不带GTID的事务也接收带GTID的事务ON_PERMISSIVE   产生GTID,Slave接收不带GTID的事务也接收带GTID的事务ON  产生GTID,Slave只接收带GTID的事务环境MySQL版......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-09
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/mysql-gtid-error-1062/">
-        <h2 class="post-title">
-            Mysql 5.7 gtid主从复制错误处理
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境主库IP：192.168.11.31从库IP：192.168.11.32数据库：MySQL 5.7 gtid 主从复制原因：由于从库没有限制好权限，开发人员在从库插入数据从而导致主从同步错误。
-在主库31 新建库12345678CREATE DATABASE test;CREATE TABLE `test`.`info_test` (  `id` int(11) NOT NULL AUT......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-04-24
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/mysql-gtid-relication/">
-        <h2 class="post-title">
-            MySQL 5.7 基于GTID及多线程主从复制
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            MySQL主从同步原理MySQL主从同步是在MySQL主从复制(Master-Slave Replication)基础上实现的，通过设置在Master MySQL上的binlog(使其处于打开状态)，Slave MySQL上通过一个I/O线程从Master MySQL上读取binlog，然后传输到Slave MySQL的中继日志中，然后Slave MySQL的SQL线程从中继日志中读取中继日......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-04-20
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -446,25 +450,11 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                     <div class="tags">
                         
                             
-                        
-                            
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -478,13 +468,23 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
+                            
+                        
                             
                         
                             
@@ -496,17 +496,13 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                             
                         
                             
-                        
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -522,7 +518,9 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
                             
                         
                             
@@ -534,17 +532,23 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                             
                         
                             
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
                             
                         
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -555,14 +559,6 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                             <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -578,6 +574,14 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                             
                         
                             
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
                             <a href="/tags/#keepalived" title="keepalived" rel="4">keepalived</a>
                             
                         
@@ -586,23 +590,15 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
                             
                         
                             
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
-                            
-                        
-                            
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -626,6 +622,10 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                             
                         
                             
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
                         
                             
                         
@@ -636,13 +636,17 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
                             
                         
                             
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                        
                             
                         
                             
@@ -664,13 +668,7 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
-                            
-                        
                             
                         
                             
@@ -682,19 +680,27 @@ mongodb是最常用的nosql数据库，在数据库排名中已经上升到了�
                             
                         
                             
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

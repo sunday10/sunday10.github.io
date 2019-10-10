@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -202,7 +202,7 @@
 <li>(1) 随着AOF文件越来越大，里面会有大部分是重复命令或者可以合并的命令（100次incr = set key 100）</li>
 <li>(2) 重写的好处：减少AOF日志尺寸，减少内存占用，加快数据库恢复时间。<br>即使 BGREWRITEAOF 执行失败，也不会有任何数据丢失，因为旧的 AOF 文件在 BGREWRITEAOF 成功之前不会被修改。</li>
 </ul>
-<h1 id="在线RDB切换为AOF"><a href="#在线RDB切换为AOF" class="headerlink" title="在线RDB切换为AOF"></a>在线RDB切换为AOF</h1><p>注：切勿修改配置文件重启，这样会丢失所有数据的。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config <span class="builtin-name">set</span> appendonly <span class="literal">yes</span> # 开启AOF</span><br><span class="line">config <span class="builtin-name">set</span> save <span class="string">""</span> # 关闭RDB 建议关闭，同时开启会增加io压力</span><br><span class="line"></span><br><span class="line">vim /etc/redis/6379.conf</span><br><span class="line">save <span class="string">""</span> # 关闭RDB</span><br><span class="line">appendonly <span class="literal">yes</span> # 开启AOF</span><br></pre></td></tr></table></figure></p>
+<h1 id="在线RDB切换为AOF"><a href="#在线RDB切换为AOF" class="headerlink" title="在线RDB切换为AOF"></a>在线RDB切换为AOF</h1><p>注：切勿修改配置文件重启，这样会丢失所有数据的。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">config <span class="builtin-name">set</span> appendonly <span class="literal">yes</span> # 开启AOF</span><br><span class="line">config <span class="builtin-name">set</span> save <span class="string">""</span> # 关闭RDB 建议关闭，同时开启会增加io压力</span><br><span class="line"></span><br><span class="line"><span class="comment">#通过注释掉所有"save"，或者在最后一条"save"配置后添加save ""</span></span><br><span class="line">vim /etc/redis/6379.conf</span><br><span class="line"></span><br><span class="line"><span class="comment">#save 900 1</span></span><br><span class="line"><span class="comment">#save 300 10</span></span><br><span class="line"><span class="comment">#save 60 10000</span></span><br><span class="line">appendonly <span class="literal">yes</span> # 开启AOF</span><br></pre></td></tr></table></figure></p>
 <p>查看关闭RDB和开启AOF效果<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.41:6379&gt;<span class="built_in"> config </span><span class="builtin-name">get</span> save</span><br><span class="line">1) <span class="string">"save"</span></span><br><span class="line">2) <span class="string">""</span></span><br><span class="line"></span><br><span class="line">192.168.1.41:6379&gt;<span class="built_in"> config </span><span class="builtin-name">get</span> appendfsync</span><br><span class="line">1) <span class="string">"appendfsync"</span></span><br><span class="line">2) <span class="string">"everysec"</span></span><br></pre></td></tr></table></figure></p>
 
 

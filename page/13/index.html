@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,98 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/crontab/">
+        <h2 class="post-title">
+            Crontab 计划任务
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            可用crontab -e命令来编辑，编辑的是/var/spool/cron下对应用户的cron文件，也可以直接修改/etc/crontab文件。具体格式如下：123Minute Hour Day Month Week command分钟 小时 天 月 星期 命令0-59 0-23 1-31 1-12 0-6 command
+每个字段代表的含义如下：
+
+Minute：每个小时的第几分钟执行该任......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-03-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/linux-tar/">
+        <h2 class="post-title">
+            linux 常用压缩 解压命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            压缩1、tar -cvf jpg.tar .jpg //将目录里所有jpg文件打包成tar.jpg2、tar -czf jpg.tar.gz .jpg   //将目录里所有jpg文件打包成jpg.tar后，并且将其用gzip压缩，生成一个gzip压缩过的包，命名为jpg.tar.gz3、tar -cjf jpg.tar.bz2 .jpg //将目录里所有jpg文件打包成jpg.tar后，并且......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-03-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/snipe-it/">
+        <h2 class="post-title">
+            开源资产管理软件 Snipe-IT
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            需求现在公司，办公设备的管理是基本需求。员工相应的笔记本，台式机，门禁卡都必须做好记录。一般公司都是有Execl管理。但当公司人员庞大，办公地点多样，人员经常流动时，更新Execl表会是一个十分繁琐的工作。而且很多公司有多个办公地点，多个分公司。需要集体公司同意管理，统一采购设备。
+这时候需要专门的系统工具去管理资产。
+Snipe介绍Snipe-it是一款开源的资产管理系统。在实际工作中，完......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-03-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysql-utf8mb4/">
+        <h2 class="post-title">
+            MySQL 修改字符集为utf8mb4
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+一般情况下，我们会设置MySQL默认的字符编码为utf8，但是近些年来，emoji表情的火爆使用，给数据库带来了意外的错误，就是emoji的字符集已经超出了utf8的编码范畴😄
+
+emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表情，为了解决这个问题，MySQL在 5.5.3 之后增加了 utf8mb4 字符编码，mb4即 most bytes 4。......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-28
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -324,96 +416,6 @@ Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/java/">
-        <h2 class="post-title">
-            CentOS 7 安装 Java
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            两种方式安装JDK
-1. yum安装12345yum install -y javajava -versionopenjdk version "1.8.0_171"OpenJDK Runtime Environment (build 1.8.0_171-b14)OpenJDK 64-Bit Server VM (build 25.171-b14, mixed mode
-2. 源码安装http......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-01-30
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kernel-sysctl/">
-        <h2 class="post-title">
-            Linux 内核优化参数
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境系统：CentOS 7
-Linux 内核优化参数sudo vim /etc/sysctl.conf123456789101112131415161718192021222324252627282930313233343536net.ipv4.ip_forward = 0net.ipv4.conf.default.rp_filter = 1net.ipv4.conf.default.acc......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-01-28
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/iptables/">
-        <h2 class="post-title">
-            CentOS 7 启用 iptables 防火墙
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            前言在大企业中防火墙角色主要交给硬件来支持，效果自然没话说只是需要增加一点点成本，但对于大多数个人或者互联网公司来说选择系统自带的iptables或者第三方云防火墙似乎是更加合适的选择，通过一些合理的优化和灵活的配置，我们也可以很轻松实现硬件防火墙的部分功能，够用就好。
-
-CentOS7默认的防火墙不是iptables,而是firewalle. 不过之前用开iptables，so…  ipt......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/iptables-detailed/">
-        <h2 class="post-title">
-            Linux 防火墙 iptables详解
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Netfilter 与 iptables 的关系Linux 系统在内核中提供了对报文数据包过滤和修改的官方项目名为 Netfilter，它指的是 Linux 内核中的一个框架，它可以用于在不同阶段将某些钩子函数（hook）作用域网络协议栈。Netfilter 本身并不对数据包进行过滤，它只是允许可以过滤数据包或修改数据包的函数挂接到内核网络协议栈中的适当位置。这些函数是可以自定义的。
-ipt......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-29
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -453,25 +455,11 @@ ipt......
                     <div class="tags">
                         
                             
-                        
-                            
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -485,13 +473,23 @@ ipt......
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
+                            
+                        
                             
                         
                             
@@ -503,17 +501,13 @@ ipt......
                             
                         
                             
-                        
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -529,7 +523,9 @@ ipt......
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
                             
                         
                             
@@ -541,17 +537,23 @@ ipt......
                             
                         
                             
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
                             
                         
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -562,14 +564,6 @@ ipt......
                             <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -585,6 +579,14 @@ ipt......
                             
                         
                             
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
                             <a href="/tags/#keepalived" title="keepalived" rel="4">keepalived</a>
                             
                         
@@ -593,23 +595,15 @@ ipt......
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
                             
                         
                             
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
-                            
-                        
-                            
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -633,6 +627,10 @@ ipt......
                             
                         
                             
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
                         
                             
                         
@@ -643,13 +641,17 @@ ipt......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
                             
                         
                             
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                        
                             
                         
                             
@@ -671,13 +673,7 @@ ipt......
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
-                            
-                        
                             
                         
                             
@@ -689,19 +685,27 @@ ipt......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

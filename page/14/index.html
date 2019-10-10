@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -181,6 +181,96 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/java/">
+        <h2 class="post-title">
+            CentOS 7 安装 Java
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            两种方式安装JDK
+1. yum安装12345yum install -y javajava -versionopenjdk version "1.8.0_171"OpenJDK Runtime Environment (build 1.8.0_171-b14)OpenJDK 64-Bit Server VM (build 25.171-b14, mixed mode
+2. 源码安装http......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kernel-sysctl/">
+        <h2 class="post-title">
+            Linux 内核优化参数
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境系统：CentOS 7
+Linux 内核优化参数sudo vim /etc/sysctl.conf123456789101112131415161718192021222324252627282930313233343536net.ipv4.ip_forward = 0net.ipv4.conf.default.rp_filter = 1net.ipv4.conf.default.acc......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/iptables/">
+        <h2 class="post-title">
+            CentOS 7 启用 iptables 防火墙
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言在大企业中防火墙角色主要交给硬件来支持，效果自然没话说只是需要增加一点点成本，但对于大多数个人或者互联网公司来说选择系统自带的iptables或者第三方云防火墙似乎是更加合适的选择，通过一些合理的优化和灵活的配置，我们也可以很轻松实现硬件防火墙的部分功能，够用就好。
+
+CentOS7默认的防火墙不是iptables,而是firewalle. 不过之前用开iptables，so…  ipt......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-12-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/iptables-detailed/">
+        <h2 class="post-title">
+            Linux 防火墙 iptables详解
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Netfilter 与 iptables 的关系Linux 系统在内核中提供了对报文数据包过滤和修改的官方项目名为 Netfilter，它指的是 Linux 内核中的一个框架，它可以用于在不同阶段将某些钩子函数（hook）作用域网络协议栈。Netfilter 本身并不对数据包进行过滤，它只是允许可以过滤数据包或修改数据包的函数挂接到内核网络协议栈中的适当位置。这些函数是可以自定义的。
+ipt......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-12-29
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -315,98 +405,6 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/git-base/">
-        <h2 class="post-title">
-            Git 简易教程
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 创建新仓库创建新文件夹，打开，然后执行git init以创建新的 git 仓库。
-2. 检出仓库执行如下命令以创建一个本地仓库的克隆版本：git clone /path/to/repository如果是远端服务器上的仓库，你的命令会是这个样子：git clone username@host:/path/to/repository
-3. 工作流你的本地仓库由 git 维护的三棵“树”组成......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-21
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/gitlab/">
-        <h2 class="post-title">
-            Ubuntu 安装GitLab服务器
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境操作系统：Ubuntu 16.04应用服务：Gitlab 10.1.4-ce.0防火墙状态：关闭
-安装并配置必要的依赖关系1sudo apt-get install -y curl openssh-server ca-certificates
-添加 GitLab 镜像源并安装12curl -sS http://packages.gitlab.com.cn/install/gitlab-c......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/rsync-delete/">
-        <h2 class="post-title">
-            Linux 使用Rsync最快删除海量文件
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            摘要在Linux Web维护过程中，Web服务会生成海量（万级）缓存文件。这些小文件会消耗大量的inode。使用我们最常用的删除命令rm -fr * 就不好用了，非常吃力，等待的时间太长了。有时会报错。-bash: /bin/rm: Argument list too long。这时，我们可以使用rsync来实现快速删除大量文件。
-新建空目录1mkdir /tmp/empty
-Rsync删除......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nfs/">
-        <h2 class="post-title">
-            NFS服务器安装与配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            NFS是网络文件系统，是一种分布式文件系统协议，允许您在服务器上安装远程目录。 这为您提供了在不同位置的简单存储空间，并从多个客户端写入该空间。 通过网络访问远程系统的方式，并且在定期访问共享资源的情况下运行良好。
-环境系统: Ubuntu 16.04服务器: 192.168.1.42客户端: 192.168.1.41防火墙: ufw disable
-参数解析123456789rw ：读写；......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-27
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -446,25 +444,11 @@ Rsync删除......
                     <div class="tags">
                         
                             
-                        
-                            
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="3">kernel</a>
-                            
-                        
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
                             
@@ -478,13 +462,23 @@ Rsync删除......
                             
                         
                             
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
                             
                         
                             
-                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
+                            
+                        
                             
                         
                             
@@ -496,17 +490,13 @@ Rsync删除......
                             
                         
                             
-                        
+                            <a href="/tags/#cache" title="cache" rel="2">cache</a>
                             
                         
                             
                             <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#git" title="git" rel="2">git</a>
                             
                         
                             
@@ -522,7 +512,9 @@ Rsync删除......
                             
                         
                             
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
                             
                         
                             
@@ -534,17 +526,23 @@ Rsync删除......
                             
                         
                             
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
+                            
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
                             
                         
-                            
-                            <a href="/tags/#iis" title="iis" rel="2">iis</a>
                             
                         
                             
@@ -555,14 +553,6 @@ Rsync删除......
                             <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
                             
                         
                             
@@ -578,6 +568,14 @@ Rsync删除......
                             
                         
                             
+                        
+                            
+                        
+                            
+                            <a href="/tags/#性能优化" title="性能优化" rel="5">性能优化</a>
+                            
+                        
+                            
                             <a href="/tags/#keepalived" title="keepalived" rel="4">keepalived</a>
                             
                         
@@ -586,23 +584,15 @@ Rsync删除......
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="5">kubernetes</a>
+                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
                             
                         
                             
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
-                            
-                        
-                            
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -626,6 +616,10 @@ Rsync删除......
                             
                         
                             
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
                         
                             
                         
@@ -636,13 +630,17 @@ Rsync删除......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
                             
                         
                             
+                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                            
                         
                             
-                            <a href="/tags/#gtid" title="gtid" rel="3">gtid</a>
+                        
                             
                         
                             
@@ -664,13 +662,7 @@ Rsync删除......
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#python" title="python" rel="4">python</a>
-                            
-                        
                             
                         
                             
@@ -682,19 +674,27 @@ Rsync删除......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             

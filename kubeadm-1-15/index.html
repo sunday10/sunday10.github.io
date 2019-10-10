@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Linux运维笔记">
+    <meta name="keyword"  content="sunday,sundayhk,sundayle,sunday博客,Linxu,运维">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          使用kubeadm 安装 Kubernetes v1.15 HA高可用 - Sunday博客 | Sunday Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.sundayle.com/kubeadm-1-15/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sunday</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.sundayle.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                        
+                          <a class="tag" href="/tags/#kubernetes" title="kubernetes">kubernetes</a>
+                        
+                          <a class="tag" href="/tags/#kubeadm" title="kubeadm">kubeadm</a>
+                        
+                    </div>
+                    <h1>使用kubeadm 安装 Kubernetes v1.15 HA高可用</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sunday on
+                        2019-10-10
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h1><blockquote>
+<p>OS: Centos7.5<br>Kubernetes: 1.15.3<br>Docker: 18.09 </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP / VIP</th>
+<th>组件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>k8s-master1</td>
+<td>192.168.10.81 / 192.168.10.80</td>
+<td>haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-scheduler、node</td>
+</tr>
+<tr>
+<td>k8s-master2</td>
+<td>192.168.10.82 / 192.168.10.80</td>
+<td>haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-scheduler、node</td>
+</tr>
+<tr>
+<td>k8s-master3</td>
+<td>192.168.10.83 / 192.168.10.80</td>
+<td>haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-scheduler、node</td>
+</tr>
+<tr>
+<td>k8s-node1</td>
+<td>192.168.10.84</td>
+<td>kubelet、kube-proxy、docker、calico、core-dns</td>
+</tr>
+<tr>
+<td>k8s-node2</td>
+<td>192.168.10.85</td>
+<td>kubelet、kube-proxy、docker、calico、core-dns</td>
+</tr>
+</tbody>
+</table>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p>配置host<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;&gt; /etc/hosts &lt;&lt;<span class="literal">EOF</span></span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.81</span>  k8s-master1</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.82</span>  k8s-master2</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.83</span>  k8s-master3</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.84</span>  k8s-node1</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.85</span>  k8s-node2</span><br><span class="line"><span class="literal">EOF</span></span><br></pre></td></tr></table></figure></p>
+<p>免密钥<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">yum install -y expect</span><br><span class="line">ssh-keygen -t rsa -P <span class="string">""</span> -f /root/.ssh/id_rsa</span><br><span class="line">export mypass=<span class="number">123456</span></span><br><span class="line">name=(k8s-master1 k8s-master2 k8s-master3 k8s-node1 k8s-node2)</span><br><span class="line"></span><br><span class="line">for i in $&#123;name[@]&#125;;do expect -c <span class="string">"</span></span><br><span class="line"><span class="string">spawn ssh-copy-id -i /root/.ssh/id_rsa.pub root@$i</span></span><br><span class="line"><span class="string">    expect &#123;</span></span><br><span class="line"><span class="string">        <span class="subst">\"</span>*yes/no*<span class="subst">\"</span> &#123;send <span class="subst">\"</span>yes\r<span class="subst">\"</span>; exp_continue&#125;</span></span><br><span class="line"><span class="string">        <span class="subst">\"</span>*password*<span class="subst">\"</span> &#123;send <span class="subst">\"</span>$mypass\r<span class="subst">\"</span>; exp_continue&#125;</span></span><br><span class="line"><span class="string">        <span class="subst">\"</span>*Password*<span class="subst">\"</span> &#123;send <span class="subst">\"</span>$mypass\r<span class="subst">\"</span>;&#125;</span></span><br><span class="line"><span class="string">    &#125;"</span>;done</span><br></pre></td></tr></table></figure></p>
+<p>hostname<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">name=(k8s-master1 k8s-master2 k8s-master3 k8s-node1 k8s-node2)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;name[@]&#125;</span>;<span class="keyword">do</span> scp /etc/hosts root@<span class="variable">$i</span>:/etc/;<span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">name=(k8s-master1 k8s-master2 k8s-master3 k8s-node1 k8s-node2)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;name[@]&#125;</span>;<span class="keyword">do</span> ssh root@<span class="variable">$i</span>  hostnamectl <span class="built_in">set</span>-hostname <span class="variable">$i</span>;<span class="keyword">done</span></span><br></pre></td></tr></table></figure></p>
+<p>关闭防火墙、selinux、swap<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line">setenforce <span class="number">0</span></span><br><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'s/^SELINUX=.*/SELINUX=disabled/'</span> /etc/selinux/config</span><br><span class="line">iptables -F &amp;&amp; iptables -X &amp;&amp; iptables -F -t nat &amp;&amp; iptables -X -t nat</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line">swapoff -a</span><br><span class="line">sed -<span class="selector-tag">i</span> <span class="string">'/ swap / s/^\(.*\)$/#\1/g'</span> /etc/fstab</span><br></pre></td></tr></table></figure></p>
+<p>升级内核<br><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#Docker overlay2需要使用kernel <span class="number">4.</span>x版本</span><br><span class="line">rpm -Uvh http:<span class="comment">//www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm</span></span><br><span class="line">yum --enablerepo=elrepo-kernel install -y kernel-<span class="keyword">lt</span></span><br><span class="line">grub2-<span class="keyword">set</span>-default  <span class="comment">0</span>  </span><br><span class="line">grub2-mkconfig <span class="comment">-o</span> /etc/<span class="comment">grub2.cfg</span></span><br><span class="line">grubby <span class="comment">--default-kernel</span></span><br><span class="line">reboot</span><br></pre></td></tr></table></figure></p>
+<p>时间同步<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install -y ntpdate</span><br><span class="line">echo <span class="string">"*/30 * * * * ntpdate time7.aliyun.com &gt;/dev/null 2&gt;&amp;1"</span> &gt;&gt; /var/spool/cron/root</span><br><span class="line">ntpdate time7<span class="selector-class">.aliyun</span><span class="selector-class">.com</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="cfssl"><a href="#cfssl" class="headerlink" title="cfssl"></a>cfssl</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -s -L -o <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>cfssl https:<span class="regexp">//</span>pkg.cfssl.org<span class="regexp">/R1.2/</span>cfssl_linux-amd64</span><br><span class="line">curl -s -L -o <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>cfssljson https:<span class="regexp">//</span>pkg.cfssl.org<span class="regexp">/R1.2/</span>cfssljson_linux-amd64</span><br><span class="line">chmod +x <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>&#123;cfssl,cfssljson&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://coreos.com/os/docs/latest/generate-self-signed-certificates.html" target="_blank" rel="noopener">https://coreos.com/os/docs/latest/generate-self-signed-certificates.html</a><br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mkdir</span> ~/cfssl &amp;&amp; <span class="keyword">cd</span> ~/cfssl</span><br><span class="line">#cfssl <span class="keyword">print</span>-defaults config &gt; <span class="keyword">ca</span>-config.json</span><br><span class="line"><span class="keyword">cat</span> &gt; <span class="keyword">ca</span>-config.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"signing"</span>: &#123;</span><br><span class="line">    <span class="string">"default"</span>: &#123;</span><br><span class="line">      <span class="string">"expiry"</span>: <span class="string">"87600h"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"profiles"</span>: &#123;</span><br><span class="line">      <span class="string">"kubernetes"</span>: &#123;</span><br><span class="line">        <span class="string">"usages"</span>: [</span><br><span class="line">            <span class="string">"signing"</span>,</span><br><span class="line">            <span class="string">"key encipherment"</span>,</span><br><span class="line">            <span class="string">"server auth"</span>,</span><br><span class="line">            <span class="string">"client auth"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="string">"expiry"</span>: <span class="string">"87600h"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">#cfssl <span class="keyword">print</span>-defaults csr &gt; <span class="keyword">ca</span>-csr.json</span><br><span class="line"><span class="keyword">cat</span> &gt; <span class="keyword">ca</span>-csr.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"CN"</span>: <span class="string">"kubernetes"</span>,</span><br><span class="line">  <span class="string">"key"</span>: &#123;</span><br><span class="line">    <span class="string">"algo"</span>: <span class="string">"rsa"</span>,</span><br><span class="line">    <span class="string">"size"</span>: 2048</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"names"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"C"</span>: <span class="string">"CN"</span>,</span><br><span class="line">      <span class="string">"ST"</span>: <span class="string">"GuangZhou"</span>,</span><br><span class="line">      <span class="string">"L"</span>: <span class="string">"GuangZhou"</span>,</span><br><span class="line">      <span class="string">"O"</span>: <span class="string">"k8s"</span>,</span><br><span class="line">      <span class="string">"OU"</span>: <span class="string">"System"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"ca"</span>: &#123;</span><br><span class="line">    <span class="string">"expiry"</span>: <span class="string">"87600h"</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">cfssl gencert -initca <span class="keyword">ca</span>-csr.json | cfssljson -bare <span class="keyword">ca</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; etcd-csr.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"CN"</span>: <span class="string">"etcd"</span>,</span><br><span class="line">  <span class="string">"hosts"</span>: [</span><br><span class="line">    <span class="string">"127.0.0.1"</span>,</span><br><span class="line">    <span class="string">"192.168.10.81"</span>,</span><br><span class="line">    <span class="string">"192.168.10.82"</span>,</span><br><span class="line">    <span class="string">"192.168.10.83"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"key"</span>: &#123;</span><br><span class="line">    <span class="string">"algo"</span>: <span class="string">"rsa"</span>,</span><br><span class="line">    <span class="string">"size"</span>: 2048</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"names"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"C"</span>: <span class="string">"CN"</span>,</span><br><span class="line">      <span class="string">"ST"</span>: <span class="string">"GuangZhou"</span>,</span><br><span class="line">      <span class="string">"L"</span>: <span class="string">"GuangZhou"</span>,</span><br><span class="line">      <span class="string">"O"</span>: <span class="string">"k8s"</span>,</span><br><span class="line">      <span class="string">"OU"</span>: <span class="string">"System"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">cfssl gencert <span class="attribute">-ca</span>=ca.pem \</span><br><span class="line">    <span class="attribute">-ca-key</span>=ca-key.pem \</span><br><span class="line">    <span class="attribute">-config</span>=ca-config.json \</span><br><span class="line">    <span class="attribute">-profile</span>=kubernetes etcd-csr.json | cfssljson -bare etcd</span><br><span class="line"></span><br><span class="line">ETCDHOSTS=(192.168.10.81 192.168.10.82 192.168.10.83)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;ETCDHOSTS[@]&#125;</span>; <span class="keyword">do</span> scp -r /etc/etcd root@<span class="variable">$i</span>:/etc/; done</span><br></pre></td></tr></table></figure>
+<h1 id="etcd"><a href="#etcd" class="headerlink" title="etcd"></a>etcd</h1><p><a href="https://github.com/coreos/etcd/releases" target="_blank" rel="noopener">https://github.com/coreos/etcd/releases</a><br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="meta-keyword">/data/</span>etcd</span><br><span class="line">mkdir -p <span class="meta-keyword">/etc/</span>etcd/ssl</span><br><span class="line">cp ~<span class="meta-keyword">/cfssl/</span>&#123;ca.pem,etcd.pem,etcd-key.pem&#125; <span class="meta-keyword">/etc/</span>etcd<span class="meta-keyword">/ssl/</span> </span><br><span class="line"></span><br><span class="line">cd <span class="meta-keyword">/usr/</span>local/src</span><br><span class="line">wget https:<span class="comment">//github.com/etcd-io/etcd/releases/download/v3.4.1/etcd-v3.4.1-linux-amd64.tar.gz</span></span><br><span class="line">tar xf etcd-v3<span class="number">.4</span><span class="number">.1</span>-linux-amd64.tar.gz</span><br><span class="line">cp etcd-v3<span class="number">.4</span><span class="number">.1</span>-linux-amd64<span class="class">/&#123;etcd,etcdctl&#125; <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/bin/</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">ETCDHOSTS=(<span class="number">192.168</span><span class="number">.10</span><span class="number">.81</span> <span class="number">192.168</span><span class="number">.10</span><span class="number">.82</span> <span class="number">192.168</span><span class="number">.10</span><span class="number">.83</span>)</span></span><br><span class="line"><span class="class">for i in $&#123;ETCDHOSTS[@]&#125;;</span> do scp <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/bin/</span>etcd* root@$i:<span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/bin/</span>; done</span><br></pre></td></tr></table></figure></p>
+<p>etcd.service<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">ETCDHOSTS=(192.168.10.81 192.168.10.82 192.168.10.83)</span><br><span class="line">NAMES=("etcd-0" "etcd-1" "etcd-2")</span><br><span class="line"></span><br><span class="line">for i in "$&#123;!ETCDHOSTS[@]&#125;"; do</span><br><span class="line">HOST=$&#123;ETCDHOSTS[$i]&#125;</span><br><span class="line">NAME=$&#123;NAMES[$i]&#125;</span><br><span class="line"></span><br><span class="line">cat &lt;&lt; EOF &gt; /tmp/etcd.service.$&#123;HOST&#125;</span><br><span class="line">[Unit]</span><br><span class="line">Description=Etcd Server</span><br><span class="line">After=network.target</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">ExecStart=/usr/local/bin/etcd \\</span><br><span class="line">  -<span class="ruby">-data-dir=<span class="regexp">/data/etcd</span> \\</span></span><br><span class="line"><span class="ruby">  --name=$&#123;NAME&#125; \\</span></span><br><span class="line"><span class="ruby">  --trusted-ca-file=<span class="regexp">/etc/etcd</span><span class="regexp">/ssl/ca</span>.pem \\</span></span><br><span class="line"><span class="ruby">  --cert-file=<span class="regexp">/etc/etcd</span><span class="regexp">/ssl/etcd</span>.pem \\</span></span><br><span class="line"><span class="ruby">  --key-file=<span class="regexp">/etc/etcd</span><span class="regexp">/ssl/etcd</span>-key.pem \\</span></span><br><span class="line"><span class="ruby">  --peer-trusted-ca-file=<span class="regexp">/etc/etcd</span><span class="regexp">/ssl/ca</span>.pem \\</span></span><br><span class="line"><span class="ruby">  --peer-cert-file=<span class="regexp">/etc/etcd</span><span class="regexp">/ssl/etcd</span>.pem \\</span></span><br><span class="line"><span class="ruby">  --peer-key-file=<span class="regexp">/etc/etcd</span><span class="regexp">/ssl/etcd</span>-key.pem \\</span></span><br><span class="line"><span class="ruby">  --peer-client-cert-auth \\</span></span><br><span class="line"><span class="ruby">  --client-cert-auth \\</span></span><br><span class="line"><span class="ruby">  --listen-peer-urls=<span class="symbol">https:</span>/<span class="regexp">/$&#123;HOST&#125;:2380 \\</span></span></span><br><span class="line"><span class="ruby">  --initial-advertise-peer-urls=<span class="symbol">https:</span>/<span class="regexp">/$&#123;HOST&#125;:2380 \\</span></span></span><br><span class="line"><span class="ruby">  --listen-client-urls=<span class="symbol">https:</span>/<span class="regexp">/$&#123;HOST&#125;:2379,http:/</span><span class="regexp">/127.0.0.1:2379 \\</span></span></span><br><span class="line"><span class="ruby">  --advertise-client-urls=<span class="symbol">https:</span>/<span class="regexp">/$&#123;HOST&#125;:2379 \\</span></span></span><br><span class="line"><span class="ruby">  --initial-cluster-token=etcd-cluster-<span class="number">0</span> \\</span></span><br><span class="line"><span class="ruby">  --initial-cluster=$&#123;NAMES[<span class="number">0</span>]&#125;=<span class="symbol">https:</span>/<span class="regexp">/$&#123;ETCDHOSTS[0]&#125;:2380,$&#123;NAMES[1]&#125;=https:/</span><span class="regexp">/$&#123;ETCDHOSTS[1]&#125;:2380,$&#123;NAMES[2]&#125;=https:/</span><span class="regexp">/$&#123;ETCDHOSTS[2]&#125;:2380 \\</span></span></span><br><span class="line"><span class="ruby">  --initial-cluster-state=new \\</span></span><br><span class="line"><span class="ruby">Restart=on-failure</span></span><br><span class="line"><span class="ruby">RestartSec=<span class="number">5</span></span></span><br><span class="line"><span class="ruby">LimitNOFILE=<span class="number">65536</span></span></span><br><span class="line"><span class="ruby">[Install]</span></span><br><span class="line"><span class="ruby">WantedBy=multi-user.target</span></span><br><span class="line"><span class="ruby">EOF</span></span><br><span class="line"><span class="ruby">done</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ETCDHOSTS=(<span class="number">192.168</span>.<span class="number">10.81</span> <span class="number">192.168</span>.<span class="number">10.82</span> <span class="number">192.168</span>.<span class="number">10.83</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;</span>ETCDHOSTS[@]&#125;;<span class="keyword">do</span></span><br><span class="line">    scp /tmp/etcd.service.<span class="variable">$i</span> root@<span class="variable">$i</span><span class="symbol">:/etc/systemd/system/etcd</span>.service;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable etcd </span><br><span class="line">systemctl start etcd</span><br><span class="line"></span><br><span class="line">ETCDCTL_API=<span class="number">3</span> etcdctl \</span><br><span class="line">    --cacert=<span class="regexp">/etc/etcd</span><span class="regexp">/ssl/ca</span>.pem \</span><br><span class="line">    --cert=<span class="regexp">/etc/etcd</span><span class="regexp">/ssl/etcd</span>.pem \</span><br><span class="line">    --key=<span class="regexp">/etc/etcd</span><span class="regexp">/ssl/etcd</span>-key.pem \</span><br><span class="line">    --endpoints=<span class="symbol">https:</span>/<span class="regexp">/$&#123;ETCDHOSTS[0]&#125;:2379,https:/</span><span class="regexp">/$&#123;ETCDHOSTS[1]&#125;:2379,https:/</span><span class="regexp">/$&#123;ETCDHOSTS[2]&#125;:2379 endpoint health</span></span><br></pre></td></tr></table></figure>
+<p>集群时间不对报错,注意同步下时间<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Oct 10 03:36:05 node1 etcd: rejected<span class="built_in"> connection </span><span class="keyword">from</span> <span class="string">"192.168.10.83:52514"</span> (<span class="builtin-name">error</span> <span class="string">"remote error: tls: bad certificate"</span>, ServerName <span class="string">""</span>)</span><br><span class="line">Oct 10 03:36:05 node1 etcd: rejected<span class="built_in"> connection </span><span class="keyword">from</span> <span class="string">"192.168.10.83:52518"</span> (<span class="builtin-name">error</span> <span class="string">"remote error: tls: bad certificate"</span>, ServerName <span class="string">""</span>)</span><br><span class="line">Oct 10 03:36:05 node1 etcd: rejected<span class="built_in"> connection </span><span class="keyword">from</span> <span class="string">"192.168.10.82:57950"</span> (<span class="builtin-name">error</span> <span class="string">"remote error: tls: bad certificate"</span>, ServerName <span class="string">""</span>)</span><br><span class="line">Oct 10 03:36:05 node1 etcd: rejected<span class="built_in"> connection </span><span class="keyword">from</span> <span class="string">"192.168.10.82:57952"</span> (<span class="builtin-name">error</span> <span class="string">"remote error: tls: bad certificate"</span>, ServerName <span class="string">""</span>)</span><br></pre></td></tr></table></figure></p>
+<h1 id="haproxy"><a href="#haproxy" class="headerlink" title="haproxy"></a>haproxy</h1><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> -y haproxy</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; /etc/haproxy/haproxy.cfg &lt;&lt;EOF</span><br><span class="line">global</span><br><span class="line">    log         127.0.0.1 local2</span><br><span class="line">    chroot      /var/lib/haproxy</span><br><span class="line">    pidfile     /var/run/haproxy.pid</span><br><span class="line">    maxconn     4000</span><br><span class="line">   <span class="built_in"> user </span>       haproxy</span><br><span class="line">   <span class="built_in"> group </span>      haproxy</span><br><span class="line">    daemon</span><br><span class="line">    stats socket /var/lib/haproxy/stats</span><br><span class="line"></span><br><span class="line">defaults</span><br><span class="line">    mode                    http</span><br><span class="line">    log                     global</span><br><span class="line">    option                  httplog</span><br><span class="line">    option                  dontlognull</span><br><span class="line">    option http-server-close</span><br><span class="line">    option forwardfor       except 127.0.0.0/8</span><br><span class="line">    option                  redispatch</span><br><span class="line">    retries                 3</span><br><span class="line">    timeout http-request    10s</span><br><span class="line">    timeout<span class="built_in"> queue </span>          1m</span><br><span class="line">    timeout connect         10s</span><br><span class="line">    timeout<span class="built_in"> client </span>         1m</span><br><span class="line">    timeout<span class="built_in"> server </span>         1m</span><br><span class="line">    timeout http-keep-alive 10s</span><br><span class="line">    timeout check           10s</span><br><span class="line">    maxconn                 3000</span><br><span class="line"></span><br><span class="line">frontend kubernetes-apiserver</span><br><span class="line">    mode                 tcp</span><br><span class="line">    bind                 *:8443</span><br><span class="line">    option               tcplog</span><br><span class="line">    default_backend      kubernetes-apiserver</span><br><span class="line"></span><br><span class="line">backend kubernetes-apiserver</span><br><span class="line">    mode        tcp</span><br><span class="line">    balance     roundrobin</span><br><span class="line">   <span class="built_in"> server </span>     k8s01 192.168.10.81:6443 check</span><br><span class="line">   <span class="built_in"> server </span>     k8s02 192.168.10.82:6443 check</span><br><span class="line">   <span class="built_in"> server </span>     k8s03 192.168.10.83:6443 check</span><br><span class="line"></span><br><span class="line">listen stats</span><br><span class="line">    bind                 *:1080</span><br><span class="line">    stats auth           admin:sunday</span><br><span class="line">    stats refresh        5s</span><br><span class="line">    stats realm          HAProxy\ Statistics</span><br><span class="line">    stats uri            /haproxy-stats</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">systemctl <span class="builtin-name">enable</span> haproxy </span><br><span class="line">systemctl start haproxy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ETCDHOSTS=(192.168.10.81 192.168.10.82 192.168.10.83)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;ETCDHOSTS[@]&#125;</span>; <span class="keyword">do</span> scp /etc/haproxy/haproxy.cfg root@<span class="variable">$i</span>:/etc/haproxy/haproxy.cfg; done</span><br></pre></td></tr></table></figure>
+<h1 id="keepalived"><a href="#keepalived" class="headerlink" title="keepalived"></a>keepalived</h1><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> -y keepalived psmisc</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; /etc/keepalived/keepalived.conf &lt;&lt;EOF</span><br><span class="line">! Configuration File <span class="keyword">for</span> keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">   router_id keepalived</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_script check_haproxy &#123;</span><br><span class="line">   <span class="built_in"> script </span><span class="string">"killall -0 haproxy"</span></span><br><span class="line">    interval 2</span><br><span class="line">    weight -3</span><br><span class="line">    fall 2</span><br><span class="line">    rise 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">   <span class="built_in"> interface </span>eth0</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass Sunday</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.10.80</span><br><span class="line">    &#125;</span><br><span class="line">    track_script &#123;</span><br><span class="line">        check_haproxy</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ETCDHOSTS=(192.168.10.81 192.168.10.82 192.168.10.83)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;ETCDHOSTS[@]&#125;</span>; <span class="keyword">do</span> </span><br><span class="line">    scp /etc/keepalived/keepalived.conf root@<span class="variable">$i</span>:/etc/keepalived/keepalived.conf</span><br><span class="line">    ssh root@<span class="variable">$&#123;ETCDHOSTS[1]&#125;</span> <span class="string">"sed -i -e 's#MASTER#BACKUP#g' -e 's#priority 100#priority 99#g' /etc/keepalived/keepalived.conf"</span></span><br><span class="line">    ssh root@<span class="variable">$&#123;ETCDHOSTS[2]&#125;</span> <span class="string">"sed -i -e 's#MASTER#BACKUP#g' -e 's#priority 100#priority 98#g' /etc/keepalived/keepalived.conf"</span></span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h1 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h1><p><a href="https://v1-15.docs.kubernetes.io//docs/setup/release/notes/" target="_blank" rel="noopener">https://v1-15.docs.kubernetes.io//docs/setup/release/notes/</a> ctrl+f docker version<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install -<span class="keyword">y</span> yum-utils device-mapper-persistent-data lvm2</span><br><span class="line">yum-config-manager --<span class="built_in">add</span>-repo http://mirrors.aliyun.<span class="keyword">com</span>/docker-<span class="keyword">ce</span>/linux/centos/docker-<span class="keyword">ce</span>.repo</span><br><span class="line">#yum <span class="keyword">list</span> docker-<span class="keyword">ce</span> --showduplicates | <span class="keyword">sort</span> -r</span><br><span class="line">yum install -<span class="keyword">y</span> docker-<span class="keyword">ce</span>-<span class="number">18.09</span>.<span class="number">8</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/docker </span><br><span class="line">cat &gt; /etc/docker/daemon.json &lt;&lt;<span class="built_in">EOF</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"exec-opts"</span>: [<span class="string">"native.cgroupdriver=systemd"</span>],</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://docker.mirrors.ustc.edu.cn"</span>,<span class="string">"https://hub-mirror.c.163.com"</span>],</span><br><span class="line">  <span class="string">"log-driver"</span>: <span class="string">"json-file"</span>,</span><br><span class="line">  <span class="string">"log-opts"</span>: &#123;</span><br><span class="line">    <span class="string">"max-size"</span>: <span class="string">"100m"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"storage-driver"</span>: <span class="string">"overlay2"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">EOF</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="keyword">enable</span> docker --now</span><br></pre></td></tr></table></figure>
+<h1 id="kubernetes"><a href="#kubernetes" class="headerlink" title="kubernetes"></a>kubernetes</h1><p><a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/" target="_blank" rel="noopener">https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/</a></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/sysctl.d/k8s<span class="selector-class">.conf</span> &lt;&lt;EOF</span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-iptables</span>=<span class="number">1</span></span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-ip6tables</span>=<span class="number">1</span></span><br><span class="line">net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span>=<span class="number">1</span></span><br><span class="line">EOF</span><br><span class="line">sysctl --system</span><br></pre></td></tr></table></figure>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">yum install -y conntrack ipvsadm ipset </span><br><span class="line">cat &gt;/etc/modules-<span class="keyword">load</span>.d/ipvs.conf &lt;&lt; <span class="built_in">EOF</span></span><br><span class="line">ip_vs</span><br><span class="line">ip_vs_rr</span><br><span class="line">ip_vs_wrr</span><br><span class="line">ip_vs_sh</span><br><span class="line">nf_conntrack</span><br><span class="line"><span class="built_in">EOF</span></span><br><span class="line"></span><br><span class="line">modprobe ip_vs_rr nf_conntrack</span><br><span class="line">lsmod | egrep <span class="string">"ip_vs_rr|nf_conntrack"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF &gt; /etc/yum.repos.d/kubernetes.repo</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">yum</span> <span class="selector-tag">install</span> <span class="selector-tag">-y</span> <span class="selector-tag">kubeadm-1</span><span class="selector-class">.15</span><span class="selector-class">.4</span> <span class="selector-tag">kubelet-1</span><span class="selector-class">.15</span><span class="selector-class">.4</span>  <span class="selector-tag">kubectl-1</span><span class="selector-class">.15</span><span class="selector-class">.4</span></span><br><span class="line"><span class="selector-tag">systemctl</span> <span class="selector-tag">enable</span> <span class="selector-tag">--now</span> <span class="selector-tag">kubelet</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#kubeadm</span> config print init-defaults &gt; kubeadm-config.yaml</span><br><span class="line">cat &lt;&lt; EOF &gt; kubeadm-config.yaml</span><br><span class="line">apiVersion: kubeadm<span class="selector-class">.k8s</span><span class="selector-class">.io</span>/v1beta2</span><br><span class="line">kind: ClusterConfiguration</span><br><span class="line">controlPlaneEndpoint: <span class="string">"192.168.10.80:8443"</span></span><br><span class="line">etcd:</span><br><span class="line">    external:</span><br><span class="line">        endpoints:</span><br><span class="line">        - https:<span class="comment">//192.168.10.81:2379</span></span><br><span class="line">        - https:<span class="comment">//192.168.10.82:2379</span></span><br><span class="line">        - https:<span class="comment">//192.168.10.83:2379</span></span><br><span class="line">        caFile: /etc/etcd/ssl/ca.pem</span><br><span class="line">        certFile: /etc/etcd/ssl/etcd.pem</span><br><span class="line">        keyFile:  /etc/etcd/ssl/etcd-key.pem</span><br><span class="line">        <span class="selector-id">#keyFile</span>: /etc/kubernetes/pki/etcd/etcd-key.pem</span><br><span class="line">kubernetesVersion: v1.<span class="number">15.4</span></span><br><span class="line"><span class="selector-id">#imageRepository</span>: gcr<span class="selector-class">.azk8s</span><span class="selector-class">.cn</span>/google_containers</span><br><span class="line">networking:</span><br><span class="line">  podSubnet: <span class="number">192.168</span>.<span class="number">0.0</span>/<span class="number">16</span></span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">apiVersion: kubeproxy<span class="selector-class">.config</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span>/v1alpha1</span><br><span class="line">kind: KubeProxyConfiguration</span><br><span class="line">mode: ipvs</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubeadm config images pull --config kubeadm-config.yaml</span><br><span class="line"></span><br><span class="line">#将镜像修改回k8s.gcr.io</span><br><span class="line">k8s_repo=<span class="string">"gcr.azk8s.cn/google_containers"</span></span><br><span class="line">docker images | grep <span class="variable">$k8s_repo</span> | awk '&#123;<span class="keyword">print</span> <span class="variable">$1</span><span class="string">":"</span><span class="variable">$2&#125;</span>' | sed 's#\('<span class="string">"$k8s_repo"</span>'\)\(.*\)#docker tag \1\2 k8s.gcr.io\2#<span class="keyword">g</span>' &gt; ~/k8s_repo.<span class="keyword">sh</span> &amp;&amp; bash ~/k8s_repo.<span class="keyword">sh</span> &amp;&amp; <span class="keyword">rm</span> -f ~/k8s_repo.<span class="keyword">sh</span></span><br><span class="line">docker images | grep <span class="variable">$k8s_repo</span> | awk '&#123;<span class="keyword">print</span> <span class="variable">$1</span><span class="string">":"</span><span class="variable">$2&#125;</span>' | sed 's#'<span class="string">"\($k8s_repo\)"</span>'#docker rmi \1#<span class="keyword">g</span>' &gt; ~/k8s_image_rm.<span class="keyword">sh</span> &amp;&amp; bash  ~/k8s_image_rm.<span class="keyword">sh</span> &amp;&amp; <span class="keyword">rm</span> -f ~/k8s_image_rm.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://v1-15.docs.kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/" target="_blank" rel="noopener">https://v1-15.docs.kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/</a><br>第一台master<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">kubeadm init <span class="comment">--config kubeadm-config.yaml --upload-certs</span></span><br><span class="line"></span><br><span class="line">Your Kubernetes control-plane has initialized successfully!</span><br><span class="line"></span><br><span class="line">To <span class="keyword">start</span> <span class="keyword">using</span> your cluster, you need <span class="keyword">to</span> run the <span class="keyword">following</span> <span class="keyword">as</span> a regular <span class="keyword">user</span>:</span><br><span class="line"></span><br><span class="line">  mkdir -p $HOME/.kube</span><br><span class="line">  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span><br><span class="line">  sudo chown $(<span class="keyword">id</span> -u):$(<span class="keyword">id</span> -g) $HOME/.kube/config</span><br><span class="line"></span><br><span class="line">You should <span class="keyword">now</span> deploy a pod network <span class="keyword">to</span> the cluster.</span><br><span class="line">Run <span class="string">"kubectl apply -f [podnetwork].yaml"</span> <span class="keyword">with</span> one <span class="keyword">of</span> the options listed <span class="keyword">at</span>:</span><br><span class="line">  https://kubernetes.io/docs/concepts/cluster-administration/addons/</span><br><span class="line"></span><br><span class="line">You can <span class="keyword">now</span> <span class="keyword">join</span> <span class="keyword">any</span> <span class="built_in">number</span> <span class="keyword">of</span> the control-plane node running the <span class="keyword">following</span> command <span class="keyword">on</span> <span class="keyword">each</span> <span class="keyword">as</span> root:</span><br><span class="line"></span><br><span class="line">  kubeadm <span class="keyword">join</span> <span class="number">192.168</span><span class="number">.10</span><span class="number">.80</span>:<span class="number">8443</span> <span class="comment">--token ytexwo.j1364ochwtv1t758 \</span></span><br><span class="line">    <span class="comment">--discovery-token-ca-cert-hash sha256:1ebbb929926604f3126c875277d6b3f20a9bf35f13bfd01245b6babf74f7dd28 \</span></span><br><span class="line">    <span class="comment">--control-plane --certificate-key 8d1f59c025b6b03a9f1585efadfb44edecf330c67c6a89ef5d83cf8bf38005df</span></span><br><span class="line"></span><br><span class="line">Please note that the certificate-<span class="keyword">key</span> gives <span class="keyword">access</span> <span class="keyword">to</span> cluster sensitive <span class="keyword">data</span>, <span class="keyword">keep</span> it secret!</span><br><span class="line"><span class="keyword">As</span> a safeguard, uploaded-certs will be deleted <span class="keyword">in</span> two hours; If necessary, you can <span class="keyword">use</span> </span><br><span class="line"><span class="string">"kubeadm init phase upload-certs --upload-certs"</span> <span class="keyword">to</span> reload certs afterward.</span><br><span class="line"></span><br><span class="line"><span class="keyword">Then</span> you can <span class="keyword">join</span> <span class="keyword">any</span> <span class="built_in">number</span> <span class="keyword">of</span> worker nodes <span class="keyword">by</span> running the <span class="keyword">following</span> <span class="keyword">on</span> <span class="keyword">each</span> <span class="keyword">as</span> root:</span><br><span class="line"></span><br><span class="line">kubeadm <span class="keyword">join</span> <span class="number">192.168</span><span class="number">.10</span><span class="number">.80</span>:<span class="number">8443</span> <span class="comment">--token ytexwo.j1364ochwtv1t758 \</span></span><br><span class="line">    <span class="comment">--discovery-token-ca-cert-hash sha256:1ebbb929926604f3126c875277d6b3f20a9bf35f13bfd01245b6babf74f7dd28</span></span><br></pre></td></tr></table></figure></p>
+<p>第二、三台master<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">k8s_repo=<span class="string">"gcr.azk8s.cn/google_containers"</span></span><br><span class="line">kubeadm config images pull --image-repository=<span class="variable">$k8s_repo</span> --kubernetes-<span class="keyword">version</span>=<span class="string">"v1.15.4"</span></span><br><span class="line"></span><br><span class="line">k8s_repo=<span class="string">"gcr.azk8s.cn/google_containers"</span></span><br><span class="line">docker images | grep <span class="variable">$k8s_repo</span> | awk '&#123;<span class="keyword">print</span> <span class="variable">$1</span><span class="string">":"</span><span class="variable">$2&#125;</span>' | sed 's#\('<span class="string">"$k8s_repo"</span>'\)\(.*\)#docker tag \1\2 k8s.gcr.io\2#<span class="keyword">g</span>' &gt; ~/k8s_repo.<span class="keyword">sh</span> &amp;&amp; bash ~/k8s_repo.<span class="keyword">sh</span> &amp;&amp; <span class="keyword">rm</span> -f ~/k8s_repo.<span class="keyword">sh</span></span><br><span class="line">docker images | grep <span class="variable">$k8s_repo</span> | awk '&#123;<span class="keyword">print</span> <span class="variable">$1</span><span class="string">":"</span><span class="variable">$2&#125;</span>' | sed 's#'<span class="string">"\($k8s_repo\)"</span>'#docker rmi \1#<span class="keyword">g</span>' &gt; ~/k8s_image_rm.<span class="keyword">sh</span> &amp;&amp; bash  ~/k8s_image_rm.<span class="keyword">sh</span> &amp;&amp; <span class="keyword">rm</span> -f ~/k8s_image_rm.<span class="keyword">sh</span> </span><br><span class="line"></span><br><span class="line">  kubeadm join 192.168.10.80:8443 --<span class="keyword">token</span> ytexwo.j1364ochwtv1t758 \</span><br><span class="line">    --discovery-<span class="keyword">token</span>-<span class="keyword">ca</span>-cert-hash sha256:1ebbb929926604f3126c875277d6b3f20a9bf35f13bfd01245b6babf74f7dd28 \</span><br><span class="line">    --control-plane --certificate-key 8d1f59c025b6b03a9f1585efadfb44edecf330c67c6a89ef5d83cf8bf38005df</span><br></pre></td></tr></table></figure></p>
+<p>worker<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">k8s_repo=<span class="string">"gcr.azk8s.cn/google_containers"</span></span><br><span class="line">kubeadm config images pull --image-repository=<span class="variable">$k8s_repo</span> --kubernetes-<span class="keyword">version</span>=<span class="string">"v1.15.4"</span></span><br><span class="line"></span><br><span class="line">k8s_repo=<span class="string">"gcr.azk8s.cn/google_containers"</span></span><br><span class="line">docker images | grep <span class="variable">$k8s_repo</span> | awk '&#123;<span class="keyword">print</span> <span class="variable">$1</span><span class="string">":"</span><span class="variable">$2&#125;</span>' | sed 's#\('<span class="string">"$k8s_repo"</span>'\)\(.*\)#docker tag \1\2 k8s.gcr.io\2#<span class="keyword">g</span>' &gt; ~/k8s_repo.<span class="keyword">sh</span> &amp;&amp; bash ~/k8s_repo.<span class="keyword">sh</span> &amp;&amp; <span class="keyword">rm</span> -f ~/k8s_repo.<span class="keyword">sh</span></span><br><span class="line">docker images | grep <span class="variable">$k8s_repo</span> | awk '&#123;<span class="keyword">print</span> <span class="variable">$1</span><span class="string">":"</span><span class="variable">$2&#125;</span>' | sed 's#'<span class="string">"\($k8s_repo\)"</span>'#docker rmi \1#<span class="keyword">g</span>' &gt; ~/k8s_image_rm.<span class="keyword">sh</span> &amp;&amp; bash  ~/k8s_image_rm.<span class="keyword">sh</span> &amp;&amp; <span class="keyword">rm</span> -f ~/k8s_image_rm.<span class="keyword">sh</span> </span><br><span class="line"></span><br><span class="line">kubeadm join 192.168.10.80:8443 --<span class="keyword">token</span> ytexwo.j1364ochwtv1t758 \</span><br><span class="line">    --discovery-<span class="keyword">token</span>-<span class="keyword">ca</span>-cert-hash sha256:1ebbb929926604f3126c875277d6b3f20a9bf35f13bfd01245b6babf74f7dd28</span><br></pre></td></tr></table></figure></p>
+<h1 id="kube-proxy开启ipvs"><a href="#kube-proxy开启ipvs" class="headerlink" title="kube-proxy开启ipvs"></a>kube-proxy开启ipvs</h1><p>这里已经在kubeadm init 开启ipvs了<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe <span class="keyword">cm</span> -nkube-<span class="built_in">system</span> kube-proxy | <span class="keyword">grep</span> <span class="keyword">mode</span></span><br><span class="line"><span class="keyword">mode</span>: ipvs</span><br></pre></td></tr></table></figure></p>
+<p>后期开启ipvs<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="keyword">edit</span> <span class="keyword">cm</span> kube-proxy -n kube-<span class="built_in">system</span> #将<span class="keyword">mode</span>: <span class="string">""</span> 修改为<span class="keyword">mode</span>: ipvs</span><br><span class="line"><span class="keyword">mode</span>: ipvs</span><br><span class="line"></span><br><span class="line">#重置各个节点上的kube-proxy pod</span><br><span class="line">kubectl <span class="built_in">get</span> pod -n kube-<span class="built_in">system</span> | <span class="keyword">grep</span> kube-proxy | awk <span class="string">'&#123;system("kubectl delete pod "$1" -n kube-system")&#125;'</span></span><br><span class="line"></span><br><span class="line">kubectl -nkube-<span class="built_in">system</span> logs kube-proxy-d6rtv | <span class="keyword">grep</span> ipvs</span><br><span class="line">I1010 <span class="number">09</span>:<span class="number">53</span>:<span class="number">41.124950</span>       <span class="number">1</span> server_others.<span class="keyword">go</span>:<span class="number">170</span>] Using ipvs Proxier.</span><br></pre></td></tr></table></figure></p>
+<h1 id="calico"><a href="#calico" class="headerlink" title="calico"></a>calico</h1><p><a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network" target="_blank" rel="noopener">https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network</a><br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f <span class="string">https:</span><span class="comment">//docs.projectcalico.org/v3.8/manifests/calico.yaml</span></span><br><span class="line">安装有点久，可能需要几分钟。</span><br></pre></td></tr></table></figure></p>
+<p>移除node<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl drain node5 --delete-local-data --force --ignore-daemonsets</span><br><span class="line">kubectl delete <span class="keyword">node</span> <span class="title">node5</span></span><br></pre></td></tr></table></figure></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/nginx-upstream/" data-toggle="tooltip" data-placement="top" title="Nginx upstream 注意配置头部">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                        
+                          <a class="tag" href="/tags/#kubernetes" title="kubernetes">kubernetes</a>
+                        
+                          <a class="tag" href="/tags/#kubeadm" title="kubeadm">kubeadm</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://jaminzhang.github.io" target="_blank">JAMIN ZHANG</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/sundayle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sunday 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
+            <!-- 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+            -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+     async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-70699634-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
