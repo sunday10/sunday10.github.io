@@ -28,9 +28,9 @@
         
         <tag>docker</tag>
          
-        <tag>kubernetes</tag>
-         
         <tag>kubeadm</tag>
+         
+        <tag>kubernetes</tag>
          
          
            
@@ -958,9 +958,9 @@
         <title>基于 GlusterFS 实现 Docker 集群的分布式存储</title>
         <pubTime>2018-08-22T04:05:51.000Z</pubTime>
         
-        <tag>分布式文件系统</tag>
-         
         <tag>glusterfs</tag>
+         
+        <tag>分布式文件系统</tag>
          
          
            
@@ -1618,9 +1618,9 @@
         
         <tag>iptables</tag>
          
-        <tag>防火墙</tag>
-         
         <tag>ufw</tag>
+         
+        <tag>防火墙</tag>
          
          
            
@@ -2508,9 +2508,9 @@
         
         <tag>mysql</tag>
          
-        <tag>gtid</tag>
-         
         <tag>1062</tag>
+         
+        <tag>gtid</tag>
          
          
            
