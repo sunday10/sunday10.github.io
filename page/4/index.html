@@ -67,7 +67,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Sunday</a>
+            <a class="navbar-brand" href="/">SundayLE DevOps</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -153,7 +153,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
                 <div class="site-heading">
-                    <h1>Sunday</h1>
+                    <h1>SundayLE DevOps</h1>
                     <!--<hr class="small">-->
                     <span class="subheading">历久尝新</span>
                 </div>
@@ -181,6 +181,143 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/linux-php-curl-timeout/">
+        <h2 class="post-title">
+            CentOS 7 php curl 微信支付接口 超时
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            事件
+添加了H3C路由器做内网上网使用，节省IP做集群IP.
+调用微信接口 https://api.mch.weixin.qq.com/pay/unifiedorder 超时5秒多。
+php报错：cURL error 28: Resolving timed out after 5516 milliseconds (see https://curl.haxx.se/libcurl/c/libc......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-02-13
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-proxy-65535-port/">
+        <h2 class="post-title">
+            Nginx使用proxy_bind负载tcp socket，解决代理端口耗尽
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            流量升高导致TIME_WAIT增加，连接大量失败的问题nginx将php解析通过TCP转发给php-fpm,需要占用一个TCP
+PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;'SYN_RECV 186TIME_WAIT ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-01-06
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/grub-destructive-testing-and-repair/">
+        <h2 class="post-title">
+            Grub 破坏性测试与修复
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            破坏grub使用dd命令破坏512 前面的446字节，注意不能破坏第一分区到512字节，否则将修复不了。123cd  /bootdd if=/dev/zero of=/dev/sda bs=1 count=446rm -rf grub*
+重启选择Troublesbooting进行修复1234# cp -r /mnt/sysimage/usr/lib/grub/i386-pc /usr/lib......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/centos-7-upgrade-kernel/">
+        <h2 class="post-title">
+            CentOS 7 升级 4.19 kernel 内核
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            自动挡升级查看当前内核版本12uname -r3.10.0-957.el7.x86_64
+导入仓库源12sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.orgsudo rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+安装指......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/docker-harbor/">
+        <h2 class="post-title">
+            Harbor Docker企业级私有镜像仓库
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言之前使用Docker官方的Registry镜像搭建了私有仓库，但是没有可一个可视化的界面去维护，非常不方便。所幸Vmware推出一个基于官方Registry V2镜像打造的私有仓库项目.
+Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Registry 服务器，通过添加一些企业必需的功能特性，例如安全、标识和管理等，扩展了开源 Docker Distri......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/centos-7-lacp-bonding/">
+        <h2 class="post-title">
+            CentOS 7 与 华为交换机 端口汇聚 LACP BONDING
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+服务器型号: Dell R730XD系统：CentOS Linux release 7.6.1810 (Core)交换机：华为 S5720S-28X-LI-AC 三层交换机网卡：BCM5720 1G x4 + Intel X520-2 10G x2
+
+交换机配置将g0/0/9-12 4个端口组成Eth-Trunk 43将x0/0/1-2   2个端口组成Eth-Trunk 91123456......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-26
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -269,162 +406,6 @@ Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/nginx-reverse-secondary-directory-with-parameters/">
-        <h2 class="post-title">
-            Nginx 反向代理二级目录带参数
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            tomcat jenkins：http://192.168.10.18:8080/jenkins/
-nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.com/jenkins/123456789101112131415161718192021222324server &#123;    listen      80;    serv......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-11-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/rabbitmq-cluster-build/">
-        <h2 class="post-title">
-            RabbitMQ 集群搭建
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            AMQPAMQP，即Advanced Message Queuing Protocol，高级消息队列协议，是应用层协议的一个开放标准，为面向消息的中间件设计。AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。那么再来介绍下RabbitMQ本身。RabbitMQ是一个上面说的AMQP协议的开源实现，其服务器端用Erlang语言写的，支持多种客户端，如：Pytho......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-11-01
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-proxy-tcp/">
-        <h2 class="post-title">
-            使用Nginx转发TCP/UDP端口
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            ngx_stream_core_module
-编译Nginx123456789101112131415cd /usr/local/srcwget http://nginx.org/download/nginx-1.12.2.tar.gztar zxf nginx-1.12.2.tar.gzcd nginx-1.12.2./configure --prefix=/usr/local/nginx......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-24
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kubeadm-build-kubernetes/">
-        <h2 class="post-title">
-            基于kubeadm方式部署kubernetes v1.12.1
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            https://kubernetes.io/docs/setup/independent/install-kubeadm/
-环境说明
-
-
-系统
-IP
-hostname
-
-
-
-
-CentOS 7.4
-192.168.10.101
-master
-
-
-CentOS 7.4
-192.168.10.102
-node2
-
-
-CentOS 7.4
-192.168.10.103
-node3
-
-
-
-
-环境准备......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-22
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-log-analysis-command/">
-        <h2 class="post-title">
-            Nginx 日志统计命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263统计IP访问量awk '&#123;print $1&#125;' access.log | sort -n | uniq | wc -l查看某一时间段的IP访......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-22
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-limit-modules/">
-        <h2 class="post-title">
-            Nginx 高并发限流模块 limit_conn_module limit_req_module
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            limit_conn_modulelimit_conn_module其中$binary_remote_addr有时需要根据自己已有的log_format变量配置进行替换123456789101112http &#123;    limit_conn_zone $binary_remote_addr zone=perip:10m;    limit_conn_zone $server_name......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-22
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -464,13 +445,19 @@ node3
                     <div class="tags">
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
                         
                             
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
+                            
+                        
+                            
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -482,21 +469,15 @@ node3
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
                         
                             
                         
                             
                         
                             
-                        
+                            <a href="/tags/#docker" title="docker" rel="6">docker</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
                             
                         
                             
@@ -520,6 +501,12 @@ node3
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
@@ -536,17 +523,13 @@ node3
                             
                         
                             
-                        
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -564,8 +547,6 @@ node3
                             
                         
                             
-                        
-                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
@@ -576,17 +557,13 @@ node3
                             
                         
                             
+                        
+                            
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
                             
                         
                             
@@ -600,11 +577,11 @@ node3
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -612,7 +589,21 @@ node3
                             
                         
                             
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="7">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            
+                        
+                            
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -636,12 +627,6 @@ node3
                             
                         
                             
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
-                            
                         
                             
                         
@@ -652,7 +637,7 @@ node3
                             
                         
                             
-                            <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            <a href="/tags/#mysql" title="mysql" rel="14">mysql</a>
                             
                         
                             
@@ -666,9 +651,11 @@ node3
                             
                         
                             
+                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                        
                             
                         
                             
@@ -702,19 +689,13 @@ node3
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -834,7 +815,7 @@ node3
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Sunday 2019 
+                    Copyright &copy; SundayLE DevOps 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

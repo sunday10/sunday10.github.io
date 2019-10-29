@@ -67,7 +67,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Sunday</a>
+            <a class="navbar-brand" href="/">SundayLE DevOps</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -153,7 +153,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
                 <div class="site-heading">
-                    <h1>Sunday</h1>
+                    <h1>SundayLE DevOps</h1>
                     <!--<hr class="small">-->
                     <span class="subheading">历久尝新</span>
                 </div>
@@ -184,6 +184,116 @@
 
 <div class="post-preview">
 
+    <a href="/check-swap-occupancy/">
+        <h2 class="post-title">
+            查看swap占用程序情况
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1for i in $(ls /proc | grep "^[0-9]" | awk '$0&gt;100'); do awk '/Swap:/&#123;a=a+$2&#125;END&#123;print '"$i"',a/1024"M"&#125;' /proc/$i/smaps 2&gt;/dev/null;done| sort -k2nr | head...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-10-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/local-volume-provision/">
+        <h2 class="post-title">
+            Kubernetes Local Volume 使用
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            有时，由于服务器数量有限，您可能不愿意使用GlusterFS和CephFS来设置动态存储配置。
+在这种情况下，除了必须首先创建自己的PV外，几乎可以采用与动态卷配置相同的方式来使用本地卷。与主机路径卷不同，使用本地卷的Pod将自动计划在定义了本地卷的节点上运行。
+让我们测试一下。
+创建 Local Volume和Storage Class 的PVLocal VolumeStorage Cla......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-10-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kubectl-command/">
+        <h2 class="post-title">
+            kubectl 一些命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            12kubectl get po --all-namespaces --field-selector 'status.phase==Failed'kubectl delete po  --field-selector 'status.phase==Failed'...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-10-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/helm/">
+        <h2 class="post-title">
+            kubernetes helm
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            安装helmhttps://github.com/helm/helm/releases下载对应版本的二进制程序1234cd /usr/local/src/wget https://get.helm.sh/helm-v2.14.3-linux-amd64.tar.gztar xf helm-v2.14.3-linux-amd64.tar.gzcp linux-amd64/helm /usr/l......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-10-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/docker-io-gcr-io-quay-io-mirror/">
+        <h2 class="post-title">
+            docker.io gcr.io quay.io 镜像加速
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            docker.io镜像加速1docker pull nginx:1.13
+Azure中国镜像12docker pull dockerhub.azk8s.cn/library/&lt;imagename&gt;:&lt;version&gt;docker pull dockerhub.azk8s.cn/library/nginx:1.13
+中科大镜像1docker pull docker.mi......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-10-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/kubeadm-1-15/">
         <h2 class="post-title">
             使用kubeadm 安装 Kubernetes v1.15 HA高可用
@@ -193,7 +303,7 @@
         </h3>
         <div class="post-content-preview">
             环境说明
-OS: Centos7.5Kubernetes: 1.15.3Docker: 18.09 
+OS: Centos7.5Kubernetes: 1.15.4Docker: 18.09 
 
 
 
@@ -322,7 +432,7 @@ https://www.consul.io/downloads.htmlhttps:/......
 
     <a href="/kubernets-taint/">
         <h2 class="post-title">
-            kubernets 污点
+            kubernets 污点和亲和性
         </h2>
         <h3 class="post-subtitle">
             
@@ -342,140 +452,35 @@ https://www.consul.io/downloads.htmlhttps:/......
 
 <div class="post-preview">
 
-    <a href="/kubernetes-1-14-2-binary-installation/">
+    <a href="/kubernetes-1-15-binary-installation/">
         <h2 class="post-title">
-            Kubernetes 1.14.2 二进制安装
+            Kubernetes 1.15.4 二进制高可用安装
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            配置策略
-kube-apiserver
+            环境准备
+OS: CentOS 7.5Kubernetes: 1.15.4Docker: 18.09Etcd: 3.4.1 
 
 
-使用haproxy+keepalived实现高可用；
-关闭非安全端口 8080 和匿名访问；
-在安全端口 6443 接收 https 请求；
-严格的认证和授权策略 (x509、token、RBAC)；
-开启 bootstrap token 认证，支持 kubelet TLS bootstrapping；
-使用 https 访问 kubelet、et......
+
+
+主机名
+IP / VIP
+组件
+
+
+
+
+k8s-master
+192.168.10.81 / 192.168.10.80
+haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s......
         </div>
     </a>
     <p class="post-meta">
         Posted by Sunday on
         2019-08-15
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-allows-multiple-domain-cors/">
-        <h2 class="post-title">
-            Nginx 允许多个域名跨域访问
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            允许指定单个域名跨域访问1234567891011location /&#123;    #add_header Access-Control-Allow-Origin *; #允许所有域名不安全    add_header 'Access-Control-Allow-Origin' 'https://www.sundayle.com';    add_header 'Access-Cont......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-08-09
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived-and-firewalld/">
-        <h2 class="post-title">
-            Keepalived 和 Firewalld
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            准备
-MASTER IP 192.168.1.7BACKUP IP 192.168.1.8VIP 192.168.1.20012345yum install  keepalived systemctl stop firewalldecho "net.ipv4.ip_forward = 1" &gt;&gt; /etc/sysctl.confecho "net.ipv4.ip_nonlocal......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-07-11
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/redis-batch-deletion/">
-        <h2 class="post-title">
-            Redis-cli 批量删除及AOF文件过大
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            测试过程产生大量没用的key
-批量删除以”laravel:*”开头的所有key1redis-cli keys "laravel:*"  |  xargs redis-cli del
-删除大量key后，aof文件会变更大，是因为aof机制就跟记录日志一样，无论是set还是del 都会同步到aof文件中。
-aof 文件依旧过大解决1redis-cli bgrewriteaof
-1234567ro......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-07-11
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-advenced-limit-request/">
-        <h2 class="post-title">
-            Nginx（或Openresty）的高级限制请求
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Nginx有ngx_http_limit_req_module可用于限制请求处理速率，但大多数人似乎只使用其基本功能:通过远程地址限制请求率，如下所示:12345678http &#123;    limit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;    ...    server&#123;        ...      ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-07-04
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-cookie/">
-        <h2 class="post-title">
-            Nginx 获取 cookie 中的值
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            有时我们需要在 nginx 中获取用户 cookie 中的某个值来实现一些功能。下面介绍获取 cookie 的两种方式。
-直接获取假如我们要获取的 cookie 的 key 是 pin，可以在 nginx 直接使用变量$cookie_pin 来获取。获取方式是$cookie_{value_key}但是这种方式有一个缺陷无法获取这样的 cookie 比如 pin.name 简单的说一下原因就是......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-07-03
     </p>
 
 </div>
@@ -516,13 +521,19 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                     <div class="tags">
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
                         
                             
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
+                            
+                        
+                            
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -534,21 +545,15 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
                         
                             
                         
                             
                         
                             
-                        
+                            <a href="/tags/#docker" title="docker" rel="6">docker</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
                             
                         
                             
@@ -572,6 +577,12 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
@@ -588,17 +599,13 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                             
                         
                             
-                        
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -616,8 +623,6 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                             
                         
                             
-                        
-                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
@@ -628,17 +633,13 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                             
                         
                             
+                        
+                            
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
                             
                         
                             
@@ -652,11 +653,11 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -664,7 +665,21 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                             
                         
                             
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="7">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            
+                        
+                            
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -688,12 +703,6 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                             
                         
                             
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
-                            
                         
                             
                         
@@ -704,7 +713,7 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                             
                         
                             
-                            <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            <a href="/tags/#mysql" title="mysql" rel="14">mysql</a>
                             
                         
                             
@@ -718,9 +727,11 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                             
                         
                             
+                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                        
                             
                         
                             
@@ -754,19 +765,13 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -886,7 +891,7 @@ aof 文件依旧过大解决1redis-cli bgrewriteaof
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Sunday 2019 
+                    Copyright &copy; SundayLE DevOps 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

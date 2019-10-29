@@ -2,16 +2,93 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.sundayle.com/kubeadm-1-15/</loc>
+    <loc>http://www.sundayle.com/check-swap-occupancy/</loc>
     
-    <lastmod>2019-10-10T11:03:13.966Z</lastmod>
+    <lastmod>2019-10-28T09:58:30.241Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/kubernetes-1-14-2-binary-installation/</loc>
+    <loc>http://www.sundayle.com/kubeadm-1-15/</loc>
     
-    <lastmod>2019-10-10T03:40:07.073Z</lastmod>
+    <lastmod>2019-10-25T08:55:31.293Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/local-volume-provision/</loc>
+    
+    <lastmod>2019-10-25T07:14:27.730Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/docker-harbor/</loc>
+    
+    <lastmod>2019-10-24T09:39:39.819Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/mysql-command/</loc>
+    
+    <lastmod>2019-10-24T02:51:22.127Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/systemd-command/</loc>
+    
+    <lastmod>2019-10-24T02:03:53.172Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/kubernetes-1-15-binary-installation/</loc>
+    
+    <lastmod>2019-10-23T10:02:40.407Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/etcd-backup/</loc>
+    
+    <lastmod>2019-10-23T02:45:12.978Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/docker/</loc>
+    
+    <lastmod>2019-10-23T02:45:12.978Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/kubernets-taint/</loc>
+    
+    <lastmod>2019-10-22T08:18:56.658Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/kubectl-command/</loc>
+    
+    <lastmod>2019-10-17T10:39:19.260Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/helm/</loc>
+    
+    <lastmod>2019-10-12T10:19:17.569Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/docker-io-gcr-io-quay-io-mirror/</loc>
+    
+    <lastmod>2019-10-11T09:37:29.637Z</lastmod>
     
   </url>
   
@@ -40,13 +117,6 @@
     <loc>http://www.sundayle.com/kubespray/</loc>
     
     <lastmod>2019-09-06T03:37:13.611Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/kubernets-taint/</loc>
-    
-    <lastmod>2019-08-27T08:58:39.351Z</lastmod>
     
   </url>
   
@@ -345,13 +415,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/docker/</loc>
-    
-    <lastmod>2019-05-05T07:41:18.074Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/distributed-file-system-fastdfs/</loc>
     
     <lastmod>2019-05-05T07:41:18.067Z</lastmod>
@@ -383,13 +446,6 @@
     <loc>http://www.sundayle.com/mysqlbinlog-gtid/</loc>
     
     <lastmod>2019-03-12T10:09:21.654Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/harbor/</loc>
-    
-    <lastmod>2019-03-12T10:01:25.271Z</lastmod>
     
   </url>
   
@@ -429,13 +485,6 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/docker-harbor/</loc>
-    
-    <lastmod>2019-01-09T18:34:08.647Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.sundayle.com/grub-destructive-testing-and-repair/</loc>
     
     <lastmod>2018-12-29T11:59:00.307Z</lastmod>
@@ -450,14 +499,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     

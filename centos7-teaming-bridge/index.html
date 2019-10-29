@@ -67,7 +67,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Sunday</a>
+            <a class="navbar-brand" href="/">SundayLE DevOps</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -201,8 +201,8 @@
 <h2 id="配置静态ip"><a href="#配置静态ip" class="headerlink" title="配置静态ip"></a>配置静态ip</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nmcli<span class="built_in"> connection </span>modify team0 ipv4.method<span class="built_in"> manual </span>ipv4.addresses 192.168.8.10/24  \</span><br><span class="line">ipv4.gateway 192.168.8.2 ipv4.dns 192.168.8.2 ipv4.method manual</span><br></pre></td></tr></table></figure>
 <h2 id="激活eth1-eth2-team0"><a href="#激活eth1-eth2-team0" class="headerlink" title="激活eth1 eth2 team0"></a>激活eth1 eth2 team0</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nmcli<span class="built_in"> connection </span>up eth1</span><br><span class="line">nmcli<span class="built_in"> connection </span>up eth2</span><br><span class="line">nmcli<span class="built_in"> connection </span>up team0</span><br></pre></td></tr></table></figure>
 <h2 id="查看team状态"><a href="#查看team状态" class="headerlink" title="查看team状态"></a>查看team状态</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">teamdctl</span> <span class="string">team0</span> <span class="string">state</span></span><br><span class="line"></span><br><span class="line"><span class="attr">setup:</span></span><br><span class="line"><span class="attr">  runner:</span> <span class="string">loadbalance</span></span><br><span class="line"><span class="attr">ports:</span></span><br><span class="line">  <span class="string">eth1</span></span><br><span class="line">    <span class="string">link</span> <span class="attr">watches:</span></span><br><span class="line">      <span class="string">link</span> <span class="attr">summary:</span> <span class="string">up</span></span><br><span class="line">      <span class="string">instance[link_watch_0]:</span></span><br><span class="line"><span class="attr">        name:</span> <span class="string">ethtool</span></span><br><span class="line"><span class="attr">        link:</span> <span class="string">up</span></span><br><span class="line">        <span class="string">down</span> <span class="attr">count:</span> <span class="number">0</span></span><br><span class="line">  <span class="string">eth2</span></span><br><span class="line">    <span class="string">link</span> <span class="attr">watches:</span></span><br><span class="line">      <span class="string">link</span> <span class="attr">summary:</span> <span class="string">up</span></span><br><span class="line">      <span class="string">instance[link_watch_0]:</span></span><br><span class="line"><span class="attr">        name:</span> <span class="string">ethtool</span></span><br><span class="line"><span class="attr">        link:</span> <span class="string">up</span></span><br><span class="line">        <span class="string">down</span> <span class="attr">count:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<h1 id="bridge"><a href="#bridge" class="headerlink" title="bridge"></a>bridge</h1><p>##删除teaming<br><figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nmcli <span class="built_in">con</span> <span class="built_in">del</span> eth1</span><br><span class="line">nmcli <span class="built_in">con</span> <span class="built_in">del</span> eth2</span><br><span class="line">nmcli <span class="built_in">con</span> <span class="built_in">del</span> team0</span><br><span class="line">nmcli <span class="built_in">con</span> show</span><br></pre></td></tr></table></figure></p>
-<h2 id="配置bridge"><a href="#配置bridge" class="headerlink" title="配置bridge"></a>配置bridge</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nmcli con <span class="builtin-name">add</span> con-name bridge0<span class="built_in"> type bridge </span>ifname bridge0 ip4 192.168.8.10/24 gw4 192.168.8.2 </span><br><span class="line">nmcli con mod bridge0 ipv4.method manual</span><br><span class="line">nmcli con <span class="builtin-name">add</span> con-name bridge0-slave1<span class="built_in"> type </span>bridge-slave ifname eth1 master bridge0</span><br><span class="line">nmcli con <span class="builtin-name">add</span> con-name bridge0-slave2<span class="built_in"> type </span>bridge-slave ifname eth2 master bridge0</span><br></pre></td></tr></table></figure>
+<h2 id="删除teaming"><a href="#删除teaming" class="headerlink" title="删除teaming"></a>删除teaming</h2><figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nmcli <span class="built_in">con</span> <span class="built_in">del</span> eth1</span><br><span class="line">nmcli <span class="built_in">con</span> <span class="built_in">del</span> eth2</span><br><span class="line">nmcli <span class="built_in">con</span> <span class="built_in">del</span> team0</span><br><span class="line">nmcli <span class="built_in">con</span> show</span><br></pre></td></tr></table></figure>
+<h1 id="bridge"><a href="#bridge" class="headerlink" title="bridge"></a>bridge</h1><h2 id="配置bridge"><a href="#配置bridge" class="headerlink" title="配置bridge"></a>配置bridge</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nmcli con <span class="builtin-name">add</span> con-name bridge0<span class="built_in"> type bridge </span>ifname bridge0 ip4 192.168.8.10/24 gw4 192.168.8.2 </span><br><span class="line">nmcli con mod bridge0 ipv4.method manual</span><br><span class="line">nmcli con <span class="builtin-name">add</span> con-name bridge0-slave1<span class="built_in"> type </span>bridge-slave ifname eth1 master bridge0</span><br><span class="line">nmcli con <span class="builtin-name">add</span> con-name bridge0-slave2<span class="built_in"> type </span>bridge-slave ifname eth2 master bridge0</span><br></pre></td></tr></table></figure>
 
                 <hr>
 
@@ -354,7 +354,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Sunday 2019 
+                    Copyright &copy; SundayLE DevOps 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

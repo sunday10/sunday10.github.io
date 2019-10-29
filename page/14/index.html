@@ -67,7 +67,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Sunday</a>
+            <a class="navbar-brand" href="/">SundayLE DevOps</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -153,7 +153,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
                 <div class="site-heading">
-                    <h1>Sunday</h1>
+                    <h1>SundayLE DevOps</h1>
                     <!--<hr class="small">-->
                     <span class="subheading">历久尝新</span>
                 </div>
@@ -181,6 +181,172 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/mysql-utf8mb4/">
+        <h2 class="post-title">
+            MySQL 修改字符集为utf8mb4
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+一般情况下，我们会设置MySQL默认的字符编码为utf8，但是近些年来，emoji表情的火爆使用，给数据库带来了意外的错误，就是emoji的字符集已经超出了utf8的编码范畴😄
+
+emoji是Unicode编码，在MySQL中使用utf8编码无法正常显示emoji的表情，为了解决这个问题，MySQL在 5.5.3 之后增加了 utf8mb4 字符编码，mb4即 most bytes 4。......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/coredump/">
+        <h2 class="post-title">
+            Linux 开启 core dump
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. 什么是core文件某些信号的操作是导致进程终止并生成核心转储文件，包含终止时进程内存的映像。主要用于程序崩溃时，调试找原因的。
+2. 配置系统生成 core 文件1. 使用 ulimit 配置生成 core 文件大小首先使用ulimit -c 确认系统是否生成 core 文件，若为 0，说明禁用了 core 文件生成，若要启用，根据需要配置 core 文件生成大小。 如不限制 core......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-27
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/regex/">
+        <h2 class="post-title">
+            正则表达式30分钟入门教程
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文目标30分钟内让你明白正则表达式是什么，并对它有一些基本的了解，让你可以在自己的程序或网页里使用它。
+如何使用本教程别被下面那些复杂的表达式吓倒，只要跟着我一步一步来，你会发现正则表达式其实并没有想像中的那么困难。当然，如果你看完了这篇教程之后，发现自己明白了很多，却又几乎什么都记不得，那也是很正常的——我认为，没接触过正则表达式的人在看完这篇教程后，能把提到过的语法记住80%以上的可能......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-27
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/sed/">
+        <h2 class="post-title">
+            文本处理工具 Sed
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            stream editor 流式编辑器sed是Linux中的一个文件编辑工具，按行处理文件内容，可以实现插入，删除，替换等功能。更重要的是sed命令可以用script来处理文本文件，能够应对复杂的编辑需求。
+sed命令语法基本格式 sed [option] [sed.txt]
+选项:
+
+-e &lt;script>: 按script编辑文本并输出到控制台，但不修改原文件内容
+-f : sed......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/grep/">
+        <h2 class="post-title">
+            文本处理工具 Grep
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            文本搜索工具，根据用户指定的文本模式（搜索条件）对目标文件进行逐行搜索，显示能匹配到的行
+grep：最常用，可以检索目标（一个活多个单词或正则表达式）。egrep：支持丰富的正则表达式，而且支持多目标检索，等同于 grep -e。fgrep：不能使用正则表达式，可以检索多个目标，等同于 grep -f，不建议使用。
+Grep命令选项12345678910-v: 反向选取,显示不匹配的行-i:......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-02-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/elk-elasticsearch-plug/">
+        <h2 class="post-title">
+            ELK实时日志分析 Elasticsearch 插件
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Elasticsearch插件
+环境
+系统：CentOS 7
+
+部署elasticsearch 5.x 不再支持插件，需运行独立
+2.1 Head插件作用：集群监制
+123456789101112yum install bzip2 unzip git -y# git clone https://github.com/mobz/elasticsearch-headwget https://gi......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/elk-kafka-filebeat/">
+        <h2 class="post-title">
+            ELK+Filebeat+Kafka 日志分析
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            为什么要用ELK日志主要包括系统日志、应用程序日志和安全日志。系统运维和开发人员可以通过日志了解服务器软硬件信息、检查配置过程中的错误及错误发生的原因。经常分析日志可以了解服务器的负荷，性能安全性，从而及时采取措施纠正错误。
+通常，日志被分散的储存不同的设备上。如果你管理数十上百台服务器，你还在使用依次登录每台机器的传统方法查阅日志。这样是不是感觉很繁琐和效率低下。日志的统计和检索又成为一件......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-01-30
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -250,161 +416,6 @@ CentOS7默认的防火墙不是iptables,而是firewalle. 不过之前用开iptab
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/iptables-detailed/">
-        <h2 class="post-title">
-            Linux 防火墙 iptables详解
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Netfilter 与 iptables 的关系Linux 系统在内核中提供了对报文数据包过滤和修改的官方项目名为 Netfilter，它指的是 Linux 内核中的一个框架，它可以用于在不同阶段将某些钩子函数（hook）作用域网络协议栈。Netfilter 本身并不对数据包进行过滤，它只是允许可以过滤数据包或修改数据包的函数挂接到内核网络协议栈中的适当位置。这些函数是可以自定义的。
-ipt......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/percona-mysql/">
-        <h2 class="post-title">
-            Percona MySQL 编译
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 安装依赖1234#ubuntuapt-get install cmake g++ bison libssl-dev libxml2-dev  libncurses5-dev libreadline-dev libnuma-dev#centosyum install gcc gcc-c++ cmake bison ncurses-devel readine-devel libaio-de......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx/">
-        <h2 class="post-title">
-            Nginx 编译
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 安装依赖12345#ubuntuapt-get install gcc g++ make libtool openssl libssl-dev libpcre3 libpcre3-dev libgd-dev#centosyum install gcc make openssl-devel pcre-devel gd-devel
-2. jemalloc 安装http://www.sund......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/jemalloc/">
-        <h2 class="post-title">
-            更好的内存管理jemalloc
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. jemalloc是干什么的呢？官方说明：
-
-jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support.jemalloc干了malloc干的活，而且干得好一些，主要体现在避免内存碎片与并发扩展......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-12-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-log-cut/">
-        <h2 class="post-title">
-            Logrotate Nginx日志切割
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. Logrotate日志切割Linux日志文件如果不定期清理，查看日志会比较麻烦。我们可以使用”logrotate”来管理linux日志文件，它可以实现日志的自动滚动，日志归档等功能。下面以nginx日志文件来讲解下logrotate的用法。
-在/etc/logrotate.d/目录下创建一个配置文件”nginx”，内容如下：1234567891011121314vim /etc/log......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-27
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/raid-megacli/">
-        <h2 class="post-title">
-            Raid 阵列卡 MegaCli64 常用管理命令汇总
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            硬盘方面：
-1、查看所有物理磁盘信息12345678910111213141516171819202122232425262728293031# MegaCli64 -PDList -aALL                                     Adapter #0Enclosure Device ID: 32Slot Number: 0Drive's position:......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-27
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/git-command/">
-        <h2 class="post-title">
-            Git 常用命令集合
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些全局设置的，如用户名、邮箱。设置的主要命令是 git config:12git config --global user.name "your name"      // 设置全局用户名git config --global user.email "your email"    // 设置邮箱
-其中， –global 指定......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-11-21
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -444,13 +455,19 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                     <div class="tags">
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
                         
                             
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
+                            
+                        
+                            
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -462,21 +479,15 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
                         
                             
                         
                             
                         
                             
-                        
+                            <a href="/tags/#docker" title="docker" rel="6">docker</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
                             
                         
                             
@@ -500,6 +511,12 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
@@ -516,17 +533,13 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
-                        
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -544,8 +557,6 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
-                        
-                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
@@ -556,17 +567,13 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
+                        
+                            
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
                             
                         
                             
@@ -580,11 +587,11 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -592,7 +599,21 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="7">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            
+                        
+                            
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -616,12 +637,6 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
-                            
                         
                             
                         
@@ -632,7 +647,7 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
-                            <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            <a href="/tags/#mysql" title="mysql" rel="14">mysql</a>
                             
                         
                             
@@ -646,9 +661,11 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
+                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                        
                             
                         
                             
@@ -682,19 +699,13 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -814,7 +825,7 @@ Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Sunday 2019 
+                    Copyright &copy; SundayLE DevOps 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

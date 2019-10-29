@@ -4,8 +4,23 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/check-swap-occupancy/</loc>
+    <lastmod>2019-10-28T09:58:30.241Z</lastmod>
+    <data>
+        <display>
+        <title>查看swap占用程序情况</title>
+        <pubTime>2019-10-28T02:54:05.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/kubeadm-1-15/</loc>
-    <lastmod>2019-10-10T11:03:13.966Z</lastmod>
+    <lastmod>2019-10-25T08:55:31.293Z</lastmod>
     <data>
         <display>
         <title>使用kubeadm 安装 Kubernetes v1.15 HA高可用</title>
@@ -25,12 +40,174 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/kubernetes-1-14-2-binary-installation/</loc>
-    <lastmod>2019-10-10T03:40:07.073Z</lastmod>
+    <loc>http://www.sundayle.com/local-volume-provision/</loc>
+    <lastmod>2019-10-25T07:14:27.730Z</lastmod>
     <data>
         <display>
-        <title>Kubernetes 1.14.2 二进制安装</title>
+        <title>Kubernetes Local Volume 使用</title>
+        <pubTime>2019-10-25T05:17:03.000Z</pubTime>
+        
+        <tag>kubernetes</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/docker-harbor/</loc>
+    <lastmod>2019-10-24T09:39:39.819Z</lastmod>
+    <data>
+        <display>
+        <title>Harbor Docker企业级私有镜像仓库</title>
+        <pubTime>2018-12-28T05:37:30.000Z</pubTime>
+        
+        <tag>docker</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/mysql-command/</loc>
+    <lastmod>2019-10-24T02:51:22.127Z</lastmod>
+    <data>
+        <display>
+        <title>mysql 一些命令</title>
+        <pubTime>2019-05-24T02:05:20.000Z</pubTime>
+        
+        <tag>mysql</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/systemd-command/</loc>
+    <lastmod>2019-10-24T02:03:53.172Z</lastmod>
+    <data>
+        <display>
+        <title>systemd 一些命令</title>
+        <pubTime>2019-05-24T02:03:22.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/kubernetes-1-15-binary-installation/</loc>
+    <lastmod>2019-10-23T10:02:40.407Z</lastmod>
+    <data>
+        <display>
+        <title>Kubernetes 1.15.4 二进制高可用安装</title>
         <pubTime>2019-08-15T11:15:15.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/etcd-backup/</loc>
+    <lastmod>2019-10-23T02:45:12.978Z</lastmod>
+    <data>
+        <display>
+        <title>Docker(一)：Docker入门</title>
+        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
+        
+        <tag>docker</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/docker/</loc>
+    <lastmod>2019-10-23T02:45:12.978Z</lastmod>
+    <data>
+        <display>
+        <title>Docker(一)：Docker入门</title>
+        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
+        
+        <tag>docker</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/kubernets-taint/</loc>
+    <lastmod>2019-10-22T08:18:56.658Z</lastmod>
+    <data>
+        <display>
+        <title>kubernets 污点和亲和性</title>
+        <pubTime>2019-08-27T08:46:14.000Z</pubTime>
+        
+        <tag>kubernetes</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/kubectl-command/</loc>
+    <lastmod>2019-10-17T10:39:19.260Z</lastmod>
+    <data>
+        <display>
+        <title>kubectl 一些命令</title>
+        <pubTime>2019-10-14T02:34:05.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/helm/</loc>
+    <lastmod>2019-10-12T10:19:17.569Z</lastmod>
+    <data>
+        <display>
+        <title>kubernetes helm</title>
+        <pubTime>2019-10-11T09:47:53.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.sundayle.com/docker-io-gcr-io-quay-io-mirror/</loc>
+    <lastmod>2019-10-11T09:37:29.637Z</lastmod>
+    <data>
+        <display>
+        <title>docker.io gcr.io quay.io 镜像加速</title>
+        <pubTime>2019-10-11T08:54:11.000Z</pubTime>
         
          
            
@@ -99,23 +276,6 @@
         <tag>kubernetes</tag>
          
         <tag>k8s</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/kubernets-taint/</loc>
-    <lastmod>2019-08-27T08:58:39.351Z</lastmod>
-    <data>
-        <display>
-        <title>kubernets 污点</title>
-        <pubTime>2019-08-27T08:46:14.000Z</pubTime>
-        
-        <tag>kubernetes</tag>
          
          
            
@@ -848,23 +1008,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/docker/</loc>
-    <lastmod>2019-05-05T07:41:18.074Z</lastmod>
-    <data>
-        <display>
-        <title>Docker(一)：Docker入门</title>
-        <pubTime>2018-10-15T14:29:07.000Z</pubTime>
-        
-        <tag>docker</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/distributed-file-system-fastdfs/</loc>
     <lastmod>2019-05-05T07:41:18.067Z</lastmod>
     <data>
@@ -951,21 +1094,6 @@
          
         <tag>gtid</tag>
          
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/harbor/</loc>
-    <lastmod>2019-03-12T10:01:25.271Z</lastmod>
-    <data>
-        <display>
-        <title>Docker私有仓库 Harbor</title>
-        <pubTime>2019-03-09T12:21:32.000Z</pubTime>
-        
          
            
         </display>
@@ -1064,23 +1192,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/docker-harbor/</loc>
-    <lastmod>2019-01-09T18:34:08.647Z</lastmod>
-    <data>
-        <display>
-        <title>Docker 企业级私有镜像仓库 Harbor 部署</title>
-        <pubTime>2018-12-28T05:37:30.000Z</pubTime>
-        
-        <tag>docker</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/grub-destructive-testing-and-repair/</loc>
     <lastmod>2018-12-29T11:59:00.307Z</lastmod>
     <data>
@@ -1113,12 +1224,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>Python 编码</title>
-        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
+        <title>Python 装饰器</title>
+        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -1130,12 +1241,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>Python 装饰器</title>
-        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
+        <title>Python 编码</title>
+        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -1863,9 +1974,9 @@
         <title>Maven私服Nexus3.x环境配置</title>
         <pubTime>2018-07-31T10:36:25.000Z</pubTime>
         
-        <tag>maven</tag>
-         
         <tag>持续集成</tag>
+         
+        <tag>maven</tag>
          
         <tag>nexus</tag>
          
@@ -1889,9 +2000,9 @@
         
         <tag>jenkins</tag>
          
-        <tag>maven</tag>
-         
         <tag>持续集成</tag>
+         
+        <tag>maven</tag>
          
          
            

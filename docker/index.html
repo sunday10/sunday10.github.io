@@ -67,7 +67,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Sunday</a>
+            <a class="navbar-brand" href="/">SundayLE DevOps</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -253,7 +253,7 @@
 <p>查看已拉取的镜像<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br><span class="line">REPOSITORY              <span class="keyword">TAG</span>                 <span class="title">IMAGE</span> ID            CREATED             SIZE</span><br><span class="line">docker.io/hello-world   latest              <span class="number">4</span>ab4c602aa5e        <span class="number">5</span> weeks ago         <span class="number">1.84</span> kB</span><br></pre></td></tr></table></figure></p>
 <p>运行镜像 hello world<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="builtin-name">run</span> hello-world</span><br><span class="line"></span><br><span class="line">Hello <span class="keyword">from</span> Docker!</span><br><span class="line">This message shows that your installation appears <span class="keyword">to</span> be working correctly.</span><br><span class="line"><span class="built_in">..</span>.</span><br></pre></td></tr></table></figure></p>
 <h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><hr>
-<h2 id="images"><a href="#images" class="headerlink" title="images"></a>images</h2><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker pull image_name #拉取docker镜像</span><br><span class="line">docker images # 查看宿主机上的镜像，默认保存在/var/lib/docker/:</span><br><span class="line">docker <span class="keyword">image</span> <span class="keyword">ls</span> -a</span><br><span class="line">docker rmi  container_name/container_id  #删除镜像</span><br><span class="line">docker <span class="keyword">image</span> rm $(docker <span class="keyword">image</span> <span class="keyword">ls</span> -q redis) # 删除所有redis 镜像</span><br><span class="line">docker <span class="keyword">image</span> rm $(docker <span class="keyword">image</span> <span class="keyword">ls</span> -q -f before=mongo:<span class="number">3.2</span>) # 删除所有在 mongo:<span class="number">3.2</span> 之前的镜像</span><br><span class="line">docker <span class="keyword">image</span> prune # 清空虚悬镜像</span><br><span class="line">docker <span class="keyword">image</span> <span class="keyword">ls</span> --<span class="keyword">format</span> <span class="string">"&#123;&#123;.ID&#125;&#125;:&#123;&#123;.Repository&#125;&#125;"</span> # 以特定格式显示</span><br></pre></td></tr></table></figure>
+<h2 id="images"><a href="#images" class="headerlink" title="images"></a>images</h2><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker pull image_name #拉取docker镜像</span><br><span class="line">docker images # 查看宿主机上的镜像，默认保存在/var/lib/docker/:</span><br><span class="line">docker <span class="keyword">image</span> <span class="keyword">ls</span> -a</span><br><span class="line">docker rmi  container_name/container_id  #删除镜像</span><br><span class="line">docker <span class="keyword">image</span> rm $(docker <span class="keyword">image</span> <span class="keyword">ls</span> -q redis) # 删除所有redis 镜像</span><br><span class="line">docker <span class="keyword">image</span> rm $(docker <span class="keyword">image</span> <span class="keyword">ls</span> -q -f before=mongo:<span class="number">3.2</span>) # 删除所有在 mongo:<span class="number">3.2</span> 之前的镜像</span><br><span class="line">docker <span class="keyword">image</span> prune # 清空虚悬镜像</span><br><span class="line">docker <span class="keyword">image</span> <span class="keyword">ls</span> --<span class="keyword">format</span> <span class="string">"&#123;&#123;.ID&#125;&#125;:&#123;&#123;.Repository&#125;&#125;"</span> # 以特定格式显示</span><br><span class="line"></span><br><span class="line">docker ps -a | grep Exit | awk <span class="string">'&#123; print $1&#125;'</span>  | xargs sudo docker rm</span><br><span class="line">docker rm $(docker ps --all -q -f status=exited)</span><br></pre></td></tr></table></figure>
 <h2 id="container"><a href="#container" class="headerlink" title="container"></a>container</h2><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">docker ps <span class="comment"># 查看当前有哪些容器正在运行</span></span><br><span class="line">docker ps -<span class="keyword">a</span></span><br><span class="line">docker <span class="built_in">start</span> container_name/container_id <span class="comment"># 启动容器</span></span><br><span class="line">docker <span class="built_in">stop</span> container_name/container_id <span class="comment"># 停止容器</span></span><br><span class="line">docker restart container_name/container_id <span class="comment">#重启容器</span></span><br><span class="line">docker run -<span class="keyword">it</span> ubuntu bash <span class="comment"># 进入ubuntu bash  注：exit 退出 ctrl+c 后台</span></span><br><span class="line">docker exec -ti <span class="number">850211</span>f47169 /bin/bash</span><br><span class="line">docker run -<span class="keyword">it</span> -d -p <span class="number">4001</span>:<span class="number">4001</span> -p <span class="number">7001</span>:<span class="number">7001</span> <span class="comment">--restart=always --name “nginx_v2” microbox/etcd -name discovery</span></span><br><span class="line">docker attach container_name/container_id <span class="comment"># 进入容器</span></span><br><span class="line">docker container rm container_id <span class="comment"># 删除容器</span></span><br><span class="line">docker container rm -f container_id <span class="comment"># 删除正在运行的容器 </span></span><br><span class="line">docker container rm $(docker ps -<span class="keyword">a</span> -q) <span class="comment"># 删除所有停止的容器</span></span><br><span class="line">docker container prune <span class="comment"># 清理掉所有处于终止状态的容器。</span></span><br></pre></td></tr></table></figure>
 <h2 id="hub"><a href="#hub" class="headerlink" title="hub"></a>hub</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="builtin-name">info</span> # 查看Docker信息</span><br><span class="line">docker pull centos:latest # 拉取最新镜像</span><br><span class="line">docker search nginx # 查找镜像</span><br><span class="line">docker<span class="built_in"> system </span>df # 镜像体积</span><br></pre></td></tr></table></figure>
 <p>转载自：<a href="http://www.ityouknow.com/docker/2018/03/07/docker-introduction.html" target="_blank" rel="noopener">Docker(一)：Docker入门教程</a> 略加修改<br><a href="https://yeasy.gitbooks.io/docker_practice/content/" target="_blank" rel="noopener">Docker — 从入门到实践</a></p>
@@ -266,7 +266,7 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/dockerfile/" data-toggle="tooltip" data-placement="top" title="Docker(二)：Dockerfile 使用详情">&larr; Previous Post</a>
+                            <a href="/etcd-backup/" data-toggle="tooltip" data-placement="top" title="Docker(一)：Docker入门">&larr; Previous Post</a>
                         </li>
                     
                     
@@ -409,7 +409,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Sunday 2019 
+                    Copyright &copy; SundayLE DevOps 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

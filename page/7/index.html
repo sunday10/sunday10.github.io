@@ -67,7 +67,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Sunday</a>
+            <a class="navbar-brand" href="/">SundayLE DevOps</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -153,7 +153,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
                 <div class="site-heading">
-                    <h1>Sunday</h1>
+                    <h1>SundayLE DevOps</h1>
                     <!--<hr class="small">-->
                     <span class="subheading">历久尝新</span>
                 </div>
@@ -181,6 +181,173 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/distributed-file-system-fastdfs/">
+        <h2 class="post-title">
+            分布式文件系统FastDFS详解
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            为什么要使用分布式文件系统呢？
+嗯，这个问题问的好，使用了它对我们有哪些好处？带着这个问题我们来往下看：
+单机时代初创时期由于时间紧迫，在各种资源有限的情况下，通常就直接在项目目录下建立静态文件夹，用于用户存放项目中的文件资源。如果按不同类型再细分，可以在项目目录下再建立不同的子目录来区分。例如：resources\static\file、resources\static\img等。
+优点：......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-10
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mogilefs/">
+        <h2 class="post-title">
+            MogileFS 分布式存储
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            什么是分布式存储分布式存储系统，是将数据分散存储在多台独立的设备上。传统的网络存储系统采用集中的存储服务器存放所有数据，存储服务器成为系统性能的瓶颈，也是可靠性和安全性的焦点，不能满足大规模存储应用的需要。分布式网络存储系统采用可扩展的系统结构，利用多台存储服务器分担存储负荷，利用位置服务器定位存储信息，它不但提高了系统的可靠性、可用性和存取效率，还易于扩展
+CAP理论C：Consisten......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-09-07
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/glusterfs/">
+        <h2 class="post-title">
+            企业级分布式存储 Glusterfs
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. 理论基础1.1 分布式文件系统出现计算机通过文件系统管理、存储数据，而现在数据信息爆炸的时代中人们可以获取的数据成指数倍的增长，单纯通过增加硬盘个数来扩展计算机文件系统的存储容量的方式，已经不能满足目前的需求。
+分布式文件系统可以有效解决数据的存储和管理难题，将固定于某个地点的某个文件系统，扩展到任意多个地点、多个文件系统，众多的节点组成一个文件系统网络。每个节点可以分布在不同的地点，......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/lvm2/">
+        <h2 class="post-title">
+            LVM逻辑卷管理配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+前言Logical Volume Manager (LVM) 重点在于 可以弹性的调整 文件系统 的容量！
+LVM 可以整合多个硬盘 分区在一起， 让这些 分区 看起来就像是一个磁盘一样！
+传统分区使用固定大小分区，重新调整大小十分麻烦，但是LVM可以创建和管理“逻辑”卷，而不是直接使用物理硬盘，可以让管理员弹性的管理逻辑卷的扩大缩小，操作简单，而不损坏已存储的数据。可以随意将新的硬盘添加......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/python-decorator/">
+        <h2 class="post-title">
+            Python 装饰器
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            讲 Python 装饰器前，我想先举个例子，虽有点污，但跟装饰器这个话题很贴切。
+每个人都有的内裤主要功能是用来遮羞，但是到了冬天它没法为我们防风御寒，咋办？我们想到的一个办法就是把内裤改造一下，让它变得更厚更长，这样一来，它不仅有遮羞功能，还能提供保暖，不过有个问题，这个内裤被我们改造成了长裤后，虽然还有遮羞功能，但本质上它不再是一条真正的内裤了。于是聪明的人们发明长裤，在不影响内裤的前提......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/glusterfs-docker/">
+        <h2 class="post-title">
+            基于 GlusterFS 实现 Docker 集群的分布式存储
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            企业中的应用场景理论和实践上分析，GlusterFS 目前主要适用于大文件存储场景，对于小文件尤其是海量小文件，存储效率和访问性能都表现不佳。海量小文件 LOSF 问题是工业界和学术界公认的难题，GlusterFS 作为通用的分布式文件系统，并没有对小文件作额外的优化措施，性能不好也是可以理解的。
+
+Media - 文档、图片、音频、视频
+Shared storage - 云存储、虚拟化存储......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/python-encoding/">
+        <h2 class="post-title">
+            Python 编码
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            编码的种类
+ASCII 占1个字节，只支持英文
+GB2312 占2个字节，支持6700+汉字
+GBK GB2312的升级版，支持21000+汉字
+Shift-JIS 日本字符
+ks_c_5601-1987 韩国编码
+TIS-620 泰国编码
+
+由于每个国家都有自己的字符，所以其对应关系也涵盖了自己国家的字符，但是以上编码都存在局限性，即：仅涵盖本国字符，无其他国家字符的对应关系。应运而生出现......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-08-21
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -284,159 +451,6 @@ and、or和not
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/iptables-for-anti-ddos/">
-        <h2 class="post-title">
-            配置 Sysctl 和 Iptables 防攻击
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            sysctl 可以显示和修改内核参数，包含一些 TCP/IP 堆栈和虚拟内存系统的高级选项，合理设置可以显著提高系统性能。iptables 是 Linux 下最常用的防火墙软件，也是很多 Linux 发行版自带的默认防火墙软件。通过设置 sysctl 和 iptables，可以有效防范中小程度的攻击。
-查看状态查看TCP连接状态12#netstat -nat |awk '&#123;prin......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-20
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-domain-judgment/">
-        <h2 class="post-title">
-            Nginx 域名判断
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            判断 HTTP 请求的 HOST 首部，如果不是 sundayle.com 或者 www.sundayle.com , 则进行重定向到 sundayle.com
-通过设置变量到达条件组合的效果。1234567891011121314151617181920212223server &#123;    listen 80;    server_name sundayle.com www.sun......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/process-startup-time/">
-        <h2 class="post-title">
-            Linux 查看进程启动时间
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            按进程名查看1234ps axo comm,lstart| grep nginxnginx           Tue Aug 14 16:06:18 2018nginx           Tue Aug 14 16:06:18 2018
-1234ps axo pid,ppid,comm,pmem,lstart | grep nginx 1159     1 nginx          ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/linux-process-management/">
-        <h2 class="post-title">
-            Linux 进程的管理与监控
-        </h2>
-        <h3 class="post-subtitle">
-            Process Management
-        </h3>
-        <div class="post-content-preview">
-            进程的概念什么是进程进程（Process）是计算机中程序执的实体。程序通常是由指令和相关数据组成的，在 Linux 系统中，程序的运行通常是由用户通过一个命令行解释器（例如 bash shell）发起执行，或者由其他进程派生而来。
-进程标识符每个进程都有一个非负整数表示的唯一标识符，进程运行时 PID 是由操作系统随机分配的，进程 ID 可以重用。当一个进程终止后，其进程 ID 就可以再次使......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-15
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived-nginx-dual-network/">
-        <h2 class="post-title">
-            Keepalived Nginx双网络(内外网)故障非同步漂移双主模式
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            简介有了keepalived+Lvs这样的高性能组合，为什么还需keepalived+Nginx呢。keepalived是为了Lvs而设计。Lvs是一个四层的负载均衡设备，虽然有着高性能的优势，但它无后端服务器的健康检查机制。keepalived为lvs提供一系列的健康检查机制，例如：TCP_CHECK,UDP_CHECK,HTTP_GET等。同时lvs也可以自己写健康检查脚脚本。或者结合l......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-13
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived-dual-network/">
-        <h2 class="post-title">
-            Keepalived 双网络(内外网)故障同步漂移主备模式
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            前言在生产环境当中，内网与公网都是独立分开的，因此内网和公网不用同步漂移，例如：Keepalived+LVS-DR、Keepalived+Nginx、Keepalived+HAProxy 都无需同步漂移。
-注：Keepalived+LVS-NAT模式除外。
-架构图123456789101112131415161718192021222324    +------+              ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-13
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/keepalived-lvs-dr-nginx/">
-        <h2 class="post-title">
-            Keepalived + LVS-DR Nginx 双主高可用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            LVS/DR模式LVS是Linux Virtual Server的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。LVS目前有三种IP负载均衡技术（VS/NAT、VS/TUN和VS/DR）、十种调度算法（rr | wrr | lc | wlc | lblc | lblcr |dh | sh | sed | nq）。LVS在Unix-like系统中是作为一个前端(Director)......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-08-09
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -476,13 +490,19 @@ and、or和not
                     <div class="tags">
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
                         
                             
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
+                            
+                        
+                            
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -494,21 +514,15 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
                         
                             
                         
                             
                         
                             
-                        
+                            <a href="/tags/#docker" title="docker" rel="6">docker</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
                             
                         
                             
@@ -532,6 +546,12 @@ and、or和not
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
@@ -548,17 +568,13 @@ and、or和not
                             
                         
                             
-                        
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -576,8 +592,6 @@ and、or和not
                             
                         
                             
-                        
-                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
@@ -588,17 +602,13 @@ and、or和not
                             
                         
                             
+                        
+                            
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
                             
                         
                             
@@ -612,11 +622,11 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -624,7 +634,21 @@ and、or和not
                             
                         
                             
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="7">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            
+                        
+                            
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -648,12 +672,6 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
-                            
                         
                             
                         
@@ -664,7 +682,7 @@ and、or和not
                             
                         
                             
-                            <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            <a href="/tags/#mysql" title="mysql" rel="14">mysql</a>
                             
                         
                             
@@ -678,9 +696,11 @@ and、or和not
                             
                         
                             
+                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                        
                             
                         
                             
@@ -714,19 +734,13 @@ and、or和not
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -846,7 +860,7 @@ and、or和not
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Sunday 2019 
+                    Copyright &copy; SundayLE DevOps 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

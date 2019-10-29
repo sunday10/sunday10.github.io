@@ -67,7 +67,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Sunday</a>
+            <a class="navbar-brand" href="/">SundayLE DevOps</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -153,7 +153,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
                 <div class="site-heading">
-                    <h1>Sunday</h1>
+                    <h1>SundayLE DevOps</h1>
                     <!--<hr class="small">-->
                     <span class="subheading">历久尝新</span>
                 </div>
@@ -181,6 +181,169 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/mongodb-operation/">
+        <h2 class="post-title">
+            mongodb集群监控和运维
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文转载自：http://www.mooooc.com/mongodb/2017/09/06/mongodb-operation.html这篇文件介绍如何动态的添加、下架mongod分片和副本集，以及如何监控和运维mongodb。
+添加节点副本集 改为仲裁节点convert-secondary-into-arbiter
+登录
+123mongo 192.168.0.35:27005#使用adm......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mongodb-performance-optimization/">
+        <h2 class="post-title">
+            mongodb集群性能优化
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文转载自：http://www.mooooc.com/mongodb/2017/09/01/mongodb-performance-optimization.html
+在前面两篇文章，我们介绍了如何去搭建mongodb集群，这篇文章我们将介绍如何去优化mongodb的各项配置，以达到最优的效果。
+警告不做任何的优化，集群搭建完成之后，使用命令连接mongodb终端，一般会遇到以下的警告信息......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mongodb-cluster-upgrade/">
+        <h2 class="post-title">
+            mongodb 3.4 集群搭建升级版 五台集群
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文转载自：http://www.mooooc.com/mongodb/2017/08/16/install-mongodb-cluster.html
+最新版mongodb推荐使用yaml语法来做配置，另外一些旧的配置在最新版本中已经不在生效，所以我们在生产实际搭建mongodb集群的时候做了一些改进。如果大家不熟悉什么是分片、副本集、仲裁者的话请先移步查看上一篇文章：mongodb 3.4......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-17
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mongodb-cluster/">
+        <h2 class="post-title">
+            mongodb 3.4 集群搭建：分片+副本集
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文转载自：http://www.ityouknow.com/mongodb/2017/08/05/mongodb-cluster-setup.html
+mongodb是最常用的nosql数据库，在数据库排名中已经上升到了前六。这篇文章介绍如何搭建高可用的mongodb（分片+副本）集群。
+在搭建集群之前，需要首先了解几个概念：路由，分片、副本集、配置服务器等。
+相关概念先来看一张图：
+
+从......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-17
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mongodb-command/">
+        <h2 class="post-title">
+            MongoDB命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            帮助db.help()db.mycoll.help()db.mycoll.find().help()
+数据库创建数据库12&gt; use mydb;switched to db mydb
+删除数据库1&gt; db.dropDatabase()
+显示所有数据库12345&gt; show dbs;admin   0.000GBconfig  0.000GBlocal   0.001GBte......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/pmm-server/">
+        <h2 class="post-title">
+            MySQL 5.7 使用PMM监视和管理数据库
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Server端安装server端安装非常简单，我们采用docker的方式来部署。
+1.拉取镜像1docker pull percona/pmm-server:latest
+2.创建PMM数据容器1234567docker create \   -v /opt/prometheus/data \   -v /opt/consul-data \   -v /var/lib/mysql \   -......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/xtrabackup/">
+        <h2 class="post-title">
+            xtrabackup备份和恢复
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            备份方式热备份：读写不受影响（mysqldump–&gt;innodb）温备份：仅可以执行读操作（mysqldump–&gt;myisam）冷备份：离线备份，读写都不可用逻辑备份：将数据导出文本文件中（mysqldump）物理备份：将数据文件拷贝（xtrabackup、mysqlhotcopy）完整备份：备份所有数据增量备份：仅备份上次完整备份或增量备份以来变化的数据差异备份：仅备份上次完整......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-05-09
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -247,163 +410,6 @@
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/mysql-gtid-relication/">
-        <h2 class="post-title">
-            MySQL 5.7 基于GTID及多线程主从复制
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            MySQL主从同步原理MySQL主从同步是在MySQL主从复制(Master-Slave Replication)基础上实现的，通过设置在Master MySQL上的binlog(使其处于打开状态)，Slave MySQL上通过一个I/O线程从Master MySQL上读取binlog，然后传输到Slave MySQL的中继日志中，然后Slave MySQL的SQL线程从中继日志中读取中继日......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-04-20
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/mysqld-multi/">
-        <h2 class="post-title">
-            MySQL 多实例配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装MySQL 5.7 源码安装 http://www.sundayle.com/2017/12/25/mysql/ Apt源安装 123456 #https://www.percona.com/doc/percona-server/LATEST/installation/apt_repo.htmlsudo dpkg -i https://mirrors.tuna.tsinghua.edu.......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-04-19
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kvm/">
-        <h2 class="post-title">
-            KVM 虚拟化
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            云计算指的是资源使用和交互的一种模式虚拟化指的是技术，可以将物理计算机虚拟成多个逻辑计算机（如VMware）他们彼此独立，互不影响，但是云计算又需要使用虚拟化技术。
-1. 操作环境
-系统: Centos 7母机IP:192.168.77.11 (KVM-S1)KVM IP:192.168.77.111防火墙状态: 关闭selinux状态: 关闭NetworkManager: 关闭
-
-2. 检......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-04-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/gitlab-webhook/">
-        <h2 class="post-title">
-            gitlab webhook 自动部署代码
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            原理1、配置gitlab，当客户端git push动作的时候，访问服务器上的一个链接比如demo.sundayle.com/applet.php2、applet.php会调用applet.sh脚本，检测master或upload更新，就会让服务器git pull相应项目的代码到内网web目录或外网web目录。3、pull结束，我们只要重新访问内网或外网 网站就可以了。
-内外网shell脚本同......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/rsync/">
-        <h2 class="post-title">
-            Rsyncd 服务器配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装rsync1yum install rsync -y
-环境server:192.168.10.100client:192.168.10.101
-配置rsyncd.conf1234567891011121314151617181920212223242526272829address = 0.0.0.0uid = nobodygid = nobodyuse chroot = nomax c......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/vsftp/">
-        <h2 class="post-title">
-            Vsftpd 虚拟用户配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装12yum install vsftpd db4-utils -y#apt-get install vsftpd db-utils -y
-虚拟用户配置1. 添加虚拟用户列表1234567cd /etc/vsftpdvim vuser.list#第一行用户名，第二行密码，依次类推sundaysunday_passwdleelee_passwd
-2.生成虚拟用户口令认证文件1db_load ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/svnserve/">
-        <h2 class="post-title">
-            Svn 版本系统安装
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装12345apt-get install libapr1-dev libaprutil1-devtar xf subversion-1.8.17.tar.gzcd subversion-1.8.17./configure --prefix=/usr/local/svnservemake &amp;&amp; make install
-依赖解决12345678910111213An app......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-03-29
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -443,13 +449,19 @@
                     <div class="tags">
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
                         
                             
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
+                            
+                        
+                            
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -461,21 +473,15 @@
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
                         
                             
                         
                             
                         
                             
-                        
+                            <a href="/tags/#docker" title="docker" rel="6">docker</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
                             
                         
                             
@@ -499,6 +505,12 @@
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
@@ -515,17 +527,13 @@
                             
                         
                             
-                        
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -543,8 +551,6 @@
                             
                         
                             
-                        
-                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
@@ -555,17 +561,13 @@
                             
                         
                             
+                        
+                            
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
                             
                         
                             
@@ -579,11 +581,11 @@
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -591,7 +593,21 @@
                             
                         
                             
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="7">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            
+                        
+                            
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -615,12 +631,6 @@
                             
                         
                             
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
-                            
                         
                             
                         
@@ -631,7 +641,7 @@
                             
                         
                             
-                            <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            <a href="/tags/#mysql" title="mysql" rel="14">mysql</a>
                             
                         
                             
@@ -645,9 +655,11 @@
                             
                         
                             
+                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                        
                             
                         
                             
@@ -681,19 +693,13 @@
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -813,7 +819,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Sunday 2019 
+                    Copyright &copy; SundayLE DevOps 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

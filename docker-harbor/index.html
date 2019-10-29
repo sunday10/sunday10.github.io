@@ -13,7 +13,7 @@
 
     <title>
         
-          Docker 企业级私有镜像仓库 Harbor 部署 - Sunday博客 | Sunday Blog
+          Harbor Docker企业级私有镜像仓库 - Sunday博客 | Sunday Blog
         
     </title>
 
@@ -67,7 +67,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Sunday</a>
+            <a class="navbar-brand" href="/">SundayLE DevOps</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -168,7 +168,7 @@
                           <a class="tag" href="/tags/#docker" title="docker">docker</a>
                         
                     </div>
-                    <h1>Docker 企业级私有镜像仓库 Harbor 部署</h1>
+                    <h1>Harbor Docker企业级私有镜像仓库</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sunday on
@@ -199,7 +199,11 @@
 </blockquote>
 <h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p><strong>下载离线安装包</strong><br><a href="https://github.com/goharbor/harbor/releases" target="_blank" rel="noopener">https://github.com/goharbor/harbor/releases</a></p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local/</span></span><br><span class="line">wget https:<span class="string">//storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.0.tgz</span></span><br><span class="line">tar xf <span class="string">/harbor-offline-installer-v1.7.0.tgz</span> </span><br><span class="line"><span class="keyword">cd</span> harbor/</span><br></pre></td></tr></table></figure>
-<p><strong>配置harbor.cfg</strong><br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">hostname</span> = registry.sundayle.com</span><br><span class="line"><span class="attr">ui_url_protocol</span> = https</span><br></pre></td></tr></table></figure></p>
+<p><strong>配置harbor.cfg</strong><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vim harbor.cfg</span><br><span class="line"><span class="selector-id">#hostname</span> = reg<span class="selector-class">.mydomain</span><span class="selector-class">.com</span></span><br><span class="line">hostname = registry<span class="selector-class">.sundayle</span><span class="selector-class">.com</span>:<span class="number">5000</span></span><br><span class="line"></span><br><span class="line">vim docker-compose.yml</span><br><span class="line">    ports:</span><br><span class="line">      #- <span class="number">80</span>:<span class="number">80</span></span><br><span class="line">      - <span class="number">5000</span>:<span class="number">80</span></span><br><span class="line">      #- <span class="number">443</span>:<span class="number">443</span></span><br><span class="line">      - <span class="number">4443</span>:<span class="number">443</span></span><br><span class="line"></span><br><span class="line">./prepare </span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure></p>
+<p>ERROR: Get <a href="https://registry.xwx.cn:5000/v2/" target="_blank" rel="noopener">https://registry.xwx.cn:5000/v2/</a>: http: server gave HTTP response to HTTPS client<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@web41</span><span class="symbol">:/data/config</span><span class="comment"># cat /etc/docker/daemon.json </span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"data-root"</span>: <span class="string">"/data/docker"</span>,</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://8vf7m3dk.mirror.aliyuncs.com"</span>, <span class="string">"https://registry.docker-cn.com"</span>],</span><br><span class="line">  <span class="string">"insecure-registries"</span>: [<span class="string">"registry.sundayle.com:5000"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="重置admin密码"><a href="#重置admin密码" class="headerlink" title="重置admin密码"></a>重置admin密码</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入容器</span></span><br><span class="line">docker exec -it harbor-db <span class="regexp">/bin/</span>bash</span><br><span class="line">psql -h postgresql -d postgres -U postgres </span><br><span class="line"><span class="comment">#&gt;输入root123</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换harbor数据库</span></span><br><span class="line">\c registry</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看harbor_user表</span></span><br><span class="line">select * from harbor_user;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改admin密码为Harbor12345</span></span><br><span class="line">update harbor_user set password=<span class="string">'a71a7d0df981a61cbb53a97ed8d78f3e'</span>, salt=<span class="string">'ah3fdh5b7yxepalg9z45bu8zb36sszmr'</span>  where username=<span class="string">'admin'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出</span></span><br><span class="line">\q </span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
+<h1 id="修改默认用户名"><a href="#修改默认用户名" class="headerlink" title="修改默认用户名"></a>修改默认用户名</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update harbor_user <span class="builtin-name">set</span> <span class="attribute">username</span>=<span class="string">'harbor_sunday'</span> where <span class="attribute">user_id</span>=1;</span><br></pre></td></tr></table></figure>
+<h1 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h1><p><a href="https://github.com/goharbor/harbor/blob/master/docs/migration_guide.md" target="_blank" rel="noopener">https://github.com/goharbor/harbor/blob/master/docs/migration_guide.md</a><br><a href="https://github.com/goharbor/harbor/issues/9146" target="_blank" rel="noopener">https://github.com/goharbor/harbor/issues/9146</a> </p>
 <p><a href="https://github.com/goharbor/harbor/blob/master/docs/installation_guide.md" target="_blank" rel="noopener">https://github.com/goharbor/harbor/blob/master/docs/installation_guide.md</a></p>
 
 
@@ -353,7 +357,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Sunday 2019 
+                    Copyright &copy; SundayLE DevOps 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

@@ -67,7 +67,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Sunday</a>
+            <a class="navbar-brand" href="/">SundayLE DevOps</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -153,7 +153,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
                 <div class="site-heading">
-                    <h1>Sunday</h1>
+                    <h1>SundayLE DevOps</h1>
                     <!--<hr class="small">-->
                     <span class="subheading">历久尝新</span>
                 </div>
@@ -181,6 +181,163 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/ubuntu-ufw/">
+        <h2 class="post-title">
+            Ubuntu 开启ufw防火墙的一些命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            UFW，即Uncomplicated Firewall，是基于iptables实现的防火墙管理工具，旨在简化配置防火墙的过程，所以实际上UFW修改的是iptables的规则。虽然iptables是一个坚实而灵活的工具，但初学者很难学习如何使用它来正确配置防火墙。如果您希望开始保护您的网络，并且您不确定使用哪种工具，UFW可能是您的正确选择。
+本文测试环境为Ubuntu 16.04，其他系统可......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-10-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/linux-system-io/">
+        <h2 class="post-title">
+            Linux 性能优化之 IO 子系统
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文介绍了对 Linux IO 子系统性能进行优化时需要考虑的因素，以及一些 IO 性能检测工具。
+本文的大部分内容来自 IBM Redbook - Linux Performance and Tuning Guidelines
+FileSystemVFS(Virtual FileSystem) 虚拟文件系统文件系统是内核的功能，是一种工作在内核空间的软件，访问一个文件必须要需要文件系统的存......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-08-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/mysql-optimize-in-linux/">
+        <h2 class="post-title">
+            Linux MySQL 优化
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            数据库系统通常是企业的核心应用，因此针对运行 MySQL 的 Linux 系统通常需要进行一些特殊的优化。
+本人非 MySQL 大牛，本文不涉及 MySQL 参数优化，仅对 Linux 系统优化进行一些总结。
+CPU现代操作系统都是多任务多用户的操作系统，服务器能够支持的CPU数量也越来越多，对于多CPU的服务器有多种架构，常见的是 NUMA 和 SMP.
+SMP
+SMP 即 Symmetr......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-08-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/linux-interrupt/">
+        <h2 class="post-title">
+            Linux 中断和中断处理
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            众所周知，处理器的速度跟外围硬件设备的速度往往不在一个数量级上，因此，如果内核采取让处理器向硬件发出一个请求，然后专门等待回应的办法，显然差强人意。
+轮询（polling）可能会是一种解决办法。它可以让内核定期对设备的状态进行查询，然后做出相应的处理。不过这种方法很可能会让内核做不少无用功，因为轮询总会周期性的重复执行。更好的办法是提供一种机制，让硬件在需要的时候再向内核发出信号。这就是中断......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-08-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/vmstat/">
+        <h2 class="post-title">
+            vmstat 命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            vmstat是Virtual Meomory Statistics（虚拟内存统计）的缩写，可对操作系统的虚拟内存、进程、CPU活动进行监控。他是对系统的整体情况进行统计，不足之处是无法对某个进程进行深入分析。vmstat 工具提供了一种低开销的系统性能观察方式。因为 vmstat 本身就是低开销工具，在非常高负荷的服务器上，你需要查看并监控系统的健康情况,在控制窗口还是能够使用vmstat ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-05-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/linux-tcp/">
+        <h2 class="post-title">
+            Linux下如何知道http并发和tcp连接数量
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            作为一个运维人员我们应该时刻关心服务器的Http进程情况和TCP的链接情况，防止服务器都被攻击得快瘫痪了还不知情，下面我们一起来看看在linux下如何设置linux的http进程请看和TCP链接情况。 
+1.linux查看httpd进程数
+123456789101112ps -ef | grep httpd | wc -l 查看Apache的并发请求数及其TCP连接状态  netstat -......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-05-19
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/webbench/">
+        <h2 class="post-title">
+            Web 压力测试工具 Webbench
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            简介在软件测试工作中，压力测试是一项很重要的工作。比如在一个网站上线之前，能承受多大访问量、在大访问量情况下软件性能怎么样？这些数据指标好坏将会直接影响到用户体验。但是，在压力测试中存在一个共性，那就是压力测试的结果与实际负载结果不会完全相同，就算压力测试工作做的再好，也不能保证100%和线上性能指标相同。面对这些问题，我们只能尽量去想方设法去模拟。所以，压力测试非常有必要，有了这些数据，我......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-05-19
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -284,13 +441,19 @@
                     <div class="tags">
                         
                             
-                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
-                            
                         
                             
                             <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
                             
                         
+                            
+                        
+                            
+                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
+                            
+                        
+                            
+                            <a href="/tags/#压力测试" title="压力测试" rel="2">压力测试</a>
                             
                         
                             
@@ -302,21 +465,15 @@
                             
                         
                             
-                            <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
                         
                             
                         
                             
                         
                             
-                        
+                            <a href="/tags/#docker" title="docker" rel="6">docker</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="5">docker</a>
                             
                         
                             
@@ -340,6 +497,12 @@
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
@@ -356,17 +519,13 @@
                             
                         
                             
-                        
+                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
                         
                             
                             <a href="/tags/#glusterfs" title="glusterfs" rel="2">glusterfs</a>
-                            
-                        
-                            
-                            <a href="/tags/#gitlab" title="gitlab" rel="2">gitlab</a>
                             
                         
                             
@@ -384,8 +543,6 @@
                             
                         
                             
-                        
-                            
                             <a href="/tags/#iptables" title="iptables" rel="4">iptables</a>
                             
                         
@@ -396,17 +553,13 @@
                             
                         
                             
+                        
+                            
                             <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
-                            
-                        
-                            
                             <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
                             
                         
                             
@@ -420,11 +573,11 @@
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
                             
                         
                             
-                            <a href="/tags/#kubernetes" title="kubernetes" rel="6">kubernetes</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -432,7 +585,21 @@
                             
                         
                             
+                            <a href="/tags/#kubernetes" title="kubernetes" rel="7">kubernetes</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#k8s" title="k8s" rel="2">k8s</a>
+                            
+                        
+                            
+                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -456,12 +623,6 @@
                             
                         
                             
-                            <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
-                            
                         
                             
                         
@@ -472,7 +633,7 @@
                             
                         
                             
-                            <a href="/tags/#mysql" title="mysql" rel="13">mysql</a>
+                            <a href="/tags/#mysql" title="mysql" rel="14">mysql</a>
                             
                         
                             
@@ -486,9 +647,11 @@
                             
                         
                             
+                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                            
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
+                        
                             
                         
                             
@@ -522,19 +685,13 @@
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#shadowsocks" title="shadowsocks" rel="2">shadowsocks</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -654,7 +811,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Sunday 2019 
+                    Copyright &copy; SundayLE DevOps 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
