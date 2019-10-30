@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/helm/</loc>
+    
+    <lastmod>2019-10-30T01:59:42.302Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/check-swap-occupancy/</loc>
     
     <lastmod>2019-10-28T09:58:30.241Z</lastmod>
@@ -51,14 +58,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/etcd-backup/</loc>
+    <loc>http://www.sundayle.com/docker/</loc>
     
     <lastmod>2019-10-23T02:45:12.978Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/docker/</loc>
+    <loc>http://www.sundayle.com/etcd-backup/</loc>
     
     <lastmod>2019-10-23T02:45:12.978Z</lastmod>
     
@@ -75,13 +82,6 @@
     <loc>http://www.sundayle.com/kubectl-command/</loc>
     
     <lastmod>2019-10-17T10:39:19.260Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/helm/</loc>
-    
-    <lastmod>2019-10-12T10:19:17.569Z</lastmod>
     
   </url>
   
@@ -499,14 +499,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     

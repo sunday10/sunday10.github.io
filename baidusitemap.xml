@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/helm/</loc>
+    <lastmod>2019-10-30T01:59:42.302Z</lastmod>
+    <data>
+        <display>
+        <title>kubernetes helm</title>
+        <pubTime>2019-10-11T09:47:53.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/check-swap-occupancy/</loc>
     <lastmod>2019-10-28T09:58:30.241Z</lastmod>
     <data>
@@ -121,7 +136,7 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/etcd-backup/</loc>
+    <loc>http://www.sundayle.com/docker/</loc>
     <lastmod>2019-10-23T02:45:12.978Z</lastmod>
     <data>
         <display>
@@ -138,7 +153,7 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/docker/</loc>
+    <loc>http://www.sundayle.com/etcd-backup/</loc>
     <lastmod>2019-10-23T02:45:12.978Z</lastmod>
     <data>
         <display>
@@ -178,21 +193,6 @@
         <display>
         <title>kubectl 一些命令</title>
         <pubTime>2019-10-14T02:34:05.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/helm/</loc>
-    <lastmod>2019-10-12T10:19:17.569Z</lastmod>
-    <data>
-        <display>
-        <title>kubernetes helm</title>
-        <pubTime>2019-10-11T09:47:53.000Z</pubTime>
         
          
            
@@ -958,9 +958,9 @@
         <title>基于 GlusterFS 实现 Docker 集群的分布式存储</title>
         <pubTime>2018-08-22T04:05:51.000Z</pubTime>
         
-        <tag>glusterfs</tag>
-         
         <tag>分布式文件系统</tag>
+         
+        <tag>glusterfs</tag>
          
          
            
@@ -1224,12 +1224,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>Python 装饰器</title>
-        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
+        <title>Python 编码</title>
+        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -1241,12 +1241,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>Python 编码</title>
-        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
+        <title>Python 装饰器</title>
+        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -1618,9 +1618,9 @@
         
         <tag>iptables</tag>
          
-        <tag>ufw</tag>
-         
         <tag>防火墙</tag>
+         
+        <tag>ufw</tag>
          
          
            
