@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -197,7 +197,7 @@
 <h1 id="允许或拒绝80端口"><a href="#允许或拒绝80端口" class="headerlink" title="允许或拒绝80端口"></a>允许或拒绝80端口</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd <span class="attribute">--zone</span>=public <span class="attribute">--add-port</span>=80/tcp --permanent</span><br><span class="line">firewall-cmd <span class="attribute">--zone</span>=public <span class="attribute">--remove-port</span>=80/tcp --permanent</span><br></pre></td></tr></table></figure>
 <p>--permanent #表示永久生效，没有此参数重启后失效</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd <span class="attribute">--zone</span>=public --permanent <span class="attribute">--add-rich-rule</span>=<span class="string">'rule family=ipv4 source address="27.155.88.175" drop'</span></span><br><span class="line">firewall-cmd <span class="attribute">--zone</span>=public --permanent <span class="attribute">--remove-rich-rule</span>=<span class="string">'rule family=ipv4 source address="27.155.88.175" drop'</span></span><br><span class="line"></span><br><span class="line">firewall-cmd <span class="attribute">--zone</span>=public <span class="attribute">--add-rich-rule</span>=<span class="string">"rule family="</span>ipv4" source <span class="attribute">address</span>=192.168.1.0/24 accept<span class="string">" --permanent</span></span><br><span class="line"><span class="string">firewall-cmd --zone=public --add-rich-rule="</span>rule <span class="attribute">family</span>=<span class="string">"ipv4"</span> source <span class="attribute">address</span>=192.168.1.0/24<span class="built_in"> port </span><span class="attribute">port</span>=7900-7905 <span class="attribute">protocol</span>=tcp accept<span class="string">" --permanent</span></span><br></pre></td></tr></table></figure>
-<h1 id="查看支持的服务-允许服务http"><a href="#查看支持的服务-允许服务http" class="headerlink" title="查看支持的服务,允许服务http"></a>查看支持的服务,允许服务http</h1><p>注：http只允许80端口，如虚拟主机81则不允许<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-<span class="keyword">cmd</span><span class="bash"> --get-services</span></span><br><span class="line"><span class="bash">firewall-cmd --zone=public --add-service=http --permanent</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="查看支持的服务-允许服务http"><a href="#查看支持的服务-允许服务http" class="headerlink" title="查看支持的服务,允许服务http"></a>查看支持的服务,允许服务http</h1><p>注：http只允许80端口，如虚拟主机81则不允许<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">firewall-<span class="keyword">cmd</span><span class="bash"> --get-services</span></span><br><span class="line"><span class="bash">firewall-cmd --zone=public --add-service=http --permanent</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">firewall-cmd --remove-service=ssh --permanent</span></span><br><span class="line"><span class="bash">firewall-cmd --remove-service=dhcpv6-client --permanent</span></span><br><span class="line"><span class="bash">firewall-cmd --zone=public  --remove-port=22/tcp --permanent</span></span><br><span class="line"><span class="bash">firewall-cmd --reload</span></span><br><span class="line"><span class="bash">firewall-cmd  --list-all</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="端口转发"><a href="#端口转发" class="headerlink" title="端口转发"></a>端口转发</h1><p>将本机80端口流量转发81上。使其他主机通过80端口，可以访问本机的81端口<br>注：本机需开放80端口。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd <span class="attribute">--zone</span>=public <span class="attribute">--add-forward-port</span>=port=80:proto=tcp:toport=81</span><br></pre></td></tr></table></figure></p>
 <p>将本机80端口转发其他服务器192.168.10.102:80<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd <span class="attribute">--zone</span>=public --add-masquerade</span><br><span class="line">firewall-cmd <span class="attribute">--zone</span>=public <span class="attribute">--add-forward-port</span>=port=80:proto=tcp:toport=80:toaddr=192.168.10.102</span><br></pre></td></tr></table></figure></p>
 <p>删除此规则,将两条的add换成remove即可</p>
@@ -355,7 +355,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; SundayLE 2019 
+                    Copyright &copy; SundayLE 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

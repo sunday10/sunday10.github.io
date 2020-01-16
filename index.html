@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,215 @@
 
 <div class="post-preview">
 
+    <a href="/acme-sh-and-win-acme/">
+        <h2 class="post-title">
+            Linux acme.sh 和 Windows win-acme 免费SSL证书
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Linuxhttps://github.com/Neilpang/acme.shcrontab 强制每月续期100 03 * */1 * "/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh" --force &amp;&gt; /dev/null
+泛域名123456789101112export DP_Id=&quot;49xxx&q......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2020-01-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/aliyun-ntp/">
+        <h2 class="post-title">
+            阿里云 NTP 时间同步服务器
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言昨天安装了一台国内的 Windows VPS安装好后发现时间不对，自动同步时间死活同步不了。
+搜索国家授时中心的服务器，IP 地址也已失效。
+我也不知道是怎么想的，随手就去搜索了 “阿里云 NTP”，结果还真有！
+
+Unix 类： time1-7.aliyun.com
+Windows： time.pool.aliyun.com
+内网：ntp.cloud.aliyuncs.com
+
+
+以下......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2020-01-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/linux-batch-rename/">
+        <h2 class="post-title">
+            Linux 批量改名
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            批量修改SSL证书前后缀，并拷贝至新建目录
+修改前 to 修改后1_api.sundayle.com_bundle.crt to api.sundayle.com.pem2_api.sundayle.com.key to api.sundayle.com.key
+1234567891011121314find ./*/Nginx/*./api.sundayle.com/Nginx/1_api......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-11-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/python-time-format/">
+        <h2 class="post-title">
+            Python 时间格式 time, strftime和strptime
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最常用的time.time()返回的是一个浮点数，单位为秒。但strftime处理的类型是time.struct_time，实际上是一个tuple。strptime和localtime都会返回这个类型。
+123456789101112131415&gt;&gt;&gt; import time&gt;&gt;&gt; t=time.time()&gt;&gt;&gt; t1574129715......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-11-19
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/elastic-filebeat-collects-kubernetes-logs/">
+        <h2 class="post-title">
+            使用Elastic Filebeat 收集 Kubernetes日志
+        </h2>
+        <h3 class="post-subtitle">
+            (4/5) Collect logs with Elastic Filebeat for monitoring Kubernetes
+        </h3>
+        <div class="post-content-preview">
+            1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677cat &lt;&lt; "EOF" &gt; filebeat-configmap.yml---api......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-11-05
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/bind-rpz/">
+        <h2 class="post-title">
+            BIND DNS 使用RPZ 做部分代理
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            想要达到的效果：内部dns处理部分dns,其他由外部dns处理。
+如www.sundayle.com api.sundayle.com static.sundayle.com 均在dnspod上解析了。现在只想处理static.sundayle.com这个域名IP为内网IP,其他依旧由dnspod处理。
+
+方案1. 单机的话直接在/etc/hosts绑定就可以了。
+
+
+方案2. 多机的话就不......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-11-04
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/bind/">
+        <h2 class="post-title">
+            Bind DNS服务器配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境信息Master DNS: 192.168.1.91Slave DNS: 192.168.1.43Slave DNS: 192.168.1.44LVS MASTER: 192.168.1.46LVS BACKUP: 192.168.1.921yum install -y bind bind-chroot bind-utils
+1234567891011121314151617181920......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-11-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/elastic-stack-install-elasticsearch-and-kibana/">
+        <h2 class="post-title">
+            Elastic Stack 安装 ElasticSearch和Kibana 存储和可视化监控数据
+        </h2>
+        <h3 class="post-subtitle">
+            (2/5) Install ElasticSearch and Kibana to store and visualize monitoring data
+        </h3>
+        <div class="post-content-preview">
+            elasticsearch master123456789101112131415161718192021222324252627cat &lt;&lt; "EOF" &gt; elasticsearch-master-configmap.yaml---apiVersion: v1kind: ConfigMapmetadata:  namespace: monitoring  name: e......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-10-31
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/elastic-stack-monitoring-on-kubernetes/">
+        <h2 class="post-title">
+            Elastic Stack 监控 Kubernetes
+        </h2>
+        <h3 class="post-subtitle">
+            (1/5) Getting started with Elastic Stack for monitoring on Kubernetes
+        </h3>
+        <div class="post-content-preview">
+            介绍123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354cat &lt;&lt;EOF &gt;mongo.yml---apiVersion: v1kind: Servicemetadata:  namespace: default  name: ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-10-31
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/check-swap-occupancy/">
         <h2 class="post-title">
             查看swap占用程序情况
@@ -198,289 +407,6 @@
     <p class="post-meta">
         Posted by Sunday on
         2019-10-28
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/local-volume-provision/">
-        <h2 class="post-title">
-            Kubernetes Local Volume 使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            有时，由于服务器数量有限，您可能不愿意使用GlusterFS和CephFS来设置动态存储配置。
-在这种情况下，除了必须首先创建自己的PV外，几乎可以采用与动态卷配置相同的方式来使用本地卷。与主机路径卷不同，使用本地卷的Pod将自动计划在定义了本地卷的节点上运行。
-让我们测试一下。
-创建 Local Volume和Storage Class 的PVLocal VolumeStorage Cla......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-10-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kubectl-command/">
-        <h2 class="post-title">
-            kubectl 一些命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            12kubectl get po --all-namespaces --field-selector 'status.phase==Failed'kubectl delete po  --field-selector 'status.phase==Failed'...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-10-14
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/helm/">
-        <h2 class="post-title">
-            kubernetes helm
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装helmhttps://github.com/helm/helm/releases下载对应版本的二进制程序1234cd /usr/local/src/wget https://get.helm.sh/helm-v2.14.3-linux-amd64.tar.gztar xf helm-v2.14.3-linux-amd64.tar.gzcp linux-amd64/helm /usr/l......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-10-11
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/docker-io-gcr-io-quay-io-mirror/">
-        <h2 class="post-title">
-            docker.io gcr.io quay.io 镜像加速
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            docker.io镜像加速1docker pull nginx:1.13
-Azure中国镜像12docker pull dockerhub.azk8s.cn/library/&lt;imagename&gt;:&lt;version&gt;docker pull dockerhub.azk8s.cn/library/nginx:1.13
-中科大镜像1docker pull docker.mi......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-10-11
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kubeadm-1-15/">
-        <h2 class="post-title">
-            使用kubeadm 安装 Kubernetes v1.15 HA高可用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境说明
-OS: Centos7.5Kubernetes: 1.15.4Docker: 18.09 
-
-
-
-
-主机名
-IP / VIP
-组件
-
-
-
-
-k8s-master1
-192.168.10.81 / 192.168.10.80
-haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-scheduler、no......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-10-10
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-consul/">
-        <h2 class="post-title">
-            nginx consul
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境说明
-
-
-主机名
-IP
-系统
-角色
-
-
-
-
-demo18
-192.168.10.18
-Ubuntu 16.04
-server
-
-
-demo20
-192.168.10.20
-Ubuntu 16.04
-server
-
-
-demo21
-192.168.10.21
-Ubuntu 16.04
-server
-
-
-
-https://www.consul.io/downloads.htmlhttps:/......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-09-24
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-upstream/">
-        <h2 class="post-title">
-            Nginx upstream 注意配置头部
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境说明
-
-
-域名
-IP
-服务
-
-
-
-
-im.sundayle.com
-192.168.1.92
-Nginx反向代理
-
-
-37.im.sundayle.com
-192.168.1.37
-Nginx Web
-
-
-47.im.sundayle.com
-192.168.1.47
-Nginx Web
-
-
-
-Nginx反向代理
-
-注意配置proxy_set_header Host im.sundayl......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-09-24
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kubernets-taint/">
-        <h2 class="post-title">
-            kubernets 污点和亲和性
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            手动部署的k8s集群, 需要为master节点设置taint，才能默认不被调度
-设置taint语法:12345kubectl taint node [node] key=value[effect]        其中[effect] 可取值: [ NoSchedule | PreferNoSchedule | NoExecute ]      NoSchedule: 一定不能被调度     ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-08-27
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kubernetes-1-15-binary-installation/">
-        <h2 class="post-title">
-            Kubernetes 1.15.4 二进制高可用安装
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            环境准备
-OS: CentOS 7.5Kubernetes: 1.15.4Docker: 18.09Etcd: 3.4.1 
-
-
-
-
-主机名
-IP / VIP
-组件
-
-
-
-
-k8s-master
-192.168.10.81 / 192.168.10.80
-haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-08-15
     </p>
 
 </div>
@@ -521,9 +447,17 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                     <div class="tags">
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -533,17 +467,7 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
-                        
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -571,9 +495,9 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
-                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
-                            
                         
+                            
+                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
                             
@@ -591,11 +515,13 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
-                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
-                            
                         
                             
                             <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
                             
@@ -613,9 +539,9 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
-                        
-                            
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
+                        
                             
                         
                             
@@ -627,11 +553,17 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
+                        
+                            
+                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
                         
+                            
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -641,15 +573,9 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
-                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
                         
                             
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
                             
@@ -657,11 +583,11 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -676,10 +602,6 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -709,7 +631,15 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
                             
                         
                             
@@ -727,8 +657,6 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
                         
                             
                         
@@ -743,9 +671,11 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
+                            <a href="/tags/#python" title="python" rel="5">python</a>
+                            
                         
                             
-                            <a href="/tags/#python" title="python" rel="4">python</a>
+                        
                             
                         
                             
@@ -757,15 +687,11 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -783,9 +709,13 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
                             
                         
                             
+                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
                         
                             
-                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                        
+                            
+                        
                             
                         
                             
@@ -891,7 +821,7 @@ haproxy、keepalived、etcd、kube-apiserver、kube-controllet-manager、kube-s.
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; SundayLE 2019 
+                    Copyright &copy; SundayLE 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,206 @@
 
 <div class="post-preview">
 
+    <a href="/nginx-proxy-65535-port/">
+        <h2 class="post-title">
+            Nginx使用proxy_bind负载tcp socket，解决代理端口耗尽
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            流量升高导致TIME_WAIT增加，连接大量失败的问题nginx将php解析通过TCP转发给php-fpm,需要占用一个TCP
+PHP-FPM TIME_WAIT123456netstat -n | awk '/^tcp/ &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;'SYN_RECV 186TIME_WAIT ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-01-06
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/grub-destructive-testing-and-repair/">
+        <h2 class="post-title">
+            Grub 破坏性测试与修复
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            破坏grub使用dd命令破坏512 前面的446字节，注意不能破坏第一分区到512字节，否则将修复不了。123cd  /bootdd if=/dev/zero of=/dev/sda bs=1 count=446rm -rf grub*
+重启选择Troublesbooting进行修复1234# cp -r /mnt/sysimage/usr/lib/grub/i386-pc /usr/lib......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/centos-7-upgrade-kernel/">
+        <h2 class="post-title">
+            CentOS 7 升级 4.19 kernel 内核
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            自动挡升级查看当前内核版本12uname -r3.10.0-957.el7.x86_64
+导入仓库源12sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.orgsudo rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+安装指......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/docker-harbor/">
+        <h2 class="post-title">
+            Harbor Docker企业级私有镜像仓库
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言之前使用Docker官方的Registry镜像搭建了私有仓库，但是没有可一个可视化的界面去维护，非常不方便。所幸Vmware推出一个基于官方Registry V2镜像打造的私有仓库项目.
+Harbor 简介Harbor 是一个用于存储和分发 Docker 镜像的企业级 Registry 服务器，通过添加一些企业必需的功能特性，例如安全、标识和管理等，扩展了开源 Docker Distri......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/centos-7-lacp-bonding/">
+        <h2 class="post-title">
+            CentOS 7 与 华为交换机 端口汇聚 LACP BONDING
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+服务器型号: Dell R730XD系统：CentOS Linux release 7.6.1810 (Core)交换机：华为 S5720S-28X-LI-AC 三层交换机网卡：BCM5720 1G x4 + Intel X520-2 10G x2
+
+交换机配置将g0/0/9-12 4个端口组成Eth-Trunk 43将x0/0/1-2   2个端口组成Eth-Trunk 91123456......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/iostat/">
+        <h2 class="post-title">
+            Linux磁盘IO性能监控 - iostat
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            iostat 命令使用常用选项123456-c    只显示CPU利用率-d    只显示磁盘利用率-p    可以报告出每块磁盘的每个分区的使用情况-k    以 字节/秒 为单位显示磁盘利用率报告-x    显示扩张统计-n    显示NFS（network filesystem）报告
+常用组合123456iostat -x 1 10iostat -d -xiostat -d 2 10i......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-21
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kubernetes-baise/">
+        <h2 class="post-title">
+            kubernetes 基础知识
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Kubernetes架构
+Kubernetes基本概念Pod　- 组功能相关的Container的封装　- 共享存储和Network Namespace　- K8S调度和作业运行的基本单位（Scheduler调度，Kubelet运行）　- 容易“走失”，需要Workload和Service的“呵护”Workloads (Deployment, StatefulSet, DaemonSet, ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-09
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/linux-quickly-view-directory-size/">
+        <h2 class="post-title">
+            Linux 快速查看目录大小
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            12du -h --max-depth=1ncdu
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-12-07
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/apt-get-install-specified-version/">
+        <h2 class="post-title">
+            yum apt-get 安装指定版本
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            apt-get12345678apt-cache madison docker-ce docker-ce | 18.06.1~ce~3-0~ubuntu | https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu xenial/stable amd64 Packages docker-ce | 18.06.0~ce~3-0~ubuntu | ht......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-11-20
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/nginx-reverse-secondary-directory-with-parameters/">
         <h2 class="post-title">
             Nginx 反向代理二级目录带参数
@@ -199,232 +399,6 @@ nginx 配置 实现输入jenkins.sundayle.com 自动反代至jenkins.sundayle.co
     <p class="post-meta">
         Posted by Sunday on
         2018-11-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/rabbitmq-cluster-build/">
-        <h2 class="post-title">
-            RabbitMQ 集群搭建
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            AMQPAMQP，即Advanced Message Queuing Protocol，高级消息队列协议，是应用层协议的一个开放标准，为面向消息的中间件设计。AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。那么再来介绍下RabbitMQ本身。RabbitMQ是一个上面说的AMQP协议的开源实现，其服务器端用Erlang语言写的，支持多种客户端，如：Pytho......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-11-01
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-proxy-tcp/">
-        <h2 class="post-title">
-            使用Nginx转发TCP/UDP端口
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            ngx_stream_core_module
-编译Nginx123456789101112131415cd /usr/local/srcwget http://nginx.org/download/nginx-1.12.2.tar.gztar zxf nginx-1.12.2.tar.gzcd nginx-1.12.2./configure --prefix=/usr/local/nginx......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-24
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kubeadm-build-kubernetes/">
-        <h2 class="post-title">
-            基于kubeadm方式部署kubernetes v1.12.1
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            https://kubernetes.io/docs/setup/independent/install-kubeadm/
-环境说明
-
-
-系统
-IP
-hostname
-
-
-
-
-CentOS 7.4
-192.168.10.101
-master
-
-
-CentOS 7.4
-192.168.10.102
-node2
-
-
-CentOS 7.4
-192.168.10.103
-node3
-
-
-
-
-环境准备......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-22
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-log-analysis-command/">
-        <h2 class="post-title">
-            Nginx 日志统计命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263统计IP访问量awk '&#123;print $1&#125;' access.log | sort -n | uniq | wc -l查看某一时间段的IP访......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-22
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-limit-modules/">
-        <h2 class="post-title">
-            Nginx 高并发限流模块 limit_conn_module limit_req_module
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            limit_conn_modulelimit_conn_module其中$binary_remote_addr有时需要根据自己已有的log_format变量配置进行替换123456789101112http &#123;    limit_conn_zone $binary_remote_addr zone=perip:10m;    limit_conn_zone $server_name......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-22
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/dockerfile/">
-        <h2 class="post-title">
-            Docker(二)：Dockerfile 使用详情
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Dockerfile 概念
-Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。有了 Dockerfile，当我们需要定制自己额外的需求时，只需在 Dockerfile 上添加或者修改指令，重新生成 image 即可，省去了敲命令的麻烦。
-Dockerfile 文件格式
-123456789......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/docker/">
-        <h2 class="post-title">
-            Docker(一)：Docker入门
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            如今Docker的使用已经非常普遍，特别在一线互联网公司。使用Docker技术可以帮助企业快速水平扩展服务，从而到达弹性部署业务的能力。在云服务概念兴起之后，Docker的使用场景和范围进一步发展，如今在微服务架构越来越流行的情况下，微服务+Docker的完美组合，更加方便微服务架构运维部署落地。
-什么是Docker?
-Docker 是世界领先的软件容器平台。开发人员利用 Docker 可以......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-15
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/etcd-backup/">
-        <h2 class="post-title">
-            Docker(一)：Docker入门
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            如今Docker的使用已经非常普遍，特别在一线互联网公司。使用Docker技术可以帮助企业快速水平扩展服务，从而到达弹性部署业务的能力。在云服务概念兴起之后，Docker的使用场景和范围进一步发展，如今在微服务架构越来越流行的情况下，微服务+Docker的完美组合，更加方便微服务架构运维部署落地。
-什么是Docker?
-Docker 是世界领先的软件容器平台。开发人员利用 Docker 可以......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-15
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/linux-overcommit-oom-killer/">
-        <h2 class="post-title">
-            Linux  overcommit 及 oom-killer 机制
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            通常是因为某时刻应用程序大量请求内存导致系统内存不足造成的，这通常会触发 Linux 内核里的 Out of Memory (OOM) killer，OOM killer 会杀掉某个进程(用户态进程，不是内核线程)以腾出内存留给系统用，不致于让系统立刻崩溃。
-overcommitLinux 内核根据应用程序的要求分配内存，通常来说应用程序分配了内存但是并没有实际全部使用，为了提高性能，这部分......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-15
     </p>
 
 </div>
@@ -469,9 +443,17 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                     <div class="tags">
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -481,17 +463,7 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
-                        
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -519,9 +491,9 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
-                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
-                            
                         
+                            
+                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
                             
@@ -539,11 +511,13 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
-                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
-                            
                         
                             
                             <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
                             
@@ -561,9 +535,9 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
-                        
-                            
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
+                        
                             
                         
                             
@@ -575,11 +549,17 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
+                        
+                            
+                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
                         
+                            
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -589,15 +569,9 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
-                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
                         
                             
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
                             
@@ -605,11 +579,11 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -624,10 +598,6 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -657,7 +627,15 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
                             
                         
                             
@@ -675,8 +653,6 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
                         
                             
                         
@@ -691,9 +667,11 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
+                            <a href="/tags/#python" title="python" rel="5">python</a>
+                            
                         
                             
-                            <a href="/tags/#python" title="python" rel="4">python</a>
+                        
                             
                         
                             
@@ -705,15 +683,11 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -731,9 +705,13 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
                             
                         
                             
+                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
                         
                             
-                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                        
+                            
+                        
                             
                         
                             
@@ -839,7 +817,7 @@ overcommitLinux 内核根据应用程序的要求分配内存，通常来说应�
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; SundayLE 2019 
+                    Copyright &copy; SundayLE 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -208,7 +208,8 @@
 <p>漂移规则：<br>默认 MASTER 会获得 VIP(192.168.1.200)。<br>当 MASTER 出问题时，VIP 会漂移到 BACKUP 服务器。<br>当 MASTER 重新启动后，VIP 又会漂移回 MASTER 服务器。</p>
 <h1 id="Firewalld"><a href="#Firewalld" class="headerlink" title="Firewalld"></a>Firewalld</h1><p>防火墙添加规则，默认不指定为<code>224.0.0.18</code>,这里修改了为<code>224.0.0.111</code></p>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="literal">stop</span> keepalived</span><br><span class="line">systemctl <span class="literal">start</span> firewalld</span><br></pre></td></tr></table></figure>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --direct --permanent --add-rule ipv4<span class="built_in"> filter </span>INPUT 0 --in-interface em1 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br><span class="line">firewall-cmd --direct --permanent --add-rule ipv4<span class="built_in"> filter </span>OUTPUT 0 --out-interface em1 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<p>方式一：宽松<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-<span class="keyword">cmd</span><span class="bash"> --add-rich-rule=<span class="string">'rule protocol value="vrrp" accept'</span> --permanent</span></span><br><span class="line"><span class="bash">firewall-cmd --reload</span></span><br><span class="line"><span class="bash">firewall-cmd --list-all</span></span><br></pre></td></tr></table></figure></p>
+<p>方式二：严紧<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --direct --permanent --add-rule ipv4<span class="built_in"> filter </span>INPUT 0 --in-interface em1 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br><span class="line">firewall-cmd --direct --permanent --add-rule ipv4<span class="built_in"> filter </span>OUTPUT 0 --out-interface em1 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure></p>
 <p>查看这两条规则<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]# firewall-cmd --direct --get-rules ipv4<span class="built_in"> filter </span>INPUT</span><br><span class="line">0 --in-interface em1 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br><span class="line">[root@master ~]# firewall-cmd --direct --get-rules ipv4<span class="built_in"> filter </span>OUTPUT</span><br><span class="line">0 --out-interface em1 --destination 224.0.0.111 --protocol<span class="built_in"> vrrp </span>-j ACCEPT</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="literal">start</span> keepalived</span><br></pre></td></tr></table></figure>
 <p>此时Master获得VIP,BACKUP没有，则防火墙放行vrrp正常。<br>若Master和Backup均获取到VIP,则防火墙配置，注意网卡接口和vrrp组播地址。</p>
@@ -379,7 +380,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; SundayLE 2019 
+                    Copyright &copy; SundayLE 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

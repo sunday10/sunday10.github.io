@@ -2,9 +2,100 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/acme-sh-and-win-acme/</loc>
+    
+    <lastmod>2020-01-16T03:47:49.789Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/aliyun-ntp/</loc>
+    
+    <lastmod>2020-01-16T03:25:18.192Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/keepalived-and-firewalld/</loc>
+    
+    <lastmod>2019-11-25T09:15:12.316Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/python-time-format/</loc>
+    
+    <lastmod>2019-11-25T03:18:08.200Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/linux-batch-rename/</loc>
+    
+    <lastmod>2019-11-22T04:04:28.523Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/kubernetes-1-15-binary-installation/</loc>
+    
+    <lastmod>2019-11-20T10:44:08.079Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/firewalld/</loc>
+    
+    <lastmod>2019-11-14T09:29:05.131Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/bind/</loc>
+    
+    <lastmod>2019-11-14T04:26:24.868Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/elastic-stack-install-elasticsearch-and-kibana/</loc>
+    
+    <lastmod>2019-11-06T03:15:57.057Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/elastic-filebeat-collects-kubernetes-logs/</loc>
+    
+    <lastmod>2019-11-05T10:33:49.847Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/bind-rpz/</loc>
+    
+    <lastmod>2019-11-04T08:50:07.894Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/keepalived-lvs-dr-nginx/</loc>
+    
+    <lastmod>2019-11-01T17:43:45.953Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sundayle.com/elastic-stack-monitoring-on-kubernetes/</loc>
+    
+    <lastmod>2019-10-31T08:11:24.428Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/helm/</loc>
     
-    <lastmod>2019-10-30T01:59:42.302Z</lastmod>
+    <lastmod>2019-10-30T03:38:38.434Z</lastmod>
     
   </url>
   
@@ -51,21 +142,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/kubernetes-1-15-binary-installation/</loc>
-    
-    <lastmod>2019-10-23T10:02:40.407Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/docker/</loc>
+    <loc>http://www.sundayle.com/etcd-backup/</loc>
     
     <lastmod>2019-10-23T02:45:12.978Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/etcd-backup/</loc>
+    <loc>http://www.sundayle.com/docker/</loc>
     
     <lastmod>2019-10-23T02:45:12.978Z</lastmod>
     
@@ -159,20 +243,6 @@
     <loc>http://www.sundayle.com/iostat/</loc>
     
     <lastmod>2019-07-11T09:15:51.198Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/keepalived-and-firewalld/</loc>
-    
-    <lastmod>2019-07-11T09:05:42.313Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/firewalld/</loc>
-    
-    <lastmod>2019-07-11T09:05:17.005Z</lastmod>
     
   </url>
   
@@ -499,14 +569,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
@@ -691,13 +761,6 @@
     <loc>http://www.sundayle.com/keepalived-dual-network/</loc>
     
     <lastmod>2018-08-14T08:11:09.172Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/keepalived-lvs-dr-nginx/</loc>
-    
-    <lastmod>2018-08-14T07:24:25.340Z</lastmod>
     
   </url>
   
@@ -1181,13 +1244,6 @@
     <loc>http://www.sundayle.com/acme-sh/</loc>
     
     <lastmod>2017-10-17T02:12:34.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/nginx-rewrite/</loc>
-    
-    <lastmod>2017-10-13T01:33:02.000Z</lastmod>
     
   </url>
   

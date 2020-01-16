@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,208 @@
 
 <div class="post-preview">
 
+    <a href="/percona-mysql/">
+        <h2 class="post-title">
+            Percona MySQL 编译
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. 安装依赖1234#ubuntuapt-get install cmake g++ bison libssl-dev libxml2-dev  libncurses5-dev libreadline-dev libnuma-dev#centosyum install gcc gcc-c++ cmake bison ncurses-devel readine-devel libaio-de......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-12-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx/">
+        <h2 class="post-title">
+            Nginx 编译
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. 安装依赖12345#ubuntuapt-get install gcc g++ make libtool openssl libssl-dev libpcre3 libpcre3-dev libgd-dev#centosyum install gcc make openssl-devel pcre-devel gd-devel
+2. jemalloc 安装http://www.sund......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-12-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/jemalloc/">
+        <h2 class="post-title">
+            更好的内存管理jemalloc
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. jemalloc是干什么的呢？官方说明：
+
+jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support.jemalloc干了malloc干的活，而且干得好一些，主要体现在避免内存碎片与并发扩展......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-12-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-log-cut/">
+        <h2 class="post-title">
+            Logrotate Nginx日志切割
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. Logrotate日志切割Linux日志文件如果不定期清理，查看日志会比较麻烦。我们可以使用”logrotate”来管理linux日志文件，它可以实现日志的自动滚动，日志归档等功能。下面以nginx日志文件来讲解下logrotate的用法。
+在/etc/logrotate.d/目录下创建一个配置文件”nginx”，内容如下：1234567891011121314vim /etc/log......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-11-27
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/raid-megacli/">
+        <h2 class="post-title">
+            Raid 阵列卡 MegaCli64 常用管理命令汇总
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            硬盘方面：
+1、查看所有物理磁盘信息12345678910111213141516171819202122232425262728293031# MegaCli64 -PDList -aALL                                     Adapter #0Enclosure Device ID: 32Slot Number: 0Drive's position:......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-11-27
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/git-command/">
+        <h2 class="post-title">
+            Git 常用命令集合
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+Git 配置1.在安装完成 Git 后，开始正式使用前，是需要有一些全局设置的，如用户名、邮箱。设置的主要命令是 git config:12git config --global user.name "your name"      // 设置全局用户名git config --global user.email "your email"    // 设置邮箱
+其中， –global 指定......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-11-21
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/git-base/">
+        <h2 class="post-title">
+            Git 简易教程
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1. 创建新仓库创建新文件夹，打开，然后执行git init以创建新的 git 仓库。
+2. 检出仓库执行如下命令以创建一个本地仓库的克隆版本：git clone /path/to/repository如果是远端服务器上的仓库，你的命令会是这个样子：git clone username@host:/path/to/repository
+3. 工作流你的本地仓库由 git 维护的三棵“树”组成......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-11-21
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/gitlab/">
+        <h2 class="post-title">
+            Ubuntu 安装GitLab服务器
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境操作系统：Ubuntu 16.04应用服务：Gitlab 10.1.4-ce.0防火墙状态：关闭
+安装并配置必要的依赖关系1sudo apt-get install -y curl openssh-server ca-certificates
+添加 GitLab 镜像源并安装12curl -sS http://packages.gitlab.com.cn/install/gitlab-c......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-11-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/rsync-delete/">
+        <h2 class="post-title">
+            Linux 使用Rsync最快删除海量文件
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            摘要在Linux Web维护过程中，Web服务会生成海量（万级）缓存文件。这些小文件会消耗大量的inode。使用我们最常用的删除命令rm -fr * 就不好用了，非常吃力，等待的时间太长了。有时会报错。-bash: /bin/rm: Argument list too long。这时，我们可以使用rsync来实现快速删除大量文件。
+新建空目录1mkdir /tmp/empty
+Rsync删除......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2017-11-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/nfs/">
         <h2 class="post-title">
             NFS服务器安装与配置
@@ -200,221 +402,6 @@
     <p class="post-meta">
         Posted by Sunday on
         2017-10-27
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-cache-expires/">
-        <h2 class="post-title">
-            Nginx  缓存与过期
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            nginx 缓存能够让网页打开速度享受质的飞跃。 当我们第一次访问一个页面时 将下载的css,js,html已经img等相关资源保存在本地。 在第二次，第三次…访问时，就可以不用去下载文件了。通常来说，设置文件的缓存有两种方式，一种是在服务器内设置响应头文件，另外一个是使用h5的manifest文件来进行相关设置.
-服务器的缓存协商这种方式设置的缓存有两种，一种是需要服务器验证，另外一种是不......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/google-bbr/">
-        <h2 class="post-title">
-            CentOS 7 部署Google BBR
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            使用TCP BBR 拥塞控制算法，能够使Linux服务器更高效的利用带宽、增加吞吐量并减少连接的延迟。
-升级内核查看当前的内核123uname -r输出...3.10.0-514.2.2.el7.x86_64
-这里我们看到当前内核是3.10.0-514.2.2.el7.x86_64，这个内核是不可以安装BBR的。
-安装内核123sudo rpm --import https://www.el......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/shadowsocks-libev/">
-        <h2 class="post-title">
-            CentOS 7 配置Shadowsocks-libev + simple-obfs
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            源码编译安装
-关闭防火墙12systemctl stop firewalldsystemctl disable firewalld
-编译环境准备、解决依赖12yum install epel-release -yyum install gettext gcc pcre-devel autoconf libtool automake make asciidoc xmlto c-ares-dev......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-24
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/sar/">
-        <h2 class="post-title">
-            Linux sar 命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            安装如果系统没有该命令请安装：
-12apt-get install sysstatyum install sysstat
-安装完毕：
-12vi /etc/default/sysstatENABLED="true"
-启动这个工具来收集系统性能数据：1/etc/init.d/sysstat start
-sar参数说明123456789101112131415161718-A    # 汇总所有的......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-19
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/acme-sh/">
-        <h2 class="post-title">
-            使用acme.sh申请Let's Encrypt 泛域名野卡 dnspod
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            https://acme.sh/
-acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
-1. 安装 acme.sh安装很简单, 一个命令:12curl  https://get.acme.sh | shsource ~/.bashrc
-普通用户和 root 用户都可以安装使用. 安装过程进行了以下几步:把 acme.sh 安装到你的 home 目录下:~......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-17
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-pitfalls-and-common-mistakes/">
-        <h2 class="post-title">
-            Nginx 配置陷阱和常见错误
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            翻译自：https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
-
-警告：
-
-
-请阅读下面所有的内容！是所有的！
-
-不管是新手还是老用户，都可能会掉到一个陷阱中去。下面我们会列出一些我们经常看到，和 经常需要解释如何解决的问题。在 Freenode 的 Nginx IRC 频道中，我们频繁的看到这......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-13
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-rewrite/">
-        <h2 class="post-title">
-            Nginx 重定向和重写
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            nginx 重定向、单个页面重定向、整个目录重定向以及全站重定向
-非www跳转到www1234567server &#123;    listen 80;    server_name domain.com www.domain.com;    if ($server_name != "www.domain.com") &#123;        rewrite ^/(.*)$ http:/......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-13
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/shadowsocksr-mudbjson/">
-        <h2 class="post-title">
-            CentOS 7 配置Shadowsocksr单服务器多用户 mudbjson模式
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            mudbjson模式相当建立本地数据库，数据记录在~/shadowsocksr/mudb.json中。mudbjson主要用于单服务器多用户环境，支持流量限制、网速限制、端口限制。
-服务器端安装获取源码Centos:12yum -y install git gcc python-setuptools  &amp;&amp; easy_install pip &amp;&amp; pip in......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-12
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/iptables-forward/">
-        <h2 class="post-title">
-            配置iptables、ufw端口转发
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            本地网络 &gt;&gt; 中转IP:183.60.100.8 &gt;&gt; 目标IP:103.79.78.76
-温馨提示如果是远程操作的话，请做好定时防火墙失效，防止自己连接不上。
-每10分钟关闭防火墙12$ crontab -e#*/10 * * * * /data/shell/stop_ufw.sh
-非常简单的代码123456$ cat /data/shell/stop_ufw.s......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2017-10-11
     </p>
 
 </div>
@@ -459,9 +446,17 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                     <div class="tags">
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -471,17 +466,7 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
-                        
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -509,9 +494,9 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
-                            
                         
+                            
+                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
                             
@@ -529,11 +514,13 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
-                            
                         
                             
                             <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
                             
@@ -551,9 +538,9 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                        
-                            
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
+                        
                             
                         
                             
@@ -565,11 +552,17 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
+                        
+                            
+                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
                         
+                            
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -579,15 +572,9 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
                         
                             
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
                             
@@ -595,11 +582,11 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -614,10 +601,6 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -647,7 +630,15 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
                             
                         
                             
@@ -665,8 +656,6 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
                         
                             
                         
@@ -681,9 +670,11 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
+                            <a href="/tags/#python" title="python" rel="5">python</a>
+                            
                         
                             
-                            <a href="/tags/#python" title="python" rel="4">python</a>
+                        
                             
                         
                             
@@ -695,15 +686,11 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -721,9 +708,13 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
                             
                         
                             
+                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
                         
                             
-                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                        
+                            
+                        
                             
                         
                             
@@ -829,7 +820,7 @@ acme.sh 实现了 acme 协议, 可以从 letsencrypt 生成免费的证书.
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; SundayLE 2019 
+                    Copyright &copy; SundayLE 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

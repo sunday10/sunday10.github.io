@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,234 @@
 
 <div class="post-preview">
 
+    <a href="/keepalived-and-firewalld/">
+        <h2 class="post-title">
+            Keepalived 和 Firewalld
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            准备
+MASTER IP 192.168.1.7BACKUP IP 192.168.1.8VIP 192.168.1.20012345yum install  keepalived systemctl stop firewalldecho "net.ipv4.ip_forward = 1" &gt;&gt; /etc/sysctl.confecho "net.ipv4.ip_nonlocal......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-07-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/redis-batch-deletion/">
+        <h2 class="post-title">
+            Redis-cli 批量删除及AOF文件过大
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            测试过程产生大量没用的key
+批量删除以”laravel:*”开头的所有key1redis-cli keys "laravel:*"  |  xargs redis-cli del
+删除大量key后，aof文件会变更大，是因为aof机制就跟记录日志一样，无论是set还是del 都会同步到aof文件中。
+aof 文件依旧过大解决1redis-cli bgrewriteaof
+1234567ro......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-07-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-advenced-limit-request/">
+        <h2 class="post-title">
+            Nginx（或Openresty）的高级限制请求
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Nginx有ngx_http_limit_req_module可用于限制请求处理速率，但大多数人似乎只使用其基本功能:通过远程地址限制请求率，如下所示:12345678http &#123;    limit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;    ...    server&#123;        ...      ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-07-04
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-cookie/">
+        <h2 class="post-title">
+            Nginx 获取 cookie 中的值
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            有时我们需要在 nginx 中获取用户 cookie 中的某个值来实现一些功能。下面介绍获取 cookie 的两种方式。
+直接获取假如我们要获取的 cookie 的 key 是 pin，可以在 nginx 直接使用变量$cookie_pin 来获取。获取方式是$cookie_{value_key}但是这种方式有一个缺陷无法获取这样的 cookie 比如 pin.name 简单的说一下原因就是......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-07-03
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/pssh-expect/">
+        <h2 class="post-title">
+            pssh expect 使用
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            批量添加密钥有两种情况，一种是直接输入密码，就像基线版本；另一种情况是会先提示添加主机到known_hosts。
+12345678910111213141516171819202122232425262728vim addkeys.sh #!/usr/bin/expect set timeout 60set user rootset password 123456set key_path /......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-07-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/linux-jupyter/">
+        <h2 class="post-title">
+            Linux 安装 Jupyter notebook
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            官方文档
+安装启动123yum install -y python-develpip install --upgrade pippip install jupyter
+启动1jupyter notebook --ip 0.0.0.0 --allow-root
+访问1http://ip:8888
+设置密码12jupyter notebook --generate-configjupyter n......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-07-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kolla-ansible-openstack/">
+        <h2 class="post-title">
+            Kolla-Ansible 部署 Openstack
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境准备
+
+
+主机名
+IP
+配置
+系统
+
+
+
+
+部署机
+192.168.10.20
+4G内存 40G 网卡一张
+CentOS7
+
+
+openstack主机
+192.168.10.81
+8G内存 40G磁盘 网卡两张
+CentOS7
+
+
+
+
+部署机准备配置pypi 国内源加速12345mkdir -p ~/.config/pip/tee ~/.config/pip/pip.conf &lt;&......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-06-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kubernetes-dashboard/">
+        <h2 class="post-title">
+            Kubernetes dashboard 1.10.1
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            download1wget https://github.com/kubernetes/dashboard/blob/master/aio/deploy/recommended/kubernetes-dashboard.yaml
+modfiyimages 修改为微软镜像Service 修改为type: NodePort和nodePort:300112345678910111213141516......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-06-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/huawei-switch-initialization/">
+        <h2 class="post-title">
+            华为交换机常用命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            #指定管理IP12345system-viewinterface vlan 1ip add 192.168.1.2 24#ip address 192.168.1.2 255.255.255.0quit
+#开启常用服务123http server enabletelnet server enablestelnet server enable
+#配置认证模式为aaa12345678910use......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2019-06-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/huawei-switch-stack/">
         <h2 class="post-title">
             堆叠两台 华为S5720交换机
@@ -203,218 +431,6 @@
     <p class="post-meta">
         Posted by Sunday on
         2019-06-11
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/curl-track/">
-        <h2 class="post-title">
-            Curl 追踪 请求延时问题
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            背景原因：php curl 超时123(see https://curl.haxx.se/libcurl/c/libcurl-errors.html) in /data/web/oauth.sundayle.com/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:185[2019-05-25 13:58:09] local.ERROR......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-06-11
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/mysql-command/">
-        <h2 class="post-title">
-            mysql 一些命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            授权12345678910111213141516171819202122# 创建具有所有表权限的用户及密码grant all on *.* to sunday@192.168.10.%' identified by 'My_password';# 创建具有gitlab库所有表select权限的用户grant select on gitlab.* to sunday@'%'; #sunday......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-05-24
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/systemd-command/">
-        <h2 class="post-title">
-            systemd 一些命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            查看开机启动项1systemctl list-unit-files --type=service | grep enabled
-...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-05-24
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kubespray/">
-        <h2 class="post-title">
-            使用kubespray自动化部署Kubernetes 1.14.1
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            前言部署Kubernetes除了手动方式外，还有诸如Kubeadm、Kubespray、Breeze、Rancher、kargo等多种自动化方式。工具没有好坏之分，能干事、效率高就行。这里，笔者仍使用Kubespray部署当前K8s最新版本（用着真的很贴身），可自动化部署HA集群、可灵活定制开发、高稳定性等。
-环境说明
-
-
-IP
-主机名
-角色
-
-
-
-
-192.168.10.18
-demo18......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-05-06
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/php-opcache-status-and-clear/">
-        <h2 class="post-title">
-            PHP opcache 配置、状态与清除
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            nginx12345678910111213141516171819server &#123;    listen 80;    server_name 192.168.10.21;    root /data/web/opcache-status;    index index.php index.html;    location / &#123;         try_files $......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-03-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-non-80-port-reverse-80/">
-        <h2 class="post-title">
-            Nginx 非80端口反向代理80端口
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            8044 代理 80 端口配置12345678910111213141516upstream web44 &#123;   server 192.168.1.44:80;&#125;server &#123;    listen       8044;     server_name  manage.sundayle.com;    location / &#123;       proxy......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-03-14
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/mysqlbinlog-gtid/">
-        <h2 class="post-title">
-            MySQL 通过 mysqlbinlog 恢复数据库
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            通过mysqlbinlog 恢复误删或update错的表和库。
-环境
-Percona MySQL 5.7 GTID ROW
-
-恢复前提
-MySQL 开启 binlog 二进日志
-有最近（每晚或隔三或每周）全量备份数据库。
-
-查看命令123mysqlbinlog -v --base64-output=decode-rows --skip-gtids=true \--start-datetime......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-03-12
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/percona-xtrabackup-configuration-master-slave-replication/">
-        <h2 class="post-title">
-            使用Xtrabackup在线配置MySQL主从复制
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            使用percona-xtrabackup备份数据库，实现不停机不锁表配置MySQL主从复制
-安装123dpkg -i https://mirrors.tuna.tsinghua.edu.cn/percona/apt/percona-release_latest.xenial_all.deb sed -i 's#http://www.percona.com#https://mirrors.tu......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-02-19
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-ip-whitelist-reverse-proxy/">
-        <h2 class="post-title">
-            NGINX IP白名单 反向代理
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            指定IP为103.105.17.23* 进行upsteam双机轮询，指定IP非103.105.17.23* 进行upsteam单机不轮询
-123456789101112131415161718192021222324upstream pay.open.web &#123;    server src1.pay.open.sundayle.com:80;#    server src2.pay......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2019-02-13
     </p>
 
 </div>
@@ -459,9 +475,17 @@ MySQL 开启 binlog 二进日志
                     <div class="tags">
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -471,17 +495,7 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
-                        
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -509,9 +523,9 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
-                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
-                            
                         
+                            
+                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
                             
@@ -529,11 +543,13 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
-                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
-                            
                         
                             
                             <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
                             
@@ -551,9 +567,9 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
-                        
-                            
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
+                        
                             
                         
                             
@@ -565,11 +581,17 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
+                        
+                            
+                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
                         
+                            
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -579,15 +601,9 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
-                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
                         
                             
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
                             
@@ -595,11 +611,11 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -614,10 +630,6 @@ MySQL 开启 binlog 二进日志
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -647,7 +659,15 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
                             
                         
                             
@@ -665,8 +685,6 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
                         
                             
                         
@@ -681,9 +699,11 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
+                            <a href="/tags/#python" title="python" rel="5">python</a>
+                            
                         
                             
-                            <a href="/tags/#python" title="python" rel="4">python</a>
+                        
                             
                         
                             
@@ -695,15 +715,11 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -721,9 +737,13 @@ MySQL 开启 binlog 二进日志
                             
                         
                             
+                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
                         
                             
-                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                        
+                            
+                        
                             
                         
                             
@@ -829,7 +849,7 @@ MySQL 开启 binlog 二进日志
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; SundayLE 2019 
+                    Copyright &copy; SundayLE 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

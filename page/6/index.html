@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,232 @@
 
 <div class="post-preview">
 
+    <a href="/rabbitmq-cluster-build/">
+        <h2 class="post-title">
+            RabbitMQ 集群搭建
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            AMQPAMQP，即Advanced Message Queuing Protocol，高级消息队列协议，是应用层协议的一个开放标准，为面向消息的中间件设计。AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。那么再来介绍下RabbitMQ本身。RabbitMQ是一个上面说的AMQP协议的开源实现，其服务器端用Erlang语言写的，支持多种客户端，如：Pytho......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-11-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-proxy-tcp/">
+        <h2 class="post-title">
+            使用Nginx转发TCP/UDP端口
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            ngx_stream_core_module
+编译Nginx123456789101112131415cd /usr/local/srcwget http://nginx.org/download/nginx-1.12.2.tar.gztar zxf nginx-1.12.2.tar.gzcd nginx-1.12.2./configure --prefix=/usr/local/nginx......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/kubeadm-build-kubernetes/">
+        <h2 class="post-title">
+            基于kubeadm方式部署kubernetes v1.12.1
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            https://kubernetes.io/docs/setup/independent/install-kubeadm/
+环境说明
+
+
+系统
+IP
+hostname
+
+
+
+
+CentOS 7.4
+192.168.10.101
+master
+
+
+CentOS 7.4
+192.168.10.102
+node2
+
+
+CentOS 7.4
+192.168.10.103
+node3
+
+
+
+
+环境准备......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-log-analysis-command/">
+        <h2 class="post-title">
+            Nginx 日志统计命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263统计IP访问量awk '&#123;print $1&#125;' access.log | sort -n | uniq | wc -l查看某一时间段的IP访......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-limit-modules/">
+        <h2 class="post-title">
+            Nginx 高并发限流模块 limit_conn_module limit_req_module
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            limit_conn_modulelimit_conn_module其中$binary_remote_addr有时需要根据自己已有的log_format变量配置进行替换123456789101112http &#123;    limit_conn_zone $binary_remote_addr zone=perip:10m;    limit_conn_zone $server_name......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/dockerfile/">
+        <h2 class="post-title">
+            Docker(二)：Dockerfile 使用详情
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Dockerfile 概念
+Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。有了 Dockerfile，当我们需要定制自己额外的需求时，只需在 Dockerfile 上添加或者修改指令，重新生成 image 即可，省去了敲命令的麻烦。
+Dockerfile 文件格式
+123456789......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/docker/">
+        <h2 class="post-title">
+            Docker(一)：Docker入门
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            如今Docker的使用已经非常普遍，特别在一线互联网公司。使用Docker技术可以帮助企业快速水平扩展服务，从而到达弹性部署业务的能力。在云服务概念兴起之后，Docker的使用场景和范围进一步发展，如今在微服务架构越来越流行的情况下，微服务+Docker的完美组合，更加方便微服务架构运维部署落地。
+什么是Docker?
+Docker 是世界领先的软件容器平台。开发人员利用 Docker 可以......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-15
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/etcd-backup/">
+        <h2 class="post-title">
+            Docker(一)：Docker入门
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            如今Docker的使用已经非常普遍，特别在一线互联网公司。使用Docker技术可以帮助企业快速水平扩展服务，从而到达弹性部署业务的能力。在云服务概念兴起之后，Docker的使用场景和范围进一步发展，如今在微服务架构越来越流行的情况下，微服务+Docker的完美组合，更加方便微服务架构运维部署落地。
+什么是Docker?
+Docker 是世界领先的软件容器平台。开发人员利用 Docker 可以......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-15
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/linux-overcommit-oom-killer/">
+        <h2 class="post-title">
+            Linux  overcommit 及 oom-killer 机制
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            通常是因为某时刻应用程序大量请求内存导致系统内存不足造成的，这通常会触发 Linux 内核里的 Out of Memory (OOM) killer，OOM killer 会杀掉某个进程(用户态进程，不是内核线程)以腾出内存留给系统用，不致于让系统立刻崩溃。
+overcommitLinux 内核根据应用程序的要求分配内存，通常来说应用程序分配了内存但是并没有实际全部使用，为了提高性能，这部分......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-10-15
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/drop_caches/">
         <h2 class="post-title">
             Linux 手动清除缓存 drop_cahces
@@ -199,208 +425,6 @@
     <p class="post-meta">
         Posted by Sunday on
         2018-10-15
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-smooth-upgrade/">
-        <h2 class="post-title">
-            Nginx 平滑升级
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            有时候，我们需要对服务器进行编译添加模块或升级更高版本，此时我们将强制停止服务器，然后在原来基础上升级，这样会关闭之前正在运行的进程。
-平滑升级正是解决这个问题的，平滑升级时，不会停掉在运行着的进程，这些进程会继续处理请求，但是不会再接收新的请求，在这些老进程处理完还在处理的请求后，停止。此平滑升级的过程中，新开的进程会被处理。他不会影响我们的进程处理。
-123456789101112131......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-12
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/kvm-windows-server-2012/">
-        <h2 class="post-title">
-            Ubuntu 16.04 KVM 安装 Windows Server 2012
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-安装KVM1sudo apt-get install qemu-kvm libvirt-bin virtinst bridge-utils cpu-checker
-验证KVM1234$kvm-okINFO: /dev/kvm existsKVM acceleration can be used
-配置网桥cp /etc/network/interfaces /etc/network/inte......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-12
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/codis-redis-cluster/">
-        <h2 class="post-title">
-            Codis Redis 集群
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            https://www.jianshu.com/p/10c68da215bahttps://github.com/CodisLabs/codis
-...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-12
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/dd-simple-test/">
-        <h2 class="post-title">
-            Linux 使用dd 简单测试 读写速度
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            注：要正确测试磁盘读写能力，建议测试文件的大小要远远大于内存的容量！10G 文件 
-测试 写入速度time dd if=/dev/zero of=./test.img bs=160k count=64k conv=fsync
-测试 读取速度time dd if=./test.img of=/dev/null bs=160k count=64k
-hdparm -t /dev/sda1
-...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-10-08
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/iis-8-5-configure-high-concurrency/">
-        <h2 class="post-title">
-            IIS 8.5 高并发配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1. 调整IIS的应用程序池队列长度在【应用程序池】列表中，选择你相应网站所使用的应用程序池，将原来的队列长度由1000改为65535。当然这里的队列长度你可以根据自己的访问用户*1.5来设置，例如：你有2000用户，你此处就可以设置为3000(3000=2000用户数*1.5)
-2. 调整IIS的appConcurrentRequestLimit值12cd %windir%\system3......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-30
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/redis-install/">
-        <h2 class="post-title">
-            Redis 3.2 安装及主从复制详细配置
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            编译安装1234567891011121314151617cd /usr/local/srcwget http://download.redis.io/releases/redis-3.2.12.tar.gztar xf redis-3.2.10.tar.gzcd redis-3.2.10make PREFIX=/usr/local/redis installuseradd -s /bin/......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-28
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/sql-server-replication/">
-        <h2 class="post-title">
-            Windows SQL Server 主从复制
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            注：只有设置主键的表才能同步
-SQL测试库代码1234567891011121314151617CREATE DATABASE PUBLISHDBGOUSE PUBLISHDBGOCREATE　TABLE　TEST(ID　VARCHAR(10) PRIMARY KEY NOT NULL,NAME VARCHAR(10))GOINSERT INTO TEST VALUES ('1','A')I......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-26
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/remove-iis-server-info/">
-        <h2 class="post-title">
-            IIS 8.5 隐藏 X-Powered-By 及 X-Powered-By 信息
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Before12345678910curl -I net.sundayle.comHTTP/1.1 200 OKContent-Length: 206Content-Type: text/htmlLast-Modified: Tue, 26 Dec 2017 07:15:34 GMTAccept-Ranges: bytesETag: "b3754052197ed31:0"Server: Mi......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-14
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/fastdfs-cluster/">
-        <h2 class="post-title">
-            FastDFS 分布式存储集群部署
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            FastDFS是一个开源的轻量级分布式文件系统，它对文件进行管理，功能包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了大容量存储和负载均衡的问题。特别适合以文件为载体的在线服务，如相册网站、视频网站等等。
-FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、线性扩容等机制，并注重高可用、高性能等指标，使用FastDFS很容易搭建一套高性能的文件服务器集群提供文件上......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-09-10
     </p>
 
 </div>
@@ -445,9 +469,17 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                     <div class="tags">
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -457,17 +489,7 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
-                        
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -495,9 +517,9 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
-                            
                         
+                            
+                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
                             
@@ -515,11 +537,13 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
-                            
                         
                             
                             <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
                             
@@ -537,9 +561,9 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                        
-                            
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
+                        
                             
                         
                             
@@ -551,11 +575,17 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
+                        
+                            
+                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
                         
+                            
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -565,15 +595,9 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
                         
                             
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
                             
@@ -581,11 +605,11 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -600,10 +624,6 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -633,7 +653,15 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
                             
                         
                             
@@ -651,8 +679,6 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
                         
                             
                         
@@ -667,9 +693,11 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
+                            <a href="/tags/#python" title="python" rel="5">python</a>
+                            
                         
                             
-                            <a href="/tags/#python" title="python" rel="4">python</a>
+                        
                             
                         
                             
@@ -681,15 +709,11 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -707,9 +731,13 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
                             
                         
                             
+                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
                         
                             
-                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                        
+                            
+                        
                             
                         
                             
@@ -815,7 +843,7 @@ FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、�
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; SundayLE 2019 
+                    Copyright &copy; SundayLE 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

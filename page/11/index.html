@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,6 +184,206 @@
 
 <div class="post-preview">
 
+    <a href="/tomcat-apr/">
+        <h2 class="post-title">
+            Tomcat 8.5 基于APR库性能优化
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            简介Tomcat可以使用Apache Portable Runtime来提供卓越的性能及可扩展性，更好地与本地服务器技术的集成。Apache Portable Runtime是一个高度可移植的库，位于Apache HTTP Server 2.x的核心。APR有许多用途，包括访问高级IO功能（如sendfile，epoll和OpenSSL），操作系统级功能（随机数生成，系统状态等）以及本地进程......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/tomcat-optimization/">
+        <h2 class="post-title">
+            Apache Tomcat 8.5 安全配置与高并发优化
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Java的内存模型
+Young，年轻代（易被 GC）。Young 区被划分为三部分，Eden 区和两个大小严格相同的 Survivor 区，其中 Survivor 区间中，某一时刻只有其中一个是被使用的，另外一个留做垃圾收集时复制对象用，在 Young 区间变满的时候，minor GC 就会将存活的对象移到空闲的Survivor 区间中，根据 JVM 的策略，在经过几次垃圾收集后，任然存活于......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/tomcat/">
+        <h2 class="post-title">
+            Linux Apache tomcat 8.5 安装与配置
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境System: CentOS 7tomcat:  Apache tomcat/8.5.32Nginx proxy: 192.168.10.100 node0.sundayle.comtomcat node1: 192.168.10.101 node1.sundayle.comtomcat node2: 192.168.10.102 node1.sundayle.com
+tomcat 安装......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/lsyncd/">
+        <h2 class="post-title">
+            Lsyncd实时同步搭建指南--取代rsync+inotify
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            几大实时同步工具比较inotify + rsync最近一直在寻求生产服务服务器上的同步替代方案，原先使用的是inotify + rsync，但随着文件数量的增大到100W+，目录下的文件列表就达20M，在网络状况不佳或者限速的情况下，变更的文件可能10来个才几M，却因此要发送的文件列表就达20M，严重减低的带宽的使用效率以及同步效率；更为要紧的是，加入inotifywait在5s内监控到10......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-06
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-proxy-set-header/">
+        <h2 class="post-title">
+            Nginx proxy_set_header 理解
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            server_name=www.sundayhk.com ip=192.168.10.100proxy_name=www.sundayle.com ip=192.168.10.101
+Hostsnginx对于upstream默认使用的是基于IP的转发，因此对于以下配置1234567891011server &#123;    listen      80;    server_name ww......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-04
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/nginx-location-rewrite/">
+        <h2 class="post-title">
+            Nginx 配置location总结及rewrite规则写法
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            location正则写法一个示例：123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051location  = / &#123;  # 精确匹配 / ，主机名后面不能带任何字符串  [ configuration A ]&#125;location  / &#1......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-02
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/cobbler/">
+        <h2 class="post-title">
+            Cobbler 自动化部署实践
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+运维自动化在生产环境中占据着举足轻重的地位，尤其是面对几百台，几千台甚至几万台的服务器时，仅仅是安装操作系统，如果不通过自动化来完成， 根本是不可想象的。面对生产环境中不同服务器的需求，该如何实现批量部署多版本的操作系统呢？ Cobbler 便可以的满足这一实际需求，实现多版本操作系统批量部署
+
+简介Cobbler是一个自动化和简化系统安装的工具，通过使用网络引导来控制和启动安装。Cobb......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-07-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/fine-tuned-haproxy-to-achieve-concurrent-ssl-connections/">
+        <h2 class="post-title">
+            我们是如何优化HAProxy以让其支持2,000,000个并发SSL连接的？
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            仔细看上图，我们可以发现两个信息：
+
+1.该机器建立了238万个TCP连接；2.此时内存使用量大约在48G左右。
+
+看上去很赞吧？如果有人能够提供配置，并且在单台部署HAProxy的服务器上完成这样规模的调优，是不是更赞？本文将详细描述这个过程;
+本文是一系列关于HAProxy压力测试文章的最后一篇。如果有时间，建议读者能够先阅读本系列的其余两部分。这样能够更好的帮助我们了解本文所提及的内核......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-06-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/haproxy-optimization/">
+        <h2 class="post-title">
+            使用 HAProxy 负载均衡300k并发tcp连接
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            我最近正在尝试建立一个推送系统。为了提高系统的可扩展性，最佳做法是使每个连接尽可能无状态。因此，当出现瓶颈时，通过添加更多机器可以轻松扩展整个系统的容量。说到负载平衡和反向代理，Nginx可能是最着名和最公认的。但是，TCP代理是一个相当新的事情。 Nginx从v1.9引入了TCP负载均衡和反向代理，v1.9于今年5月下旬发布，具有大量缺失功能。另一方面，HAProxy作为TCP加载bala......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sunday on
+        2018-06-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/haproxy-tutorial/">
         <h2 class="post-title">
             HAProxy 反向代理的使用
@@ -202,205 +402,6 @@
     <p class="post-meta">
         Posted by Sunday on
         2018-06-26
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/top/">
-        <h2 class="post-title">
-            Linux 进程工具Top解析
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            TOP使用123456789101112131415top - 11:49:34 up 21:10,  1 user,  load average: 0.03, 0.02, 0.00Tasks:  70 total,   2 running,  68 sleeping,   0 stopped,   0 zombie%Cpu(s):  0.3 us,  0.3 sy,  0.0 ni, 99......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-06-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/find/">
-        <h2 class="post-title">
-            Find命令之xargs、exec
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            find命令的常用选项及实例-name 按照文件名查找文件12find /dir -name filename  在/dir目录及其子目录下面查找名字为filename的文件find . -name “\*.c” 在当前目录及其子目录（用“.”表示）中查找任何扩展名为“c”的文件
--perm 按照文件权限来查找文件。1find . -perm 755 –print 在当前目录下查找文件权限位......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-06-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/pt-table-checksum/">
-        <h2 class="post-title">
-            使用 pt-table-sync 修复MySQL主从数据不一致
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            简介pt-table-checksum是percona-toolkit系列工具中的一个， 可以用来检测主、 从数据库中数据的一致性。其原理是在主库上运行， 对同步的表进行checksum， 记录下来       在MySql主从复制架构的应用中，长时间运行的DB出现各种异常之后，可能会有主备不一致的情况产生，影响正常的业务。
-pt-table-checksum用于校验主从数据的一致性，而pt......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-06-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/fail2ban/">
-        <h2 class="post-title">
-            使用 fail2ban 防范暴力破解ssh vsftp 与CC攻击
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            简介Fail2ban是入侵防御框架，与服务器上防火墙iptables配合使用，通常用于在尝试失败后阻止连接尝试。它通过监视特定类型条目的日志文件来运行，并根据其结果运行预定的操作。
-环境系统：Ubuntu 16.04软件：fail2ban 0.11
-防火墙设置ubuntu1234ufw allow 80/tcpufw allow 443/tcpufw allow 22/tcpufw allo......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-06-11
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/nginx-output-log/">
-        <h2 class="post-title">
-            Nginx 输出在线日志
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            nginx输出node pm2日志，实现浏览器查看日志内容(默认是下载)
-root@demo18:/data/logs/pm2# ls -l123456total 12drwxr-xr-x 2 www  www  4096 May 31 09:35 archiving-rw-r--r-- 1 root root    0 May 31 09:35 cp1.demo.sundayle.com.......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-31
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/s-nail/">
-        <h2 class="post-title">
-            配置Mailx/S-nail 使用QQ邮箱服务器
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            不用自建的postfix,配置s-nail使用QQ邮箱服务器来发送邮件
-安装1apt-get  install s-nail
-配置1234567vim /etc/s-nail.rc set from="shaopengxx@qq.com"set smtp="smtps://smtp.qq.com:465"  set smtp-auth-user="shaopengxx@qq.com"set ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-22
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/ansible-playbooks/">
-        <h2 class="post-title">
-            使用 Ansible Playbooks
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            ansible可以非常方便的控制多台机器,比如查看各台机器上的apache服务状态,ansible all -a &quot;service apache status&quot; --sudo,如果任务更复杂一点可以写成一个脚本，然后ansible会在每台机器上执行脚本。但是如果任务中子任务有有依赖那，任务判断任务的执行状态那，总之还是有一系列的问题，总结起来就是能不能做任务编排?当然能，......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/ansible/">
-        <h2 class="post-title">
-            Ansible 自动化工具使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Ansible简介ansible 是个什么东西呢？基于 Python paramiko 开发，分布式，无需客户端，轻量级，配置语法使用 YMAL 及 Jinja2模板语言，更强的远程命令执行操作。这个工具的目标有这么几项：自动化部署APP；自动化管理配置项；自动化的持续交互；自动化的（AWS）云服务管理。所有的这几个目标从本质上来说都是在一个台或者几台服务器上，执行一系列的命令而已。通俗的说......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-18
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/zabbix-monitor/">
-        <h2 class="post-title">
-            zabbix 3.4 监控入门实践
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            简介zabbix 是一个企业级的分布式开源监控方案，能够监控各种网络参数以及服务器健康性和完整性的软件，支持自定义配置和自定义告警，并且可以实现邮件、短信等方式的告警，zabbix基本组件如下：
-
-zabbix_server: zabbix服务端守护进程，所有的监控数据都会统一汇总给server。
-zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户端各种参数，如......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sunday on
-        2018-05-18
     </p>
 
 </div>
@@ -445,9 +446,17 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                     <div class="tags">
                         
                             
+                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                            
                         
                             
-                            <a href="/tags/#ansible" title="ansible" rel="2">ansible</a>
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -457,17 +466,7 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#kernel" title="kernel" rel="2">kernel</a>
-                            
-                        
-                            
-                            <a href="/tags/#bonding" title="bonding" rel="2">bonding</a>
                             
                         
                             
@@ -495,9 +494,9 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
-                            
                         
+                            
+                            <a href="/tags/#elk" title="elk" rel="2">elk</a>
                             
                         
                             
@@ -515,11 +514,13 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
-                            
                         
                             
                             <a href="/tags/#git" title="git" rel="2">git</a>
+                            
+                        
+                            
+                            <a href="/tags/#firewall" title="firewall" rel="2">firewall</a>
                             
                         
                             
@@ -537,9 +538,9 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                        
-                            
                             <a href="/tags/#高可用" title="高可用" rel="3">高可用</a>
+                            
+                        
                             
                         
                             
@@ -551,11 +552,17 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
+                        
+                            
+                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
                             
                         
                             
+                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            
                         
+                            
+                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
                             
                         
                             
@@ -565,15 +572,9 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                            <a href="/tags/#jenkins" title="jenkins" rel="3">jenkins</a>
-                            
                         
                             
-                            <a href="/tags/#持续集成" title="持续集成" rel="4">持续集成</a>
-                            
-                        
-                            
-                            <a href="/tags/#maven" title="maven" rel="2">maven</a>
+                            <a href="/tags/#防火墙" title="防火墙" rel="3">防火墙</a>
                             
                         
                             
@@ -581,11 +582,11 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
+                            <a href="/tags/#nginx" title="nginx" rel="19">nginx</a>
                             
                         
                             
-                            <a href="/tags/#nginx" title="nginx" rel="20">nginx</a>
+                            <a href="/tags/#lvs" title="lvs" rel="2">lvs</a>
                             
                         
                             
@@ -600,10 +601,6 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                         
                             
                             <a href="/tags/#kvm" title="kvm" rel="2">kvm</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -633,7 +630,15 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#mongodb" title="mongodb" rel="5">mongodb</a>
+                            
+                        
                             
                         
                             
@@ -651,8 +656,6 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
-                            <a href="/tags/#rewrite" title="rewrite" rel="2">rewrite</a>
-                            
                         
                             
                         
@@ -667,9 +670,11 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
+                            <a href="/tags/#python" title="python" rel="5">python</a>
+                            
                         
                             
-                            <a href="/tags/#python" title="python" rel="4">python</a>
+                        
                             
                         
                             
@@ -681,15 +686,11 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#rsync" title="rsync" rel="2">rsync</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -707,9 +708,13 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
                             
                         
                             
+                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                            
                         
                             
-                            <a href="/tags/#tomcat" title="tomcat" rel="3">tomcat</a>
+                        
+                            
+                        
                             
                         
                             
@@ -815,7 +820,7 @@ zabbix_agentd: 客户端守护进程，负责执行server命令，收集客户�
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; SundayLE 2019 
+                    Copyright &copy; SundayLE 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
