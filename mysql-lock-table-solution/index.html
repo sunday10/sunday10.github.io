@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -192,7 +192,7 @@
                 post-container">
 
                 <p>前几天同事在晚上上线的时候执行sql语句造成锁表，想总结一下以避免后续发生。</p>
-<h1 id="1-遇到锁表快速解决办法"><a href="#1-遇到锁表快速解决办法" class="headerlink" title="(1) 遇到锁表快速解决办法"></a>(1) 遇到锁表快速解决办法</h1><p>　　依次执行1-6步，运行第6步生成的语句即可。<br>　　如果特别着急，运行 1 2 6 步 以及第6步生成的kill语句 即可。</p>
+<h1 id="1-遇到锁表快速解决办法"><a href="#1-遇到锁表快速解决办法" class="headerlink" title="(1) 遇到锁表快速解决办法"></a>(1) 遇到锁表快速解决办法</h1><p>依次执行1-6步，运行第6步生成的语句即可。<br>如果特别着急，运行 1 2 6 步 以及第6步生成的kill语句 即可。</p>
 <p>1.　 <strong>第1步　查看表是否在使用</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">open</span> <span class="keyword">tables</span> <span class="keyword">where</span> in_use  <span class="number">0</span> ;</span><br><span class="line">如果查询结果为空。则证明表没有在使用。结束。</span><br></pre></td></tr></table></figure>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql  <span class="keyword">show</span> <span class="keyword">open</span> <span class="keyword">tables</span> <span class="keyword">where</span> in_use  <span class="number">0</span> ;</span><br><span class="line">Empty <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line">如果查询结果不为空，继续后续的步骤。</span><br></pre></td></tr></table></figure>
