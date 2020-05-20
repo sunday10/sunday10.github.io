@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/mysql-lock-table-solution/</loc>
+    
+    <lastmod>2020-05-20T03:57:36.905Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/acme-sh-and-win-acme/</loc>
     
     <lastmod>2020-01-16T03:47:49.789Z</lastmod>
@@ -142,14 +149,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/etcd-backup/</loc>
+    <loc>http://www.sundayle.com/docker/</loc>
     
     <lastmod>2019-10-23T02:45:12.978Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/docker/</loc>
+    <loc>http://www.sundayle.com/etcd-backup/</loc>
     
     <lastmod>2019-10-23T02:45:12.978Z</lastmod>
     
@@ -569,14 +576,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
