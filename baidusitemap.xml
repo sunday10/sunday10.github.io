@@ -5,10 +5,10 @@
     
   <url>
     <loc>http://www.sundayle.com/bind-rpz/</loc>
-    <lastmod>2020-07-24T04:12:41.927Z</lastmod>
+    <lastmod>2020-07-24T04:20:45.875Z</lastmod>
     <data>
         <display>
-        <title>BIND DNS 使用RPZ 做部分代理</title>
+        <title>BIND DNS 使用RPZ 做局部代理</title>
         <pubTime>2019-11-04T08:02:20.000Z</pubTime>
         
          
@@ -1137,9 +1137,9 @@
         <title>基于 GlusterFS 实现 Docker 集群的分布式存储</title>
         <pubTime>2018-08-22T04:05:51.000Z</pubTime>
         
-        <tag>分布式文件系统</tag>
-         
         <tag>glusterfs</tag>
+         
+        <tag>分布式文件系统</tag>
          
          
            
@@ -2668,9 +2668,9 @@
         
         <tag>mysql</tag>
          
-        <tag>gtid</tag>
-         
         <tag>1062</tag>
+         
+        <tag>gtid</tag>
          
          
            
