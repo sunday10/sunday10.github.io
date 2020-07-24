@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/bind-rpz/</loc>
+    <lastmod>2020-07-09T09:55:10.486Z</lastmod>
+    <data>
+        <display>
+        <title>BIND DNS 使用RPZ 做部分代理</title>
+        <pubTime>2019-11-04T08:02:18.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/mysql-lock-table-solution/</loc>
     <lastmod>2020-05-20T04:03:11.664Z</lastmod>
     <data>
@@ -174,21 +189,6 @@
         <display>
         <title>使用Elastic Filebeat 收集 Kubernetes日志</title>
         <pubTime>2019-11-05T10:26:07.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.sundayle.com/bind-rpz/</loc>
-    <lastmod>2019-11-04T08:50:07.894Z</lastmod>
-    <data>
-        <display>
-        <title>BIND DNS 使用RPZ 做部分代理</title>
-        <pubTime>2019-11-04T08:02:18.000Z</pubTime>
         
          
            
@@ -1137,9 +1137,9 @@
         <title>基于 GlusterFS 实现 Docker 集群的分布式存储</title>
         <pubTime>2018-08-22T04:05:51.000Z</pubTime>
         
-        <tag>分布式文件系统</tag>
-         
         <tag>glusterfs</tag>
+         
+        <tag>分布式文件系统</tag>
          
          
            
