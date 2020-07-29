@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/percona-xtrabackup-configuration-master-slave-replication/</loc>
+    <lastmod>2020-07-29T06:56:43.846Z</lastmod>
+    <data>
+        <display>
+        <title>使用Xtrabackup在线配置MySQL主从复制</title>
+        <pubTime>2019-02-19T08:20:51.000Z</pubTime>
+        
+        <tag>mysql</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/bind-rpz/</loc>
     <lastmod>2020-07-24T04:20:45.875Z</lastmod>
     <data>
@@ -1137,9 +1154,9 @@
         <title>基于 GlusterFS 实现 Docker 集群的分布式存储</title>
         <pubTime>2018-08-22T04:05:51.000Z</pubTime>
         
-        <tag>分布式文件系统</tag>
-         
         <tag>glusterfs</tag>
+         
+        <tag>分布式文件系统</tag>
          
          
            
@@ -1318,23 +1335,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/percona-xtrabackup-configuration-master-slave-replication/</loc>
-    <lastmod>2019-02-19T08:54:20.817Z</lastmod>
-    <data>
-        <display>
-        <title>使用Xtrabackup在线配置MySQL主从复制</title>
-        <pubTime>2019-02-19T08:20:51.000Z</pubTime>
-        
-        <tag>mysql</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/nginx-ip-whitelist-reverse-proxy/</loc>
     <lastmod>2019-02-13T09:03:21.379Z</lastmod>
     <data>
@@ -1403,12 +1403,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>Python 编码</title>
-        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
+        <title>Python 装饰器</title>
+        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -1420,12 +1420,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>Python 装饰器</title>
-        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
+        <title>Python 编码</title>
+        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -2132,9 +2132,9 @@
         <title>Maven私服Nexus3.x环境配置</title>
         <pubTime>2018-07-31T10:36:25.000Z</pubTime>
         
-        <tag>持续集成</tag>
-         
         <tag>maven</tag>
+         
+        <tag>持续集成</tag>
          
         <tag>nexus</tag>
          
@@ -2158,9 +2158,9 @@
         
         <tag>jenkins</tag>
          
-        <tag>持续集成</tag>
-         
         <tag>maven</tag>
+         
+        <tag>持续集成</tag>
          
          
            
