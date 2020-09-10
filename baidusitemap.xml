@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>http://www.sundayle.com/firewalld/</loc>
+    <lastmod>2020-08-11T06:28:41.479Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS 7  Firewalld防火墙管理工具</title>
+        <pubTime>2018-08-07T06:18:35.000Z</pubTime>
+        
+        <tag>firewall</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.sundayle.com/percona-xtrabackup-configuration-master-slave-replication/</loc>
     <lastmod>2020-07-29T06:56:43.846Z</lastmod>
     <data>
@@ -153,23 +170,6 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/firewalld/</loc>
-    <lastmod>2019-11-14T09:29:05.131Z</lastmod>
-    <data>
-        <display>
-        <title>CentOS 7  Firewalld防火墙管理工具</title>
-        <pubTime>2018-08-07T06:18:35.000Z</pubTime>
-        
-        <tag>firewall</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.sundayle.com/bind/</loc>
     <lastmod>2019-11-14T04:26:24.868Z</lastmod>
     <data>
@@ -290,9 +290,9 @@
         
         <tag>docker</tag>
          
-        <tag>kubernetes</tag>
-         
         <tag>kubeadm</tag>
+         
+        <tag>kubernetes</tag>
          
          
            
@@ -1403,12 +1403,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>Python 装饰器</title>
-        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
+        <title>Python 编码</title>
+        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -1420,12 +1420,12 @@
 
     
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     <data>
         <display>
-        <title>Python 编码</title>
-        <pubTime>2018-08-21T13:41:56.000Z</pubTime>
+        <title>Python 装饰器</title>
+        <pubTime>2018-08-22T14:31:30.000Z</pubTime>
         
         <tag>python</tag>
          
@@ -1795,11 +1795,11 @@
         <title>配置iptables、ufw端口转发</title>
         <pubTime>2017-10-11T07:33:16.000Z</pubTime>
         
+        <tag>ufw</tag>
+         
         <tag>iptables</tag>
          
         <tag>防火墙</tag>
-         
-        <tag>ufw</tag>
          
          
            
@@ -2668,9 +2668,9 @@
         
         <tag>mysql</tag>
          
-        <tag>gtid</tag>
-         
         <tag>1062</tag>
+         
+        <tag>gtid</tag>
          
          
            

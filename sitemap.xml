@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sundayle.com/firewalld/</loc>
+    
+    <lastmod>2020-08-11T06:28:41.479Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sundayle.com/percona-xtrabackup-configuration-master-slave-replication/</loc>
     
     <lastmod>2020-07-29T06:56:43.846Z</lastmod>
@@ -61,13 +68,6 @@
     <loc>http://www.sundayle.com/kubernetes-1-15-binary-installation/</loc>
     
     <lastmod>2019-11-20T10:44:08.079Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sundayle.com/firewalld/</loc>
-    
-    <lastmod>2019-11-14T09:29:05.131Z</lastmod>
     
   </url>
   
@@ -576,14 +576,14 @@
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-decorator/</loc>
+    <loc>http://www.sundayle.com/python-encoding/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.sundayle.com/python-encoding/</loc>
+    <loc>http://www.sundayle.com/python-decorator/</loc>
     
     <lastmod>2018-12-07T02:05:00.715Z</lastmod>
     
